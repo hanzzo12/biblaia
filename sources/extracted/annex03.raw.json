@@ -1,0 +1,236 @@
+{
+ "annex": 3,
+ "title": "Annex 3 - position indicators (HQ staff, Order pt 37)",
+ "pages": [
+  14
+ ],
+ "sourceFile": "sources/original/rotation_sources.pdf",
+ "sha256": "7ccfcaaa100f06b870d5037238c8e99bfebb750a7cfc9348767fc9a09dcf8717",
+ "extractedWith": "pdfplumber 0.11.10 words+grid edges; cross-checked with rotation_sources.layout.txt; visually verified (pypdfium2 render, scale 2.2)",
+ "columns": [
+  "title",
+  "percent"
+ ],
+ "counts": {
+  "printedRows": 8,
+  "distinctRowNumbers": 8,
+  "duplicatedRowCopies": 0,
+  "removedRows": 0,
+  "effectiveEntries": 8
+ },
+ "layoutCrossCheck": [
+  {
+   "page": 14,
+   "extractedValueTokens": 8,
+   "layoutValueTokens": 8,
+   "onlyInExtract": {},
+   "onlyInLayout": {},
+   "status": "equal-multisets"
+  }
+ ],
+ "rows": [
+  {
+   "rowNo": 1,
+   "rowNoRaw": "1",
+   "page": 14,
+   "cells": {
+    "title": "მინისტრის პირველი მოადგილე და მოადგილე; სამინისტროს დირექტორატის დირექტორი, დეპარტამენტის უფროსი; მინისტრის კაბინეტის უფროსი, საგანგებო დავალებათა ელჩი",
+    "percent": "100"
+   },
+   "cellLines": {
+    "title": [
+     "მინისტრის პირველი მოადგილე და მოადგილე; სამინისტროს",
+     "დირექტორატის დირექტორი, დეპარტამენტის უფროსი; მინისტრის",
+     "კაბინეტის უფროსი, საგანგებო დავალებათა ელჩი"
+    ],
+    "percent": [
+     "100"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    295.5,
+    345.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 2,
+   "rowNoRaw": "2",
+   "page": 14,
+   "cells": {
+    "title": "დირექტორატის დირექტორის მოადგილე, დეპარტამენტის უფროსის მოადგილე",
+    "percent": "75"
+   },
+   "cellLines": {
+    "title": [
+     "დირექტორატის დირექტორის მოადგილე, დეპარტამენტის უფროსის",
+     "მოადგილე"
+    ],
+    "percent": [
+     "75"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    345.2,
+    382.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 3,
+   "rowNoRaw": "3",
+   "page": 14,
+   "cells": {
+    "title": "სამმართველოს უფროსი",
+    "percent": "70"
+   },
+   "cellLines": {
+    "title": [
+     "სამმართველოს უფროსი"
+    ],
+    "percent": [
+     "70"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    382.7,
+    408.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 4,
+   "rowNoRaw": "4",
+   "page": 14,
+   "cells": {
+    "title": "მრჩეველი",
+    "percent": "65"
+   },
+   "cellLines": {
+    "title": [
+     "მრჩეველი"
+    ],
+    "percent": [
+     "65"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    408.0,
+    433.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 5,
+   "rowNoRaw": "5",
+   "page": 14,
+   "cells": {
+    "title": "პირველი მდივანი",
+    "percent": "60"
+   },
+   "cellLines": {
+    "title": [
+     "პირველი მდივანი"
+    ],
+    "percent": [
+     "60"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    433.2,
+    458.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 6,
+   "rowNoRaw": "6",
+   "page": 14,
+   "cells": {
+    "title": "მეორე მდივანი",
+    "percent": "55"
+   },
+   "cellLines": {
+    "title": [
+     "მეორე მდივანი"
+    ],
+    "percent": [
+     "55"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    458.5,
+    483.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 7,
+   "rowNoRaw": "7",
+   "page": 14,
+   "cells": {
+    "title": "მესამე მდივანი, ატაშე, რეფერენტი, უსაფრთხოების ოფიცერი",
+    "percent": "50"
+   },
+   "cellLines": {
+    "title": [
+     "მესამე მდივანი, ატაშე, რეფერენტი, უსაფრთხოების ოფიცერი"
+    ],
+    "percent": [
+     "50"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    483.7,
+    509.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 8,
+   "rowNoRaw": "8",
+   "page": 14,
+   "cells": {
+    "title": "მძღოლი",
+    "percent": "40"
+   },
+   "cellLines": {
+    "title": [
+     "მძღოლი"
+    ],
+    "percent": [
+     "40"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    509.0,
+    534.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  }
+ ]
+}

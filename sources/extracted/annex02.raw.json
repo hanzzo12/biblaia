@@ -1,0 +1,263 @@
+{
+ "annex": 2,
+ "title": "Annex 2 - position indicators (staff posted on rotation)",
+ "pages": [
+  13
+ ],
+ "sourceFile": "sources/original/rotation_sources.pdf",
+ "sha256": "7ccfcaaa100f06b870d5037238c8e99bfebb750a7cfc9348767fc9a09dcf8717",
+ "extractedWith": "pdfplumber 0.11.10 words+grid edges; cross-checked with rotation_sources.layout.txt; visually verified (pypdfium2 render, scale 2.2)",
+ "columns": [
+  "title",
+  "percent"
+ ],
+ "counts": {
+  "printedRows": 9,
+  "distinctRowNumbers": 9,
+  "duplicatedRowCopies": 0,
+  "removedRows": 0,
+  "effectiveEntries": 9
+ },
+ "layoutCrossCheck": [
+  {
+   "page": 13,
+   "extractedValueTokens": 9,
+   "layoutValueTokens": 9,
+   "onlyInExtract": {},
+   "onlyInLayout": {},
+   "status": "equal-multisets"
+  }
+ ],
+ "rows": [
+  {
+   "rowNo": 1,
+   "rowNoRaw": "1",
+   "page": 13,
+   "cells": {
+    "title": "საგანგებო და სრულუფლებიანი ელჩი, საერთაშორისო ორგანიზაციასთან საქართველოს მუდმივი წარმომადგენელი/საერთაშორისო ორგანიზაციასთან საქართველოს წარმომადგენელი",
+    "percent": "100"
+   },
+   "cellLines": {
+    "title": [
+     "საგანგებო და სრულუფლებიანი ელჩი, საერთაშორისო ორგანიზაციასთან",
+     "საქართველოს მუდმივი წარმომადგენელი/საერთაშორისო ორგანიზაციასთან",
+     "საქართველოს წარმომადგენელი"
+    ],
+    "percent": [
+     "100"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    229.3,
+    257.8
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 2,
+   "rowNoRaw": "2",
+   "page": 13,
+   "cells": {
+    "title": "გენერალური კონსული, კონსული-საკონსულო დაწესებულების ხელმძღვანელი",
+    "percent": "80"
+   },
+   "cellLines": {
+    "title": [
+     "გენერალური კონსული, კონსული-საკონსულო დაწესებულების ხელმძღვანელი"
+    ],
+    "percent": [
+     "80"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    257.8,
+    278.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 3,
+   "rowNoRaw": "3",
+   "page": 13,
+   "cells": {
+    "title": "საგანგებო და სრულუფლებიანი დესპანი, საერთაშორისო ორგანიზაციასთან საქართველოს მუდმივი წარმომადგენლის მოადგილე/საერთშორისო ორგანიზაციასთან საქართველოს წარმომადგენლის მოადგილე, ადმინისტრაციული მენეჯერი, რომელიც დროებით/მუდმივად ასრულებს სხვა საქართველოს დიპლომატიურ წარმომადგენლობებსა და საკონსულო დაწესებულებებში ადმინისტრაციული მენეჯერის მოვალეობას",
+    "percent": "75"
+   },
+   "cellLines": {
+    "title": [
+     "საგანგებო და სრულუფლებიანი დესპანი, საერთაშორისო ორგანიზაციასთან საქართველოს მუდმივი",
+     "წარმომადგენლის მოადგილე/საერთშორისო ორგანიზაციასთან საქართველოს წარმომადგენლის მოადგილე,",
+     "ადმინისტრაციული მენეჯერი, რომელიც დროებით/მუდმივად ასრულებს სხვა საქართველოს დიპლომატიურ",
+     "წარმომადგენლობებსა და საკონსულო დაწესებულებებში ადმინისტრაციული მენეჯერის მოვალეობას"
+    ],
+    "percent": [
+     "75"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    278.0,
+    319.3
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 4,
+   "rowNoRaw": "4",
+   "page": 13,
+   "cells": {
+    "title": "უფროსი მრჩეველი, კონსული",
+    "percent": "70"
+   },
+   "cellLines": {
+    "title": [
+     "უფროსი მრჩეველი, კონსული"
+    ],
+    "percent": [
+     "70"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    319.3,
+    339.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 5,
+   "rowNoRaw": "5",
+   "page": 13,
+   "cells": {
+    "title": "მრჩეველი, ადმინისტრაციული მენეჯერი, ვიცე-კონსული",
+    "percent": "65"
+   },
+   "cellLines": {
+    "title": [
+     "მრჩეველი, ადმინისტრაციული მენეჯერი, ვიცე-კონსული"
+    ],
+    "percent": [
+     "65"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    339.5,
+    370.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 6,
+   "rowNoRaw": "6",
+   "page": 13,
+   "cells": {
+    "title": "პირველი მდივანი, მეორე მდივანი",
+    "percent": "60"
+   },
+   "cellLines": {
+    "title": [
+     "პირველი მდივანი, მეორე მდივანი"
+    ],
+    "percent": [
+     "60"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    370.9,
+    391.1
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 7,
+   "rowNoRaw": "7",
+   "page": 13,
+   "cells": {
+    "title": "მესამე მდივანი, ატაშე, უსაფრთხოების ოფიცერი",
+    "percent": "55"
+   },
+   "cellLines": {
+    "title": [
+     "მესამე მდივანი, ატაშე, უსაფრთხოების ოფიცერი"
+    ],
+    "percent": [
+     "55"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    391.1,
+    411.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 8,
+   "rowNoRaw": "8",
+   "page": 13,
+   "cells": {
+    "title": "რეფერენტი",
+    "percent": "50"
+   },
+   "cellLines": {
+    "title": [
+     "რეფერენტი"
+    ],
+    "percent": [
+     "50"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    411.4,
+    431.6
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 9,
+   "rowNoRaw": "9",
+   "page": 13,
+   "cells": {
+    "title": "მძღოლი",
+    "percent": "40"
+   },
+   "cellLines": {
+    "title": [
+     "მძღოლი"
+    ],
+    "percent": [
+     "40"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    431.6,
+    451.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  }
+ ]
+}

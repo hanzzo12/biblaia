@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "schemaVersion": 1,
+    "status": "unverified-empty",
+    "description": "შიდა ქალაქის ID → Numbeo city_id. ID-ები მხოლოდ /api/cities-ის რეალური პასუხიდან ივსება ლიცენზირებული გასაღებით. არცერთი ID არ არის გამოგონილი; ცხრილი ცარიელია, რადგან გასაღები არ გვაქვს.",
+    "sourceEndpoint": "https://www.numbeo.com/api/cities?api_key=<SECRET>[&country=<ISO|name>]",
+    "verifiedAt": null,
+    "verifiedBy": null
+  },
+  "items": {
+    "centre_1br": { "itemId": 26, "expectedNameIncludes": ["1 bedroom", "Centre"], "verification": "search-index snippet of numbeo.com/api/cost-of-living-api + public page title itemId=26; re-check with /api/items" },
+    "centre_3br": { "itemId": 28, "expectedNameIncludes": ["3 bedroom", "Centre"], "verification": "search-index snippet of numbeo.com/api/cost-of-living-api; re-check with /api/items" },
+    "outside_1br": { "itemId": 27, "expectedNameIncludes": ["1 bedroom", "Outside"], "verification": "public page titles numbeo.com/cost-of-living/*?itemId=27 (search index); re-check with /api/items" },
+    "outside_3br": { "itemId": null, "expectedNameIncludes": ["3 bedroom", "Outside"], "verification": "UNVERIFIED (29 is plausible but not confirmed) — fill only from /api/items" }
+  },
+  "cities": {}
+}

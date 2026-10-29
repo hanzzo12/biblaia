@@ -1,0 +1,2070 @@
+{
+ "annex": 4,
+ "title": "Annex 4 - adapted cost-of-living coefficient K and housing share E",
+ "pages": [
+  15,
+  16,
+  17
+ ],
+ "sourceFile": "sources/original/rotation_sources.pdf",
+ "sha256": "7ccfcaaa100f06b870d5037238c8e99bfebb750a7cfc9348767fc9a09dcf8717",
+ "extractedWith": "pdfplumber 0.11.10 words+grid edges; cross-checked with rotation_sources.layout.txt; visually verified (pypdfium2 render, scale 2.2)",
+ "columns": [
+  "label",
+  "k",
+  "e"
+ ],
+ "counts": {
+  "printedRows": 69,
+  "distinctRowNumbers": 69,
+  "duplicatedRowCopies": 0,
+  "removedRows": 0,
+  "effectiveEntries": 69
+ },
+ "layoutCrossCheck": [
+  {
+   "page": 15,
+   "extractedValueTokens": 51,
+   "layoutValueTokens": 51,
+   "onlyInExtract": {},
+   "onlyInLayout": {},
+   "status": "equal-multisets"
+  },
+  {
+   "page": 16,
+   "extractedValueTokens": 60,
+   "layoutValueTokens": 60,
+   "onlyInExtract": {},
+   "onlyInLayout": {},
+   "status": "equal-multisets"
+  },
+  {
+   "page": 17,
+   "extractedValueTokens": 28,
+   "layoutValueTokens": 28,
+   "onlyInExtract": {},
+   "onlyInLayout": {},
+   "status": "equal-multisets"
+  }
+ ],
+ "rows": [
+  {
+   "rowNo": 1,
+   "rowNoRaw": "1",
+   "page": 15,
+   "cells": {
+    "label": "ავსტრალიის თანამეგობრობა",
+    "k": "2.007",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "ავსტრალიის თანამეგობრობა"
+    ],
+    "k": [
+     "2.007"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    186.3,
+    206.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 2,
+   "rowNoRaw": "2",
+   "page": 15,
+   "cells": {
+    "label": "ავსტრიის რესპუბლიკა",
+    "k": "2.06",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "ავსტრიის რესპუბლიკა"
+    ],
+    "k": [
+     "2.06"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    206.5,
+    226.8
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 3,
+   "rowNoRaw": "3",
+   "page": 15,
+   "cells": {
+    "label": "არგენტინის რესპუბლიკა",
+    "k": "1.800",
+    "e": "24"
+   },
+   "cellLines": {
+    "label": [
+     "არგენტინის რესპუბლიკა"
+    ],
+    "k": [
+     "1.800"
+    ],
+    "e": [
+     "24"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    226.8,
+    247.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 4,
+   "rowNoRaw": "4",
+   "page": 15,
+   "cells": {
+    "label": "აზერბაიჯანის რესპუბლიკა (ა",
+    "k": "1.600",
+    "e": "24"
+   },
+   "cellLines": {
+    "label": [
+     "აზერბაიჯანის რესპუბლიკა",
+     "(ა"
+    ],
+    "k": [
+     "1.600"
+    ],
+    "e": [
+     "24"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    247.0,
+    267.3
+   ],
+   "bandSource": "grid",
+   "notes": "visual: Label cell shows a stray '(ა' fragment on a second line under 'აზერბაიჯანის რესპუბლიკა'."
+  },
+  {
+   "rowNo": 5,
+   "rowNoRaw": "5",
+   "page": 15,
+   "cells": {
+    "label": "აშშ ქ. ვაშინგტონი",
+    "k": "2.185",
+    "e": "28"
+   },
+   "cellLines": {
+    "label": [
+     "აშშ ქ. ვაშინგტონი"
+    ],
+    "k": [
+     "2.185"
+    ],
+    "e": [
+     "28"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    267.3,
+    287.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 6,
+   "rowNoRaw": "6",
+   "page": 15,
+   "cells": {
+    "label": "აშშ ქ. ნიუ-იორკი",
+    "k": "2.65",
+    "e": "32"
+   },
+   "cellLines": {
+    "label": [
+     "აშშ ქ. ნიუ-იორკი"
+    ],
+    "k": [
+     "2.65"
+    ],
+    "e": [
+     "32"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    287.5,
+    307.8
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 7,
+   "rowNoRaw": "7",
+   "page": 15,
+   "cells": {
+    "label": "ბელარუსის რესპუბლიკა",
+    "k": "1.700",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "ბელარუსის რესპუბლიკა"
+    ],
+    "k": [
+     "1.700"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    307.8,
+    328.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 8,
+   "rowNoRaw": "8",
+   "page": 15,
+   "cells": {
+    "label": "ბელგიის სამეფო",
+    "k": "2.050",
+    "e": "18"
+   },
+   "cellLines": {
+    "label": [
+     "ბელგიის სამეფო"
+    ],
+    "k": [
+     "2.050"
+    ],
+    "e": [
+     "18"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    328.0,
+    348.3
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 9,
+   "rowNoRaw": "9",
+   "page": 15,
+   "cells": {
+    "label": "ბრაზილიის ფედერაციული რესპუბლიკა",
+    "k": "1.873",
+    "e": "32"
+   },
+   "cellLines": {
+    "label": [
+     "ბრაზილიის ფედერაციული რესპუბლიკა"
+    ],
+    "k": [
+     "1.873"
+    ],
+    "e": [
+     "32"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    348.3,
+    368.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 10,
+   "rowNoRaw": "10",
+   "page": 15,
+   "cells": {
+    "label": "ბულგარეთის რესპუბლიკა",
+    "k": "1.714",
+    "e": "14"
+   },
+   "cellLines": {
+    "label": [
+     "ბულგარეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1.714"
+    ],
+    "e": [
+     "14"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    368.5,
+    388.8
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 11,
+   "rowNoRaw": "11",
+   "page": 15,
+   "cells": {
+    "label": "გერმანიის ფედერაციული რესპუბლიკა",
+    "k": "1.993",
+    "e": "28"
+   },
+   "cellLines": {
+    "label": [
+     "გერმანიის ფედერაციული რესპუბლიკა"
+    ],
+    "k": [
+     "1.993"
+    ],
+    "e": [
+     "28"
+    ]
+   },
+   "flags": [
+    "displaced"
+   ],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    388.8,
+    409.0
+   ],
+   "bandSource": "grid",
+   "notes": "visual: K value 1.993 is printed at the bottom of the row-11 cell, almost on the row-12 border (displaced); it belongs to Germany (row 11). Layout text shows it on its own line after E=28."
+  },
+  {
+   "rowNo": 12,
+   "rowNoRaw": "12",
+   "page": 15,
+   "cells": {
+    "label": "დანიის სამეფო",
+    "k": "2.200 2.200",
+    "e": "26"
+   },
+   "cellLines": {
+    "label": [
+     "დანიის სამეფო"
+    ],
+    "k": [
+     "2.200",
+     "2.200"
+    ],
+    "e": [
+     "26"
+    ]
+   },
+   "flags": [
+    "displaced",
+    "duplicated-text",
+    "multi-value"
+   ],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    409.0,
+    429.3
+   ],
+   "bandSource": "grid",
+   "notes": "visual: K cell shows '2.200' twice (second copy offset to the right/lower). Same number, duplicated text."
+  },
+  {
+   "rowNo": 13,
+   "rowNoRaw": "13",
+   "page": 15,
+   "cells": {
+    "label": "დიდი ბრიტანეთისა და ჩრდილოეთ ირლანდიის გაერთიანებული სამეფო",
+    "k": "2.4",
+    "e": "30"
+   },
+   "cellLines": {
+    "label": [
+     "დიდი ბრიტანეთისა და ჩრდილოეთ ირლანდიის გაერთიანებული",
+     "სამეფო"
+    ],
+    "k": [
+     "2.4"
+    ],
+    "e": [
+     "30"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    429.3,
+    469.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 14,
+   "rowNoRaw": "14",
+   "page": 15,
+   "cells": {
+    "label": "ეგვიპტის არაბთა რესპუბლიკა",
+    "k": "1.800",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "ეგვიპტის არაბთა რესპუბლიკა"
+    ],
+    "k": [
+     "1.800"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    469.2,
+    489.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 15,
+   "rowNoRaw": "15",
+   "page": 15,
+   "cells": {
+    "label": "ეთიოპიის ფედერაციული დემოკრატიული რესპუბლიკა",
+    "k": "1.962",
+    "e": "18"
+   },
+   "cellLines": {
+    "label": [
+     "ეთიოპიის ფედერაციული დემოკრატიული რესპუბლიკა"
+    ],
+    "k": [
+     "1.962"
+    ],
+    "e": [
+     "18"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    489.4,
+    509.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 16,
+   "rowNoRaw": "16",
+   "page": 15,
+   "cells": {
+    "label": "ესპანეთის სამეფო",
+    "k": "1.900",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "ესპანეთის სამეფო"
+    ],
+    "k": [
+     "1.900"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    509.7,
+    529.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 17,
+   "rowNoRaw": "17",
+   "page": 15,
+   "cells": {
+    "label": "ესტონეთის რესპუბლიკა",
+    "k": "1.773",
+    "e": "20"
+   },
+   "cellLines": {
+    "label": [
+     "ესტონეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1.773"
+    ],
+    "e": [
+     "20"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    529.9,
+    550.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 18,
+   "rowNoRaw": "18",
+   "page": 15,
+   "cells": {
+    "label": "თურქეთის რესპუბლიკა",
+    "k": "1.773",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "თურქეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1.773"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    550.2,
+    570.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 19,
+   "rowNoRaw": "19",
+   "page": 15,
+   "cells": {
+    "label": "თურქმენეთი",
+    "k": "1.600",
+    "e": "11"
+   },
+   "cellLines": {
+    "label": [
+     "თურქმენეთი"
+    ],
+    "k": [
+     "1.600"
+    ],
+    "e": [
+     "11"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    570.4,
+    590.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 20,
+   "rowNoRaw": "20",
+   "page": 15,
+   "cells": {
+    "label": "იაპონია",
+    "k": "2.56",
+    "e": "29"
+   },
+   "cellLines": {
+    "label": [
+     "იაპონია"
+    ],
+    "k": [
+     "2.56"
+    ],
+    "e": [
+     "29"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    590.7,
+    610.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 21,
+   "rowNoRaw": "21",
+   "page": 15,
+   "cells": {
+    "label": "იორდანიის ჰაშიმიტური სამეფო",
+    "k": "1.805",
+    "e": "17"
+   },
+   "cellLines": {
+    "label": [
+     "იორდანიის ჰაშიმიტური სამეფო"
+    ],
+    "k": [
+     "1.805"
+    ],
+    "e": [
+     "17"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    610.9,
+    631.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 22,
+   "rowNoRaw": "22",
+   "page": 15,
+   "cells": {
+    "label": "ირანის ისლამური რესპუბლიკა",
+    "k": "1.89",
+    "e": "24"
+   },
+   "cellLines": {
+    "label": [
+     "ირანის ისლამური რესპუბლიკა"
+    ],
+    "k": [
+     "1.89"
+    ],
+    "e": [
+     "24"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    631.2,
+    651.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 23,
+   "rowNoRaw": "23",
+   "page": 15,
+   "cells": {
+    "label": "ისრაელის სახელმწიფო",
+    "k": "2.1",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "ისრაელის სახელმწიფო"
+    ],
+    "k": [
+     "2.1"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    651.4,
+    671.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 24,
+   "rowNoRaw": "24",
+   "page": 15,
+   "cells": {
+    "label": "იტალიის რესპუბლიკა",
+    "k": "2.000",
+    "e": "22"
+   },
+   "cellLines": {
+    "label": [
+     "იტალიის რესპუბლიკა"
+    ],
+    "k": [
+     "2.000"
+    ],
+    "e": [
+     "22"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    671.5,
+    691.8
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 25,
+   "rowNoRaw": "25",
+   "page": 15,
+   "cells": {
+    "label": "ინდოეთის რესპუბლიკა",
+    "k": "1,588",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "ინდოეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1,588"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [
+    "decimal-comma"
+   ],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    691.8,
+    712.0
+   ],
+   "bandSource": "grid",
+   "notes": "visual: K printed with a decimal comma: '1,588'."
+  },
+  {
+   "rowNo": 26,
+   "rowNoRaw": "26",
+   "page": 16,
+   "cells": {
+    "label": "ინდონეზიის რესპუბლიკა",
+    "k": "1.817",
+    "e": "27"
+   },
+   "cellLines": {
+    "label": [
+     "ინდონეზიის რესპუბლიკა"
+    ],
+    "k": [
+     "1.817"
+    ],
+    "e": [
+     "27"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    72.4,
+    92.7
+   ],
+   "bandSource": "grid",
+   "notes": "visual: Row is clipped by the next grid line in the rendering (text half hidden); extracted text reads Indonesia 1.817 / 27."
+  },
+  {
+   "rowNo": 27,
+   "rowNoRaw": "27",
+   "page": 16,
+   "cells": {
+    "label": "ირლანდია",
+    "k": "2.4",
+    "e": "30"
+   },
+   "cellLines": {
+    "label": [
+     "ირლანდია"
+    ],
+    "k": [
+     "2.4"
+    ],
+    "e": [
+     "30"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    92.7,
+    112.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 28,
+   "rowNoRaw": "28",
+   "page": 16,
+   "cells": {
+    "label": "კვიპროსის რესპუბლიკა",
+    "k": "1.800",
+    "e": "20"
+   },
+   "cellLines": {
+    "label": [
+     "კვიპროსის რესპუბლიკა"
+    ],
+    "k": [
+     "1.800"
+    ],
+    "e": [
+     "20"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    112.9,
+    133.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 29,
+   "rowNoRaw": "29",
+   "page": 16,
+   "cells": {
+    "label": "კანადა",
+    "k": "2.00",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "კანადა"
+    ],
+    "k": [
+     "2.00"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    133.2,
+    154.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 30,
+   "rowNoRaw": "30",
+   "page": 16,
+   "cells": {
+    "label": "კატარის სახელმწიფო",
+    "k": "2.0",
+    "e": "30"
+   },
+   "cellLines": {
+    "label": [
+     "კატარის სახელმწიფო"
+    ],
+    "k": [
+     "2.0"
+    ],
+    "e": [
+     "30"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    154.2,
+    176.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 31,
+   "rowNoRaw": "31",
+   "page": 16,
+   "cells": {
+    "label": "კორეის რესპუბლიკა",
+    "k": "2,280",
+    "e": "25"
+   },
+   "cellLines": {
+    "label": [
+     "კორეის რესპუბლიკა"
+    ],
+    "k": [
+     "2,280"
+    ],
+    "e": [
+     "25"
+    ]
+   },
+   "flags": [
+    "decimal-comma"
+   ],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    176.5,
+    199.0
+   ],
+   "bandSource": "grid",
+   "notes": "visual: K printed with a decimal comma: '2,280'."
+  },
+  {
+   "rowNo": 32,
+   "rowNoRaw": "32",
+   "page": 16,
+   "cells": {
+    "label": "ლატვიის რესპუბლიკა",
+    "k": "1.870",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "ლატვიის რესპუბლიკა"
+    ],
+    "k": [
+     "1.870"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    199.0,
+    221.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 33,
+   "rowNoRaw": "33",
+   "page": 16,
+   "cells": {
+    "label": "ლიეტუვას რესპუბლიკა",
+    "k": "1.814",
+    "e": "19"
+   },
+   "cellLines": {
+    "label": [
+     "ლიეტუვას რესპუბლიკა"
+    ],
+    "k": [
+     "1.814"
+    ],
+    "e": [
+     "19"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    221.5,
+    244.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 34,
+   "rowNoRaw": "34",
+   "page": 16,
+   "cells": {
+    "label": "მალაიზია",
+    "k": "1.571",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "მალაიზია"
+    ],
+    "k": [
+     "1.571"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    244.0,
+    266.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 35,
+   "rowNoRaw": "35",
+   "page": 16,
+   "cells": {
+    "label": "მექსიკის შეერთებული შტატები",
+    "k": "1.80",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "მექსიკის შეერთებული შტატები"
+    ],
+    "k": [
+     "1.80"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    266.4,
+    288.3
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 36,
+   "rowNoRaw": "36",
+   "page": 16,
+   "cells": {
+    "label": "მოლდოვას რესპუბლიკა",
+    "k": "1.500",
+    "e": "26"
+   },
+   "cellLines": {
+    "label": [
+     "მოლდოვას რესპუბლიკა"
+    ],
+    "k": [
+     "1.500"
+    ],
+    "e": [
+     "26"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    288.3,
+    309.6
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 37,
+   "rowNoRaw": "37",
+   "page": 16,
+   "cells": {
+    "label": "ნიდერლანდების სამეფო",
+    "k": "2.000",
+    "e": "25"
+   },
+   "cellLines": {
+    "label": [
+     "ნიდერლანდების სამეფო"
+    ],
+    "k": [
+     "2.000"
+    ],
+    "e": [
+     "25"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    309.6,
+    330.6
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 38,
+   "rowNoRaw": "38",
+   "page": 16,
+   "cells": {
+    "label": "ნორვეგიის სამეფო",
+    "k": "2.200",
+    "e": "26"
+   },
+   "cellLines": {
+    "label": [
+     "ნორვეგიის სამეფო"
+    ],
+    "k": [
+     "2.200"
+    ],
+    "e": [
+     "26"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    330.6,
+    345.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 39,
+   "rowNoRaw": "39",
+   "page": 16,
+   "cells": {
+    "label": "პოლონეთის რესპუბლიკა",
+    "k": "2.100",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "პოლონეთის რესპუბლიკა"
+    ],
+    "k": [
+     "2.100"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    345.5,
+    366.3
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 40,
+   "rowNoRaw": "40",
+   "page": 16,
+   "cells": {
+    "label": "პორტუგალიის რესპუბლიკა",
+    "k": "1.701",
+    "e": "22"
+   },
+   "cellLines": {
+    "label": [
+     "პორტუგალიის რესპუბლიკა"
+    ],
+    "k": [
+     "1.701"
+    ],
+    "e": [
+     "22"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    366.3,
+    387.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 41,
+   "rowNoRaw": "41",
+   "page": 16,
+   "cells": {
+    "label": "რუსეთის ფედერაცია",
+    "k": "1.983",
+    "e": "26"
+   },
+   "cellLines": {
+    "label": [
+     "რუსეთის ფედერაცია"
+    ],
+    "k": [
+     "1.983"
+    ],
+    "e": [
+     "26"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    387.4,
+    409.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 42,
+   "rowNoRaw": "42",
+   "page": 16,
+   "cells": {
+    "label": "რუმინეთი",
+    "k": "1.800",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "რუმინეთი"
+    ],
+    "k": [
+     "1.800"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    409.5,
+    429.8
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 43,
+   "rowNoRaw": "43",
+   "page": 16,
+   "cells": {
+    "label": "საბერძნეთის რესპუბლიკა",
+    "k": "1.95",
+    "e": "19"
+   },
+   "cellLines": {
+    "label": [
+     "საბერძნეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1.95"
+    ],
+    "e": [
+     "19"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    429.8,
+    451.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 44,
+   "rowNoRaw": "44",
+   "page": 16,
+   "cells": {
+    "label": "სამხრეთ აფრიკის რესპუბლიკა",
+    "k": "1.900",
+    "e": "19"
+   },
+   "cellLines": {
+    "label": [
+     "სამხრეთ აფრიკის რესპუბლიკა"
+    ],
+    "k": [
+     "1.900"
+    ],
+    "e": [
+     "19"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    451.0,
+    472.6
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 45,
+   "rowNoRaw": "45",
+   "page": 16,
+   "cells": {
+    "label": "საუდის არაბეთის სამეფო",
+    "k": "1.900",
+    "e": "19"
+   },
+   "cellLines": {
+    "label": [
+     "საუდის არაბეთის სამეფო"
+    ],
+    "k": [
+     "1.900"
+    ],
+    "e": [
+     "19"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    472.6,
+    493.8
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 46,
+   "rowNoRaw": "46",
+   "page": 16,
+   "cells": {
+    "label": "საფრანგეთის რესპუბლიკა",
+    "k": "2.100",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "საფრანგეთის რესპუბლიკა"
+    ],
+    "k": [
+     "2.100"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    493.8,
+    515.3
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 47,
+   "rowNoRaw": "47",
+   "page": 16,
+   "cells": {
+    "label": "სლოვაკეთის რესპუბლიკა",
+    "k": "1.800",
+    "e": "20"
+   },
+   "cellLines": {
+    "label": [
+     "სლოვაკეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1.800"
+    ],
+    "e": [
+     "20"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    515.3,
+    537.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 48,
+   "rowNoRaw": "48",
+   "page": 16,
+   "cells": {
+    "label": "სლოვენიის რესპუბლიკა",
+    "k": "1.800",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "სლოვენიის რესპუბლიკა"
+    ],
+    "k": [
+     "1.800"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    537.0,
+    557.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 49,
+   "rowNoRaw": "49",
+   "page": 16,
+   "cells": {
+    "label": "სომხეთის რესპუბლიკა",
+    "k": "1.600",
+    "e": "24"
+   },
+   "cellLines": {
+    "label": [
+     "სომხეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1.600"
+    ],
+    "e": [
+     "24"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    557.7,
+    578.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 50,
+   "rowNoRaw": "50",
+   "page": 16,
+   "cells": {
+    "label": "უზბეკეთის რესპუბლიკა",
+    "k": "1,600",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "უზბეკეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1,600"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [
+    "decimal-comma"
+   ],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    578.7,
+    600.0
+   ],
+   "bandSource": "grid",
+   "notes": "visual: K printed with a decimal comma: '1,600'."
+  },
+  {
+   "rowNo": 51,
+   "rowNoRaw": "51",
+   "page": 16,
+   "cells": {
+    "label": "უკრაინა",
+    "k": "1.890",
+    "e": "28"
+   },
+   "cellLines": {
+    "label": [
+     "უკრაინა"
+    ],
+    "k": [
+     "1.890"
+    ],
+    "e": [
+     "28"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    600.0,
+    621.6
+   ],
+   "bandSource": "grid",
+   "notes": "visual: Row is clipped by the next grid line in the rendering (text half hidden); extracted text reads Ukraine 1.890 / 28."
+  },
+  {
+   "rowNo": 52,
+   "rowNoRaw": "52",
+   "page": 16,
+   "cells": {
+    "label": "უნგრეთი",
+    "k": "1.867",
+    "e": "24"
+   },
+   "cellLines": {
+    "label": [
+     "უნგრეთი"
+    ],
+    "k": [
+     "1.867"
+    ],
+    "e": [
+     "24"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    621.6,
+    643.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 53,
+   "rowNoRaw": "53",
+   "page": 16,
+   "cells": {
+    "label": "ფინეთის რესპუბლიკა",
+    "k": "2.200",
+    "e": "19"
+   },
+   "cellLines": {
+    "label": [
+     "ფინეთის რესპუბლიკა"
+    ],
+    "k": [
+     "2.200"
+    ],
+    "e": [
+     "19"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    643.5,
+    663.6
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 54,
+   "rowNoRaw": "54",
+   "page": 16,
+   "cells": {
+    "label": "ქუვეითის სახელმწიფო",
+    "k": "1.900",
+    "e": "20"
+   },
+   "cellLines": {
+    "label": [
+     "ქუვეითის სახელმწიფო"
+    ],
+    "k": [
+     "1.900"
+    ],
+    "e": [
+     "20"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    663.6,
+    685.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 55,
+   "rowNoRaw": "55",
+   "page": 16,
+   "cells": {
+    "label": "ყაზახეთის რესპუბლიკა",
+    "k": "1.600",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "ყაზახეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1.600"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    685.4,
+    792
+   ],
+   "bandSource": "grid",
+   "notes": "visual: Last row on page 16; bottom grid line missing (pdfplumber table finder drops this row)."
+  },
+  {
+   "rowNo": 56,
+   "rowNoRaw": "56",
+   "page": 17,
+   "cells": {
+    "label": "შვედეთის სამეფო",
+    "k": "2.200",
+    "e": "26"
+   },
+   "cellLines": {
+    "label": [
+     "შვედეთის სამეფო"
+    ],
+    "k": [
+     "2.200"
+    ],
+    "e": [
+     "26"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    72.4,
+    93.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 57,
+   "rowNoRaw": "57",
+   "page": 17,
+   "cells": {
+    "label": "შვეიცარიის კონფედერაცია",
+    "k": "2,2",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "შვეიცარიის კონფედერაცია"
+    ],
+    "k": [
+     "2,2"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [
+    "decimal-comma"
+   ],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    93.4,
+    115.4
+   ],
+   "bandSource": "grid",
+   "notes": "visual: K printed with a decimal comma: '2,2'."
+  },
+  {
+   "rowNo": 58,
+   "rowNoRaw": "58",
+   "page": 17,
+   "cells": {
+    "label": "ჩეხეთის რესპუბლიკა",
+    "k": "1.896",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "ჩეხეთის რესპუბლიკა"
+    ],
+    "k": [
+     "1.896"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    115.4,
+    135.6
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 59,
+   "rowNoRaw": "59",
+   "page": 17,
+   "cells": {
+    "label": "ჩინეთის სახალხო რესპუბლიკა",
+    "k": "1.888",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "ჩინეთის სახალხო რესპუბლიკა"
+    ],
+    "k": [
+     "1.888"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    135.6,
+    157.6
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 60,
+   "rowNoRaw": "60",
+   "page": 17,
+   "cells": {
+    "label": "კუბის რესპუბლიკა",
+    "k": "1.630",
+    "e": "26"
+   },
+   "cellLines": {
+    "label": [
+     "კუბის რესპუბლიკა"
+    ],
+    "k": [
+     "1.630"
+    ],
+    "e": [
+     "26"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    157.6,
+    179.3
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 61,
+   "rowNoRaw": "61",
+   "page": 17,
+   "cells": {
+    "label": "სერბეთის რესპუბლიკა (ქ. ბელგრადი)",
+    "k": "1.95",
+    "e": "19"
+   },
+   "cellLines": {
+    "label": [
+     "სერბეთის რესპუბლიკა (ქ. ბელგრადი)"
+    ],
+    "k": [
+     "1.95"
+    ],
+    "e": [
+     "19"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    179.3,
+    201.6
+   ],
+   "bandSource": "grid",
+   "notes": "visual: Serbia (Belgrade) has a K/E row but no institution in Annex 5/6/7/9."
+  },
+  {
+   "rowNo": 62,
+   "rowNoRaw": "62.",
+   "page": 17,
+   "cells": {
+    "label": "არაბთა გაერთიანებული საამიროები",
+    "k": "1.960",
+    "e": "25"
+   },
+   "cellLines": {
+    "label": [
+     "არაბთა გაერთიანებული საამიროები"
+    ],
+    "k": [
+     "1.960"
+    ],
+    "e": [
+     "25"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    201.6,
+    225.8
+   ],
+   "bandSource": "grid",
+   "notes": "visual: Row numbers 62-64 and 66-69 are printed with a trailing dot."
+  },
+  {
+   "rowNo": 63,
+   "rowNoRaw": "63.",
+   "page": 17,
+   "cells": {
+    "label": "ვიეტნამის სოციალისტური რესპუბლიკა",
+    "k": "1.470",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "ვიეტნამის სოციალისტური რესპუბლიკა"
+    ],
+    "k": [
+     "1.470"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    225.8,
+    248.1
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 64,
+   "rowNoRaw": "64.",
+   "page": 17,
+   "cells": {
+    "label": "აშშ ქ. სან-ფრანცისკო",
+    "k": "2.65",
+    "e": "32"
+   },
+   "cellLines": {
+    "label": [
+     "აშშ ქ. სან-ფრანცისკო"
+    ],
+    "k": [
+     "2.65"
+    ],
+    "e": [
+     "32"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    248.1,
+    270.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 65,
+   "rowNoRaw": "65",
+   "page": 17,
+   "cells": {
+    "label": "იტალიის რესპუბლიკა ქ. ბარი",
+    "k": "2.000",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "იტალიის რესპუბლიკა ქ. ბარი"
+    ],
+    "k": [
+     "2.000"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    270.5,
+    292.8
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 66,
+   "rowNoRaw": "66.",
+   "page": 17,
+   "cells": {
+    "label": "ხორვატიის რესპუბლიკა",
+    "k": "1.791",
+    "e": "22"
+   },
+   "cellLines": {
+    "label": [
+     "ხორვატიის რესპუბლიკა"
+    ],
+    "k": [
+     "1.791"
+    ],
+    "e": [
+     "22"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    292.8,
+    315.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 67,
+   "rowNoRaw": "67.",
+   "page": 17,
+   "cells": {
+    "label": "იტალიის რესპუბლიკა ქ. მილანი",
+    "k": "2.000",
+    "e": "22"
+   },
+   "cellLines": {
+    "label": [
+     "იტალიის რესპუბლიკა ქ. მილანი"
+    ],
+    "k": [
+     "2.000"
+    ],
+    "e": [
+     "22"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    315.2,
+    337.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 68,
+   "rowNoRaw": "68.",
+   "page": 17,
+   "cells": {
+    "label": "საფრანგეთის რესპუბლიკა ქ. ლიონი",
+    "k": "2.100",
+    "e": "23"
+   },
+   "cellLines": {
+    "label": [
+     "საფრანგეთის რესპუბლიკა ქ. ლიონი"
+    ],
+    "k": [
+     "2.100"
+    ],
+    "e": [
+     "23"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    337.5,
+    359.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 69,
+   "rowNoRaw": "69.",
+   "page": 17,
+   "cells": {
+    "label": "პოლონეთის რესპუბლიკა ქ. კრაკოვი",
+    "k": "2.100",
+    "e": "21"
+   },
+   "cellLines": {
+    "label": [
+     "პოლონეთის რესპუბლიკა ქ. კრაკოვი"
+    ],
+    "k": [
+     "2.100"
+    ],
+    "e": [
+     "21"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "values-present-on-layout-page",
+   "bandY": [
+    359.9,
+    393.1
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  }
+ ]
+}

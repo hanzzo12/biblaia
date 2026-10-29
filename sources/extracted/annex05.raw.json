@@ -1,0 +1,993 @@
+{
+ "annex": 5,
+ "title": "Annex 5 - institutions funded in EUR",
+ "pages": [
+  19,
+  20
+ ],
+ "sourceFile": "sources/original/rotation_sources.pdf",
+ "sha256": "7ccfcaaa100f06b870d5037238c8e99bfebb750a7cfc9348767fc9a09dcf8717",
+ "extractedWith": "pdfplumber 0.11.10 words+grid edges; cross-checked with rotation_sources.layout.txt; visually verified (pypdfium2 render, scale 2.2)",
+ "columns": [
+  "label"
+ ],
+ "counts": {
+  "printedRows": 45,
+  "distinctRowNumbers": 45,
+  "duplicatedRowCopies": 0,
+  "removedRows": 1,
+  "effectiveEntries": 44
+ },
+ "layoutCrossCheck": [
+  {
+   "page": 19,
+   "extractedValueTokens": 0,
+   "layoutValueTokens": 0,
+   "onlyInExtract": {},
+   "onlyInLayout": {},
+   "status": "equal-multisets"
+  },
+  {
+   "page": 20,
+   "extractedValueTokens": 0,
+   "layoutValueTokens": 0,
+   "onlyInExtract": {},
+   "onlyInLayout": {},
+   "status": "equal-multisets"
+  }
+ ],
+ "rows": [
+  {
+   "rowNo": 1,
+   "rowNoRaw": "1",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ავსტრიის რესპუბლიკაში და საქართველოს მუდმივი წარმომადგენლობა ევროპის უსაფრთხოებისა და თანამშრომლობის ორგანიზაციასა და ქ. ვენაში განლაგებულ საერთაშორისო ორგანიზაციებში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ავსტრიის რესპუბლიკაში და საქართველოს მუდმივი წარმომადგენლობა",
+     "ევროპის უსაფრთხოებისა და თანამშრომლობის ორგანიზაციასა და ქ. ვენაში",
+     "განლაგებულ საერთაშორისო ორგანიზაციებში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    151.2,
+    209.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 2,
+   "rowNoRaw": "2",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ბელგიის სამეფოში და საქართველოს წარმომადგენლობა ევროკავშირში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ბელგიის სამეფოში და საქართველოს წარმომადგენლობა ევროკავშირში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    209.0,
+    229.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 3,
+   "rowNoRaw": "3",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ბულგარეთის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ბულგარეთის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    229.2,
+    249.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 4,
+   "rowNoRaw": "4",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო გერმანიის ფედერაციულ რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო გერმანიის ფედერაციულ რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    249.5,
+    269.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 5,
+   "rowNoRaw": "5",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო დანიის სამეფოში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო დანიის სამეფოში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    269.7,
+    290.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 6,
+   "rowNoRaw": "6",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო დიდი ბრიტანეთისა და ჩრდილოეთ ირლანდიის გაერთიანებულ სამეფოში და საქართველოს მუდმივი წარმომადგენლობა საერთაშორისო საზღვაო ორგანიზაციაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო დიდი ბრიტანეთისა და ჩრდილოეთ ირლანდიის გაერთიანებულ სამეფოში",
+     "და საქართველოს მუდმივი წარმომადგენლობა საერთაშორისო საზღვაო ორგანიზაციაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    290.0,
+    331.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 7,
+   "rowNoRaw": "7",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს მუდმივი წარმომადგენლობა ევროპის საბჭოსთან"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს მუდმივი წარმომადგენლობა ევროპის საბჭოსთან"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    331.2,
+    351.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 8,
+   "rowNoRaw": "8",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ესპანეთის სამეფოში და საქართველოს მუდმივი წარმომადგენლობა ქ. მადრიდში განლაგებულ გაეროს მსოფლიო ტურიზმის ორგანიზაციაში (UNWTO)"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ესპანეთის სამეფოში და საქართველოს მუდმივი წარმომადგენლობა ქ. მადრიდში განლაგებულ",
+     "გაეროს მსოფლიო ტურიზმის ორგანიზაციაში (UNWTO)"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    351.5,
+    371.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 9,
+   "rowNoRaw": "9",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ. ბარსელონაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ. ბარსელონაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    371.7,
+    392.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 10,
+   "rowNoRaw": "10",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ესტონეთის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ესტონეთის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    392.0,
+    412.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 11,
+   "rowNoRaw": "11",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო თურქეთის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო თურქეთის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    412.2,
+    432.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 12,
+   "rowNoRaw": "12",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ. სტამბულში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ. სტამბულში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    432.5,
+    452.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 13,
+   "rowNoRaw": "13",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ. ტრაპიზონში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ. ტრაპიზონში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    452.7,
+    473.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 14,
+   "rowNoRaw": "14",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ირლანდიაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ირლანდიაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    473.0,
+    493.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 15,
+   "rowNoRaw": "15",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო იტალიის რესპუბლიკაში და საქართველოს მუდმივი წარმომადგენლობა ქ. რომში განლაგებულ გაეროს საერთაშორისო ორგანიზაციებში (FAO,IFAD,WEP)"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო იტალიის რესპუბლიკაში და საქართველოს მუდმივი წარმომადგენლობა ქ. რომში",
+     "განლაგებულ გაეროს საერთაშორისო ორგანიზაციებში (FAO,IFAD,WEP)"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    493.2,
+    521.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 16,
+   "rowNoRaw": "16",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო კვიპროსის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო კვიპროსის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    521.7,
+    562.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 17,
+   "rowNoRaw": "17",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ლატვიის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ლატვიის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    562.2,
+    582.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 18,
+   "rowNoRaw": "18",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ლიეტუვას რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ლიეტუვას რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    582.5,
+    602.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 19,
+   "rowNoRaw": "19",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო მოლდოვას რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო მოლდოვას რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    602.7,
+    623.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 20,
+   "rowNoRaw": "20",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს წარმომადგენლობა ნატოსთან"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს წარმომადგენლობა ნატოსთან"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    623.0,
+    643.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 21,
+   "rowNoRaw": "21",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ნიდერლანდების სამეფოში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ნიდერლანდების სამეფოში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    643.2,
+    663.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 22,
+   "rowNoRaw": "22",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო ნორვეგიის სამეფოში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ნორვეგიის სამეფოში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    663.5,
+    683.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 23,
+   "rowNoRaw": "23",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო პოლონეთის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო პოლონეთის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    683.7,
+    704.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 24,
+   "rowNoRaw": "24",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო პორტუგალიის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო პორტუგალიის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    704.0,
+    724.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 25,
+   "rowNoRaw": "25",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო რუმინეთში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო რუმინეთში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    724.2,
+    744.5
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 26,
+   "rowNoRaw": "26",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო საბერძნეთის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო საბერძნეთის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    744.5,
+    764.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 27,
+   "rowNoRaw": "27",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო საფრანგეთის რესპუბლიკაში და საქართველოს მუდმივი წარმომადგენლობა იუნესკოში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო საფრანგეთის რესპუბლიკაში და საქართველოს მუდმივი წარმომადგენლობა იუნესკოში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    764.7,
+    785.0
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 28,
+   "rowNoRaw": "28",
+   "page": 19,
+   "cells": {
+    "label": "საქართველოს საელჩო სლოვაკეთის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო სლოვაკეთის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    785.0,
+    814.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 29,
+   "rowNoRaw": "29",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს საელჩო სლოვენიის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო სლოვენიის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    0.4,
+    20.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 30,
+   "rowNoRaw": "30",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს საელჩო უნგრეთში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო უნგრეთში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    20.7,
+    40.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 31,
+   "rowNoRaw": "31",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ. სალონიკში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ. სალონიკში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    40.9,
+    61.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 32,
+   "rowNoRaw": "32",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ.მაინის ფრანკფურტში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ.მაინის ფრანკფურტში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    61.2,
+    81.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 33,
+   "rowNoRaw": "33",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს საელჩო შვედეთის სამეფოში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო შვედეთის სამეფოში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    81.4,
+    100.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 34,
+   "rowNoRaw": "34",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს საელჩო შვეიცარიის კონფედერაციაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო შვეიცარიის კონფედერაციაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    100.7,
+    120.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 35,
+   "rowNoRaw": "35",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს მუდმივი წარმომადგენლობა ჟენევაში გაეროს განყოფილებებსა და სხვა საერთაშორისო ორგანიზაციებში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს მუდმივი წარმომადგენლობა ჟენევაში გაეროს განყოფილებებსა და სხვა საერთაშორისო ორგანიზაციებში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    120.9,
+    141.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 36,
+   "rowNoRaw": "36",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს საელჩო ჩეხეთის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ჩეხეთის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    141.2,
+    175.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 37,
+   "rowNoRaw": "37",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს საელჩო წმინდა საყდართან (ვატიკანში)"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო წმინდა საყდართან (ვატიკანში)"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    175.7,
+    195.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 38,
+   "rowNoRaw": "38",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს საელჩო ფინეთის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ფინეთის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    195.9,
+    217.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 39,
+   "rowNoRaw": "39.",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ. ბარიში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ. ბარიში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    217.7,
+    239.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 40,
+   "rowNoRaw": "40.",
+   "page": 20,
+   "cells": {
+    "label": "(ამოღებულია - 14.09.2021, №01-166)"
+   },
+   "cellLines": {
+    "label": [
+     "(ამოღებულია - 14.09.2021, №01-166)"
+    ]
+   },
+   "flags": [
+    "removed"
+   ],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    239.4,
+    261.2
+   ],
+   "bandSource": "grid",
+   "notes": "visual: Row removed: '(ამოღებულია - 14.09.2021, №01-166)'."
+  },
+  {
+   "rowNo": 41,
+   "rowNoRaw": "41.",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ. შტუტგარტში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ. შტუტგარტში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    261.2,
+    282.9
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 42,
+   "rowNoRaw": "42.",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს საელჩო ხორვატიის რესპუბლიკაში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს საელჩო ხორვატიის რესპუბლიკაში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    282.9,
+    304.7
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 43,
+   "rowNoRaw": "43.",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ. მილანში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ. მილანში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    304.7,
+    326.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 44,
+   "rowNoRaw": "44.",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ. ლიონში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ. ლიონში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    326.4,
+    348.2
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  },
+  {
+   "rowNo": 45,
+   "rowNoRaw": "45.",
+   "page": 20,
+   "cells": {
+    "label": "საქართველოს გენერალური საკონსულო ქ. კრაკოვში"
+   },
+   "cellLines": {
+    "label": [
+     "საქართველოს გენერალური საკონსულო ქ. კრაკოვში"
+    ]
+   },
+   "flags": [],
+   "layoutCrossCheck": "n/a",
+   "bandY": [
+    348.2,
+    379.4
+   ],
+   "bandSource": "grid",
+   "notes": ""
+  }
+ ]
+}
