@@ -1,0 +1,1241 @@
+{
+  "schemaVersion": 1,
+  "title": "Independent golden cases for the rotation calculator (phase 1)",
+  "preparedBy": "independent-verifier",
+  "preparedOn": "2026-10-29",
+  "sourceDocument": "sources/original/rotation_sources.pdf (34 pp., supplied edition; text cross-checked with sources/extracted/rotation_sources.layout.txt and visually against rendered pages 13-17, 23-29, 31, 33)",
+  "sourceEditionNote": "Values are from the SUPPLIED edition of order No 01-82 and its 10 annexes. Not checked against the full current consolidated text on matsne (not publicly accessible).",
+  "conventions": {
+    "money": "All money values are decimal strings. 'exact' is the unrounded rational value (a decimal, or 'a/b' when it does not terminate). 'display' is 'exact' rounded once, at the end, to 2 decimals.",
+    "roundingPolicy": "PROPOSED technical policy (not a legal rule): no rounding of intermediate values; display rounding ROUND_HALF_UP to 2 decimals. Case T-ROUND-01 pins the half-way behaviour.",
+    "percentages": "A_percent, E_percent are given in percent (65 means 65%). They are divided by 100 exactly once.",
+    "nullMeansUnknown": "null in inputs means 'unknown / not entered'; it is never the same as 0. 'undetermined' in expected means the calculator must show an explicit undetermined state, not a number.",
+    "status": {
+      "direct-rule": "Follows directly from the cited text or table cell.",
+      "interpretation": "Needs a reading of the text that the text does not state explicitly (e.g. G = T, per-child limit). Must be confirmed by the legal analyst / ministry.",
+      "technical-policy": "Implementation policy (day proration, rounding, date counting); not a legal norm."
+    },
+    "dayCounting": "Calendar dates, both ends inclusive, no time zone / DST (date-only arithmetic). A change takes effect FROM its change date (Annex 1 art. 4 para 5), so the change day belongs to the new segment.",
+    "proration": "PROPOSED technical policy: segmentAmount = fullMonthRate(segment inputs) x segmentDays / calendarDaysOfThatMonth; month total = exact sum of segments, rounded once."
+  },
+  "cases": [
+    {
+      "id": "T-RENT-01",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.a): G = 0 => F = 0", "Annex 1 art. 3 (a): S = D - T + F"],
+      "description": "No rent at all (true zero).",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "0", "isHead": false},
+      "expected": {"T": {"exact": "200", "display": "200.00"}, "F": {"exact": "0", "display": "0.00"}, "S": {"exact": "800", "display": "800.00"}},
+      "derivation": "T = 1000 x 20/100 = 200; G = 0 -> F = 0; S = 1000 - 200 + 0 = 800",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-02",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.b): G < T => F = T"],
+      "description": "0 < G < T: subsidy is the full rent share T, not G.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "100", "isHead": false},
+      "expected": {"T": {"exact": "200", "display": "200.00"}, "F": {"exact": "200", "display": "200.00"}, "S": {"exact": "1000", "display": "1000.00"}, "uncoveredHousing": {"exact": "0", "display": "0.00"}, "subsidyAboveRent": {"exact": "100", "display": "100.00"}},
+      "derivation": "0 < 100 < 200 -> F = T = 200; S = 1000 - 200 + 200 = 1000; uncovered = max(G - F, 0) = 0; F - G = 100 shown separately",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-03",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.b)/(d.g) - G = T is not stated in the text"],
+      "description": "G exactly equal to T. Text covers G = 0, G < T and G > T only; F = T is the continuous interpretation (both neighbouring formulas give T at G = T).",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "200", "isHead": false},
+      "expected": {"T": {"exact": "200", "display": "200.00"}, "F": {"exact": "200", "display": "200.00"}, "S": {"exact": "1000", "display": "1000.00"}},
+      "derivation": "G = T: limit of both branches is T (T + 0.5 x 0 = T) -> F = 200; S = 1000",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-RENT-03H",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.b)/(d.g.a) - G = T is not stated in the text"],
+      "description": "G = T for a head of mission (same continuous interpretation).",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "200", "isHead": true},
+      "expected": {"F": {"exact": "200", "display": "200.00"}, "S": {"exact": "1000", "display": "1000.00"}},
+      "derivation": "T + 0.8 x 0 = T = 200",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-RENT-04",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.b): other staff F = T + 50% (G - T), extra <= T"],
+      "description": "Other staff, rent above T, below cap.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "400", "isHead": false},
+      "expected": {"F": {"exact": "300", "display": "300.00"}, "S": {"exact": "1100", "display": "1100.00"}, "uncoveredHousing": {"exact": "100", "display": "100.00"}},
+      "derivation": "extra = min(0.5 x (400 - 200), 200) = 100; F = 300; S = 1000 - 200 + 300 = 1100",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-05",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.b)"],
+      "description": "Other staff, rent far above cap: extra capped at T, so F max = 2T.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "1000", "isHead": false},
+      "expected": {"F": {"exact": "400", "display": "400.00"}, "S": {"exact": "1200", "display": "1200.00"}, "uncoveredHousing": {"exact": "600", "display": "600.00"}},
+      "derivation": "0.5 x 800 = 400 > T -> extra = 200; F = 400; S = 1200",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-06",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.a): head F = T + 80% (G - T), extra <= 2T"],
+      "description": "Head of mission, rent above T, below cap.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "400", "isHead": true},
+      "expected": {"F": {"exact": "360", "display": "360.00"}, "S": {"exact": "1160", "display": "1160.00"}},
+      "derivation": "extra = min(0.8 x 200, 400) = 160; F = 360; S = 1160",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-07",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.a)"],
+      "description": "Head of mission, rent far above cap: 200% cap applies to the EXTRA part, so F max = 3T (not 2T).",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "1000", "isHead": true},
+      "expected": {"F": {"exact": "600", "display": "600.00"}, "S": {"exact": "1400", "display": "1400.00"}},
+      "derivation": "0.8 x 800 = 640 > 2T = 400 -> extra = 400; F = 600; S = 1400",
+      "status": "direct-rule",
+      "mustNotEqual": {"F": "400", "reason": "wrongly capping total F at 2T"}
+    },
+    {
+      "id": "T-RENT-08",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.b)"],
+      "description": "Boundary: tiny positive rent G = 0.01 still gets F = T.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "0.01", "isHead": false},
+      "expected": {"F": {"exact": "200", "display": "200.00"}, "S": {"exact": "1000", "display": "1000.00"}},
+      "derivation": "0 < 0.01 < 200 -> F = T",
+      "status": "direct-rule",
+      "mustNotEqual": {"F": "0.01", "reason": "'simplifying' F = G"}
+    },
+    {
+      "id": "T-RENT-09",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.b)"],
+      "description": "Boundary: G = T - 0.01.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "199.99", "isHead": false},
+      "expected": {"F": {"exact": "200", "display": "200.00"}, "S": {"exact": "1000", "display": "1000.00"}},
+      "derivation": "199.99 < 200 -> F = 200",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-10",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.b)"],
+      "description": "Boundary: G = T + 0.01, other staff.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "200.01", "isHead": false},
+      "expected": {"F": {"exact": "200.005", "display": "200.01"}, "S": {"exact": "1000.005", "display": "1000.01"}},
+      "derivation": "extra = 0.5 x 0.01 = 0.005; F = 200.005 (display half-up 200.01; half-even would give 200.00 - see T-ROUND-01)",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-11",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.a)"],
+      "description": "Boundary: G = T + 0.01, head.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "200.01", "isHead": true},
+      "expected": {"F": {"exact": "200.008", "display": "200.01"}, "S": {"exact": "1000.008", "display": "1000.01"}},
+      "derivation": "extra = 0.8 x 0.01 = 0.008",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-12",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.b)"],
+      "description": "Other staff: cap is reached exactly at G = 3T.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "600", "isHead": false},
+      "expected": {"F": {"exact": "400", "display": "400.00"}, "S": {"exact": "1200", "display": "1200.00"}},
+      "derivation": "0.5 x (600 - 200) = 200 = T (cap just reached); F = 400",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-13",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.b)"],
+      "description": "Other staff: just below the cap (3T - 0.01).",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "599.99", "isHead": false},
+      "expected": {"F": {"exact": "399.995", "display": "400.00"}, "S": {"exact": "1199.995", "display": "1200.00"}},
+      "derivation": "0.5 x 399.99 = 199.995 < 200; F = 399.995",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-14",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.b)"],
+      "description": "Other staff: above the cap (3T + 0.01) stays at 2T.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "600.01", "isHead": false},
+      "expected": {"F": {"exact": "400", "display": "400.00"}, "S": {"exact": "1200", "display": "1200.00"}},
+      "derivation": "0.5 x 400.01 = 200.005 > 200 -> extra = 200",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-15",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.a)"],
+      "description": "Head: cap is reached exactly at G = 3.5T.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "700", "isHead": true},
+      "expected": {"F": {"exact": "600", "display": "600.00"}, "S": {"exact": "1400", "display": "1400.00"}},
+      "derivation": "0.8 x (700 - 200) = 400 = 2T; F = 600",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-16",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.a)"],
+      "description": "Head: just below the cap (3.5T - 0.01).",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "699.99", "isHead": true},
+      "expected": {"F": {"exact": "599.992", "display": "599.99"}, "S": {"exact": "1399.992", "display": "1399.99"}},
+      "derivation": "0.8 x 499.99 = 399.992 < 400",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-RENT-17",
+      "kind": "rent",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.a)"],
+      "description": "Head: above the cap (3.5T + 0.01) stays at 3T.",
+      "inputs": {"D": "1000", "E_percent": "20", "G": "700.01", "isHead": true},
+      "expected": {"F": {"exact": "600", "display": "600.00"}, "S": {"exact": "1400", "display": "1400.00"}},
+      "derivation": "0.8 x 500.01 = 400.008 > 400 -> extra = 400",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-MON-VIE-01",
+      "kind": "monthly",
+      "ruleRefs": ["Order pt 3: H_EUR = 3100", "Annex 1 art. 3 (b): D = (H x A x K) x (100 + C x 7)%", "Annex 1 art. 3 (c): T = D x E", "Annex 1 art. 3 (d.g.b)", "Annex 4 row 2 (Austria K 2.06, E 21) p.15", "Annex 2 row 5 (counsellor 65%) p.13"],
+      "description": "Vienna full-month control scenario: non-head, two eligible family members, G = 1500 EUR.",
+      "inputs": {"H": "3100", "currency": "EUR", "A_percent": "65", "K": "2.06", "E_percent": "21", "C": 2, "isHead": false, "G": "1500"},
+      "expected": {
+        "D": {"exact": "4732.026", "display": "4732.03"},
+        "T": {"exact": "993.72546", "display": "993.73"},
+        "F": {"exact": "1246.86273", "display": "1246.86"},
+        "S": {"exact": "4985.16327", "display": "4985.16"},
+        "uncoveredHousing": {"exact": "253.13727", "display": "253.14"}
+      },
+      "derivation": "D = 3100 x 0.65 x 2.06 x 1.14 = 2015 x 2.06 x 1.14 = 4150.9 x 1.14 = 4732.026; T = 4732.026 x 0.21 = 993.72546; G - T = 506.27454; 0.5 x = 253.13727 <= T; F = 1246.86273; S = 4732.026 - 993.72546 + 1246.86273 = 4985.16327",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-MON-VIE-02",
+      "kind": "monthly-with-education",
+      "ruleRefs": ["T-MON-VIE-01", "Order pt 32(a) L_EUR = 690", "Order pt 33: + 80% of excess"],
+      "description": "Vienna scenario + one eligible child education P = 1000 EUR; amount left after rent and the entered education expense (S + eduReimb - G - P).",
+      "inputs": {"H": "3100", "currency": "EUR", "A_percent": "65", "K": "2.06", "E_percent": "21", "C": 2, "isHead": false, "G": "1500", "educationExpenses": ["1000"]},
+      "expected": {
+        "S": {"exact": "4985.16327", "display": "4985.16"},
+        "educationReimbursement": {"exact": "938", "display": "938.00"},
+        "remainderAfterRentAndEducation": {"exact": "3423.16327", "display": "3423.16"}
+      },
+      "derivation": "edu = min(1000, 690) + 0.8 x 310 = 690 + 248 = 938; remainder = 4985.16327 + 938 - 1500 - 1000 = 3423.16327",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-MON-VIE-03",
+      "kind": "monthly",
+      "ruleRefs": ["Annex 1 art. 3", "task sec. 4: empty rent = unknown"],
+      "description": "Vienna inputs with rent not yet known (null): D and T are computable, F and S are undetermined; partial D - T may be shown as such.",
+      "inputs": {"H": "3100", "currency": "EUR", "A_percent": "65", "K": "2.06", "E_percent": "21", "C": 2, "isHead": false, "G": null},
+      "expected": {
+        "D": {"exact": "4732.026", "display": "4732.03"},
+        "T": {"exact": "993.72546", "display": "993.73"},
+        "F": "undetermined",
+        "S": "undetermined",
+        "DminusT": {"exact": "3738.30054", "display": "3738.30"}
+      },
+      "derivation": "G unknown -> F cannot be selected (0 vs T vs T+extra); only D and T are final",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-MON-KYV-01",
+      "kind": "monthly",
+      "ruleRefs": ["Order pt 3: H_USD = 3495", "Annex 4 row 51 (Ukraine K 1.890, E 28) p.16", "Annex 6 row 26 (Kyiv, USD) p.22", "Annex 2 row 6 (first secretary 60%)"],
+      "description": "USD scenario: Kyiv embassy, first secretary, one family member, G = 2500 USD.",
+      "inputs": {"H": "3495", "currency": "USD", "A_percent": "60", "K": "1.890", "E_percent": "28", "C": 1, "isHead": false, "G": "2500"},
+      "expected": {
+        "D": {"exact": "4240.7631", "display": "4240.76"},
+        "T": {"exact": "1187.413668", "display": "1187.41"},
+        "F": {"exact": "1843.706834", "display": "1843.71"},
+        "S": {"exact": "4897.056266", "display": "4897.06"}
+      },
+      "derivation": "D = 3495 x 0.6 x 1.89 x 1.07 = 2097 x 1.89 = 3963.33 x 1.07 = 4240.7631; T = x 0.28 = 1187.413668; extra = 0.5 x 1312.586332 = 656.293166 <= T; F = 1843.706834; S = 4897.056266",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-MON-WAS-01",
+      "kind": "monthly",
+      "ruleRefs": ["Annex 4 row 5 (USA Washington K 2.185, E 28) p.15", "Annex 2 row 1 (ambassador 100%)", "Annex 1 art. 3 (d.g.a)"],
+      "description": "Head of mission (ambassador) in Washington, C = 3, G = 9000 USD, below head cap.",
+      "inputs": {"H": "3495", "currency": "USD", "A_percent": "100", "K": "2.185", "E_percent": "28", "C": 3, "isHead": true, "G": "9000"},
+      "expected": {
+        "D": {"exact": "9240.25575", "display": "9240.26"},
+        "T": {"exact": "2587.27161", "display": "2587.27"},
+        "F": {"exact": "7717.454322", "display": "7717.45"},
+        "S": {"exact": "14370.438462", "display": "14370.44"}
+      },
+      "derivation": "D = 3495 x 2.185 x 1.21 = 7636.575 x 1.21 = 9240.25575; T = 2587.27161; extra = 0.8 x 6412.72839 = 5130.182712 <= 2T = 5174.54322; F = 7717.454322; S = 14370.438462",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-MON-WAS-02",
+      "kind": "monthly",
+      "ruleRefs": ["Annex 1 art. 3 (d.g.a)"],
+      "description": "Same as T-MON-WAS-01 with G = 10000 USD: head cap reached, F = 3T.",
+      "inputs": {"H": "3495", "currency": "USD", "A_percent": "100", "K": "2.185", "E_percent": "28", "C": 3, "isHead": true, "G": "10000"},
+      "expected": {
+        "F": {"exact": "7761.81483", "display": "7761.81"},
+        "S": {"exact": "14414.79897", "display": "14414.80"}
+      },
+      "derivation": "0.8 x 7412.72839 = 5930.182712 > 5174.54322 -> F = 3T = 7761.81483; S = D + 2T = 14414.79897",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-POS-01",
+      "kind": "monthly",
+      "ruleRefs": ["Annex 2 row 6: second secretary 60% (p.13)", "Order pt 1(b)"],
+      "description": "Position mode Annex 2 (posted on rotation): second secretary 60%. Vienna, C = 0, G = 0.",
+      "inputs": {"H": "3100", "currency": "EUR", "A_percent": "60", "K": "2.06", "E_percent": "21", "C": 0, "isHead": false, "G": "0", "positionMode": "annex2", "positionTitle": "მეორე მდივანი"},
+      "expected": {"D": {"exact": "3831.6", "display": "3831.60"}, "T": {"exact": "804.636", "display": "804.64"}, "F": {"exact": "0", "display": "0.00"}, "S": {"exact": "3026.964", "display": "3026.96"}},
+      "derivation": "D = 3100 x 0.60 x 2.06 = 3831.6; T = 804.636; F = 0; S = 3026.964",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-POS-02",
+      "kind": "monthly",
+      "ruleRefs": ["Annex 3 row 6: second secretary 55% (p.14)", "Order pts 37-39 (conditions for Annex 3 mode; pt 39: salary suspended)"],
+      "description": "Position mode Annex 3 (central-office staff on long-term mission): same title, 55%. Same city inputs as T-POS-01.",
+      "inputs": {"H": "3100", "currency": "EUR", "A_percent": "55", "K": "2.06", "E_percent": "21", "C": 0, "isHead": false, "G": "0", "positionMode": "annex3", "positionTitle": "მეორე მდივანი"},
+      "expected": {"D": {"exact": "3512.3", "display": "3512.30"}, "T": {"exact": "737.583", "display": "737.58"}, "S": {"exact": "2774.717", "display": "2774.72"}},
+      "derivation": "D = 3100 x 0.55 x 2.06 = 3512.3; T = 737.583; S = 2774.717",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-POS-03",
+      "kind": "position-table",
+      "ruleRefs": ["Annex 2 (p.13)", "Annex 3 (p.14)"],
+      "description": "Annex 2 and Annex 3 are separate tables; same title can map to different percentages.",
+      "inputs": {"titles": ["პირველი მდივანი", "მეორე მდივანი", "მესამე მდივანი", "ატაშე", "უსაფრთხოების ოფიცერი", "რეფერენტი", "მრჩეველი", "მძღოლი"]},
+      "expected": {
+        "annex2": {"პირველი მდივანი": "60", "მეორე მდივანი": "60", "მესამე მდივანი": "55", "ატაშე": "55", "უსაფრთხოების ოფიცერი": "55", "რეფერენტი": "50", "მრჩეველი": "65", "მძღოლი": "40"},
+        "annex3": {"პირველი მდივანი": "60", "მეორე მდივანი": "55", "მესამე მდივანი": "50", "ატაშე": "50", "უსაფრთხოების ოფიცერი": "50", "რეფერენტი": "50", "მრჩეველი": "65", "მძღოლი": "40"}
+      },
+      "derivation": "Annex 2 rows 4-9: 70/65/60/55/50/40; Annex 3 rows 1-8: 100/75/70/65/60/55/50/40",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-POS-04",
+      "kind": "monthly",
+      "ruleRefs": ["Annex 2 row 5: administrative manager 65% (p.13)"],
+      "description": "Administrative manager, ordinary case: 65%.",
+      "inputs": {"H": "3100", "currency": "EUR", "A_percent": "65", "K": "2.06", "E_percent": "21", "C": 0, "isHead": false, "G": "0"},
+      "expected": {"D": {"exact": "4150.9", "display": "4150.90"}, "T": {"exact": "871.689", "display": "871.69"}, "S": {"exact": "3279.211", "display": "3279.21"}},
+      "derivation": "D = 3100 x 0.65 x 2.06 = 4150.9; T = 871.689; S = 3279.211",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-POS-05",
+      "kind": "monthly",
+      "ruleRefs": ["Order pt 20^2 (amended by order 01-317 of 13.08.2026)", "Annex 2 row 3: administrative manager acting in OTHER missions 75% (p.13)"],
+      "description": "Administrative manager who, by minister's order, performs admin-manager duties in other missions: 75% during the period of duty.",
+      "inputs": {"H": "3100", "currency": "EUR", "A_percent": "75", "K": "2.06", "E_percent": "21", "C": 0, "isHead": false, "G": "0", "specialStatus": "pt20-2-admin-manager-other-missions"},
+      "expected": {"D": {"exact": "4789.5", "display": "4789.50"}, "T": {"exact": "1005.795", "display": "1005.80"}, "S": {"exact": "3783.705", "display": "3783.71"}},
+      "derivation": "D = 3100 x 0.75 x 2.06 = 4789.5; T = 1005.795; S = 3783.705",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-POS-06",
+      "kind": "monthly",
+      "ruleRefs": ["Order pt 20 (temporary functions do not trigger recalculation)", "Annex 2 row 3 (envoy 75%)"],
+      "description": "Envoy (Annex 2 row 3) temporarily acting as head WITHOUT a pt 20^1 minister decision: rate and rent status unchanged (A = 75, non-head). Vienna, C = 0, G = 3000.",
+      "inputs": {"H": "3100", "currency": "EUR", "A_percent": "75", "K": "2.06", "E_percent": "21", "C": 0, "isHead": false, "G": "3000"},
+      "expected": {"D": {"exact": "4789.5", "display": "4789.50"}, "T": {"exact": "1005.795", "display": "1005.80"}, "F": {"exact": "2002.8975", "display": "2002.90"}, "S": {"exact": "5786.6025", "display": "5786.60"}},
+      "derivation": "extra = 0.5 x (3000 - 1005.795) = 997.1025 <= T; F = 2002.8975; S = 4789.5 - 1005.795 + 2002.8975 = 5786.6025",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-POS-07",
+      "kind": "monthly",
+      "ruleRefs": ["Order pt 20^1 (minister decision: head-of-mission indicators for an envoy acting as head)"],
+      "description": "Same person WITH a pt 20^1 decision: head indicators (A = 100, head rent rule). Only valid when the decision/act is recorded; otherwise T-POS-06 applies.",
+      "inputs": {"H": "3100", "currency": "EUR", "A_percent": "100", "K": "2.06", "E_percent": "21", "C": 0, "isHead": true, "G": "3000", "specialStatus": "pt20-1-decision"},
+      "expected": {"D": {"exact": "6386", "display": "6386.00"}, "T": {"exact": "1341.06", "display": "1341.06"}, "F": {"exact": "2668.212", "display": "2668.21"}, "S": {"exact": "7713.152", "display": "7713.15"}},
+      "derivation": "D = 3100 x 2.06 = 6386; T = 1341.06; extra = 0.8 x 1658.94 = 1327.152 <= 2T; F = 2668.212; S = 7713.152",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-FAM-01",
+      "kind": "monthly-pair",
+      "ruleRefs": ["Annex 1 art. 4 para 1 (two family members in the SAME mission: only the higher Annex 2 category gets the family allowance; one of them rents)", "Annex 1 art. 4 para 3(a) (no allowance on a family member who is an employee in the same city)"],
+      "description": "Spouses both posted to Vienna (A 65 and 60), two children. Higher category gets C = 2 (children only, not the employee-spouse); the other gets C = 0 and, not being the renter, G = 0.",
+      "inputs": {
+        "higher": {"H": "3100", "A_percent": "65", "K": "2.06", "E_percent": "21", "C": 2, "isHead": false, "G": "1500"},
+        "lower": {"H": "3100", "A_percent": "60", "K": "2.06", "E_percent": "21", "C": 0, "isHead": false, "G": "0"}
+      },
+      "expected": {
+        "higher": {"D": {"exact": "4732.026", "display": "4732.03"}, "S": {"exact": "4985.16327", "display": "4985.16"}},
+        "lower": {"D": {"exact": "3831.6", "display": "3831.60"}, "S": {"exact": "3026.964", "display": "3026.96"}}
+      },
+      "derivation": "higher = T-MON-VIE-01; lower = T-POS-01",
+      "status": "interpretation",
+      "note": "That the employee-spouse is excluded from the higher one's C combines para 1 and para 3(a); confirm with legal analyst."
+    },
+    {
+      "id": "T-EDU-01",
+      "kind": "education",
+      "ruleRefs": ["Order pt 32(a): <= 690 EUR/month", "Order pt 33: + 80% of (expense - limit)"],
+      "description": "P = 1000 EUR.",
+      "inputs": {"P": "1000", "currency": "EUR", "eligible": true},
+      "expected": {"reimbursement": {"exact": "938", "display": "938.00"}, "personalCost": {"exact": "62", "display": "62.00"}},
+      "derivation": "690 + 0.8 x 310 = 938; own = 62",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-EDU-02",
+      "kind": "education",
+      "ruleRefs": ["Order pt 32(b): <= 750 USD/month", "Order pt 33"],
+      "description": "P = 1000 USD.",
+      "inputs": {"P": "1000", "currency": "USD", "eligible": true},
+      "expected": {"reimbursement": {"exact": "950", "display": "950.00"}, "personalCost": {"exact": "50", "display": "50.00"}},
+      "derivation": "750 + 0.8 x 250 = 950",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-EDU-03",
+      "kind": "education",
+      "ruleRefs": ["Order pt 32"],
+      "description": "P = 0 (true zero).",
+      "inputs": {"P": "0", "currency": "EUR", "eligible": true},
+      "expected": {"reimbursement": {"exact": "0", "display": "0.00"}, "personalCost": {"exact": "0", "display": "0.00"}},
+      "derivation": "min(0, 690) + 0.8 x 0 = 0",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-EDU-04",
+      "kind": "education",
+      "ruleRefs": ["Order pt 32(a)"],
+      "description": "P exactly equal to L (EUR).",
+      "inputs": {"P": "690", "currency": "EUR", "eligible": true},
+      "expected": {"reimbursement": {"exact": "690", "display": "690.00"}, "personalCost": {"exact": "0", "display": "0.00"}},
+      "derivation": "min(690, 690) + 0 = 690",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-EDU-05",
+      "kind": "education",
+      "ruleRefs": ["Order pt 32(b)"],
+      "description": "P exactly equal to L (USD).",
+      "inputs": {"P": "750", "currency": "USD", "eligible": true},
+      "expected": {"reimbursement": {"exact": "750", "display": "750.00"}, "personalCost": {"exact": "0", "display": "0.00"}},
+      "derivation": "750",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-EDU-06",
+      "kind": "education",
+      "ruleRefs": ["Order pt 33"],
+      "description": "P = L + 0.01 EUR.",
+      "inputs": {"P": "690.01", "currency": "EUR", "eligible": true},
+      "expected": {"reimbursement": {"exact": "690.008", "display": "690.01"}, "personalCost": {"exact": "0.002", "display": "0.00"}},
+      "derivation": "690 + 0.8 x 0.01 = 690.008",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-EDU-07",
+      "kind": "education-multi",
+      "ruleRefs": ["Order pts 31-33 (text speaks of 'minor family members' education expenses' and a monthly limit 'per month'; it does NOT say 'per child' explicitly)"],
+      "description": "Two eligible children, EUR: 1000 and 500. Expected = limit applied separately to each child (interpretation). Pooled alternative recorded so the difference is visible.",
+      "inputs": {"currency": "EUR", "children": [{"P": "1000", "eligible": true}, {"P": "500", "eligible": true}]},
+      "expected": {"perChild": [{"exact": "938", "display": "938.00"}, {"exact": "500", "display": "500.00"}], "total": {"exact": "1438", "display": "1438.00"}, "personalCost": {"exact": "62", "display": "62.00"}},
+      "alternativeIfPooled": {"total": "1338", "derivation": "690 + 0.8 x (1500 - 690) = 690 + 648 = 1338"},
+      "derivation": "child1 938; child2 min(500, 690) = 500; total 1438",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-EDU-08",
+      "kind": "education-multi",
+      "ruleRefs": ["Order pts 32-33 (per-child interpretation)"],
+      "description": "Two eligible children, USD: 1000 and 1000.",
+      "inputs": {"currency": "USD", "children": [{"P": "1000", "eligible": true}, {"P": "1000", "eligible": true}]},
+      "expected": {"perChild": [{"exact": "950", "display": "950.00"}, {"exact": "950", "display": "950.00"}], "total": {"exact": "1900", "display": "1900.00"}, "personalCost": {"exact": "100", "display": "100.00"}},
+      "alternativeIfPooled": {"total": "1750", "derivation": "750 + 0.8 x 1250 = 1750"},
+      "derivation": "950 + 950",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-EDU-09",
+      "kind": "education",
+      "ruleRefs": ["Order pt 35: expenses under an ADDITIONAL contract for the winter/summer holiday period are not reimbursed"],
+      "description": "Holiday-period extra contract, 800 EUR.",
+      "inputs": {"P": "800", "currency": "EUR", "eligible": false, "ineligibleReason": "holiday-extra-contract-pt35"},
+      "expected": {"reimbursement": {"exact": "0", "display": "0.00"}, "personalCost": {"exact": "800", "display": "800.00"}},
+      "derivation": "pt 35 -> 0",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-EDU-10",
+      "kind": "education",
+      "ruleRefs": ["Order pt 31: only tuition, registration, transport home<->school, school meals"],
+      "description": "Non-covered item (e.g. textbooks/uniform), 300 EUR.",
+      "inputs": {"P": "300", "currency": "EUR", "eligible": false, "ineligibleReason": "category-not-in-pt31"},
+      "expected": {"reimbursement": {"exact": "0", "display": "0.00"}, "personalCost": {"exact": "300", "display": "300.00"}},
+      "derivation": "pt 31 closed list -> 0",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-EDU-11",
+      "kind": "education",
+      "ruleRefs": ["Order pt 36: free school in the state (Georgian) language exists in the city -> paid school in the same language not reimbursed, unless minister decides otherwise"],
+      "description": "Paid Georgian-language school while a free one exists in the mission city; no minister decision.",
+      "inputs": {"P": "500", "currency": "EUR", "eligible": false, "ineligibleReason": "free-state-language-school-pt36"},
+      "expected": {"reimbursement": {"exact": "0", "display": "0.00"}, "personalCost": {"exact": "500", "display": "500.00"}},
+      "derivation": "pt 36 -> 0",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-EDU-12",
+      "kind": "education-eligibility",
+      "ruleRefs": ["Order final note: adult child/stepchild counts as minor until completing general school, with host-state consent, for at most 1 year after reaching majority"],
+      "description": "Adult child eligibility windows.",
+      "inputs": {"cases": [
+        {"label": "age 18, still in general school, host consent, 5 months after majority", "inSchool": true, "hostConsent": true, "monthsSinceMajority": 5},
+        {"label": "13 months after majority, still in school", "inSchool": true, "hostConsent": true, "monthsSinceMajority": 13},
+        {"label": "adult, school completed", "inSchool": false, "hostConsent": true, "monthsSinceMajority": 3},
+        {"label": "adult, no host-state consent", "inSchool": true, "hostConsent": false, "monthsSinceMajority": 3}
+      ]},
+      "expected": {"eligible": [true, false, false, false]},
+      "derivation": "all three conditions required; > 12 months -> not eligible",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-BRK-01",
+      "kind": "broker",
+      "ruleRefs": ["Order pt 8: 50% of fee for non-heads, capped at one month's rent, once, within 6 months of posting"],
+      "description": "Fee 300, rent 1500, non-head.",
+      "inputs": {"fee": "300", "rent": "1500", "isHead": false, "postingDate": "2027-01-15", "serviceDate": "2027-02-01", "alreadyReimbursed": false},
+      "expected": {"eligible": true, "reimbursement": {"exact": "150", "display": "150.00"}},
+      "derivation": "min(300 x 0.5, 1500) = 150",
+      "status": "direct-rule",
+      "legacyValue": {"reimbursement": "750", "reason": "legacy computes rent x 50% ignoring the actual fee"}
+    },
+    {
+      "id": "T-BRK-02",
+      "kind": "broker",
+      "ruleRefs": ["Order pt 8: 80% for heads of missions/consular posts"],
+      "description": "Fee 300, rent 1500, head.",
+      "inputs": {"fee": "300", "rent": "1500", "isHead": true, "postingDate": "2027-01-15", "serviceDate": "2027-02-01", "alreadyReimbursed": false},
+      "expected": {"eligible": true, "reimbursement": {"exact": "240", "display": "240.00"}},
+      "derivation": "min(300 x 0.8, 1500) = 240",
+      "status": "direct-rule",
+      "legacyValue": {"reimbursement": "1200"}
+    },
+    {
+      "id": "T-BRK-03",
+      "kind": "broker",
+      "ruleRefs": ["Order pt 8: not more than one month's rent"],
+      "description": "Fee 4000, rent 1500, non-head: capped at one month's rent.",
+      "inputs": {"fee": "4000", "rent": "1500", "isHead": false, "postingDate": "2027-01-15", "serviceDate": "2027-02-01", "alreadyReimbursed": false},
+      "expected": {"eligible": true, "reimbursement": {"exact": "1500", "display": "1500.00"}},
+      "derivation": "min(2000, 1500) = 1500",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-BRK-04",
+      "kind": "broker",
+      "ruleRefs": ["Order pt 8"],
+      "description": "Fee 4000, rent 1500, head: capped at one month's rent.",
+      "inputs": {"fee": "4000", "rent": "1500", "isHead": true, "postingDate": "2027-01-15", "serviceDate": "2027-02-01", "alreadyReimbursed": false},
+      "expected": {"eligible": true, "reimbursement": {"exact": "1500", "display": "1500.00"}},
+      "derivation": "min(3200, 1500) = 1500",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-BRK-05",
+      "kind": "broker",
+      "ruleRefs": ["Order pt 8: within 6 months of posting"],
+      "description": "Service clearly beyond 6 months after posting (posting 2027-01-15, service 2027-08-01): not eligible under pt 8 (pt 8^1 special minister decision is a separate, manual mode).",
+      "inputs": {"fee": "300", "rent": "1500", "isHead": false, "postingDate": "2027-01-15", "serviceDate": "2027-08-01", "alreadyReimbursed": false},
+      "expected": {"eligible": false, "reimbursement": {"exact": "0", "display": "0.00"}},
+      "derivation": "service date > posting + 6 months -> 0",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-BRK-06",
+      "kind": "broker",
+      "ruleRefs": ["Order pt 8: 'once' (ერთჯერადად)"],
+      "description": "Second broker claim after one was already reimbursed: not eligible.",
+      "inputs": {"fee": "300", "rent": "1500", "isHead": false, "postingDate": "2027-01-15", "serviceDate": "2027-03-01", "alreadyReimbursed": true},
+      "expected": {"eligible": false, "reimbursement": {"exact": "0", "display": "0.00"}},
+      "derivation": "already reimbursed once -> 0",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-BRK-07",
+      "kind": "broker",
+      "ruleRefs": ["Order pt 8: '6 თვის განმავლობაში' - the exact end day of the window is not defined"],
+      "description": "Service on the day before the 6-month anniversary (2027-07-14) is inside the window; the anniversary day itself (2027-07-15) is an OPEN QUESTION - calculator should show it as needing confirmation.",
+      "inputs": {"fee": "300", "rent": "1500", "isHead": false, "postingDate": "2027-01-15", "serviceDates": ["2027-07-14", "2027-07-15"], "alreadyReimbursed": false},
+      "expected": {"eligible": [true, "undetermined"]},
+      "derivation": "2027-07-14 < 2027-07-15 (posting + 6 calendar months); boundary day not defined in pt 8",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-BAG-01",
+      "kind": "baggage",
+      "ruleRefs": ["Order pt 4(b): actual documented cost within the Annex 9/10 limit"],
+      "description": "Cost 600, cap 1650.",
+      "inputs": {"cap": "1650", "previouslyUsed": "0", "claims": ["600"]},
+      "expected": {"reimbursements": ["600"], "remaining": "1050"},
+      "derivation": "min(600, 1650) = 600",
+      "status": "direct-rule",
+      "legacyValue": {"reimbursement": "1650", "reason": "legacy always pays the full limit"}
+    },
+    {
+      "id": "T-BAG-02",
+      "kind": "baggage",
+      "ruleRefs": ["Order pt 4(b)"],
+      "description": "Cost 2000, cap 1650.",
+      "inputs": {"cap": "1650", "previouslyUsed": "0", "claims": ["2000"]},
+      "expected": {"reimbursements": ["1650"], "remaining": "0", "personalCost": "350"},
+      "derivation": "min(2000, 1650) = 1650",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-BAG-03",
+      "kind": "baggage",
+      "ruleRefs": ["Order pt 4(b): separate claims for employee and family members, in total not more than the Annex 9/10 norm"],
+      "description": "1200 of 1650 already used for the same move; new claim 600.",
+      "inputs": {"cap": "1650", "previouslyUsed": "1200", "claims": ["600"]},
+      "expected": {"reimbursements": ["450"], "remaining": "0", "personalCost": "150"},
+      "derivation": "remaining = 1650 - 1200 = 450; min(600, 450) = 450",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-BAG-04",
+      "kind": "baggage",
+      "ruleRefs": ["Order pt 4(b)"],
+      "description": "Separate family claims (employee 900, spouse 500, child 400) processed in order against a shared cap of 1650.",
+      "inputs": {"cap": "1650", "previouslyUsed": "0", "claims": ["900", "500", "400"]},
+      "expected": {"reimbursements": ["900", "500", "250"], "remaining": "0", "personalCost": "150"},
+      "derivation": "900 -> 750 left; 500 -> 250 left; min(400, 250) = 250; sum = 1650",
+      "status": "direct-rule",
+      "note": "Allocation order across members = order of claims (chronological) is a technical policy; the total cap is direct-rule."
+    },
+    {
+      "id": "T-BAG-05",
+      "kind": "baggage",
+      "ruleRefs": ["Order pt 4(b)", "Annex 9 row 43: Lyon 1950 EUR (p.31)"],
+      "description": "Lyon consulate cap 1950 EUR, cost 2000.",
+      "inputs": {"cap": "1950", "previouslyUsed": "0", "claims": ["2000"]},
+      "expected": {"reimbursements": ["1950"], "remaining": "0"},
+      "derivation": "min(2000, 1950) = 1950",
+      "status": "direct-rule",
+      "legacyValue": {"cap": "1650"}
+    },
+    {
+      "id": "T-BAG-06",
+      "kind": "baggage-event",
+      "ruleRefs": ["Order pt 5^1 (call-back by individual act: travel and baggage reimbursable)", "Order pt 5^2 (counted as the recall expense; not reimbursed again within this rotation)"],
+      "description": "Baggage already reimbursed on a pt 5^1 call-back; a later 'recall' baggage claim in the same rotation gets 0.",
+      "inputs": {"cap": "1650", "event": "recall", "callBackAlreadyReimbursed": true, "claims": ["800"]},
+      "expected": {"reimbursements": ["0"]},
+      "derivation": "pt 5^2 -> no second reimbursement",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-BAG-07",
+      "kind": "baggage",
+      "ruleRefs": ["Order pt 4 (reimbursed on departure AND on recall)"],
+      "description": "Departure and recall are separate events: a recall claim is not reduced by what was used on departure.",
+      "inputs": {"cap": "1650", "previouslyUsed": "0", "claims": ["1000"], "event": "recall", "usedOnDeparture": "1650"},
+      "expected": {"reimbursements": ["1000"], "remaining": "650"},
+      "derivation": "separate cap per event: min(1000, 1650) = 1000",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-SET-01",
+      "kind": "settlement",
+      "ruleRefs": ["Order pt 7: 60 x daily rate (Gov. decree 211 annex 1) + 10% of that amount per family member, except support recipients and persons under guardianship/curatorship"],
+      "description": "Synthetic confirmed daily rate 60, 2 countable family members.",
+      "inputs": {"dailyRate": "60", "dailyRateCurrency": "EUR", "dailyRateStatus": "synthetic-test-value", "members": [{"status": "spouse"}, {"status": "child"}]},
+      "expected": {"countableMembers": 2, "amount": {"exact": "4320", "display": "4320.00"}},
+      "derivation": "60 x 60 = 3600; x (1 + 0.1 x 2) = 4320",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-SET-02",
+      "kind": "settlement",
+      "ruleRefs": ["Order pt 7 (exclusion)"],
+      "description": "Same plus one support recipient and one person under guardianship: they do not add 10%.",
+      "inputs": {"dailyRate": "60", "dailyRateCurrency": "EUR", "dailyRateStatus": "synthetic-test-value", "members": [{"status": "spouse"}, {"status": "child"}, {"status": "support-recipient"}, {"status": "guardianship"}]},
+      "expected": {"countableMembers": 2, "amount": {"exact": "4320", "display": "4320.00"}},
+      "derivation": "excluded statuses not counted -> 4320",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-SET-03",
+      "kind": "settlement",
+      "ruleRefs": ["Order pt 7"],
+      "description": "No family members; and 3 countable members.",
+      "inputs": {"dailyRate": "60", "dailyRateCurrency": "EUR", "variants": [{"members": []}, {"members": [{"status": "spouse"}, {"status": "child"}, {"status": "child"}]}]},
+      "expected": {"amounts": ["3600", "4680"]},
+      "derivation": "3600 x 1.0; 3600 x 1.3",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-SET-04",
+      "kind": "settlement",
+      "ruleRefs": ["Order pt 9(a): not paid when transferred to another mission in the SAME city before end of rotation"],
+      "description": "Transfer within the same city: 0.",
+      "inputs": {"dailyRate": "60", "dailyRateCurrency": "EUR", "members": [{"status": "spouse"}], "exception": "pt9a-same-city-transfer"},
+      "expected": {"amount": {"exact": "0", "display": "0.00"}},
+      "derivation": "pt 9(a) -> 0",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-SET-05",
+      "kind": "settlement",
+      "ruleRefs": ["Order pt 10: transfer to a mission in ANOTHER city within the same rotation -> all posting expenses reimbursed"],
+      "description": "Transfer to another city: settlement paid again with the new daily rate.",
+      "inputs": {"dailyRate": "60", "dailyRateCurrency": "EUR", "members": [{"status": "spouse"}], "exception": "pt10-other-city-transfer"},
+      "expected": {"amount": {"exact": "3960", "display": "3960.00"}},
+      "derivation": "3600 x 1.1 = 3960",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-SET-06",
+      "kind": "settlement",
+      "ruleRefs": ["Order pt 7 (rate from decree 211 'in foreign currency')", "task sec. 5 (dailyRate has its own currency)"],
+      "description": "Daily rate in USD for a EUR-funded mission: result stays in USD and must not be added to EUR totals without a documented rate. Unconfirmed daily rate -> amount excluded from confirmed totals.",
+      "inputs": {"dailyRate": "60", "dailyRateCurrency": "USD", "missionCurrency": "EUR", "dailyRateStatus": "unconfirmed", "members": [{"status": "spouse"}, {"status": "child"}]},
+      "expected": {"amount": {"exact": "4320", "display": "4320.00"}, "currency": "USD", "includedInConfirmedEURTotal": false},
+      "derivation": "4320 USD; no conversion without rate/date/source",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-PRO-01",
+      "kind": "prorate",
+      "ruleRefs": ["Annex 1 art. 3(a) (S 'taking into account the number of calendar days of the month')", "proration formula = technical policy"],
+      "description": "Full rate 1000, 15 days of a 31-day month (e.g. 2027-03).",
+      "inputs": {"fullRate": "1000", "days": 15, "monthDays": 31},
+      "expected": {"amount": {"exact": "15000/31", "display": "483.87"}},
+      "derivation": "1000 x 15 / 31 = 483.870967...",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-PRO-02",
+      "kind": "prorate",
+      "ruleRefs": ["technical policy"],
+      "description": "Full rate 1000, 15 days of February 2028 (leap year, 29 days).",
+      "inputs": {"fullRate": "1000", "days": 15, "month": "2028-02", "monthDays": 29},
+      "expected": {"amount": {"exact": "15000/29", "display": "517.24"}},
+      "derivation": "1000 x 15 / 29 = 517.241379...",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-PRO-03",
+      "kind": "prorate",
+      "ruleRefs": ["technical policy"],
+      "description": "Full rate 1000, 15 days of a 30-day month (2027-04).",
+      "inputs": {"fullRate": "1000", "days": 15, "month": "2027-04", "monthDays": 30},
+      "expected": {"amount": {"exact": "500", "display": "500.00"}},
+      "derivation": "1000 x 15 / 30 = 500",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-PRO-04",
+      "kind": "prorate",
+      "ruleRefs": ["technical policy"],
+      "description": "Full rate 1000, 15 days of February 2027 (28 days).",
+      "inputs": {"fullRate": "1000", "days": 15, "month": "2027-02", "monthDays": 28},
+      "expected": {"amount": {"exact": "3750/7", "display": "535.71"}},
+      "derivation": "1000 x 15 / 28 = 535.714285...",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-PRO-05",
+      "kind": "prorate",
+      "ruleRefs": ["technical policy"],
+      "description": "Arrival on 2027-01-20 (Vienna scenario S): 12 days of a 31-day month.",
+      "inputs": {"fullRate": "4985.16327", "days": 12, "from": "2027-01-20", "to": "2027-01-31", "monthDays": 31},
+      "expected": {"amount": {"exact": "59821.95924/31", "display": "1929.74"}},
+      "derivation": "4985.16327 x 12 / 31 = 1929.7406...",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-DAY-01",
+      "kind": "daycount",
+      "ruleRefs": ["technical policy: calendar dates, inclusive, no DST effect"],
+      "description": "Day counts across DST changes and month lengths.",
+      "inputs": {"ranges": [["2027-03-01", "2027-03-31"], ["2027-03-28", "2027-03-31"], ["2027-10-30", "2027-11-01"], ["2028-02-01", "2028-02-29"], ["2027-02-01", "2027-02-28"], ["2027-12-31", "2028-01-01"]]},
+      "expected": {"days": [31, 4, 3, 29, 28, 2]},
+      "derivation": "inclusive count = (to - from) + 1; DST (28.03.2027, 31.10.2027 in EU) has no effect on date arithmetic",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-SEG-01",
+      "kind": "segments",
+      "ruleRefs": ["Annex 1 art. 4 para 5: recalculation FROM the date of the rent change", "proration = technical policy"],
+      "description": "Vienna inputs, March 2027 (31 d). G = 1500 for 1-15, G = 2000 from the 16th. Each segment uses its own full-month rate.",
+      "inputs": {"month": "2027-03", "monthDays": 31, "base": {"H": "3100", "A_percent": "65", "K": "2.06", "E_percent": "21", "C": 2, "isHead": false},
+        "segments": [{"from": "2027-03-01", "to": "2027-03-15", "days": 15, "G": "1500"}, {"from": "2027-03-16", "to": "2027-03-31", "days": 16, "G": "2000"}]},
+      "expected": {
+        "segmentFullMonthS": ["4985.16327", "5235.16327"],
+        "totalS": {"exact": "158540.06137/31", "display": "5114.20"}
+      },
+      "derivation": "seg2: F = 993.72546 + 0.5 x 1006.27454 = 1496.86273; S2 = 5235.16327; total = (15 x 4985.16327 + 16 x 5235.16327)/31 = 158540.06137/31 = 5114.1955...",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-SEG-02",
+      "kind": "segments",
+      "ruleRefs": ["Annex 1 art. 4 para 5", "Annex 1 art. 3 (d.g.b) cap"],
+      "description": "Rent change across the cap (G 1500 -> 4000 from 2027-03-16). Must NOT average G over the month (cap is non-linear).",
+      "inputs": {"month": "2027-03", "monthDays": 31, "base": {"H": "3100", "A_percent": "65", "K": "2.06", "E_percent": "21", "C": 2, "isHead": false},
+        "segments": [{"from": "2027-03-01", "to": "2027-03-15", "days": 15, "G": "1500"}, {"from": "2027-03-16", "to": "2027-03-31", "days": 16, "G": "4000"}]},
+      "expected": {
+        "segmentFullMonthS": ["4985.16327", "5725.75146"],
+        "totalS": {"exact": "166389.47241/31", "display": "5367.40"}
+      },
+      "antiPattern": "monthly-average G (86500/31) put into one full-month formula gives a different (wrong) total; verifier asserts inequality",
+      "derivation": "seg2: 0.5 x (4000 - 993.72546) > T -> F = 2T; S2 = D + T = 5725.75146; total = (74777.44905 + 91612.02336)/31",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-SEG-03",
+      "kind": "segments",
+      "ruleRefs": ["Annex 1 art. 4 para 5: recalculation from the date the number of family members changes"],
+      "description": "Family change C 2 -> 3 from 2027-04-16 (30-day month), G = 1500 throughout.",
+      "inputs": {"month": "2027-04", "monthDays": 30, "base": {"H": "3100", "A_percent": "65", "K": "2.06", "E_percent": "21", "isHead": false, "G": "1500"},
+        "segments": [{"from": "2027-04-01", "to": "2027-04-15", "days": 15, "C": 2}, {"from": "2027-04-16", "to": "2027-04-30", "days": 15, "C": 3}]},
+      "expected": {
+        "segmentFullMonthD": ["4732.026", "5022.589"],
+        "segmentFullMonthS": ["4985.16327", "5245.217155"],
+        "totalS": {"exact": "5115.1902125", "display": "5115.19"}
+      },
+      "derivation": "C = 3: D = 4150.9 x 1.21 = 5022.589; T = 1054.74369; F = T + 0.5 x 445.25631 = 1277.371845; S = 5245.217155; total = (4985.16327 + 5245.217155)/2",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-SEG-04",
+      "kind": "segments",
+      "ruleRefs": ["Annex 1 art. 4 (second para 6): allowance for a support recipient / person under guardianship only during presence in the host country, including travel days"],
+      "description": "Support recipient present 2027-06-11..2027-06-20 (10 days incl. arrival and departure days) in a 30-day month; 2 other eligible members all month.",
+      "inputs": {"month": "2027-06", "monthDays": 30, "base": {"H": "3100", "A_percent": "65", "K": "2.06", "E_percent": "21", "isHead": false, "G": "1500"},
+        "segments": [{"from": "2027-06-01", "to": "2027-06-10", "days": 10, "C": 2}, {"from": "2027-06-11", "to": "2027-06-20", "days": 10, "C": 3}, {"from": "2027-06-21", "to": "2027-06-30", "days": 10, "C": 2}]},
+      "expected": {
+        "segmentFullMonthS": ["4985.16327", "5245.217155", "4985.16327"],
+        "totalS": {"exact": "152155.43695/30", "display": "5071.85"}
+      },
+      "derivation": "(20 x 4985.16327 + 10 x 5245.217155)/30 = 152155.43695/30 = 5071.8479...",
+      "status": "interpretation",
+      "legacyValue": {"note": "legacy counts every dependent in C for the whole month"}
+    },
+    {
+      "id": "T-ROUND-01",
+      "kind": "rounding",
+      "ruleRefs": ["technical policy (no rounding rule in the source)"],
+      "description": "Display rounding of exact half-cent values; intermediate values not rounded.",
+      "inputs": {"values": ["200.005", "1000.005", "0.004", "2.675", "4732.026"]},
+      "expected": {"displayHalfUp": ["200.01", "1000.01", "0.00", "2.68", "4732.03"]},
+      "derivation": "ROUND_HALF_UP on exact decimals (a binary-float implementation would give 2.67 for 2.675)",
+      "status": "technical-policy"
+    },
+    {
+      "id": "T-ROUND-02",
+      "kind": "rounding-chain",
+      "ruleRefs": ["task sec. 4 'no repeated rounding of intermediates'"],
+      "description": "Vienna S computed from rounded intermediates differs from the correct value; calculator must show 4985.16 from exact chain.",
+      "inputs": {"H": "3100", "A_percent": "65", "K": "2.06", "E_percent": "21", "C": 2, "isHead": false, "G": "1500"},
+      "expected": {"S_display": "4985.16", "S_from_rounded_intermediates_antiPattern": "4985.17"},
+      "derivation": "rounded chain: D 4732.03, T = 4732.03 x 0.21 = 993.7263 -> 993.73, F = 993.73 + 0.5 x 506.27 = 1246.865 -> 1246.87, S = 4732.03 - 993.73 + 1246.87 = 4985.17 (!= 4985.16). Expected value recorded is the exact chain; the rounded-chain value 4985.17 is the anti-pattern.",
+      "status": "technical-policy",
+      "mustNotEqual": {"S_display": "4985.17"}
+    },
+    {
+      "id": "T-INS-BAND-01",
+      "kind": "insurance-band",
+      "ruleRefs": ["Annex 7/8 column headers: 00-18, 19-24, 25-29, 30-34, 35-39, 40-44, 45-49, 50-54, 55-59, 60-64, 65-69, 70-above (pp.23, 27)"],
+      "description": "Every band boundary, 70+, age 0, and an EMPTY age (must be undetermined, not band 0-18).",
+      "inputs": {"ages": [0, 18, 19, 24, 25, 29, 30, 34, 35, 39, 40, 44, 45, 49, 50, 54, 55, 59, 60, 64, 65, 69, 70, 75, 99, null]},
+      "expected": {"bands": ["0-18", "0-18", "19-24", "19-24", "25-29", "25-29", "30-34", "30-34", "35-39", "35-39", "40-44", "40-44", "45-49", "45-49", "50-54", "50-54", "55-59", "55-59", "60-64", "60-64", "65-69", "65-69", "70+", "70+", "70+", "undetermined"]},
+      "derivation": "age in completed years; null -> undetermined (legacy: parseInt('')||0 -> 0 -> band 0-18, and employee default 35)",
+      "status": "direct-rule",
+      "note": "Which date determines the age (policy start, calendar year, birthday) is NOT in the source - open question; tests pass age directly."
+    },
+    {
+      "id": "T-INS-ROW-VIE",
+      "kind": "insurance-row",
+      "ruleRefs": ["Annex 7 row 1 (p.23)"],
+      "description": "Vienna (embassy in Austria + OSCE/Vienna IOs), EUR, all 12 bands.",
+      "inputs": {"annex": 7, "row": 1, "page": 23, "institution": "საქართველოს საელჩო ავსტრიის რესპუბლიკაში და ... ქ.ვენაში განლაგებულ საერთაშორისო ორგანიზაციებში", "currency": "EUR"},
+      "expected": {"bands": ["864", "1025", "1265", "1344", "1504", "1663", "1982", "2300", "2700", "3099", "4055", "5652"]},
+      "sourceCheck": {"page": 23, "mode": "sequence", "tokens": ["1025", "1265", "1344", "1504", "1663", "1982", "2300", "2700", "3099", "4055", "5652", "1", "864"]},
+      "derivation": "read from rendered p.23 (layout text puts 864 on the next line)",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-INS-ROW-KYV",
+      "kind": "insurance-row",
+      "ruleRefs": ["Annex 8 row 22 (p.28)"],
+      "description": "Kyiv (embassy in Ukraine + GUAM), USD, all 12 bands. 40-44 = 1137.",
+      "inputs": {"annex": 8, "row": 22, "page": 28, "institution": "საქართველოს საელჩო უკრაინაში და საქართველოს მუდმივი წარმომადგენლობა სუამში", "currency": "USD"},
+      "expected": {"bands": ["606", "712", "871", "924", "1031", "1137", "1351", "1562", "1829", "2094", "2732", "3797"]},
+      "sourceCheck": {"page": 28, "mode": "sequence", "tokens": ["606", "712", "871", "924", "1031", "1137", "1351", "1562", "1829", "2094", "2732", "3797"]},
+      "derivation": "read from p.28",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-INS-ROW-ODS",
+      "kind": "insurance-row",
+      "ruleRefs": ["Annex 8 row 25 (p.28)"],
+      "description": "Odesa consulate general, USD, own row (NOT Kyiv's). 40-44 = 734.",
+      "inputs": {"annex": 8, "row": 25, "page": 28, "institution": "საქართველოს გენერალური საკონსულო ქ. ოდესაში", "currency": "USD"},
+      "expected": {"bands": ["403", "471", "569", "601", "670", "734", "868", "999", "1165", "1330", "1727", "2389"]},
+      "sourceCheck": {"page": 28, "mode": "sequence", "tokens": ["25", "საქართველოს", "გენერალური", "403", "471", "569", "601", "670", "734", "868", "999", "1165", "1330", "1727", "2389"]},
+      "derivation": "read from p.28",
+      "status": "direct-rule",
+      "legacyValue": {"note": "legacy uses Kyiv's insIdx for Odesa (40-44 -> 1137)"}
+    },
+    {
+      "id": "T-INS-ROW-BRN",
+      "kind": "insurance-row",
+      "ruleRefs": ["Annex 7 row 30 (p.25)"],
+      "description": "Bern (embassy in Switzerland), EUR, all 12 bands.",
+      "inputs": {"annex": 7, "row": 30, "page": 25, "institution": "საქართველოს საელჩო შვეიცარიის კონფედერაციაში", "currency": "EUR"},
+      "expected": {"bands": ["1813", "2150", "2652", "2819", "3157", "3491", "4163", "4837", "5677", "6515", "8528", "11884"]},
+      "sourceCheck": {"page": 25, "mode": "sequence", "tokens": ["30", "საელჩო", "შვეიცარიის", "1813", "2150", "2652", "2819", "3157", "3491", "4163", "4837", "5677", "6515", "8528", "11884"]},
+      "derivation": "read from p.25",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-INS-ROW-PEK",
+      "kind": "insurance-row",
+      "ruleRefs": ["Annex 8 row 27 (p.29)"],
+      "description": "Beijing (embassy in China), USD, all 12 bands.",
+      "inputs": {"annex": 8, "row": 27, "page": 29, "institution": "საქართველოს საელჩო ჩინეთის სახალხო რესპუბლიკაში", "currency": "USD"},
+      "expected": {"bands": ["2505", "3180", "3385", "3605", "4125", "4556", "5145", "6215", "7820", "9665", "13058", "15000"]},
+      "sourceCheck": {"page": 29, "mode": "sequence", "tokens": ["2505", "3180", "3385", "3605", "4125", "4556", "5145", "6215", "7820", "9665", "13058", "15000"]},
+      "derivation": "read from p.29",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-INS-ROW-SPOT",
+      "kind": "insurance-spot",
+      "ruleRefs": ["Annex 7 (pp.23-26)", "Annex 8 (pp.27-29)"],
+      "description": "Further spot checks of insurance rows (full 12 bands) in both currencies, incl. rows with source anomalies that must be kept as-is (not 'fixed').",
+      "inputs": {},
+      "expected": {"rows": [
+        {"annex": 7, "row": 2, "page": 23, "institution": "Brussels embassy + EU mission", "bands": ["1536", "2328", "2328", "2328", "2328", "2328", "2328", "2328", "2328", "2328", "4080", "4080"], "anomaly": "stray ']' after last cell in source"},
+        {"annex": 7, "row": 16, "page": 24, "institution": "Mission to NATO", "bands": ["1536", "2328", "2328", "2328", "2328", "2328", "2328", "2328", "2328", "2328", "4080", "4080"], "anomaly": "stray ']'; values identical to row 2 but separate institution"},
+        {"annex": 7, "row": 6, "page": 23, "institution": "Permanent Representation to the Council of Europe (Strasbourg)", "bands": ["864", "1025", "1265", "1344", "1504", "1663", "1982", "2300", "2700", "3099", "4055", "5652"]},
+        {"annex": 7, "row": 9, "page": 23, "institution": "Ankara embassy", "bands": ["1130", "1316", "1610", "1708", "1960", "2110", "2498", "2888", "3382", "3872", "5052", "7020"]},
+        {"annex": 7, "row": 14, "page": 24, "institution": "Riga embassy", "bands": ["1400", "1400", "1400", "1400", "1400", "1400", "1400", "1400", "1400", "1400", "1400", "1400"], "anomaly": "stray ']'"},
+        {"annex": 7, "row": 15, "page": 24, "institution": "Vilnius embassy", "bands": ["1500", "2000", "2000", "2000", "2000", "2000", "2000", "2000", "2000", "2000", "2526", "3510"]},
+        {"annex": 7, "row": 26, "page": 25, "institution": "Stockholm embassy", "bands": ["1813", "1025", "1265", "1344", "1504", "1663", "1982", "2300", "2700", "3099", "4055", "5652"], "anomaly": "0-18 band (1813) higher than 19-24..60-64; keep as in source, flag for confirmation"},
+        {"annex": 7, "row": 27, "page": 25, "institution": "Prague embassy", "bands": ["1185", "1185", "1185", "1185", "1185", "1185", "1185", "1185", "1185", "3387", "3387", "3387"], "anomaly": "stray ']'"},
+        {"annex": 7, "row": 37, "page": 25, "institution": "Helsinki embassy", "bands": ["1813", "1025", "1265", "1344", "1504", "1663", "1982", "2300", "2700", "3099", "4055", "5652"], "anomaly": "same 0-18 pattern as Stockholm"},
+        {"annex": 7, "row": 41, "page": 26, "institution": "Stuttgart consulate general", "bands": ["864", "1025", "1265", "1344", "1504", "1663", "1982", "2300", "2700", "3099", "4055", "5652"]},
+        {"annex": 7, "row": 42, "page": 26, "institution": "Zagreb embassy", "bands": ["1030", "1280", "1280", "1280", "1280", "1400", "1580", "1970", "2250", "3250", "4380", "5500"]},
+        {"annex": 7, "row": 44, "page": 26, "institution": "Lyon consulate general", "bands": ["864", "1025", "1265", "1344", "1504", "1663", "1982", "2300", "2700", "3099", "4055", "5652"]},
+        {"annex": 7, "row": 45, "page": 26, "institution": "Krakow consulate general", "bands": ["560", "658", "805", "854", "953", "1051", "1249", "1444", "1691", "1936", "2526", "3510"]},
+        {"annex": 8, "row": 1, "page": 27, "institution": "Canberra embassy", "bands": ["971", "1140", "1390", "1480", "1650", "1820", "2160", "2500", "2930", "3350", "4371", "6075"]},
+        {"annex": 8, "row": 3, "page": 27, "institution": "Buenos Aires embassy", "bands": ["1760", "1760", "2640", "2640", "4147", "4147", "4147", "5438", "7880", "10243", "12229", "15000"]},
+        {"annex": 8, "row": 4, "page": 27, "institution": "Washington embassy", "bands": ["8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820"]},
+        {"annex": 8, "row": 7, "page": 27, "institution": "Permanent Mission to the UN (New York)", "bands": ["8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820"]},
+        {"annex": 8, "row": 13, "page": 28, "institution": "Tehran embassy", "bands": ["611", "717", "877", "931", "1039", "1145", "1360", "1574", "1842", "2111", "2755", "3828"]},
+        {"annex": 8, "row": 18, "page": 28, "institution": "Interests section in the Swiss embassy, Moscow", "bands": ["1479", "724", "724", "724", "724", "724", "724", "724", "724", "724", "1479", "1479"], "anomaly": "non-monotonic, keep as in source"},
+        {"annex": 8, "row": 24, "page": 28, "institution": "New York consulate general", "bands": ["8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820", "8820"]},
+        {"annex": 8, "row": 34, "page": 29, "institution": "Riyadh embassy + OIC", "bands": ["2500", "3000", "3200", "2600", "3250", "3500", "4200", "4600", "5600", "7300", "7500", "8000"], "anomaly": "30-34 (2600) lower than 25-29 (3200); keep as in source"},
+        {"annex": 8, "row": 37, "page": 29, "institution": "Hanoi embassy", "bands": ["985", "1021", "1076", "1093", "1129", "1164", "1236", "1307", "1397", "1487", "1841", "2324"]}
+      ]},
+      "derivation": "read visually from rendered pages; verifier also checks token sequences in the layout text",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-INS-DUP-01",
+      "kind": "data-note",
+      "ruleRefs": ["Annex 8 rows '31' and '31' (p.29)"],
+      "description": "Donetsk appears twice in Annex 8 (row number 31 repeated: 'საკონსულო ქ. დონეცკში' and 'გენერალური საკონსულო ქ. დონეცკში') with identical values. Normalize to ONE institution; do not create two rights.",
+      "inputs": {"annex": 8, "page": 29},
+      "expected": {"distinctInstitutions": 1, "bands": ["606", "712", "871", "924", "1031", "1137", "1351", "1562", "1829", "2094", "2732", "3797"]},
+      "derivation": "both printed rows identical",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-INS-REIMB-01",
+      "kind": "insurance-reimb",
+      "ruleRefs": ["Order pt 30: reimbursed within the Annex 7/8 ANNUAL cap on presentation of the policy"],
+      "description": "Vienna, member aged 40 (cap 1663 EUR), policy 1200.",
+      "inputs": {"cap": "1663", "alreadyUsed": "0", "policyPrice": "1200"},
+      "expected": {"reimbursement": "1200", "personalCost": "0", "remainingCap": "463"},
+      "derivation": "min(1200, 1663) = 1200",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-INS-REIMB-02",
+      "kind": "insurance-reimb",
+      "ruleRefs": ["Order pt 30"],
+      "description": "Vienna, aged 40, policy 2000 > cap.",
+      "inputs": {"cap": "1663", "alreadyUsed": "0", "policyPrice": "2000"},
+      "expected": {"reimbursement": "1663", "personalCost": "337", "remainingCap": "0"},
+      "derivation": "min(2000, 1663) = 1663",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-INS-REIMB-03",
+      "kind": "insurance-reimb",
+      "ruleRefs": ["Order pt 30 (annual cap shared by several expenses in the same year)"],
+      "description": "1000 already reimbursed this year on the same cap 1663; new expense 900.",
+      "inputs": {"cap": "1663", "alreadyUsed": "1000", "policyPrice": "900"},
+      "expected": {"reimbursement": "663", "personalCost": "237", "remainingCap": "0"},
+      "derivation": "remaining 663; min(900, 663) = 663",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-INS-REIMB-04",
+      "kind": "insurance-reimb",
+      "ruleRefs": ["Order pt 30(b): support recipient / guardianship person covered only for the period of presence in the host country", "task sec. 4: no automatic proration of the annual cap"],
+      "description": "Support recipient present 3 months; cap is NOT auto-prorated (no such rule); eligibility period recorded, policy for that period reimbursed within the full cap.",
+      "inputs": {"cap": "1663", "alreadyUsed": "0", "policyPrice": "500", "status": "support-recipient", "presenceMonths": 3},
+      "expected": {"capShown": "1663", "reimbursement": "500", "capProratedAutomatically": false},
+      "derivation": "min(500, 1663) = 500; cap unchanged",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-INS-ANNUAL-01",
+      "kind": "data-note",
+      "ruleRefs": ["Order pt 30"],
+      "description": "Annual caps are limits, not income: Vienna employee 40 + spouse 38 + child 8 caps = 1663 + 1504 + 864 = 4031 EUR shown as 'annual limits' only; NOT added to monthly or one-time free income.",
+      "inputs": {"caps": ["1663", "1504", "864"]},
+      "expected": {"sumOfCapsInformational": "4031", "addedToIncome": false},
+      "derivation": "1663 + 1504 + 864 = 4031",
+      "status": "direct-rule",
+      "legacyValue": {"note": "legacy adds insTotal to 'one-time' and 'first year total'"}
+    },
+    {
+      "id": "T-ADV-01",
+      "kind": "advance",
+      "ruleRefs": ["Order pt 22: rent advance <= 6 months' rent, repaid within <= 6 months, monthly, proportionally", "Order pt 26: new advance only after repayment", "task sec. 5: advance not mixed into income or reimbursement totals"],
+      "description": "Vienna S, rent 1500; advance 9000 repaid 1500/month over 6 months. Income (S) and reimbursement totals unchanged; outstanding balance tracked separately.",
+      "inputs": {"S_monthly": "4985.16327", "rent": "1500", "advance": "9000", "months": 6},
+      "expected": {
+        "maxAdvanceWithoutOrder": "9000",
+        "monthlyRepayment": "1500",
+        "outstandingAfterEachMonth": ["7500", "6000", "4500", "3000", "1500", "0"],
+        "totalS_6months_with_advance": "29910.97962",
+        "totalS_6months_without_advance": "29910.97962",
+        "netAdvanceEffectOnIncome": "0"
+      },
+      "derivation": "9000/6 = 1500; 6 x 4985.16327 = 29910.97962 in both cases",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-ADV-02",
+      "kind": "advance",
+      "ruleRefs": ["Order pt 22 (exceptions only by minister's order)"],
+      "description": "Advance 10000 (> 6 x 1500) or repayment over 7 months requires an individual act; flagged, not auto-approved.",
+      "inputs": {"rent": "1500", "variants": [{"advance": "10000", "months": 6}, {"advance": "9000", "months": 7}]},
+      "expected": {"requiresMinisterOrder": [true, true]},
+      "derivation": "10000 > 9000; 7 > 6",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-FX-01",
+      "kind": "fx",
+      "ruleRefs": ["Order pt 2: forecast rates 1 USD = 2.8 GEL, 1 EUR = 3.2 GEL; funding at the exchange rate on the day of funding"],
+      "description": "Forecast rates are labelled 'forecast' and never used as settlement/funding rate. Illustrative GEL equivalent of Vienna S at the forecast rate must carry the label, rate and purpose.",
+      "inputs": {"forecastGELperUSD": "2.8", "forecastGELperEUR": "3.2", "S_EUR": "4985.16327"},
+      "expected": {
+        "rateLabel": "forecast (pt 2)",
+        "usableAsSettlementRate": false,
+        "settlementRate": "exchange rate on the funding day (user/official input, with date and source)",
+        "illustrativeGEL": {"exact": "15952.522464", "display": "15952.52"}
+      },
+      "derivation": "4985.16327 x 3.2 = 15952.522464 (labelled forecast)",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-ANN-01",
+      "kind": "annual",
+      "ruleRefs": ["task sec. 10", "Order pt 12(a): one month's amount once a year in connection with vacation (conditional)"],
+      "description": "Simple x12 scenario is a labelled scenario only; vacation one-month amount is shown separately as conditional, not merged as an automatic 13th month; reimbursements are not free income.",
+      "inputs": {"S_monthly": "4985.16327"},
+      "expected": {"simpleScenario12": "59821.95924", "vacationAmountConditional": "4985.16327", "vacationIncludedAutomatically": false},
+      "derivation": "12 x 4985.16327 = 59821.95924",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-DATA-KE-01",
+      "kind": "data-ke",
+      "ruleRefs": ["Annex 4 row 22 (p.15)"],
+      "description": "Iran K = 1.89, E = 24 (legacy had K = 1.700).",
+      "inputs": {"annex": 4, "row": 22, "page": 15, "name": "ირანის ისლამური რესპუბლიკა"},
+      "expected": {"K": "1.89", "E_percent": "24"},
+      "sourceCheck": {"page": 15, "mode": "line", "fragment": "ირანის", "tokens": ["22", "1.89", "24"]},
+      "derivation": "read from p.15",
+      "status": "direct-rule",
+      "legacyValue": {"K": "1.700"}
+    },
+    {
+      "id": "T-DATA-KE-02",
+      "kind": "data-ke-spot",
+      "ruleRefs": ["Annex 4 (pp.15-17)"],
+      "description": "Annex 4 K/E spot checks incl. city-specific rows and decimal-comma cells. Raw cell text kept; normalized value = comma -> point.",
+      "inputs": {},
+      "expected": {"rows": [
+        {"row": 1, "page": 15, "name": "ავსტრალიის თანამეგობრობა", "Kraw": "2.007", "K": "2.007", "E": "23"},
+        {"row": 2, "page": 15, "name": "ავსტრიის რესპუბლიკა", "Kraw": "2.06", "K": "2.06", "E": "21"},
+        {"row": 5, "page": 15, "name": "აშშ ქ. ვაშინგტონი", "Kraw": "2.185", "K": "2.185", "E": "28"},
+        {"row": 6, "page": 15, "name": "აშშ ქ. ნიუ-იორკი", "Kraw": "2.65", "K": "2.65", "E": "32"},
+        {"row": 8, "page": 15, "name": "ბელგიის სამეფო", "Kraw": "2.050", "K": "2.050", "E": "18"},
+        {"row": 11, "page": 15, "name": "გერმანიის ფედერაციული რესპუბლიკა", "Kraw": "1.993", "K": "1.993", "E": "28", "note": "K cell vertically offset in source"},
+        {"row": 12, "page": 15, "name": "დანიის სამეფო", "Kraw": "2.200", "K": "2.200", "E": "26", "note": "'2.200' printed twice in the cell - one value"},
+        {"row": 13, "page": 15, "name": "დიდი ბრიტანეთი", "Kraw": "2.4", "K": "2.4", "E": "30"},
+        {"row": 20, "page": 15, "name": "იაპონია", "Kraw": "2.56", "K": "2.56", "E": "29"},
+        {"row": 25, "page": 15, "name": "ინდოეთის რესპუბლიკა", "Kraw": "1,588", "K": "1.588", "E": "23"},
+        {"row": 31, "page": 16, "name": "კორეის რესპუბლიკა", "Kraw": "2,280", "K": "2.280", "E": "25"},
+        {"row": 39, "page": 16, "name": "პოლონეთის რესპუბლიკა", "Kraw": "2.100", "K": "2.100", "E": "21"},
+        {"row": 46, "page": 16, "name": "საფრანგეთის რესპუბლიკა", "Kraw": "2.100", "K": "2.100", "E": "23"},
+        {"row": 50, "page": 16, "name": "უზბეკეთის რესპუბლიკა", "Kraw": "1,600", "K": "1.600", "E": "21"},
+        {"row": 51, "page": 16, "name": "უკრაინა", "Kraw": "1.890", "K": "1.890", "E": "28", "note": "row clipped/overlapped in rendered page; values legible in text layer"},
+        {"row": 52, "page": 16, "name": "უნგრეთი", "Kraw": "1.867", "K": "1.867", "E": "24"},
+        {"row": 57, "page": 17, "name": "შვეიცარიის კონფედერაცია", "Kraw": "2,2", "K": "2.2", "E": "23"},
+        {"row": 58, "page": 17, "name": "ჩეხეთის რესპუბლიკა", "Kraw": "1.896", "K": "1.896", "E": "23"},
+        {"row": 60, "page": 17, "name": "კუბის რესპუბლიკა", "Kraw": "1.630", "K": "1.630", "E": "26"},
+        {"row": 61, "page": 17, "name": "სერბეთის რესპუბლიკა (ქ. ბელგრადი)", "Kraw": "1.95", "K": "1.95", "E": "19", "note": "no institution in Annex 5/6 -> funding currency, insurance and baggage undetermined"},
+        {"row": 64, "page": 17, "name": "აშშ ქ. სან-ფრანცისკო", "Kraw": "2.65", "K": "2.65", "E": "32"},
+        {"row": 65, "page": 17, "name": "იტალიის რესპუბლიკა ქ. ბარი", "Kraw": "2.000", "K": "2.000", "E": "21", "note": "city row overrides Italy row 24 (2.000/22): E differs"},
+        {"row": 67, "page": 17, "name": "იტალიის რესპუბლიკა ქ. მილანი", "Kraw": "2.000", "K": "2.000", "E": "22"},
+        {"row": 68, "page": 17, "name": "საფრანგეთის რესპუბლიკა ქ. ლიონი", "Kraw": "2.100", "K": "2.100", "E": "23"},
+        {"row": 69, "page": 17, "name": "პოლონეთის რესპუბლიკა ქ. კრაკოვი", "Kraw": "2.100", "K": "2.100", "E": "21"}
+      ]},
+      "derivation": "read visually from pp.15-17",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-DATA-KE-03",
+      "kind": "data-ke-pair",
+      "ruleRefs": ["Annex 4 rows 5 and 6 (p.15)", "Annex 6 rows 4, 5, 28"],
+      "description": "Washington vs New York are different K/E rows. Washington embassy -> row 5 (2.185/28). UN mission and NY consulate general are two institutions; both located in New York -> row 6 (2.65/32).",
+      "inputs": {},
+      "expected": {"washingtonEmbassy": {"K": "2.185", "E": "28"}, "newYorkUNMission": {"K": "2.65", "E": "32"}, "newYorkConsulate": {"K": "2.65", "E": "32"}, "distinctInstitutions": 3},
+      "derivation": "city rows take priority (task sec. 6); mapping of an institution to its city is by location",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-DATA-KE-04",
+      "kind": "data-note",
+      "ruleRefs": ["Annex 4 (no Holy See row)", "Annex 5 row 37 (embassy to the Holy See)"],
+      "description": "Vatican embassy has no own Annex 4 row; any K/E used (e.g. Italy row 24: 2.000/22) is an interpretation that must be flagged, not shown as an exact match.",
+      "inputs": {},
+      "expected": {"annex4RowForHolySee": null, "KE_status": "interpretation-required"},
+      "derivation": "Annex 4 rows 1-69 contain no Holy See / Vatican entry",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-DATA-INST-01",
+      "kind": "data-institution",
+      "ruleRefs": ["Annex 5 rows 2 and 20 (p.19)", "Annex 7 rows 2 and 16 (pp.23-24)", "Annex 9 rows 2 and 17 (p.30)"],
+      "description": "Brussels embassy (+EU mission) and Mission to NATO are separate institutions with their own IDs, even though city, K/E (Belgium row 8: 2.050/18), insurance and baggage values coincide.",
+      "inputs": {},
+      "expected": {"distinct": true, "brusselsEmbassy": {"annex5Row": 2, "annex7Row": 2, "annex9Row": 2, "baggage": "1650"}, "nato": {"annex5Row": 20, "annex7Row": 16, "annex9Row": 17, "baggage": "1650"}},
+      "derivation": "separate rows in every annex",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-DATA-INST-02",
+      "kind": "data-institution",
+      "ruleRefs": ["Annex 5 row 41 (p.20)", "Annex 7 row 41 (p.26)", "Annex 9 row 40 (p.31)", "Annex 4 row 11 Germany"],
+      "description": "Stuttgart consulate general exists (EUR), insurance = Vienna-type row, baggage 1650; K/E from Germany row 11 (1.993/28) since no city row.",
+      "inputs": {},
+      "expected": {"currency": "EUR", "baggage": "1650", "insurance40to44": "1663", "K": "1.993", "E": "28"},
+      "derivation": "rows read from pp.20, 26, 31, 15",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-DATA-INST-03",
+      "kind": "data-institution",
+      "ruleRefs": ["Annex 5 row 7 (p.19)", "Annex 7 row 6 (p.23)", "Annex 9 row 7 (p.30)", "Annex 4 row 46 France"],
+      "description": "Permanent Representation to the Council of Europe (Strasbourg) exists, separate from Paris embassy/UNESCO (Annex 5 row 27). Baggage 1950; insurance Vienna-type; K/E from France row 46 (2.100/23).",
+      "inputs": {},
+      "expected": {"currency": "EUR", "baggage": "1950", "insurance40to44": "1663", "K": "2.100", "E": "23", "separateFromParis": true},
+      "derivation": "rows read from pp.19, 23, 30, 16",
+      "status": "direct-rule",
+      "note": "Strasbourg location of the CoE mission is factual knowledge, not stated in the annex text."
+    },
+    {
+      "id": "T-DATA-INST-04",
+      "kind": "data-institution",
+      "ruleRefs": ["Annex 6 rows 5 and 28 (pp.21-22)", "Annex 8 rows 7 and 24", "Annex 10 rows 8 and 36"],
+      "description": "New York: UN Permanent Mission and Consulate General are two separate USD institutions (both insurance 8820 in all bands, baggage 2250).",
+      "inputs": {},
+      "expected": {"distinct": true, "unMission": {"annex6Row": 5, "annex8Row": 7, "annex10Row": 8, "baggage": "2250"}, "consulate": {"annex6Row": 28, "annex8Row": 24, "annex10Row": 36, "baggage": "2250"}},
+      "derivation": "separate rows",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-DATA-INST-05",
+      "kind": "data-count",
+      "ruleRefs": ["Annex 5 (pp.19-20)", "Annex 6 (pp.21-22)", "Annex 4 (pp.15-17)", "Annex 7-10"],
+      "description": "Counts: Annex 5 has 45 numbered rows of which row 40 is removed (14.09.2021, No 01-166) -> 44 institutions; Annex 6 -> 38; total 82. Annex 4 -> 69 K/E rows. Annex 7 -> 44 (row 40 removed); Annex 8 -> 38 distinct (Donetsk printed twice); Annex 9 -> 44 (numbered 1-44, no removed row, so its row numbers shift vs Annex 5 from row 40 on); Annex 10 -> 38.",
+      "inputs": {},
+      "expected": {"annex5Active": 44, "annex6": 38, "institutionsTotal": 82, "annex4Rows": 69, "annex7Active": 44, "annex8Distinct": 38, "annex9": 44, "annex10": 38},
+      "derivation": "counted on rendered pages / text layer",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-DATA-INST-06",
+      "kind": "data-note",
+      "ruleRefs": ["Annexes 4-10"],
+      "description": "Not in any supplied annex as an institution: Munich, Montenegro (Podgorica), Serbia (only an Annex 4 K/E row). Calculator must not present them as confirmed missions; financial values undetermined.",
+      "inputs": {},
+      "expected": {"munich": "not-in-sources", "montenegro": "not-in-sources", "serbia": "annex4-only"},
+      "derivation": "searched Annex 5/6/7/8/9/10 lists",
+      "status": "direct-rule",
+      "legacyValue": {"note": "legacy lists Munich, Serbia, Montenegro as missions with EUR/insurance/baggage"}
+    },
+    {
+      "id": "T-DATA-BAG-01",
+      "kind": "data-baggage-spot",
+      "ruleRefs": ["Annex 9 (pp.30-31)", "Annex 10 (pp.32-34)"],
+      "description": "Baggage cap spot checks in both currencies.",
+      "inputs": {},
+      "expected": {"rows": [
+        {"annex": 9, "row": 1, "page": 30, "institution": "Vienna", "cap": "1650", "currency": "EUR"},
+        {"annex": 9, "row": 3, "page": 30, "institution": "Sofia", "cap": "1050", "currency": "EUR"},
+        {"annex": 9, "row": 5, "page": 30, "institution": "Copenhagen", "cap": "1950", "currency": "EUR"},
+        {"annex": 9, "row": 6, "page": 30, "institution": "London + IMO", "cap": "1800", "currency": "EUR"},
+        {"annex": 9, "row": 7, "page": 30, "institution": "Council of Europe", "cap": "1950", "currency": "EUR"},
+        {"annex": 9, "row": 12, "page": 30, "institution": "Trabzon", "cap": "750", "currency": "EUR"},
+        {"annex": 9, "row": 14, "page": 30, "institution": "Nicosia", "cap": "750", "currency": "EUR"},
+        {"annex": 9, "row": 20, "page": 30, "institution": "Lisbon", "cap": "1500", "currency": "EUR"},
+        {"annex": 9, "row": 22, "page": 30, "institution": "Athens", "cap": "1350", "currency": "EUR"},
+        {"annex": 9, "row": 40, "page": 31, "institution": "Stuttgart", "cap": "1650", "currency": "EUR"},
+        {"annex": 9, "row": 43, "page": 31, "institution": "Lyon", "cap": "1950", "currency": "EUR"},
+        {"annex": 10, "row": 1, "page": 32, "institution": "Canberra", "cap": "3750", "currency": "USD"},
+        {"annex": 10, "row": 2, "page": 32, "institution": "Baku", "cap": "450", "currency": "USD"},
+        {"annex": 10, "row": 5, "page": 32, "institution": "Washington embassy", "cap": "2250", "currency": "USD"},
+        {"annex": 10, "row": 17, "page": 33, "institution": "Tehran", "cap": "1200", "currency": "USD"},
+        {"annex": 10, "row": 24, "page": 33, "institution": "Mexico City", "cap": "3600", "currency": "USD"},
+        {"annex": 10, "row": 26, "page": 33, "institution": "Pretoria", "cap": "2700", "currency": "USD"},
+        {"annex": 10, "row": 30, "page": 34, "institution": "Kyiv + GUAM", "cap": "1050", "currency": "USD"},
+        {"annex": 10, "row": 34, "page": 34, "institution": "Ganja", "cap": "450", "currency": "USD"},
+        {"annex": 10, "row": 36, "page": 34, "institution": "New York consulate", "cap": "2250", "currency": "USD"},
+        {"annex": 10, "row": 37, "page": 34, "institution": "Odesa", "cap": "1050", "currency": "USD"}
+      ]},
+      "derivation": "read from rendered p.31, p.33 and text layer pp.30-34",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-DATA-H-01",
+      "kind": "data-note",
+      "ruleRefs": ["Order pt 3 (amended by order 01-770 of 17.09.2025)", "Annex 1 art. 3(b) Q = 7"],
+      "description": "Base amounts and family percentage.",
+      "inputs": {},
+      "expected": {"H_EUR": "3100", "H_USD": "3495", "Q_percent": "7", "L_EUR": "690", "L_USD": "750", "eduExcessRate": "0.8", "brokerRateHead": "0.8", "brokerRateOther": "0.5", "settlementDays": "60", "settlementPerMember": "0.1"},
+      "derivation": "order pts 3, 7, 8, 32, 33; Annex 1 art. 3",
+      "status": "direct-rule"
+    }
+  ]
+}
