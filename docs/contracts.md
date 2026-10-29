@@ -70,37 +70,66 @@
 
 ## 3. გამოთვლის პასუხი — `CalculationResult`
 
+`calculate(scenario, data)` — სუფთა, სინქრონული, **არასრულ შეყვანაზე არ ისვრის შეცდომას** (აბრუნებს `completeness` + `missingInputs`).
+
 ```js
 {
   schemaVersion: 1, rulesVersion, currency: "EUR" | "USD" | null,
   completeness: "complete" | "partial" | "incomplete",
-  missing: [{ field, message_ka }],                // რა აკლია სრული შედეგისთვის
-  inputsUsed: { mission, country, location, coefficientRow, position, H, A, K, E, C, Q, ... },
-  monthly: { H, A, K, C, Q, D, E, T, G, F, S, uncoveredRent, subsidyAboveRent },  // Component-ები
-  periodSegments: [{ from, to, days, monthDays, C, G, fullMonth: {D,T,F,S}, prorated: Component }],
+  missingInputs: [{ path: "rent.amount", message_ka }],
+  inputsUsed: { missionId, mission_ka, countryId, locationId, coefficientId, positionEntryId, positionPercent, rentHead, ... },
+  monthly: { H, A, K, C, Q, D, E, T, G, F, S, uncoveredRent, rentSurplus },     // Component-ები (სრული თვე)
+  family: [{ memberId, label, eligibility: {                                     // თითო წესზე true | false | null
+      monthlySupplement: { value, reason_ka, ruleIds },
+      settlement10: { ... }, insurance: { ... }, vacationTravel: { ... }, education: { ... } } }],
+  periodSegments: [{ from, to, days, daysInMonth, C, G, fullMonth: { D, T, F, S }, prorated: Component }],
   periodTotal: Component | null,
-  education: { perChild: [{ memberId, eligible, P, L, reimbursement, personalCost, ruleIds, notes }], total, personal },
-  remainderAfterRentAndEducation: Component,        // S + educationReimbursement − G − educationExpense
-  insurance: { perPerson: [{ personId, band, annualCap, policyCost, reimbursable, personalCost, status }] },
-  oneTimeAllowances: { settlement: Component },     // ერთჯერადი დახმარება
-  oneTimeReimbursements: { broker, baggage, travel: [...], extras: [...] },  // ერთჯერადი ხარჯის დაბრუნება
-  annualCaps: { insurance: [...] },
-  advances: [{ amount, months, monthlyRepayment, schedule: [{ month, repayment, outstanding }], status }],
-  fx: { forecast: { USD: "2.8", EUR: "3.2", label_ka: "საპროგნოზო კურსი (პ.2) — არა საანგარიშსწორებო" } },
-  warnings: [{ code, message_ka, ruleIds }],
-  errors:   [{ code, message_ka, path }]
+  education: { perChild: [{ memberId, eligible, components: {...}, P, L, reimbursement, personalCost, ruleIds, notes_ka }],
+               total, personal, alternativePooled: Component | null },
+  remainder: { value: Component, terms: { S, educationReimbursement, G, educationExpense } }, // S + eduReimb − G − eduExpense
+  insurance: { perPerson: [{ personId, band, annualCap, policyCost, alreadyReimbursed, reimbursable, personalCost, status, ruleIds }] },
+  oneTimeAllowances: { settlement: Component },
+  oneTimeReimbursements: { broker: Component, baggage: { cap, previouslyUsed, claimed, reimbursable, remainingCap }, travel: [Component], extras: [Component] },
+  annualCaps: { insurance: [Component] },
+  advances: [{ amount, months, monthlyRepayment, schedule: [{ month, repayment, outstanding }], status, ruleIds }],
+  fx: { forecast: { USD: "2.8", EUR: "3.2", purpose_ka: "საპროგნოზო კურსი (პ.2) — არა საანგარიშსწორებო", ruleIds } },
+  warnings: [{ code, severity: "info" | "warning", message_ka, ruleIds, path }],
+  errors:   [{ code, severity: "error", message_ka, ruleIds, path }],
+  assumptions: [{ code, message_ka, ruleIds, openQuestion: "OQ-02" }]
 }
 ```
 
 `Component`:
 
 ```js
-{ key: "F", label_ka: "ბინის ქირის სუბსიდია", exact: "1246862730/1000000" | null, amount: "1246.86" | null,
-  currency: "EUR", status: "ok" | "undetermined" | "scenario" | "not-applicable" | "manual-unconfirmed",
-  ruleIds: ["R-RENT-F-OTHER"], note_ka: "…" }
+{ id: "F", category: "monthly" | "reimbursement" | "remainder" | "one-time-allowance" | "one-time-reimbursement"
+                  | "annual-cap" | "advance" | "liability" | "parameter",
+  label_ka: "ბინის ქირის სუბსიდია",
+  value: "1246.86" | null,              // ჩვენება/ბეჭდვა, 2 ათწილადი (half-up) ან პროცენტი/კოეფიციენტი როგორც წყაროშია
+  exact: "124686273/100000" | null,     // ზუსტი წილადი ტესტებისთვის
+  currency: "EUR" | "USD" | null,
+  status: "calculated" | "scenario" | "unconfirmed" | "undetermined" | "not_applicable",
+  reason_ka: "…", ruleIds: ["R-RENT-F-OTHER"], inputsUsed: { G: "1500", T: "…" } }
 ```
 
-`amount` — ჩვენებისა და ბეჭდვისთვის (ორი ათწილადი), `exact` — ზუსტი წილადი ტესტებისთვის. UI ეკრანზეც და ბეჭდვაშიც იყენებს იმავე `CalculationResult`-ს.
+UI ეკრანზეც და ბეჭდვაშიც იყენებს იმავე `CalculationResult`-ს. დამხმარეები: `ruleCatalog` (ruleId → სათაური, წყარო, სტატუსი; `src/core/rule-catalog.js`, წყარო `docs/rules.md`), `listCountries/listLocations/listMissions/resolveMission(data, id)` (ka/en სახელები, ალიასები, ISO, ბაზრის locationId, დაფინანსების ვალუტა, K/E ან „ნორმატიული მონაცემი არ არის“), `positionProfiles` თითო რეჟიმზე `suggestedRentHead`-ით, ენუმები ქართული სახელებით (`ROLES`, `MEMBER_STATUSES`, `EXTRA_CATEGORIES`).
+
+## 3ა. ხელმძღვანელის გადაწყვეტილებები (ეტაპი 2)
+
+| # | საკითხი | გადაწყვეტილება | სტატუსი |
+| --- | --- | --- | --- |
+| P-1 | დამრგვალება | ზუსტი გამოთვლა, half-up 2 ათწილადამდე მხოლოდ ჩვენებისას (`R-ROUND-001`) | technical-policy |
+| P-2 | თარიღები | ორივე ბოლო ჩათვლით; ცვლილება მოქმედებს საკუთარი თარიღიდან; სეგმენტი = სრული თვის განაკვეთი × დღეები / თვის დღეები | technical-policy (`R-PRORATE-001`) |
+| P-3 | G = T | F = T, `assumptions`-ში OQ-01 | interpretation |
+| P-4 | განათლების ზღვარი | თითო ბავშვზე; `alternativePooled` ცალკე ჩანს; OQ-02 | interpretation |
+| P-5 | საკონსულო დაწესებულების ხელმძღვანელი | საკომისიო 80% — პირდაპირი (პ.8); ქირის 80% — `scenario` სტატუსით + OQ-10 | interpretation |
+| P-6 | პ.20¹ | A = ხელმძღვანელის მაჩვენებელი მხოლოდ აქტის მითითებით; ქირა/საკომისიო ხელმძღვანელის წესით — `scenario` (OQ-11) | interpretation |
+| P-7 | №4 ქვეყნის სტრიქონი | თუ ქვეყანას მხოლოდ ზოგადი სტრიქონი აქვს → ვრცელდება ყველა ქალაქზე (`calculated` + შენიშვნა OQ-09); თუ ქვეყანას მხოლოდ ქალაქის სტრიქონები აქვს და მისიის ქალაქი მათ შორის არ არის → `undetermined` | interpretation |
+| P-8 | ვატიკანი / დანართებში არარსებული მისია | `undetermined`; ახლომდებარე ქალაქის მონაცემი მხოლოდ ახსნით, „ზუსტი“ სტატუსის გარეშე | — |
+| P-9 | პირველადი მოწყობა | dailyRate მხოლოდ ხელით, წყაროთი/თარიღით → `unconfirmed`; დადასტურებულ ჯამში არ შედის; სხვა ვალუტა მხოლოდ მითითებული კურსით | OQ-04 |
+| P-10 | ასაკის ჯგუფის თარიღი | მომხმარებლის შეყვანილი ასაკი; დაბადების თარიღით — პოლისის/პერიოდის დაწყების დღეს, მონიშნული ვარაუდით (OQ-08) | interpretation |
+| P-11 | დაზღვევის ლიმიტი | წლიური, არ პროპორცირდება და არ ემატება შემოსავალს | direct |
+| P-12 | ქირა არა-დაფინანსების ვალუტაში | მომხმარებელი შეიყვანს დაფინანსების ვალუტაში; სხვა ვალუტა + კურსი → `scenario` (OQ-14) | interpretation |
 
 ## 4. ბაზრის მონაცემები — `MarketData`
 
@@ -110,5 +139,5 @@
 
 - `src/core/index.js`: `calculate`, `validateScenario`, `emptyScenario`, `listMissions`, `resolveMission`, `insuranceBand`, `SCENARIO_SCHEMA_VERSION`.
 - `src/core/decimal.js`: `parseDecimalInput(str) → { ok, value: Rational | null, error_ka }`, `formatAmount(rational) → "1 234.57"`.
-- `src/providers/index.js`: `createMarketClient({ endpoint, fetchImpl }) → { get(locationId, currency, { signal }) }`, `validateManualMarketEntry`, `importMarketJson`.
+- `src/providers/index.js`: `createMarketClient({ endpoint, fetchImpl, timeoutMs }) → { get(locationId, currency, { signal }) → Promise<MarketData> }` (არასოდეს ისვრის — შეცდომა სტატუსად), `parseManualMarketJson(text) → { ok, data, errors: [{ path, code, message_ka }] }`, `validateManualRecord`. სტატუსები და ფორმა — `src/providers/market-contract.js`.
 - `src/ui/main.js`: esbuild-ის შესასვლელი წერტილი.
