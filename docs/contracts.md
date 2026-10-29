@@ -141,3 +141,11 @@ UI ეკრანზეც და ბეჭდვაშიც იყენე�
 - `src/core/decimal.js`: `parseDecimalInput(str) → { ok, value: Rational | null, error_ka }`, `formatAmount(rational) → "1 234.57"`.
 - `src/providers/index.js`: `createMarketClient({ endpoint, fetchImpl, timeoutMs }) → { get(locationId, currency, { signal }) → Promise<MarketData> }` (არასოდეს ისვრის — შეცდომა სტატუსად), `parseManualMarketJson(text) → { ok, data, errors: [{ path, code, message_ka }] }`, `validateManualRecord`. სტატუსები და ფორმა — `src/providers/market-contract.js`.
 - `src/ui/main.js`: esbuild-ის შესასვლელი წერტილი.
+
+## 6. v1.1 დამატებები (ბირთვის ინჟინრის წინადადება, ხელმძღვანელის მიერ მიღებული)
+
+არაფერი არ გადარქმეულა/წაშლილა; ყველა დამატება არასავალდებულოა.
+
+- სცენარი: `insurance[].policyStart` (ასაკი დაბადების თარიღიდან, OQ-08); `baggage.callbackAlreadyReimbursed`, `travel[].callbackAlreadyReimbursed` (პ.5²); `travel[].route` = `georgia` | `third-country` | `other`; `advances[].kind` პ.27-ის შემთხვევებისთვის.
+- შედეგი: `monthly.DminusT`; `education.expense`; `totals` (დადასტურებული ქვეჯამი ცალკე სცენარული/დაუდასტურებელი ნაწილისგან, დაუდგენელი და სხვა ვალუტის ჩანაწერების სია); `oneTimeAllowances.vacationMonth` (ყოველთვის `scenario`, ჯამში არ ემატება); `fx.forecast.usableForSettlement = false`, `fx.forecast.illustrativeS_GEL`; `oneTimeReimbursements.baggage.perClaim`, `.personalCost`; `advances[].limit`, `advances[].requiresMinisterOrder`; `family[]`/`insurance.perPerson[]`-ში label და ასაკი.
+- სისრულე: `incomplete` — D ვერ ითვლება (მისია/თანამდებობა/K აკლია); `partial` — სავალდებულო შეყვანა აკლია ან S/პერიოდის ჯამი/ნაშთი/შეყვანილი ერთჯერადი ჩანაწერი დაუდგენელი ან დაუდასტურებელია; `complete` — დანარჩენი. მარტო `scenario` სტატუსი შედეგს `partial`-ად არ აქცევს.
