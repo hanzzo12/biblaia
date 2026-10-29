@@ -290,7 +290,7 @@ const PARTIAL_DATE_RE = /^(\d{4})(?:-(0[1-9]|1[0-2])(?:-(0[1-9]|[12]\d|3[01]))?)
 const ISO_DATETIME_RE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])T([01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d{1,3})?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/;
 const CURRENCY_RE = /^[A-Z]{3}$/;
 const COUNTRY_RE = /^[A-Z]{2}$/;
-const LOCATION_ID_RE = /^[a-z0-9][a-z0-9._-]{0,63}$/;
+const LOCATION_ID_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 const PROVIDER_CITY_ID_RE = /^[A-Za-z0-9._:-]{1,64}$/;
 // C0/C1 მართვის სიმბოლოები და bidi override-ები; `<`/`>` — HTML ინექციის პრევენციისთვის (UI მაინც textContent-ს იყენებს).
 // eslint-disable-next-line no-control-regex

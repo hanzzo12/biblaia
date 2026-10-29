@@ -1,7 +1,9 @@
-'use strict';
 // Shared helpers for data tests. Reads only JSON/text files; imports nothing from src/ code.
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/normative-data.json'), 'utf8'));
@@ -67,7 +69,7 @@ const bagFor = (annex, row) => data.baggageCaps.filter((x) => x.annex === annex 
 const kFor = (row) => data.costCoefficients.filter((x) => x.annex4Row === row);
 const missionFor = (annex, row) => data.missions.filter((x) => x.annex === annex && x.rowNo === row);
 
-module.exports = {
+export {
   ROOT, data, golden, goldenCase, layoutPages, BAND_KEYS, DECIMAL, decEq,
   pageTokens, pageHasMultiset, pageHasSequence,
   missions, ins, bag, kRows, insFor, bagFor, kFor, missionFor,
