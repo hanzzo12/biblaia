@@ -1,0 +1,35 @@
+{
+  // Cloudflare Workers Static Assets + /api/market. შემოწმებულია wrangler 4.155.0-ით (deploy --dry-run).
+  // აქ მხოლოდ არასაიდუმლო პარამეტრებია. NUMBEO_API_KEY → `npx wrangler secret put NUMBEO_API_KEY` (ან ლოკალურად .dev.vars).
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "rotation-calculator",
+  "main": "worker/index.js",
+  // wrangler 4.155.0-ს თან ახლავს workerd 1.20261023.1 — თარიღი ამაზე გვიანი არ იყოს.
+  "compatibility_date": "2026-10-23",
+  "assets": {
+    "directory": "./dist/web/",
+    "binding": "ASSETS",
+    "not_found_handling": "none",
+    // /api/* ყოველთვის Worker-ს მიდის, სტატიკური ფაილი მას ვერ დაჩრდილავს.
+    "run_worker_first": ["/api/*"]
+  },
+  "vars": {
+    "MARKET_PROVIDER": "numbeo",
+    // 0 = სერვერული ქეში გამორთულია. 86400 (24 სთ) ჩართეთ მხოლოდ Numbeo-ს წერილობითი დადასტურების შემდეგ.
+    "MARKET_CACHE_TTL_SECONDS": "0",
+    // ვადაგასული ქეშის გამოყენების ზღვარი upstream შეცდომისას (წამი). მოქმედებს მხოლოდ TTL > 0-ისას.
+    "MARKET_STALE_MAX_SECONDS": "0",
+    "MARKET_UPSTREAM_TIMEOUT_MS": "8000",
+    "MARKET_ALLOWED_CURRENCIES": "EUR,USD",
+    // "true" მხოლოდ ლიცენზიის დადასტურების შემდეგ (ქრება გაფრთხილება license_unconfirmed).
+    "MARKET_LICENSE_CONFIRMED": "false"
+  },
+  "ratelimits": [
+    // მიახლოებითი ლიმიტი თითო Cloudflare ლოკაციაზე; period მხოლოდ 10 ან 60.
+    { "name": "MARKET_RATE_LIMITER", "namespace_id": "4201", "simple": { "limit": 60, "period": 60 } }
+  ],
+  "observability": { "enabled": true },
+  // საკუთარი დომენი + Access-ის დაყენების შემდეგ შეგიძლიათ დააყენოთ false.
+  "workers_dev": true,
+  "preview_urls": false
+}

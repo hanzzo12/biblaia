@@ -43,10 +43,11 @@ URLs: https://developers.cloudflare.com/workers/static-assets/ · https://develo
     "MARKET_CACHE_TTL_SECONDS": "0",        // 0 = no server cache until Numbeo confirms in writing; then 86400
     "MARKET_STALE_MAX_SECONDS": "0",        // stale fallback disabled by default
     "MARKET_UPSTREAM_TIMEOUT_MS": "8000",
-    "MARKET_ALLOWED_CURRENCIES": "EUR,USD"
+    "MARKET_ALLOWED_CURRENCIES": "EUR,USD",
+    "MARKET_LICENSE_CONFIRMED": "false"
   },
   "ratelimits": [
-    { "name": "MARKET_RATE_LIMITER", "namespace_id": "4201", "simple": { "limit": 30, "period": 60 } }
+    { "name": "MARKET_RATE_LIMITER", "namespace_id": "4201", "simple": { "limit": 60, "period": 60 } }
   ],
   "observability": { "enabled": true },
   "workers_dev": true,                      // set to false once a custom domain + Access is in place
@@ -158,3 +159,23 @@ The upstream fetch should use `AbortSignal.timeout(ms)` or an `AbortController` 
 4. Production on a custom domain needs a Cloudflare zone for a ministry domain. With `workers.dev`, Access is mandatory.
 5. The Free plan plus `run_worker_first` returns 429 on `/api/*` beyond the free request limit. That is acceptable, because the UI shows `rate_limited` and the calculator keeps working.
 6. Package scope: `package.json` needs `"type": "module"` (or `.mjs` names) for `src/providers/market-contract.js` under `node --test`. Node 22 auto-detected ESM in my check, but the setting should be explicit.
+
+## 11. Phase 3 — implementation verification (2026-10-29)
+
+The real `wrangler.jsonc` in the repo root matches §2 (rate limit 60/60 s, `MARKET_LICENSE_CONFIRMED="false"`).
+
+Files: `worker/index.js`, `src/providers/{index.js,numbeo-adapter.js,market-contract.js,numbeo-city-map.json}`, `wrangler.jsonc`, `.dev.vars.example`, `tests/providers/*.test.js`, `tests/worker/*.test.js`, `docs/deploy.md`.
+
+| Command | Result |
+| --- | --- |
+| `node --test "tests/providers/**/*.test.js" "tests/worker/**/*.test.js"` | `# pass 61`, `# fail 0` |
+| `npm run build` | **failed**: `Could not resolve "src/ui/main.js"`, because the UI was not finished yet. For the dry run only, a placeholder `dist/web/index.html` was written in `dist/` (never in `src/ui`) and then deleted. |
+| `npx wrangler deploy --dry-run --outdir .wrangler-dry` | OK: "Total Upload: 353.09 KiB / gzip: 40.91 KiB". Bindings: `MARKET_RATE_LIMITER (60 requests/60s)`, `ASSETS`, the 6 `MARKET_*` vars. Ended with "--dry-run: exiting now." The bundle includes `normative-data.json` (≈227 KB), which is used to recognise location IDs. |
+| `npx wrangler dev --ip 127.0.0.1 --port 8787`, no `.dev.vars` | `GET /api/market/health` → 200, `{"status":"not_configured","keyConfigured":false,"mappedLocations":0,"cacheTtlSeconds":0,"rateLimiter":true,...}`, `Cache-Control: private, no-store`, no CORS headers. `GET /api/market?location=AT-VIENNA&currency=EUR` → MarketData, `rent.status = not_configured`. `currency=GBP` → 400 `invalid_currency`. `/` → 200 (asset). `/api/x` → 404. Log line: `{"evt":"market","loc":"AT-VIENNA","cur":"EUR","rent":"not_configured","idx":"not_configured","cache":"none","reason":"no_key","ms":0}` |
+| Same with a dummy `.dev.vars` key | "Using secrets defined in .dev.vars", `env.NUMBEO_API_KEY ("(hidden)")`. Health: `keyConfigured:true`, `status:not_configured` (city map is empty). The dummy key never appeared in the log. |
+
+Implementation decisions:
+- **Cache:** both the Cache API (`caches.open('market')`) and an in-isolate `Map` are written. Reads try the Cache API first and fall back to the Map, which matters because the Cache API is unavailable behind Access. Only responses without error statuses are stored. Stale data is served only when TTL > 0, the upstream call fails, and the entry is within `MARKET_STALE_MAX_SECONDS` of expiry.
+- **Rate limiter:** applied only before an upstream call (cache hits don't count), with key `market:all`. An absent binding is skipped; a throwing binding fails open, so the calculator is never blocked. Our own limiter returns HTTP 429 with a MarketData body (`rate_limited`) and `Retry-After: 60`.
+- **Upstream:** two parallel GETs with `X-Api-Key`, `redirect: "error"`, a timeout via `AbortController`, and **no retries**. A 200 response carrying `{error}` is mapped heuristically (key-related text → `unauthorized`, quota text → `rate_limited`, otherwise `invalid_response`).
+- **Request validation:** only `location` and `currency`, each exactly once. The location must be in `normative-data.locations` or the city map, and the currency in `MARKET_ALLOWED_CURRENCIES` ∩ {EUR, USD}. Anything else → 400. Non-GET → 405. Unknown `/api/*` → 404.

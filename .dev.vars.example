@@ -1,0 +1,3 @@
+# ლოკალური საიდუმლოებები `npx wrangler dev`-ისთვის. დააკოპირეთ: cp .dev.vars.example .dev.vars
+# .dev.vars არასოდეს ატვირთოთ git-ში (ის .gitignore-შია). ცარიელი მნიშვნელობა = "პროვაიდერი არ არის კონფიგურირებული".
+NUMBEO_API_KEY=""
