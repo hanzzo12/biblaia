@@ -1,10 +1,15 @@
 // სექცია 4: ქირა, განათლება და დამატებითი ხარჯები.
 import { h, replace } from '../dom.js';
 import { L, RENT_BASIS, EXTRA_CATEGORIES, TRAVEL_KINDS, BAGGAGE_KINDS, enumOptions } from '../labels.js';
+
+export function syncInsurance(sc) {
+  const ids = ['EMP', ...sc.family.map((m) => m.id)];
+  const by = new Map((sc.insurance || []).map((x) => [x.personId, x]));
+  sc.insurance = ids.map((id) => by.get(id) || { personId: id, policyCost: null, alreadyReimbursed: null, policyStart: null });
+}
 import * as F from '../fields.js';
 import * as core from '../../core/index.js';
 
-const opts = (o) => Object.entries(o).map(([value, label]) => ({ value, label }));
 
 export function mountExpenses(root, store) {
   const box = h('div');
@@ -96,21 +101,31 @@ export function mountExpenses(root, store) {
           sc.insurance.map((it, i) => h('fieldset', { class: 'card' }, h('legend', null, people().find((p) => p.value === it.personId)?.label ?? it.personId),
             h('div', { class: 'grid3' },
               F.money(store, `insurance.${i}.policyCost`, 'პოლისის ფასი (ფაქტობრივი/დაგეგმილი, წლიური)', { unit: '' }),
-              F.money(store, `insurance.${i}.alreadyReimbursed`, 'უკვე ანაზღაურებული ამ ლიმიტიდან', { unit: '' }))))),
+              F.money(store, `insurance.${i}.alreadyReimbursed`, 'უკვე ანაზღაურებული ამ ლიმიტიდან', { unit: '' }),
+              F.date(store, `insurance.${i}.policyStart`, 'პოლისის დაწყება'))))),
         det('broker', 'მაკლერის მომსახურება',
-          h('div', { class: 'grid3' },
+          F.toggle('მაკლერის საკომისიოს მოთხოვნა', !!sc.broker, (on) => {
+            sc.broker = on ? { fee: null, serviceDate: null, rotationStartDate: null, alreadyReimbursed: false, documented: false, specialDecision81: false } : null;
+            store.forget('broker'); render(); store.schedule();
+          }),
+          sc.broker ? [h('div', { class: 'grid3' },
             F.money(store, 'broker.fee', 'ფაქტობრივი საკომისიო', { unit: '', hint: 'ნაგულისხმევი არ აქვს; ქირის ტოლად არ ივსება.' }),
             F.date(store, 'broker.serviceDate', 'მომსახურების თარიღი'),
             F.date(store, 'broker.rotationStartDate', 'როტაციის დაწყების თარიღი')),
           F.check(store, 'broker.documented', 'არსებობს დამადასტურებელი დოკუმენტი'),
           F.check(store, 'broker.alreadyReimbursed', 'საკომისიო ამ როტაციაზე უკვე ანაზღაურდა'),
-          F.check(store, 'broker.specialDecision81', 'სპეციალური გადაწყვეტილება (პ. 8¹)')),
+          F.check(store, 'broker.specialDecision81', 'სპეციალური გადაწყვეტილება (პ. 8¹)')] : null),
         det('baggage', 'ბარგი',
-          h('div', { class: 'grid3' },
-            F.select(store, 'baggage.kind', 'შემთხვევა', opts(BAGGAGE_KINDS), { allowEmpty: false }),
+          F.toggle('ბარგის ხარჯის მოთხოვნა', !!sc.baggage, (on) => {
+            sc.baggage = on ? { kind: 'departure', claims: [], previouslyUsed: null, callbackAlreadyReimbursed: false } : null;
+            store.forget('baggage'); render(); store.schedule();
+          }),
+          sc.baggage ? [h('div', { class: 'grid3' },
+            F.select(store, 'baggage.kind', 'შემთხვევა', enumOptions(core.BAGGAGE_KINDS, BAGGAGE_KINDS), { allowEmpty: false }),
             F.money(store, 'baggage.previouslyUsed', 'უკვე გამოყენებული ლიმიტი', { unit: '' })),
+          F.check(store, 'baggage.callbackAlreadyReimbursed', 'სპეციალური გამოძახება უკვე ანაზღაურდა (პ. 5²)'),
           listEditor('baggage.claims', { itemLabel: 'ბარგის ხარჯი', addLabel: '+ ბარგის ხარჯი', make: () => ({ who: 'EMP', amount: null }),
-            fields: (p) => [F.select(store, `${p}.who`, 'ვისი', people(), { allowEmpty: false }), F.money(store, `${p}.amount`, 'ფაქტობრივი დასაშვები ხარჯი', { unit: '' })] })),
+            fields: (p) => [F.select(store, `${p}.who`, 'ვისი', people(), { allowEmpty: false }), F.money(store, `${p}.amount`, 'ფაქტობრივი დასაშვები ხარჯი', { unit: '' })] })] : null),
         det('settlement', 'პირველადი მოწყობა',
           h('p', { class: 'hint' }, 'დღიური ნორმა (მთავრობის №211 დადგენილება) მოწოდებულ წყაროებში არ არის — შეიყვანეთ ხელით წყაროთი; შედეგი დაუდასტურებელია.'),
           F.toggle('დღიური ნორმის ხელით შეყვანა', !!sc.settlement.dailyRate, (on) => {
@@ -131,22 +146,24 @@ export function mountExpenses(root, store) {
             F.money(store, 'settlement.fx.rate', 'კურსი (1 ნორმის ვალუტა = ? დაფინანსების ვალუტა)', { positive: true }),
             F.date(store, 'settlement.fx.date', 'კურსის თარიღი'),
             F.text(store, 'settlement.fx.source', 'კურსის წყარო')) : null,
-          F.select(store, 'settlement.exclusion9', 'გამონაკლისი (პ. 9)', ['a', 'b', 'c', 'd', 'e', 'f'].map((x, i) => ({ value: x, label: `პ. 9, ქვეპუნქტი „${'აბგდევ'[i]}“` })), { emptyLabel: 'არ ვრცელდება' }),
+          F.select(store, 'settlement.exclusion9', 'გამონაკლისი (პ. 9)', enumOptions(core.SETTLEMENT_EXCLUSIONS, {}), { emptyLabel: 'არ ვრცელდება' }),
           F.check(store, 'settlement.transfer10', 'სხვა ქალაქში გადაყვანა (პ. 10)')),
         det('travel', 'მგზავრობა',
-          listEditor('travel', { itemLabel: 'მგზავრობა', addLabel: '+ მგზავრობა', make: () => ({ kind: 'departure', personId: 'EMP', actualCost: null, comparableTicket: null, route: null, ownCar: false }),
+          listEditor('travel', { itemLabel: 'მგზავრობა', addLabel: '+ მგზავრობა', make: () => ({ kind: 'departure', personId: 'EMP', actualCost: null, comparableTicket: null, route: null, ownCar: false, callbackAlreadyReimbursed: false }),
             fields: (p) => [
-              F.select(store, `${p}.kind`, 'კატეგორია', opts(TRAVEL_KINDS), { allowEmpty: false }),
+              F.select(store, `${p}.kind`, 'კატეგორია', enumOptions(core.TRAVEL_KINDS, TRAVEL_KINDS), { allowEmpty: false }),
               F.select(store, `${p}.personId`, 'მგზავრი', people(), { allowEmpty: false }),
-              F.text(store, `${p}.route`, 'მარშრუტი'),
+              F.select(store, `${p}.route`, 'მიმართულება', enumOptions(core.TRAVEL_ROUTES, {})),
               F.money(store, `${p}.actualCost`, 'ფაქტობრივი ღირებულება (ეკონომკლასი)', { unit: '' }),
               F.money(store, `${p}.comparableTicket`, 'შესადარებელი ბილეთის ფასი', { unit: '' }),
               F.check(store, `${p}.ownCar`, 'პირადი ავტომანქანით (პ. 5)'),
+              F.check(store, `${p}.callbackAlreadyReimbursed`, 'სპეციალური გამოძახება უკვე ანაზღაურდა (პ. 5²)'),
             ] })),
         det('advances', 'ავანსი (დასაბრუნებელი)',
           h('p', { class: 'hint' }, 'ავანსი შემოსავალი არ არის და არც ხარჯის ანაზღაურება — ჩანს ცალკე, დაფარვის გრაფიკით.'),
-          listEditor('advances', { itemLabel: 'ავანსი', addLabel: '+ ბინის ქირის ავანსი', make: () => ({ kind: 'rent', amount: null, issueDate: null, months: 6, ministerOrder22: false }),
+          listEditor('advances', { itemLabel: 'ავანსი', addLabel: '+ ავანსი', make: () => ({ kind: 'rent', amount: null, issueDate: null, months: 6, ministerOrder22: false }),
             fields: (p) => [
+              F.select(store, `${p}.kind`, 'ავანსის სახე', enumOptions(core.ADVANCE_KINDS, { rent: 'ბინის ქირის ავანსი' }), { allowEmpty: false }),
               F.money(store, `${p}.amount`, 'ავანსის თანხა', { unit: '' }),
               F.date(store, `${p}.issueDate`, 'გაცემის თარიღი'),
               F.integer(store, `${p}.months`, 'დაფარვის თვეები', { min: 1, max: 120 }),
