@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.wrangler/
+.wrangler-dry/
+.dev.vars
+.env
+*.log
+test-results/
+tests/e2e/screenshots/

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>დიპლომატიური როტაციის კალკულატორი</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #f8fafc; --bg-card: #ffffff; --bg-elevated: #f1f5f9;
+            --accent-primary: #4f46e5; --accent-secondary: #6366f1; --accent-light: #eef2ff;
+            --accent-glow: rgba(79, 70, 229, 0.15);
+            --success: #059669; --success-light: #d1fae5;
+            --warning: #d97706; --warning-light: #fef3c7;
+            --danger: #dc2626; --danger-light: #fee2e2;
+            --text-primary: #1e293b; --text-secondary: #475569; --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --gradient-accent: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08);
+            --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans Georgian', sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); color: var(--text-primary); min-height: 100vh; line-height: 1.6; font-size: 14px; }
+        .bg-pattern { position: fixed; inset: 0; background-image: radial-gradient(ellipse 100% 70% at 50% -30%, rgba(79, 70, 229, 0.08), transparent); pointer-events: none; z-index: 0; }
+        .app-container { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 40px 20px 60px; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-light); padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 500; color: var(--accent-primary); margin-bottom: 16px; }
+        .header-badge .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; }
+        .header h1 { font-size: 28px; font-weight: 700; background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        .header p { color: var(--text-muted); font-size: 14px; }
+        .progress-container { display: flex; justify-content: center; gap: 6px; margin-bottom: 32px; flex-wrap: wrap; }
+        .progress-step { display: flex; align-items: center; gap: 10px; padding: 10px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 100px; cursor: pointer; transition: all 0.25s; opacity: 0.6; }
+        .progress-step.active { border-color: var(--accent-primary); opacity: 1; box-shadow: 0 0 0 3px var(--accent-glow); }
+        .progress-step.completed { opacity: 0.9; border-color: var(--success); }
+        .progress-step .num { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: var(--bg-elevated); border-radius: 50%; font-size: 12px; font-weight: 600; color: var(--text-muted); }
+        .progress-step.active .num { background: var(--gradient-accent); color: white; }
+        .progress-step.completed .num { background: var(--success); color: white; }
+        .progress-step .label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+        .main-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-xl); }
+        .card-content { padding: 36px 40px; }
+        .step-panel { display: none; animation: fadeSlide 0.35s ease; }
+        .step-panel.active { display: block; }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .step-title { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+        .step-description { color: var(--text-muted); font-size: 14px; margin-bottom: 28px; }
+        .form-group { margin-bottom: 24px; }
+        .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+        .form-label .required { color: var(--danger); }
+        .form-input, .form-select { width: 100%; padding: 12px 16px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); font-family: inherit; font-size: 14px; }
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px var(--accent-glow); }
+        .form-select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 18px; padding-right: 44px; }
+        .input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .info-panel { background: var(--accent-light); border: 1px solid rgba(79, 70, 229, 0.15); border-radius: var(--radius-lg); padding: 20px 24px; margin-top: 16px; display: none; }
+        .info-panel.visible { display: block; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 14px; }
+        .info-item { text-align: center; }
+        .info-item .info-label { font-size: 10px; font-weight: 600; color: var(--accent-secondary); text-transform: uppercase; margin-bottom: 4px; }
+        .info-item .info-value { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent-primary); }
+        .toggle-option { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; margin-top: 16px; }
+        .toggle-option.checked { border-color: var(--accent-primary); background: var(--accent-light); }
+        .toggle-checkbox { position: relative; width: 44px; height: 24px; background: var(--border); border-radius: 100px; flex-shrink: 0; }
+        .toggle-checkbox::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: white; border-radius: 50%; transition: all 0.25s; }
+        .toggle-option.checked .toggle-checkbox { background: var(--accent-primary); }
+        .toggle-option.checked .toggle-checkbox::after { transform: translateX(20px); }
+        .toggle-content h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .toggle-content p { font-size: 12px; color: var(--text-muted); }
+        .list-container { background: var(--bg-primary); border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 14px; min-height: 70px; }
+        .list-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 8px; }
+        .list-item select, .list-item input { flex: 1; padding: 9px 12px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; }
+        .btn-remove { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--danger-light); border: none; border-radius: 50%; color: var(--danger); cursor: pointer; font-size: 16px; }
+        .btn-remove:hover { background: var(--danger); color: white; }
+        .btn-add { width: 100%; padding: 12px; margin-top: 10px; background: transparent; border: 2px dashed var(--accent-secondary); border-radius: var(--radius-sm); color: var(--accent-primary); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-add:hover { background: var(--accent-light); }
+        .formula-box { background: var(--success-light); border: 1px solid rgba(5, 150, 105, 0.2); border-radius: var(--radius-md); padding: 14px 18px; margin-top: 14px; }
+        .formula-box code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--success); }
+        .note-box { background: var(--warning-light); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: var(--radius-md); padding: 12px 16px; margin-top: 12px; font-size: 12px; color: var(--warning); }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: var(--bg-elevated); border-top: 1px solid var(--border); }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border: none; border-radius: var(--radius-md); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .btn-secondary { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border); }
+        .btn-primary { background: var(--gradient-accent); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-export { background: var(--success); color: white; }
+        .btn-export:hover { background: #047857; }
+        .btn-export:disabled { opacity: 0.6; cursor: wait; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .nav-buttons { display: flex; gap: 10px; }
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+        .results-header-left h2 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+        .results-header-left p { color: var(--text-muted); font-size: 14px; }
+        .results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .result-card { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+        .result-card.full-width { grid-column: 1 / -1; }
+        .result-card h4 { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .result-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; }
+        .result-row .label { color: var(--text-secondary); }
+        .result-row .value { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+        .result-row.highlight { background: var(--accent-light); margin: 6px -14px; padding: 12px 14px; border-radius: var(--radius-sm); }
+        .result-row.highlight .value { color: var(--accent-primary); font-weight: 600; }
+        .result-row.negative .value { color: var(--danger); }
+        .final-amount { background: var(--gradient-accent); border-radius: var(--radius-lg); padding: 28px; text-align: center; margin-top: 20px; }
+        .final-amount .title { font-size: 13px; color: rgba(255,255,255,0.85); margin-bottom: 6px; }
+        .final-amount .amount { font-family: 'JetBrains Mono', monospace; font-size: 38px; font-weight: 700; color: white; }
+        .final-amount .subtitle { font-size: 12px; color: rgba(255,255,255,0.65); }
+        .onetime-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
+        .onetime-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; display: flex; justify-content: space-between; }
+        .onetime-item .name { font-size: 12px; color: var(--text-secondary); }
+        .onetime-item .val { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--warning); }
+        .empty-state { text-align: center; padding: 20px; color: var(--text-muted); font-size: 13px; }
+        .input-summary { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 20px; }
+        .input-summary h4 { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px; }
+        .input-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+        .input-summary-item .label { font-size: 11px; color: var(--text-muted); }
+        .input-summary-item .value { font-size: 13px; font-weight: 500; }
+        #pdfContent { background: white; font-family: 'Noto Sans Georgian', sans-serif; }
+        .pdf-page { width: 555px; padding: 25px; background: white; }
+        .pdf-header { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 16px; }
+        .pdf-header h1 { font-size: 18px; margin-bottom: 4px; }
+        .pdf-header p { opacity: 0.85; font-size: 11px; }
+        .pdf-section { margin-bottom: 16px; }
+        .pdf-section-title { font-size: 12px; font-weight: 700; color: #4f46e5; border-bottom: 2px solid #4f46e5; padding-bottom: 6px; margin-bottom: 10px; }
+        .pdf-item { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e2e8f0; font-size: 11px; }
+        .pdf-item .lbl { color: #64748b; }
+        .pdf-item .val { font-weight: 600; color: #1e293b; }
+        .pdf-highlight { background: #eef2ff; padding: 10px; border-radius: 8px; margin: 8px 0; }
+        .pdf-highlight .val { color: #4f46e5; font-size: 14px; }
+        .pdf-total { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; padding: 16px; border-radius: 10px; text-align: center; margin: 12px 0; }
+        .pdf-total .amount { font-size: 24px; font-weight: 700; }
+        .pdf-footer { text-align: center; font-size: 9px; color: #94a3b8; margin-top: 16px; padding-top: 10px; border-top: 1px solid #e2e8f0; }
+        .pdf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+        @media (max-width: 768px) { .app-container { padding: 20px 16px; } .progress-step .label { display: none; } .card-content { padding: 24px 20px; } .card-footer { flex-direction: column; gap: 14px; } .results-grid, .onetime-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div class="app-container">
+    <header class="header">
+        <div class="header-badge"><span class="dot"></span><span>ვერსია 7.0 — სრული</span></div>
+        <h1>დიპლომატიური როტაციის კალკულატორი</h1>
+        <p>საგარეო საქმეთა მინისტრის ბრძანება №01-82</p>
+    </header>
+    <div class="progress-container">
+        <div class="progress-step active" data-step="0"><span class="num">1</span><span class="label">მისია</span></div>
+        <div class="progress-step" data-step="1"><span class="num">2</span><span class="label">ოჯახი</span></div>
+        <div class="progress-step" data-step="2"><span class="num">3</span><span class="label">ფინანსები</span></div>
+        <div class="progress-step" data-step="3"><span class="num">4</span><span class="label">შედეგი</span></div>
+    </div>
+    <div class="main-card">
+        <div class="card-content">
+            <div class="step-panel active" id="step0">
+                <h2 class="step-title">მისია და თანამდებობა</h2>
+                <p class="step-description">აირჩიეთ დიპლომატიური წარმომადგენლობა და პოზიცია</p>
+                <div class="form-group">
+                    <label class="form-label">დიპლომატიური წარმომადგენლობა <span class="required">*</span></label>
+                    <select class="form-select" id="missionSelect"><option value="">აირჩიეთ ქვეყანა / მისია</option></select>
+                    <div class="info-panel" id="missionInfo">
+                        <div class="info-grid">
+                            <div class="info-item"><div class="info-label">ვალუტა</div><div class="info-value" id="inf-cur">-</div></div>
+                            <div class="info-item"><div class="info-label">K</div><div class="info-value" id="inf-k">-</div></div>
+                            <div class="info-item"><div class="info-label">E</div><div class="info-value" id="inf-e">-</div></div>
+                            <div class="info-item"><div class="info-label">DSA</div><div class="info-value" id="inf-dsa">-</div></div>
+                            <div class="info-item"><div class="info-label">ბარგი</div><div class="info-value" id="inf-bag">-</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">დიპლომატიური თანამდებობა <span class="required">*</span></label>
+                    <select class="form-select" id="rankSelect">
+                        <option value="1.00">საგანგებო და სრულუფლებიანი ელჩი / მუდმივი წარმომადგენელი (100%)</option>
+                        <option value="0.80">გენერალური კონსული (80%)</option>
+                        <option value="0.75">დესპანი / მუდმივი წარმომადგენლის მოადგილე (75%)</option>
+                        <option value="0.70">უფროსი მრჩეველი / კონსული (70%)</option>
+                        <option value="0.65">მრჩეველი / ადმინისტრაციული მენეჯერი / ვიცე-კონსული (65%)</option>
+                        <option value="0.60" selected>პირველი მდივანი / მეორე მდივანი (60%)</option>
+                        <option value="0.55">მესამე მდივანი / ატაშე / უსაფრთხოების ოფიცერი (55%)</option>
+                        <option value="0.50">რეფერენტი (50%)</option>
+                        <option value="0.40">მძღოლი (40%)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">თქვენი ასაკი <span class="required">*</span></label>
+                    <input type="number" class="form-input" id="employeeAge" placeholder="მაგ: 35" min="18" max="70" style="max-width:180px;">
+                    <div class="formula-box"><code>ასაკი საჭიროა დაზღვევის გაანგარიშებისთვის</code></div>
+                </div>
+                <div class="toggle-option" id="headToggle" onclick="toggleHead()">
+                    <div class="toggle-checkbox"></div>
+                    <div class="toggle-content"><h4>წარმომადგენლობის ხელმძღვანელი</h4><p>ბინის ზედმეტი ქირის 80% ანაზღაურება (სხვებს 50%)</p></div>
+                </div>
+            </div>
+            <div class="step-panel" id="step1">
+                <h2 class="step-title">ოჯახი და დაზღვევა</h2>
+                <p class="step-description">დაამატეთ თანმხლები ოჯახის წევრები</p>
+                <div class="form-group">
+                    <label class="form-label">ოჯახის წევრები</label>
+                    <div class="list-container" id="famList"><div class="empty-state">ოჯახის წევრები ჯერ არ არის დამატებული</div></div>
+                    <button type="button" class="btn-add" onclick="addFamily()">+ ოჯახის წევრის დამატება</button>
+                </div>
+                <div class="formula-box"><code>D = H × A × K × (1 + 0.07 × C)</code></div>
+                <div class="note-box"><strong>შენიშვნა:</strong> მეურვეობის ქვეშ მყოფი პირები არ იღებენ +10% დანამატს პირველად მოწყობაზე (§7).</div>
+            </div>
+            <div class="step-panel" id="step2">
+                <h2 class="step-title">ფინანსური პარამეტრები</h2>
+                <p class="step-description">მიუთითეთ ბინის ქირა და განათლების ხარჯები</p>
+                <div class="form-group">
+                    <label class="form-label">ბინის ყოველთვიური ქირა</label>
+                    <input type="number" class="form-input" id="rentVal" placeholder="შეიყვანეთ თანხა" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">სკოლის/ბაღის გადასახადი</label>
+                    <div class="list-container" id="eduList"><div class="empty-state">ბავშვები ჯერ არ არის დამატებული</div></div>
+                    <button type="button" class="btn-add" onclick="addEdu()">+ ბავშვის დამატება</button>
+                </div>
+                <div class="input-row" style="margin-top:24px;">
+                    <div class="toggle-option checked" id="bagToggle" onclick="toggleOption('bag')" style="margin-top:0;"><div class="toggle-checkbox"></div><div class="toggle-content"><h4>ბარგის გადაზიდვა</h4></div></div>
+                    <div class="toggle-option checked" id="brokerToggle" onclick="toggleOption('broker')" style="margin-top:0;"><div class="toggle-checkbox"></div><div class="toggle-content"><h4>მაკლერის მომსახურება</h4></div></div>
+                </div>
+            </div>
+            <div class="step-panel" id="step3"><div id="resultOutput"></div></div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-secondary" onclick="resetAll()">თავიდან</button>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="move(-1)" disabled>← უკან</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="move(1)">შემდეგი →</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="pdfContent" style="position:absolute;left:-9999px;"></div>
+
+<script>
+const BASE_EUR=3100, BASE_USD=3495, FAMILY_BONUS=7;
+
+// ========== 69 MISSIONS - FULL LIST ==========
+const missions = [
+    // EUR Countries
+    {name: "ავსტრია (ვენა) / EU, OSCE, UNOV", cur: "EUR", k: 2.060, e: 21, dsa: 60, bag: 1650, insIdx: 0},
+    {name: "ბელგია (ბრიუსელი) / NATO, EU", cur: "EUR", k: 2.050, e: 18, dsa: 60, bag: 1650, insIdx: 1},
+    {name: "ბულგარეთი (სოფია)", cur: "EUR", k: 1.714, e: 14, dsa: 45, bag: 1050, insIdx: 2},
+    {name: "გერმანია (ბერლინი)", cur: "EUR", k: 1.993, e: 28, dsa: 65, bag: 1650, insIdx: 3},
+    {name: "გერმანია (ფრანკფურტი)", cur: "EUR", k: 1.993, e: 28, dsa: 65, bag: 1650, insIdx: 3},
+    {name: "გერმანია (მიუნხენი)", cur: "EUR", k: 1.993, e: 28, dsa: 65, bag: 1650, insIdx: 3},
+    {name: "დანია (კოპენჰაგენი)", cur: "EUR", k: 2.200, e: 26, dsa: 60, bag: 1950, insIdx: 4},
+    {name: "დიდი ბრიტანეთი (ლონდონი) / IMO", cur: "EUR", k: 2.400, e: 30, dsa: 60, bag: 1800, insIdx: 5},
+    {name: "ესპანეთი (მადრიდი) / UNWTO", cur: "EUR", k: 1.900, e: 23, dsa: 60, bag: 1650, insIdx: 6},
+    {name: "ესპანეთი (ბარსელონა)", cur: "EUR", k: 1.900, e: 23, dsa: 60, bag: 1650, insIdx: 6},
+    {name: "ესტონეთი (ტალინი)", cur: "EUR", k: 1.773, e: 20, dsa: 45, bag: 1650, insIdx: 7},
+    {name: "თურქეთი (ანკარა)", cur: "EUR", k: 1.773, e: 21, dsa: 45, bag: 1050, insIdx: 8},
+    {name: "თურქეთი (სტამბოლი)", cur: "EUR", k: 1.773, e: 21, dsa: 45, bag: 1050, insIdx: 8},
+    {name: "თურქეთი (ტრაპიზონი)", cur: "EUR", k: 1.773, e: 21, dsa: 45, bag: 750, insIdx: 8},
+    {name: "იტალია (რომი) / FAO, WFP", cur: "EUR", k: 2.000, e: 22, dsa: 60, bag: 1650, insIdx: 9},
+    {name: "იტალია (მილანი)", cur: "EUR", k: 2.000, e: 22, dsa: 60, bag: 1650, insIdx: 9},
+    {name: "იტალია (ბარი)", cur: "EUR", k: 2.000, e: 21, dsa: 60, bag: 1650, insIdx: 9},
+    {name: "კვიპროსი (ნიქოზია)", cur: "EUR", k: 1.800, e: 20, dsa: 60, bag: 750, insIdx: 10},
+    {name: "ლატვია (რიგა)", cur: "EUR", k: 1.870, e: 21, dsa: 45, bag: 1650, insIdx: 11},
+    {name: "ლიეტუვა (ვილნიუსი)", cur: "EUR", k: 1.814, e: 19, dsa: 45, bag: 1650, insIdx: 12},
+    {name: "ნიდერლანდები (ჰააგა)", cur: "EUR", k: 2.000, e: 25, dsa: 60, bag: 1800, insIdx: 13},
+    {name: "ნორვეგია (ოსლო)", cur: "EUR", k: 2.200, e: 26, dsa: 60, bag: 1950, insIdx: 14},
+    {name: "პოლონეთი (ვარშავა)", cur: "EUR", k: 2.100, e: 21, dsa: 45, bag: 1650, insIdx: 15},
+    {name: "პოლონეთი (კრაკოვი)", cur: "EUR", k: 2.100, e: 21, dsa: 45, bag: 1650, insIdx: 15},
+    {name: "პორტუგალია (ლისაბონი)", cur: "EUR", k: 1.701, e: 22, dsa: 45, bag: 1500, insIdx: 16},
+    {name: "რუმინეთი (ბუქარესტი)", cur: "EUR", k: 1.800, e: 21, dsa: 45, bag: 1200, insIdx: 17},
+    {name: "საბერძნეთი (ათენი)", cur: "EUR", k: 1.950, e: 19, dsa: 45, bag: 1350, insIdx: 18},
+    {name: "საბერძნეთი (სალონიკი)", cur: "EUR", k: 1.950, e: 19, dsa: 45, bag: 1050, insIdx: 18},
+    {name: "საფრანგეთი (პარიზი) / UNESCO, OECD", cur: "EUR", k: 2.100, e: 23, dsa: 65, bag: 1950, insIdx: 19},
+    {name: "საფრანგეთი (ლიონი)", cur: "EUR", k: 2.100, e: 23, dsa: 65, bag: 1650, insIdx: 19},
+    {name: "სლოვაკეთი (ბრატისლავა)", cur: "EUR", k: 1.800, e: 20, dsa: 45, bag: 1350, insIdx: 20},
+    {name: "სლოვენია (ლიუბლიანა)", cur: "EUR", k: 1.800, e: 23, dsa: 45, bag: 1350, insIdx: 21},
+    {name: "უნგრეთი (ბუდაპეშტი)", cur: "EUR", k: 1.867, e: 24, dsa: 45, bag: 1200, insIdx: 22},
+    {name: "ფინეთი (ჰელსინკი)", cur: "EUR", k: 2.200, e: 19, dsa: 75, bag: 1650, insIdx: 23},
+    {name: "შვედეთი (სტოკჰოლმი)", cur: "EUR", k: 2.200, e: 26, dsa: 60, bag: 1950, insIdx: 24},
+    {name: "შვეიცარია (ბერნი)", cur: "EUR", k: 2.200, e: 23, dsa: 74, bag: 1650, insIdx: 25},
+    {name: "შვეიცარია (ჟენევა) / UN, WTO, WHO", cur: "EUR", k: 2.200, e: 23, dsa: 74, bag: 1650, insIdx: 25},
+    {name: "ჩეხეთი (პრაღა)", cur: "EUR", k: 1.896, e: 23, dsa: 45, bag: 1350, insIdx: 26},
+    {name: "წმინდა საყდარი (ვატიკანი)", cur: "EUR", k: 2.000, e: 22, dsa: 60, bag: 1650, insIdx: 9},
+    {name: "ხორვატია (ზაგრები)", cur: "EUR", k: 1.791, e: 22, dsa: 45, bag: 1650, insIdx: 27},
+    {name: "მოლდოვა (კიშინიოვი)", cur: "EUR", k: 1.500, e: 26, dsa: 45, bag: 1350, insIdx: 28},
+    {name: "ირლანდია (დუბლინი)", cur: "EUR", k: 2.400, e: 30, dsa: 60, bag: 1650, insIdx: 5},
+    {name: "სერბეთი (ბელგრადი)", cur: "EUR", k: 1.950, e: 19, dsa: 45, bag: 1050, insIdx: 18},
+    {name: "მონტენეგრო (პოდგორიცა)", cur: "EUR", k: 1.800, e: 19, dsa: 45, bag: 1050, insIdx: 18},
+    // USD Countries
+    {name: "ავსტრალია (კანბერა)", cur: "USD", k: 2.007, e: 23, dsa: 80, bag: 3750, insIdx: 0},
+    {name: "აზერბაიჯანი (ბაქო)", cur: "USD", k: 1.600, e: 24, dsa: 45, bag: 450, insIdx: 1},
+    {name: "აზერბაიჯანი (განჯა)", cur: "USD", k: 1.600, e: 24, dsa: 45, bag: 450, insIdx: 1},
+    {name: "არაბთა გაერთ. საამიროები (აბუ-დაბი)", cur: "USD", k: 1.960, e: 25, dsa: 45, bag: 1200, insIdx: 2},
+    {name: "არგენტინა (ბუენოს-აირესი)", cur: "USD", k: 1.800, e: 24, dsa: 45, bag: 3750, insIdx: 3},
+    {name: "აშშ (ვაშინგტონი)", cur: "USD", k: 2.185, e: 28, dsa: 75, bag: 2250, insIdx: 4},
+    {name: "აშშ (ნიუ-იორკი) - გაერო", cur: "USD", k: 2.650, e: 32, dsa: 75, bag: 2250, insIdx: 4},
+    {name: "აშშ (სან-ფრანცისკო)", cur: "USD", k: 2.650, e: 32, dsa: 75, bag: 2250, insIdx: 4},
+    {name: "ბელარუსი (მინსკი)", cur: "USD", k: 1.700, e: 21, dsa: 45, bag: 1050, insIdx: 5},
+    {name: "ბრაზილია (ბრაზილია)", cur: "USD", k: 1.873, e: 32, dsa: 60, bag: 2250, insIdx: 6},
+    {name: "ეგვიპტე (კაირო)", cur: "USD", k: 1.800, e: 21, dsa: 45, bag: 1050, insIdx: 7},
+    {name: "ეთიოპია (ადის-აბება) / AU", cur: "USD", k: 1.962, e: 18, dsa: 45, bag: 2250, insIdx: 8},
+    {name: "თურქმენეთი (აშხაბადი)", cur: "USD", k: 1.600, e: 11, dsa: 45, bag: 1200, insIdx: 9},
+    {name: "იაპონია (ტოკიო)", cur: "USD", k: 2.560, e: 29, dsa: 85, bag: 3750, insIdx: 10},
+    {name: "იორდანია (ამანი)", cur: "USD", k: 1.805, e: 17, dsa: 45, bag: 1500, insIdx: 11},
+    {name: "ინდოეთი (დელი)", cur: "USD", k: 1.588, e: 23, dsa: 45, bag: 1200, insIdx: 12},
+    {name: "ინდონეზია (ჯაკარტა)", cur: "USD", k: 1.817, e: 27, dsa: 45, bag: 1800, insIdx: 13},
+    {name: "ირანი (თეირანი)", cur: "USD", k: 1.700, e: 24, dsa: 45, bag: 1200, insIdx: 14},
+    {name: "ისრაელი (თელ-ავივი)", cur: "USD", k: 2.100, e: 21, dsa: 60, bag: 1050, insIdx: 15},
+    {name: "კანადა (ოტავა) / ICAO", cur: "USD", k: 2.000, e: 23, dsa: 60, bag: 3750, insIdx: 16},
+    {name: "კატარი (დოჰა)", cur: "USD", k: 2.000, e: 30, dsa: 45, bag: 1500, insIdx: 17},
+    {name: "კორეა (სეული)", cur: "USD", k: 2.280, e: 25, dsa: 60, bag: 3750, insIdx: 18},
+    {name: "კუბა (ჰავანა)", cur: "USD", k: 1.630, e: 26, dsa: 45, bag: 2250, insIdx: 19},
+    {name: "მალაიზია (კუალა-ლუმპური)", cur: "USD", k: 1.571, e: 21, dsa: 45, bag: 1800, insIdx: 20},
+    {name: "მექსიკა (მეხიკო)", cur: "USD", k: 1.800, e: 23, dsa: 45, bag: 3600, insIdx: 21},
+    {name: "რუსეთი (შვეიცარიის სექცია)", cur: "USD", k: 1.983, e: 26, dsa: 45, bag: 1050, insIdx: 22},
+    {name: "სამხრეთ აფრიკა (პრეტორია)", cur: "USD", k: 1.900, e: 19, dsa: 45, bag: 2700, insIdx: 23},
+    {name: "საუდის არაბეთი (რიადი)", cur: "USD", k: 1.900, e: 19, dsa: 60, bag: 1200, insIdx: 24},
+    {name: "სომხეთი (ერევანი)", cur: "USD", k: 1.600, e: 24, dsa: 45, bag: 450, insIdx: 25},
+    {name: "უზბეკეთი (ტაშკენტი)", cur: "USD", k: 1.600, e: 21, dsa: 45, bag: 1500, insIdx: 26},
+    {name: "უკრაინა (კიევი)", cur: "USD", k: 1.890, e: 28, dsa: 45, bag: 1050, insIdx: 27},
+    {name: "უკრაინა (ოდესა)", cur: "USD", k: 1.890, e: 28, dsa: 45, bag: 1050, insIdx: 27},
+    {name: "ქუვეითი", cur: "USD", k: 1.900, e: 20, dsa: 45, bag: 1200, insIdx: 28},
+    {name: "ყაზახეთი (ასტანა)", cur: "USD", k: 1.600, e: 21, dsa: 45, bag: 1200, insIdx: 29},
+    {name: "ჩინეთი (პეკინი)", cur: "USD", k: 1.888, e: 23, dsa: 45, bag: 1800, insIdx: 30},
+    {name: "ვიეტნამი (ჰანოი)", cur: "USD", k: 1.470, e: 23, dsa: 45, bag: 1500, insIdx: 31}
+];
+
+// Insurance EUR - 29 indexes
+const insEUR = [
+    [864,1025,1265,1344,1504,1663,1982,2300,2700,3099,4055,5652],
+    [1536,2328,2328,2328,2328,2328,2328,2328,2328,2328,4080,4080],
+    [373,435,526,556,619,679,802,924,1077,1230,1597,2209],
+    [864,1025,1265,1344,1504,1663,1982,2300,2700,3099,4055,5652],
+    [864,1025,1265,1344,1504,1663,1982,2300,2700,3099,4055,5652],
+    [864,1025,1265,1344,1504,1663,1982,2300,2700,3099,4055,5652],
+    [398,464,565,597,663,728,861,993,1158,1325,1721,2383],
+    [560,658,805,854,953,1051,1249,1444,1691,1936,2526,3510],
+    [1130,1316,1610,1708,1960,2110,2498,2888,3382,3872,5052,7020],
+    [599,705,864,919,1025,1131,1344,1558,1822,2088,2726,3791],
+    [398,464,565,597,663,728,861,993,1158,1325,1721,2383],
+    [1400,1400,1400,1400,1400,1400,1400,1400,1400,1400,1400,1400],
+    [1500,2000,2000,2000,2000,2000,2000,2000,2000,2000,2526,3510],
+    [560,658,805,854,953,1051,1249,1444,1691,1936,2526,3510],
+    [1813,2150,2652,2819,3157,3491,4163,4837,5677,6515,8528,11884],
+    [560,658,805,854,953,1051,1249,1444,1691,1936,2526,3510],
+    [560,658,805,854,953,1051,1249,1444,1691,1936,2526,3510],
+    [560,658,805,854,953,1051,1249,1444,1691,1936,2526,3510],
+    [560,658,805,854,953,1051,1249,1444,1691,1936,2526,3510],
+    [864,1025,1265,1344,1504,1663,1982,2300,2700,3099,4055,5652],
+    [373,435,526,556,619,679,802,924,1077,1230,1597,2209],
+    [560,658,805,854,953,1051,1249,1444,1691,1936,2526,3510],
+    [560,658,805,854,953,1051,1249,1444,1691,1936,2526,3510],
+    [1813,1025,1265,1344,1504,1663,1982,2300,2700,3099,4055,5652],
+    [1813,1025,1265,1344,1504,1663,1982,2300,2700,3099,4055,5652],
+    [1813,2150,2652,2819,3157,3491,4163,4837,5677,6515,8528,11884],
+    [1185,1185,1185,1185,1185,1185,1185,1185,1185,3387,3387,3387],
+    [1030,1280,1280,1280,1280,1400,1580,1970,2250,3250,4380,5500],
+    [373,435,526,556,619,679,802,924,1077,1230,1597,2209]
+];
+
+// Insurance USD - 32 indexes
+const insUSD = [
+    [971,1140,1390,1480,1650,1820,2160,2500,2930,3350,4371,6075],
+    [315,365,438,460,511,557,657,756,877,1000,1253,1780],
+    [2500,3000,3200,2600,3250,3500,4200,4600,5600,7300,7500,8000],
+    [1760,1760,2640,2640,4147,4147,4147,5438,7880,10243,12229,15000],
+    [8820,8820,8820,8820,8820,8820,8820,8820,8820,8820,8820,8820],
+    [403,471,569,601,670,734,868,999,1165,1330,1727,2389],
+    [1548,1934,2398,2662,2844,3304,3948,4632,5510,6468,6468,6468],
+    [430,502,611,646,717,787,931,1074,1253,1433,1861,2577],
+    [648,763,934,994,1109,1223,1454,1685,1971,2258,2949,4100],
+    [430,502,611,646,717,787,931,1074,1253,1433,1861,2577],
+    [648,763,934,994,1109,1223,1454,1685,1971,2258,2949,4100],
+    [1560,2090,2090,2090,2090,2350,3128,3560,4525,5220,5670,6120],
+    [430,502,611,646,717,787,931,1074,1253,1433,1861,2577],
+    [430,502,611,646,717,787,931,1074,1253,1433,1861,2577],
+    [611,717,877,931,1039,1145,1360,1574,1842,2111,2755,3828],
+    [430,502,611,646,717,787,931,1074,1253,1433,1861,2577],
+    [934,1109,1368,1454,1627,1799,2144,2488,2920,3352,4386,6113],
+    [1601,1800,1999,2198,2398,3156,3409,3732,4055,4378,4701,5024],
+    [934,1109,1368,1454,1627,1799,2144,2488,2920,3352,4386,6113],
+    [430,502,611,646,717,787,931,1074,1253,1433,1861,2577],
+    [963,1254,1563,1947,2426,3024,3625,4369,5421,7254,9708,13106],
+    [934,1109,1368,1454,1627,1799,2144,2488,2920,3352,4386,6113],
+    [1479,724,724,724,724,724,724,724,724,724,1479,1479],
+    [934,1109,1368,1454,1627,1799,2144,2488,2920,3352,4386,6113],
+    [2500,3000,3200,2600,3250,3500,4200,4600,5600,7300,7500,8000],
+    [403,471,569,601,670,734,868,999,1165,1330,1727,2389],
+    [250,300,315,350,381,419,495,569,660,752,970,1339],
+    [606,712,871,924,1031,1137,1351,1562,1829,2094,2732,3797],
+    [1260,1600,1600,1700,1750,1800,1970,2015,2150,2250,2300,2577],
+    [403,471,569,601,670,734,868,999,1165,1330,1727,2389],
+    [2505,3180,3385,3605,4125,4556,5145,6215,7820,9665,13058,15000],
+    [985,1021,1076,1093,1129,1164,1236,1307,1397,1487,1841,2324]
+];
+
+let currentStep=0, isHead=false, bagChecked=true, brokerChecked=true, calculationData={};
+
+document.addEventListener('DOMContentLoaded',()=>{
+    const sel=document.getElementById('missionSelect');
+    missions.sort((a,b)=>a.name.localeCompare(b.name,'ka'));
+    missions.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m.name;sel.appendChild(o);});
+    sel.addEventListener('change',updateMissionInfo);
+    document.querySelectorAll('.progress-step').forEach(s=>{s.addEventListener('click',function(){const t=parseInt(this.dataset.step);if(t<=currentStep)goToStep(t);});});
+});
+
+function updateMissionInfo(){
+    const idx=document.getElementById('missionSelect').value,p=document.getElementById('missionInfo');
+    if(idx===''){p.classList.remove('visible');return;}
+    const m=missions[idx],s=m.cur==='EUR'?'€':'$';
+    document.getElementById('inf-cur').textContent=m.cur;
+    document.getElementById('inf-k').textContent=m.k.toFixed(3);
+    document.getElementById('inf-e').textContent=m.e+'%';
+    document.getElementById('inf-dsa').textContent=m.dsa+' '+s;
+    document.getElementById('inf-bag').textContent=m.bag.toLocaleString()+' '+s;
+    p.classList.add('visible');
+}
+
+function toggleHead(){isHead=!isHead;document.getElementById('headToggle').classList.toggle('checked',isHead);}
+function toggleOption(t){if(t==='bag'){bagChecked=!bagChecked;document.getElementById('bagToggle').classList.toggle('checked',bagChecked);}else{brokerChecked=!brokerChecked;document.getElementById('brokerToggle').classList.toggle('checked',brokerChecked);}}
+
+function addFamily(){
+    const list=document.getElementById('famList'),e=list.querySelector('.empty-state');if(e)e.remove();
+    const d=document.createElement('div');d.className='list-item';
+    d.innerHTML='<select style="flex:1.5"><option value="spouse">მეუღლე</option><option value="child">შვილი</option><option value="dependent">მეურვეობის ქვეშ მყოფი</option></select><input type="number" placeholder="ასაკი" min="0" max="100" style="flex:1"><button type="button" class="btn-remove" onclick="removeItem(this)">×</button>';
+    list.appendChild(d);
+}
+
+function addEdu(){
+    const list=document.getElementById('eduList'),e=list.querySelector('.empty-state');if(e)e.remove();
+    const d=document.createElement('div');d.className='list-item';
+    d.innerHTML='<input type="text" placeholder="ბავშვის სახელი" style="flex:1.5"><input type="number" placeholder="თვიური თანხა" step="0.01" style="flex:1"><button type="button" class="btn-remove" onclick="removeItem(this)">×</button>';
+    list.appendChild(d);
+}
+
+function removeItem(btn){
+    const list=btn.parentElement.parentElement;btn.parentElement.remove();
+    if(list.children.length===0){const txt=list.id==='famList'?'ოჯახის წევრები ჯერ არ არის დამატებული':'ბავშვები ჯერ არ არის დამატებული';list.innerHTML='<div class="empty-state">'+txt+'</div>';}
+}
+
+function move(dir){if(dir===1&&!validate())return;goToStep(currentStep+dir);}
+
+function goToStep(step){
+    if(step<0||step>3)return;
+    document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('step'+step).classList.add('active');
+    document.querySelectorAll('.progress-step').forEach((s,i)=>{s.classList.remove('active');if(i<step)s.classList.add('completed');else s.classList.remove('completed');if(i===step)s.classList.add('active');});
+    currentStep=step;
+    document.getElementById('prevBtn').disabled=(step===0);
+    document.getElementById('nextBtn').style.display=(step===3)?'none':'inline-flex';
+    if(step===3)calculate();
+}
+
+function validate(){
+    if(currentStep===0){
+        if(document.getElementById('missionSelect').value===''){alert('აირჩიეთ მისია');return false;}
+        const age=parseInt(document.getElementById('employeeAge').value);
+        if(!age||age<18||age>70){alert('შეიყვანეთ ასაკი (18-70)');return false;}
+    }
+    return true;
+}
+
+function getIns(m,age){
+    const t=m.cur==='EUR'?insEUR:insUSD,r=t[m.insIdx];if(!r)return 0;
+    if(age<=18)return r[0];if(age<=24)return r[1];if(age<=29)return r[2];if(age<=34)return r[3];if(age<=39)return r[4];if(age<=44)return r[5];if(age<=49)return r[6];if(age<=54)return r[7];if(age<=59)return r[8];if(age<=64)return r[9];if(age<=69)return r[10];return r[11];
+}
+
+function calculate(){
+    const idx=document.getElementById('missionSelect').value,m=missions[idx];
+    const base=m.cur==='EUR'?BASE_EUR:BASE_USD;
+    const rankSel=document.getElementById('rankSelect'),rank=parseFloat(rankSel.value);
+    const rankName=rankSel.options[rankSel.selectedIndex].textContent;
+    const empAge=parseInt(document.getElementById('employeeAge').value)||35;
+    const sym=m.cur==='EUR'?'€':'$';
+    
+    const famItems=document.querySelectorAll('#famList .list-item');
+    let famCount=0,famCountForDSA=0;const familyMembers=[];
+    famItems.forEach(item=>{const type=item.querySelector('select').value;const age=parseInt(item.querySelector('input[type="number"]')?.value)||0;const typeNames={spouse:'მეუღლე',child:'შვილი',dependent:'მეურვეობის ქვეშ მყოფი'};familyMembers.push({type:typeNames[type],age});famCount++;if(type!=='dependent')famCountForDSA++;});
+    
+    const famMult=1+(FAMILY_BONUS/100)*famCount,D=base*rank*m.k*famMult,T=D*(m.e/100);
+    const rent=parseFloat(document.getElementById('rentVal').value)||0;
+    let F=0,empRent=0;
+    if(rent===0)F=0;else if(rent<=T)F=T;else{const diff=rent-T;if(isHead){const ex=Math.min(diff*0.8,2*T);F=T+ex;}else{const ex=Math.min(diff*0.5,T);F=T+ex;}empRent=rent-F;}
+    const S=D-T+F;
+    
+    const eduLim=m.cur==='EUR'?690:750;let eduTotal=0,eduReimb=0;const eduChildren=[];
+    document.querySelectorAll('#eduList .list-item').forEach(item=>{const name=item.querySelector('input[type="text"]')?.value||'';const fee=parseFloat(item.querySelector('input[type="number"]')?.value)||0;if(name||fee)eduChildren.push({name,fee});eduTotal+=fee;eduReimb+=fee<=eduLim?fee:eduLim+(fee-eduLim)*0.8;});
+    const empEdu=eduTotal-eduReimb;
+    
+    let insTotal=getIns(m,empAge);famItems.forEach(item=>{const age=parseInt(item.querySelector('input[type="number"]')?.value)||0;insTotal+=getIns(m,age);});
+    const dsaTotal=m.dsa*60*(1+0.1*famCountForDSA),baggage=bagChecked?m.bag:0,broker=brokerChecked?(isHead?rent*0.8:rent*0.5):0,monthlyNet=S+eduReimb-rent-eduTotal;
+    
+    calculationData={mission:m.name,currency:m.cur,symbol:sym,k:m.k,e:m.e,rankName,rankPercent:rank*100,empAge,isHead,familyMembers,rent,eduChildren,bagChecked,brokerChecked,base,D,T,F,S,empRent,eduTotal,eduReimb,empEdu,insTotal,dsaTotal,baggage,broker,monthlyNet,famCount,famMult};
+    
+    let famSummary='არ არის';if(familyMembers.length>0)famSummary=familyMembers.map(f=>f.type+' ('+f.age+' წ.)').join(', ');
+    let eduSummary='არ არის';if(eduChildren.length>0)eduSummary=eduChildren.map(c=>c.name+': '+c.fee+' '+sym).join(', ');
+    
+    document.getElementById('resultOutput').innerHTML=`
+        <div class="results-header">
+            <div class="results-header-left"><h2>გაანგარიშების შედეგი</h2><p>თქვენი როტაციის ფინანსური პარამეტრები</p></div>
+            <button class="btn btn-export" id="exportBtn" onclick="exportPDF()">📄 PDF ექსპორტი</button>
+        </div>
+        <div class="input-summary">
+            <h4>შეყვანილი მონაცემები</h4>
+            <div class="input-summary-grid">
+                <div class="input-summary-item"><span class="label">მისია</span><span class="value">${m.name}</span></div>
+                <div class="input-summary-item"><span class="label">თანამდებობა</span><span class="value">${rankName}</span></div>
+                <div class="input-summary-item"><span class="label">ასაკი</span><span class="value">${empAge} წელი</span></div>
+                <div class="input-summary-item"><span class="label">ხელმძღვანელი</span><span class="value">${isHead?'დიახ':'არა'}</span></div>
+                <div class="input-summary-item"><span class="label">ბინის ქირა</span><span class="value">${rent>0?rent.toFixed(2)+' '+sym:'არ არის მითითებული'}</span></div>
+                <div class="input-summary-item"><span class="label">ოჯახის წევრები</span><span class="value">${famSummary}</span></div>
+            </div>
+        </div>
+        <div class="results-grid">
+            <div class="result-card"><h4>სამივლინებო თანხა (D)</h4>
+                <div class="result-row"><span class="label">საბაზისო (H)</span><span class="value">${base.toLocaleString()} ${sym}</span></div>
+                <div class="result-row"><span class="label">თანამდებობა (A)</span><span class="value">${(rank*100).toFixed(0)}%</span></div>
+                <div class="result-row"><span class="label">კოეფიციენტი (K)</span><span class="value">${m.k.toFixed(3)}</span></div>
+                <div class="result-row"><span class="label">ოჯახის დანამატი</span><span class="value">×${famMult.toFixed(2)}</span></div>
+                <div class="result-row highlight"><span class="label">D (პერსონალური)</span><span class="value">${D.toFixed(2)} ${sym}</span></div>
+            </div>
+            <div class="result-card"><h4>ბინის ანაზღაურება</h4>
+                <div class="result-row"><span class="label">ბინის წილი T (${m.e}%)</span><span class="value">${T.toFixed(2)} ${sym}</span></div>
+                <div class="result-row"><span class="label">ფაქტიური ქირა</span><span class="value">${rent.toFixed(2)} ${sym}</span></div>
+                <div class="result-row"><span class="label">სუბსიდია (F)</span><span class="value">${F.toFixed(2)} ${sym}</span></div>
+                <div class="result-row negative"><span class="label">თქვენი ხარჯი</span><span class="value">${empRent.toFixed(2)} ${sym}</span></div>
+            </div>
+            <div class="result-card"><h4>განათლების ხარჯები</h4>
+                <div class="result-row"><span class="label">სულ გადასახადი</span><span class="value">${eduTotal.toFixed(2)} ${sym}</span></div>
+                <div class="result-row"><span class="label">ანაზღაურება</span><span class="value">${eduReimb.toFixed(2)} ${sym}</span></div>
+                <div class="result-row negative"><span class="label">თქვენი ხარჯი</span><span class="value">${empEdu.toFixed(2)} ${sym}</span></div>
+            </div>
+            <div class="result-card"><h4>თვიური ჯამი</h4>
+                <div class="result-row"><span class="label">S = D − T + F</span><span class="value">${S.toFixed(2)} ${sym}</span></div>
+                <div class="result-row highlight"><span class="label">სულ დარიცხვა</span><span class="value">${(S+eduReimb).toFixed(2)} ${sym}</span></div>
+            </div>
+        </div>
+        <div class="final-amount"><div class="title">ხელზე ასაღები თანხა</div><div class="amount">${monthlyNet.toFixed(2)} ${sym}</div><div class="subtitle">ყველა ხარჯის გადახდის შემდეგ</div></div>
+        <div class="result-card full-width" style="margin-top:20px;"><h4>ერთჯერადი გასაცემლები</h4>
+            <div class="onetime-grid">
+                <div class="onetime-item"><span class="name">პირველადი მოწყობა (DSA×60)</span><span class="val">${dsaTotal.toFixed(0)} ${sym}</span></div>
+                <div class="onetime-item"><span class="name">ბარგის გადაზიდვა</span><span class="val">${baggage.toLocaleString()} ${sym}</span></div>
+                <div class="onetime-item"><span class="name">დაზღვევა (წლიური)</span><span class="val">${insTotal.toLocaleString()} ${sym}</span></div>
+                <div class="onetime-item"><span class="name">მაკლერი</span><span class="val">${broker.toFixed(0)} ${sym}</span></div>
+            </div>
+        </div>`;
+}
+
+async function exportPDF(){
+    const btn=document.getElementById('exportBtn');
+    btn.disabled=true;btn.textContent='⏳ იტვირთება...';
+    
+    const d=calculationData,sym=d.symbol;
+    let famText='არ არის';if(d.familyMembers.length>0)famText=d.familyMembers.map(f=>f.type+' ('+f.age+' წ.)').join(', ');
+    let eduText='არ არის';if(d.eduChildren.length>0)eduText=d.eduChildren.map(c=>(c.name||'ბავშვი')+': '+c.fee.toFixed(0)+sym).join(', ');
+    
+    const pdfEl=document.getElementById('pdfContent');
+    
+    // Page 1
+    pdfEl.innerHTML=`<div class="pdf-page">
+        <div class="pdf-header"><h1>დიპლომატიური როტაციის კალკულატორი</h1><p>ბრძანება №01-82 | ${new Date().toLocaleDateString('ka-GE')}</p></div>
+        <div class="pdf-section">
+            <div class="pdf-section-title">შეყვანილი მონაცემები</div>
+            <div class="pdf-item"><span class="lbl">მისია:</span><span class="val">${d.mission}</span></div>
+            <div class="pdf-item"><span class="lbl">თანამდებობა:</span><span class="val">${d.rankName}</span></div>
+            <div class="pdf-item"><span class="lbl">ასაკი:</span><span class="val">${d.empAge} წელი</span></div>
+            <div class="pdf-item"><span class="lbl">ხელმძღვანელი:</span><span class="val">${d.isHead?'დიახ':'არა'}</span></div>
+            <div class="pdf-item"><span class="lbl">ბინის ქირა:</span><span class="val">${d.rent>0?d.rent.toFixed(2)+' '+sym:'არ არის'}</span></div>
+            <div class="pdf-item"><span class="lbl">ოჯახი:</span><span class="val">${famText}</span></div>
+            <div class="pdf-item"><span class="lbl">სწავლა:</span><span class="val">${eduText}</span></div>
+        </div>
+        <div class="pdf-section">
+            <div class="pdf-section-title">გაანგარიშება</div>
+            <div class="pdf-grid">
+                <div class="pdf-item"><span class="lbl">საბაზისო H:</span><span class="val">${d.base} ${sym}</span></div>
+                <div class="pdf-item"><span class="lbl">კოეფ. K:</span><span class="val">${d.k}</span></div>
+                <div class="pdf-item"><span class="lbl">ბინის E:</span><span class="val">${d.e}%</span></div>
+                <div class="pdf-item"><span class="lbl">ოჯახის მულტ.:</span><span class="val">×${d.famMult.toFixed(2)}</span></div>
+            </div>
+            <div class="pdf-highlight"><div class="pdf-item"><span class="lbl">პერსონალური D:</span><span class="val">${d.D.toFixed(2)} ${sym}</span></div></div>
+            <div class="pdf-item"><span class="lbl">ბინის წილი T:</span><span class="val">${d.T.toFixed(2)} ${sym}</span></div>
+            <div class="pdf-item"><span class="lbl">სუბსიდია F:</span><span class="val">${d.F.toFixed(2)} ${sym}</span></div>
+            <div class="pdf-item"><span class="lbl">თვიური S:</span><span class="val">${d.S.toFixed(2)} ${sym}</span></div>
+            <div class="pdf-item"><span class="lbl">განათლების ანაზღ.:</span><span class="val">${d.eduReimb.toFixed(2)} ${sym}</span></div>
+        </div>
+        <div class="pdf-footer">გვერდი 1/2</div>
+    </div>`;
+    
+    await document.fonts.ready;
+    const canvas1=await html2canvas(pdfEl.querySelector('.pdf-page'),{scale:2,backgroundColor:'#ffffff'});
+    
+    // Page 2
+    pdfEl.innerHTML=`<div class="pdf-page">
+        <div class="pdf-header"><h1>შედეგები</h1><p>${d.mission}</p></div>
+        <div class="pdf-total">
+            <div style="font-size:11px;opacity:0.9;margin-bottom:4px;">ხელზე ასაღები თვიური თანხა</div>
+            <div class="amount">${d.monthlyNet.toFixed(2)} ${sym}</div>
+            <div style="font-size:10px;opacity:0.8;margin-top:4px;">ყველა ხარჯის გადახდის შემდეგ</div>
+        </div>
+        <div class="pdf-section">
+            <div class="pdf-section-title">თვიური დეტალები</div>
+            <div class="pdf-item"><span class="lbl">სულ დარიცხვა (S + განათლება):</span><span class="val">${(d.S+d.eduReimb).toFixed(2)} ${sym}</span></div>
+            <div class="pdf-item"><span class="lbl">ბინის ქირა:</span><span class="val">-${d.rent.toFixed(2)} ${sym}</span></div>
+            <div class="pdf-item"><span class="lbl">სწავლის საფასური:</span><span class="val">-${d.eduTotal.toFixed(2)} ${sym}</span></div>
+            <div class="pdf-item"><span class="lbl">თქვენი ბინის ხარჯი:</span><span class="val">${d.empRent.toFixed(2)} ${sym}</span></div>
+            <div class="pdf-item"><span class="lbl">თქვენი სწავლის ხარჯი:</span><span class="val">${d.empEdu.toFixed(2)} ${sym}</span></div>
+        </div>
+        <div class="pdf-section">
+            <div class="pdf-section-title" style="color:#d97706;border-color:#d97706;">ერთჯერადი გასაცემლები</div>
+            <div class="pdf-grid">
+                <div class="pdf-item"><span class="lbl">პირველადი მოწყობა:</span><span class="val">${d.dsaTotal.toFixed(0)} ${sym}</span></div>
+                <div class="pdf-item"><span class="lbl">ბარგი:</span><span class="val">${d.baggage} ${sym}</span></div>
+                <div class="pdf-item"><span class="lbl">დაზღვევა:</span><span class="val">${d.insTotal} ${sym}</span></div>
+                <div class="pdf-item"><span class="lbl">მაკლერი:</span><span class="val">${d.broker.toFixed(0)} ${sym}</span></div>
+            </div>
+        </div>
+        <div class="pdf-section">
+            <div class="pdf-section-title" style="color:#059669;border-color:#059669;">პირველი წლის ჯამი</div>
+            <div class="pdf-item"><span class="lbl">12 თვის ხელფასი:</span><span class="val">${(d.monthlyNet*12).toFixed(0)} ${sym}</span></div>
+            <div class="pdf-item"><span class="lbl">ერთჯერადი:</span><span class="val">${(d.dsaTotal+d.baggage+d.insTotal+d.broker).toFixed(0)} ${sym}</span></div>
+            <div class="pdf-highlight"><div class="pdf-item"><span class="lbl">სულ პირველ წელს:</span><span class="val">${(d.monthlyNet*12+d.dsaTotal+d.baggage+d.insTotal+d.broker).toFixed(0)} ${sym}</span></div></div>
+        </div>
+        <div class="pdf-footer">გვერდი 2/2 | ეს დოკუმენტი საინფორმაციოა</div>
+    </div>`;
+    
+    const canvas2=await html2canvas(pdfEl.querySelector('.pdf-page'),{scale:2,backgroundColor:'#ffffff'});
+    
+    const{jsPDF}=window.jspdf;
+    const pdf=new jsPDF('p','mm','a4');
+    const pdfW=pdf.internal.pageSize.getWidth();
+    
+    pdf.addImage(canvas1.toDataURL('image/png'),'PNG',0,0,pdfW,(canvas1.height*pdfW)/canvas1.width);
+    pdf.addPage();
+    pdf.addImage(canvas2.toDataURL('image/png'),'PNG',0,0,pdfW,(canvas2.height*pdfW)/canvas2.width);
+    
+    pdf.save('როტაცია_'+new Date().toISOString().slice(0,10)+'.pdf');
+    
+    btn.disabled=false;btn.textContent='📄 PDF ექსპორტი';
+}
+
+function resetAll(){
+    document.getElementById('missionSelect').value='';document.getElementById('employeeAge').value='';document.getElementById('rentVal').value='';
+    document.getElementById('famList').innerHTML='<div class="empty-state">ოჯახის წევრები ჯერ არ არის დამატებული</div>';
+    document.getElementById('eduList').innerHTML='<div class="empty-state">ბავშვები ჯერ არ არის დამატებული</div>';
+    document.getElementById('missionInfo').classList.remove('visible');
+    isHead=false;bagChecked=true;brokerChecked=true;
+    document.getElementById('headToggle').classList.remove('checked');
+    document.getElementById('bagToggle').classList.add('checked');
+    document.getElementById('brokerToggle').classList.add('checked');
+    document.querySelectorAll('.progress-step').forEach((s,i)=>{s.classList.remove('active','completed');if(i===0)s.classList.add('active');});
+    goToStep(0);
+}
+</script>
+</body>
+</html>
