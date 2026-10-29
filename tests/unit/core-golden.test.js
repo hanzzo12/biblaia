@@ -95,7 +95,7 @@ test('golden education cases', () => {
     const data = synthData({ currency: i.currency });
     const edu = { memberId: 'F1', tuition: i.P };
     if (i.ineligibleReason === 'holiday-extra-contract-pt35') Object.assign(edu, { tuition: null, holidayExtraContract: i.P });
-    if (i.ineligibleReason === 'free-state-language-school-pt36') edu.freeStateLanguageSchoolAvailable = true;
+    if (i.ineligibleReason === 'free-state-language-school-pt36') Object.assign(edu, { freeStateLanguageSchoolAvailable: true, paidSchoolLanguageSameAsState: true });
     if (i.ineligibleReason === 'category-not-in-pt31') {
       // a non-pt31 cost (books, uniform) has no field: entering it as zero allowed expense gives 0 reimbursement
       const f = F.educationReimbursement('0', '690');
@@ -135,7 +135,7 @@ test('golden broker cases through calculate', () => {
       assert.deepEqual(got.map((g) => (g === null ? 'undetermined' : g)), c.expected.eligible, c.id);
       continue;
     }
-    const r = calculate(synthScenario({ G: i.rent, head: i.isHead, broker: { fee: i.fee, serviceDate: i.serviceDate, rotationStartDate: i.postingDate, alreadyReimbursed: i.alreadyReimbursed, documented: true, specialDecision81: false } }), synthData({}));
+    const r = calculate(synthScenario({ G: i.rent, head: i.isHead, entryId: i.isHead ? 'A2-R1' : null, broker: { fee: i.fee, serviceDate: i.serviceDate, rotationStartDate: i.postingDate, alreadyReimbursed: i.alreadyReimbursed, documented: true, specialDecision81: false } }), synthData({}));
     const b = r.oneTimeReimbursements.broker;
     assertGolden(b, c.expected.reimbursement, c.id);
     assert.equal(b.status, 'calculated', c.id);

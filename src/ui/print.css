@@ -11,12 +11,13 @@
   #form { display: none; }              /* შეყვანა იბეჭდება ცხრილად (#print-inputs) */
   #print-inputs { break-after: page; }
   h2, h3, h4, caption { break-after: avoid; page-break-after: avoid; }
-  .res-block, .row, .sub, tr, .kv, .completeness { break-inside: avoid; page-break-inside: avoid; }
+  .row, tr, .completeness, .kv dd { break-inside: avoid; page-break-inside: avoid; }
   thead { display: table-header-group; }
   table { font-size: 9pt; }
   .print-table th { width: 45%; font-weight: 400; }
   .row { grid-template-columns: 1.8fr 1fr; }
   .badge { border: 1px solid #000; background: none !important; color: #000 !important; }
+  details::details-content { display: block; content-visibility: visible; }
   details > summary { list-style: none; }
   details > summary::-webkit-details-marker { display: none; }
   a { color: #000; text-decoration: none; }

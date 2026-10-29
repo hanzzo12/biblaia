@@ -2,12 +2,12 @@
 // incomplete input. Exact rational arithmetic; display rounding only (P-1).
 import { R, ZERO, add, sub, mul, div, min, max, sum, isZero, gt, toFixed2, toExactString, toDecimalString } from './rational.js';
 import { parseDecimalInput } from './decimal.js';
-import { isValidDate, compareDates, addDays, addMonths, monthKey, segmentPeriod, ageOn, withinOpen, overlapDays } from './calendar.js';
+import { isValidDate, compareDates, addDays, addMonths, monthKey, monthEnd, segmentPeriod, ageOn, withinOpen, overlapDays, daysInclusive, daysInMonthOf } from './calendar.js';
 import { getIndex } from './lookup.js';
 import { emptyScenario, validateScenario, SCENARIO_SCHEMA_VERSION } from './scenario.js';
 import { DEPENDENT_STATUSES, EXTRA_RULES, EXTRA_CATEGORIES, SETTLEMENT_EXCLUSIONS, ROLES } from './enums.js';
 import {
-  monthlyRate, prorate, educationReimbursement, insuranceBand, insuranceReimbursement, brokerWindow, brokerAmount,
+  monthlyRate, prorate, educationReimbursement, adultChildEligible, insuranceBand, insuranceReimbursement, brokerWindow, brokerAmount,
   baggageReimbursement, settlementAmount, advanceSchedule,
 } from './formulas.js';
 
@@ -92,22 +92,47 @@ export function calculate(scenarioIn, data) {
   let entry = sc.position.entryId ? ix.positions.get(sc.position.entryId) || null : null;
   if (entry && entry.mode !== mode) entry = null;
   if (!sc.position.entryId) ctx.missing('position.entryId', 'აირჩიეთ თანამდებობა.');
-  let A = entry?.percent ?? null, aStatus = 'calculated', aRules = [mode === 'annex3' ? 'R-POS-A3' : 'R-POS-A2'], aEntry = entry;
+  const baseStatus = mode === 'annex3' && !sc.position.orderRef37 ? 'scenario' : 'calculated';
+  const baseRules = [mode === 'annex3' ? 'R-POS-A3' : 'R-POS-A2', 'R-POS-20'];
   if (mode === 'annex3') {
     ctx.info('POS_A3_ORDER', 'დანართ №3-ის რეჟიმი გამოიყენება მხოლოდ მინისტრის ბრძანებით განსაზღვრულ შემთხვევაში (პ.37); ამ პერიოდში შრომის ანაზღაურება წყდება (პ.39).', ['R-POS-A3'], 'position.mode');
+    if (!sc.position.orderRef37) ctx.warn('POS_A3_NO_ORDER', 'დანართ №3-ის რეჟიმი: მინისტრის ბრძანების რეკვიზიტი (პ.37) მითითებული არ არის — შედეგი სცენარია.', ['R-POS-A3'], 'position.orderRef37');
   }
   const s201 = sc.status.actingHead201, s202 = sc.status.adminManager202;
   if (s201.applies && s202.applies) ctx.warn('POS_BOTH_SPECIAL', 'პ.20¹ და პ.20² ერთდროულად არის მონიშნული; გამოიყენება პ.20¹.', ['R-POS-20-1', 'R-POS-20-2'], 'status');
+  // the special position (20¹ / 20²) that may apply, or null
+  let special = null;
   if (s201.applies) {
     if (mode !== 'annex2') ctx.warn('POS_201_MODE', 'პ.20¹ ეხება დიპლომატიური წარმომადგენლობის მოსამსახურეს (დანართი №2).', ['R-POS-20-1'], 'status.actingHead201');
     else if (!s201.actRef) ctx.warn('POS_201_ACT', 'პ.20¹: ხელმძღვანელის მაჩვენებელი გამოიყენება მხოლოდ მინისტრის გადაწყვეტილების რეკვიზიტის მითითებით; A არ შეცვლილა.', ['R-POS-20-1'], 'status.actingHead201.actRef');
-    else { aEntry = ix.positions.get('A2-R1'); A = aEntry?.percent ?? null; aRules = ['R-POS-20-1', 'R-POS-A2']; aStatus = 'calculated';
-      ctx.assume('POS_201', 'პ.20¹: მოვალეობის შემსრულებელს A = დანართი №2 სტრ.1 (100%) მინისტრის აქტის საფუძველზე; ქირისა და საკომისიოს ხელმძღვანელის წესის გავრცელება — ინტერპრეტაცია (P-6).', ['R-POS-20-1'], 'OQ-11'); }
+    else {
+      special = { entry: ix.positions.get('A2-R1'), from: s201.from ?? null, to: s201.to ?? null, rules: ['R-POS-20-1', 'R-POS-A2'], path: 'status.actingHead201' };
+      ctx.assume('POS_201', 'პ.20¹: მოვალეობის შემსრულებელს A = დანართი №2 სტრ.1 (100%) მინისტრის აქტის საფუძველზე, მხოლოდ შესრულების პერიოდში; ქირისა და საკომისიოს ხელმძღვანელის წესის გავრცელება — ინტერპრეტაცია (P-6).', ['R-POS-20-1'], 'OQ-11');
+    }
   } else if (s202.applies) {
     if (mode !== 'annex2') ctx.warn('POS_202_MODE', 'პ.20² ეხება დანართ №2-ის ადმინისტრაციულ მენეჯერს.', ['R-POS-20-2'], 'status.adminManager202');
+    else if (sc.position.entryId !== 'A2-R5') ctx.error('POS_202_ENTRY', 'პ.20² ვრცელდება მხოლოდ ადმინისტრაციულ მენეჯერზე (დანართი №2, სტრ.5); A არ შეცვლილა.', ['R-POS-20-2'], 'status.adminManager202');
     else if (!s202.actRef) ctx.warn('POS_202_ACT', 'პ.20²: დანართ №2-ის სტრ.3 (75%) გამოიყენება მინისტრის ბრძანების მითითებით; A არ შეცვლილა.', ['R-POS-20-2'], 'status.adminManager202.actRef');
-    else { aEntry = ix.positions.get('A2-R3'); A = aEntry?.percent ?? null; aRules = ['R-POS-20-2', 'R-POS-A2']; aStatus = 'calculated';
-      ctx.info('POS_202', 'პ.20²: მოვალეობის შესრულების პერიოდში A = დანართი №2 სტრ.3 (75%); ხელმძღვანელობას არ ნიშნავს.', ['R-POS-20-2'], 'status.adminManager202'); }
+    else {
+      special = { entry: ix.positions.get('A2-R3'), from: s202.from ?? null, to: s202.to ?? null, rules: ['R-POS-20-2', 'R-POS-A2'], path: 'status.adminManager202' };
+      ctx.info('POS_202', 'პ.20²: მოვალეობის შესრულების პერიოდში A = დანართი №2 სტრ.3 (75%); ხელმძღვანელობას არ ნიშნავს.', ['R-POS-20-2'], 'status.adminManager202');
+    }
+  }
+  /** A for a date (dates mode) or for the full month (date = null). */
+  function positionAt(date) {
+    const base = { A: entry?.percent ?? null, status: baseStatus, rules: baseRules, entry };
+    if (!special) return base;
+    const sp = { A: special.entry?.percent ?? null, rules: special.rules, entry: special.entry };
+    if (date) {
+      if (special.from || special.to) return withinOpen(date, special.from, special.to) ? { ...sp, status: baseStatus } : base;
+      ctx.warn('POS_SPECIAL_PERIOD', 'მიუთითეთ მოვალეობის შესრულების პერიოდი (დან/მდე); მის გარეშე სპეციალური მაჩვენებელი სცენარია.', special.rules, `${special.path}.from`);
+      return { ...sp, status: 'scenario' };
+    }
+    const mon = sc.period.month && isValidDate(`${sc.period.month}-01`) ? sc.period.month : null;
+    if (mon && special.from && special.to && compareDates(special.from, `${mon}-01`) <= 0 && compareDates(special.to, monthEnd(`${mon}-01`)) >= 0) return { ...sp, status: baseStatus };
+    if (mon && ((special.from && compareDates(special.from, monthEnd(`${mon}-01`)) > 0) || (special.to && compareDates(special.to, `${mon}-01`) < 0))) return base;
+    ctx.warn('POS_SPECIAL_PERIOD', 'სრული თვის რეჟიმში სპეციალური მაჩვენებელი (პ.20¹/20²) დადასტურებულია მხოლოდ მაშინ, როცა შესრულების პერიოდი მთელ თვეს (period.month) ფარავს; სხვა შემთხვევაში — სცენარი ან თარიღების რეჟიმი.', special.rules, `${special.path}.from`);
+    return { ...sp, status: 'scenario' };
   }
 
   // ---------------------------------------------------------------- head status
@@ -125,6 +150,7 @@ export function calculate(scenarioIn, data) {
       rentHeadStatus = 'scenario';
       ctx.assume('HEAD_CONSULAR', 'საკონსულო დაწესებულების ხელმძღვანელი: საკომისიოს 80% პირდაპირ (პ.8); ქირის 80% — სცენარი (P-5).', ['R-HEAD-RENT', 'R-BROKER-001'], 'OQ-10');
     } else if (entry && entry.rowNo !== 1) {
+      rentHeadStatus = brokerHeadStatus = 'scenario';
       ctx.warn('HEAD_UNUSUAL', 'ხელმძღვანელის სტატუსი მონიშნულია თანამდებობაზე, რომელიც ჩვეულებრივ დაწესებულებას არ ხელმძღვანელობს — გადაამოწმეთ.', ['R-HEAD-RENT'], 'status.rentHead');
     }
   }
@@ -141,7 +167,8 @@ export function calculate(scenarioIn, data) {
     return null;
   };
   const isDep = (m) => DEPENDENT_STATUSES.includes(m.status);
-  const right = (value, reason_ka, ruleIds) => ({ value, reason_ka, ruleIds });
+  const right = (value, reason_ka, ruleIds, scenario = false) => (scenario ? { value, reason_ka, ruleIds, status: 'scenario' } : { value, reason_ka, ruleIds });
+  const periodMonth = !datesMode && sc.period.month && isValidDate(`${sc.period.month}-01`) ? `${sc.period.month}-01` : null;
 
   /** monthly supplement right on a date (dates mode) or for the full month (date = null). */
   function supplementRight(m, date) {
@@ -155,8 +182,14 @@ export function calculate(scenarioIn, data) {
         const present = overlapDays(date, date, m.presence) === 1;
         return right(present, present ? 'ადგილსამყოფელ ქვეყანაშია (ჩამოსვლისა და წასვლის დღეების ჩათვლით).' : 'ამ დღეებში ადგილსამყოფელ ქვეყანაში არ არის.', ['R-FAM-DEPENDENT-PRESENCE']);
       }
-      ctx.warn('DEP_FULL_MONTH', 'სრული თვის რეჟიმში ითვლება, რომ დამოკიდებული წევრი მთელი თვე ქვეყანაშია; ზუსტი დღეებისთვის გამოიყენეთ თარიღების რეჟიმი.', ['R-FAM-DEPENDENT-PRESENCE'], `family.${m.id}.presence`);
-      return right(true, 'ყოფნის პერიოდი მითითებულია; სრული თვე.', ['R-FAM-DEPENDENT-PRESENCE']);
+      if (!m.presence.length) return right(false, 'ადგილსამყოფელ ქვეყანაში ყოფნის პერიოდი არ არის — დანამატი არ გაიცემა.', ['R-FAM-DEPENDENT-PRESENCE']);
+      if (periodMonth) {
+        const days = overlapDays(periodMonth, monthEnd(periodMonth), m.presence), dim = daysInMonthOf(periodMonth);
+        if (days === dim) return right(true, 'ადგილსამყოფელ ქვეყანაშია მთელი თვე.', ['R-FAM-DEPENDENT-PRESENCE']);
+        if (days === 0) return right(false, 'ამ თვეში ადგილსამყოფელ ქვეყანაში არ არის.', ['R-FAM-DEPENDENT-PRESENCE']);
+      }
+      ctx.warn('DEP_FULL_MONTH', 'დამოკიდებული წევრის ყოფნა მთელ თვეს არ ფარავს ან თვე უცნობია — სრული თვის შედეგი სცენარია; ზუსტი დღეებისთვის აირჩიეთ თარიღების რეჟიმი.', ['R-FAM-DEPENDENT-PRESENCE'], `family.${m.id}.presence`);
+      return right(true, 'ყოფნა ნაწილობრივია/თვე უცნობია — სცენარი (მთელი თვე).', ['R-FAM-DEPENDENT-PRESENCE'], true);
     }
     if (m.role === 'other') {
       ctx.assume('FAMILY_MEMBER_OTHER', '„ოჯახის სხვა წევრი“ დანამატში ითვლება; „ოჯახის წევრის“ ცნება მოწოდებულ ტექსტში განსაზღვრული არ არის.', ['R-D-C', 'R-FAM-ROLES'], 'OQ-22');
@@ -165,13 +198,17 @@ export function calculate(scenarioIn, data) {
   }
   function memberRights(m) {
     const age = memberAge(m);
+    if (m.supplementPaidToOtherEmployee) ctx.info('RENT_ONE_EMPLOYEE', 'ერთ დაწესებულებაში ოჯახის ორი მოსამსახურისას ბინას ქირაობს მხოლოდ ერთ-ერთი (G > 0 მხოლოდ ერთთან, დ1 მ.4 პ.1).', ['R-FAM-SAMEPOST'], `family.${m.id}`);
     const edu = (() => {
       if (m.reimbursedElsewhere?.education) return right(false, 'განათლების ხარჯს სხვა უწყება ანაზღაურებს (დ1 მ.4 პ.4).', ['R-FAM-OTHERAGENCY']);
-      const adultOk = m.adultChildInSchool && (m.role === 'child' || m.role === 'stepchild');
       if (age != null && age < 18) return right(true, 'არასრულწლოვანი ოჯახის წევრი (პ.31).', ['R-EDU-SCOPE']);
-      if (adultOk) {
-        ctx.assume('EDU_ADULT', 'სრულწლოვანი შვილი/გერი ითვლება უფლებამოსილად: ზოგადსაგანმანათლებლო სკოლაში სწავლობს, ადგილსამყოფელი სახელმწიფოს თანხმობით, სრულწლოვანებიდან ≤ 1 წელი (მომხმარებლის დადასტურება).', ['R-EDU-ADULT'], 'OQ-22');
-        return right(true, 'სრულწლოვანი შვილი/გერი სკოლაში (ბრძანების შენიშვნა).', ['R-EDU-ADULT']);
+      if (m.adultChildInSchool && (m.role === 'child' || m.role === 'stepchild')) {
+        // note after pt 43: in general school, host-state consent, ≤ 1 year after majority (age 18 completed years)
+        const ok = adultChildEligible({ inSchool: true, hostConsent: m.hostStateConsent ?? null, monthsSinceMajority: age == null ? null : age === 18 ? 0 : 12 });
+        if (ok === true) return right(true, 'სრულწლოვანი შვილი/გერი: სკოლაში, ადგილსამყოფელი სახელმწიფოს თანხმობით, სრულწლოვანებიდან ≤ 1 წელი (შენიშვნა).', ['R-EDU-ADULT']);
+        if (ok === false) return right(false, m.hostStateConsent === false ? 'ადგილსამყოფელი სახელმწიფოს თანხმობა არ არის (შენიშვნა).' : 'სრულწლოვანებიდან 1 წელზე მეტია (შენიშვნა).', ['R-EDU-ADULT']);
+        ctx.missing(`family.${m.id}.hostStateConsent`, `${m.label || m.id}: მიუთითეთ ასაკი და ადგილსამყოფელი სახელმწიფოს თანხმობა (სრულწლოვანი შვილის განათლება).`);
+        return right(null, 'სრულწლოვანი შვილის უფლებისთვის საჭიროა ასაკი და ადგილსამყოფელი სახელმწიფოს თანხმობა.', ['R-EDU-ADULT']);
       }
       if (age != null) return right(false, 'სრულწლოვანია და შენიშვნის პირობა მონიშნული არ არის.', ['R-EDU-ADULT']);
       return right(null, 'ასაკი უცნობია.', ['R-EDU-SCOPE']);
@@ -200,14 +237,16 @@ export function calculate(scenarioIn, data) {
     ctx.info('FAMILY_DATES_FULL_MONTH', 'სრული თვის რეჟიმში წევრის „დან/მდე“ თარიღები არ გამოიყენება; შემადგენლობის ცვლილებისთვის აირჩიეთ თარიღების რეჟიმი.', ['R-PRORATE-CHANGE'], 'family');
   }
 
+  /** C and its status for a date (dates mode) or the full month (date undefined). */
   function countC(date) {
-    let c = 0;
+    let c = 0, st = 'calculated';
     for (const m of family) {
       const r = date === undefined ? rightsById.get(m.id).eligibility.monthlySupplement : supplementRight(m, date);
-      if (r.value === null) { ctx.missing(`family.${m.id}.presence`, `${m.label || m.id}: მიუთითეთ ადგილსამყოფელ ქვეყანაში ყოფნის თარიღები.`); return null; }
+      if (r.value === null) { ctx.missing(`family.${m.id}.presence`, `${m.label || m.id}: მიუთითეთ ადგილსამყოფელ ქვეყანაში ყოფნის თარიღები.`); return { C: null, st: 'undetermined' }; }
       if (r.value) c++;
+      if (r.status) st = worst(st, r.status);
     }
-    return c;
+    return { C: c, st };
   }
 
   // ---------------------------------------------------------------- rent G
@@ -224,48 +263,51 @@ export function calculate(scenarioIn, data) {
   ctx.info('RENT_CURRENCY', 'ქირა შეიყვანეთ დაწესებულების დაფინანსების ვალუტაში; სხვა ვალუტიდან გადაყვანის წესი ტექსტში არ არის (P-12).', ['R-RENT-CURRENCY'], 'rent.amount');
 
   // ---------------------------------------------------------------- monthly block (full month, or inputs at period start)
-  const C0 = refDate ? countC(refDate) : countC(undefined);
+  const { C: C0, st: c0St } = refDate ? countC(refDate) : countC(undefined);
+  const pos0 = positionAt(refDate);
+  const A = pos0.A;
   const G0 = refDate ? rentAt(refDate) : amt(sc.rent.amount);
   if (G0 == null) ctx.missing('rent.amount', 'შეიყვანეთ ბინის თვიური ქირა (0 = ქირა არ არის; ცარიელი = უცნობი).');
-  const blockStatus = (C, G) => {
+  const Qv = param('FAMILY-SUPPLEMENT-PCT') ?? '7';
+  const blockStatus = (C, cSt, pos) => {
     const kSt = kRow ? 'calculated' : 'undetermined';
-    const dSt = worst(H ? 'calculated' : 'undetermined', A != null ? aStatus : 'undetermined', kSt, C != null ? 'calculated' : 'undetermined');
+    const dSt = worst(H ? 'calculated' : 'undetermined', pos.A != null ? pos.status : 'undetermined', kSt, C != null ? cSt : 'undetermined');
     return { kSt, dSt };
   };
-  function fullMonth(C, G, idPrefix = '') {
-    const r = monthlyRate({ H, A, K: kRow?.k ?? null, E: kRow?.ePercent ?? null, C, G, head });
-    const { dSt } = blockStatus(C, G);
+  function fullMonth(C, G, idPrefix = '', cSt = 'calculated', pos = pos0) {
+    const r = monthlyRate({ H, A: pos.A, K: kRow?.k ?? null, E: kRow?.ePercent ?? null, C, G, head, Q: Qv });
+    const { dSt } = blockStatus(C, cSt, pos);
     const tSt = worst(dSt, kRow ? 'calculated' : 'undetermined');
     let fSt = worst(tSt, G != null ? gStatus : 'undetermined');
     if (r.fCase === 'head') fSt = worst(fSt, rentHeadStatus);
     if (r.fCase === 'needs-head') { fSt = 'undetermined'; ctx.missing('status.rentHead', 'ქირა ბინის წილზე (T) მეტია: მიუთითეთ, ხელმძღვანელობთ თუ არა დაწესებულებას.'); }
     if (r.fCase === 'equal') ctx.assume('RENT_G_EQUALS_T', 'G = T ტექსტში ცალკე არ არის; გამოყენებულია F = T (ორივე მეზობელი ფორმულის ზღვარი, P-3).', ['R-RENT-F-EQUAL'], 'OQ-01');
     const sSt = worst(dSt, tSt, fSt);
-    const iu = { H, A, K: kRow?.k ?? null, E: kRow?.ePercent ?? null, C: C == null ? null : String(C), G: str(G), Q: '7', rentHead: sc.status.rentHead };
+    const iu = { H, A: pos.A, positionEntryId: pos.entry?.id ?? null, K: kRow?.k ?? null, E: kRow?.ePercent ?? null, C: C == null ? null : String(C), G: str(G), Q: Qv, rentHead: sc.status.rentHead };
     const p = idPrefix;
     return {
       r,
-      D: comp(`${p}D`, 'monthly', 'სამივლინებო თანხის პერსონალური განაკვეთი (D)', r.D, cur, dSt, 'D = H × A% × K × (100 + C × Q)%', ['R-D-001', 'R-D-C'], iu),
+      D: comp(`${p}D`, 'monthly', 'სამივლინებო თანხის პერსონალური განაკვეთი (D)', r.D, cur, dSt, 'D = H × A% × K × (100 + C × Q)%', ['R-D-001', 'R-D-C', ...pos.rules], iu),
       T: comp(`${p}T`, 'monthly', 'ბინის ქირის წილი D-ში (T)', r.T, cur, tSt, 'T = D × E%', ['R-T-001'], iu),
       F: comp(`${p}F`, 'monthly', 'ბინის ქირის სუბსიდია (F)', r.F, cur, fSt, fReason(r.fCase), r.fRuleIds, iu),
       S: comp(`${p}S`, 'monthly', 'გრძელვადიანი მივლინების ყოველთვიური განაკვეთი (S)', r.S, cur, sSt,
         r.S == null ? 'S-ის დასადგენად საჭიროა ყველა შემავალი მონაცემი (მათ შორის ქირა G).' : 'S = D − T + F', ['R-S-001'], iu),
     };
   }
-  const fm = fullMonth(C0, G0);
-  const { kSt } = blockStatus(C0, G0);
+  const fm = fullMonth(C0, G0, '', c0St, pos0);
+  const { kSt } = blockStatus(C0, c0St, pos0);
   const g0Comp = comp('G', 'monthly', 'ბინის ფაქტობრივი თვიური ქირა (G)', G0, cur, G0 == null ? 'undetermined' : gStatus,
     G0 == null ? 'ქირა არ არის შეყვანილი (ცარიელი ≠ 0).' : isZero(G0) ? 'ქირა არ არის (G = 0).' : (sc.rent.basis === 'actual' ? 'ფაქტობრივი ქირა.' : 'დაგეგმილი/საბაზრო ქირა — სცენარი.'),
     ['R-RENT-UNKNOWN', 'R-RENT-CURRENCY'], { basis: sc.rent.basis });
   const monthly = {
     H: comp('H', 'parameter', 'საბაზისო თანხა (H)', H, cur, H ? 'calculated' : 'undetermined', H ? `ბრძანება პ.3 (${cur})` : 'დაწესებულება არ არის არჩეული.', ['R-H-001', 'R-CUR-001']),
-    A: comp('A', 'parameter', 'თანამდებობრივი მაჩვენებელი (A, %)', A, null, A != null ? aStatus : 'undetermined',
-      aEntry ? `${mode === 'annex3' ? 'დანართი №3' : 'დანართი №2'}, სტრ. ${aEntry.rowNo}` : 'თანამდებობა არ არის არჩეული.', aRules, { entryId: aEntry?.id ?? null }, 'raw'),
+    A: comp('A', 'parameter', 'თანამდებობრივი მაჩვენებელი (A, %)', A, null, A != null ? pos0.status : 'undetermined',
+      pos0.entry ? `${mode === 'annex3' ? 'დანართი №3' : 'დანართი №2'}, სტრ. ${pos0.entry.rowNo}` : 'თანამდებობა არ არის არჩეული.', pos0.rules, { entryId: pos0.entry?.id ?? null }, 'raw'),
     K: comp('K', 'parameter', 'ქვეყნის/ქალაქის კოეფიციენტი (K)', kRow?.k ?? null, null, kSt,
       kRow ? `დანართი №4, სტრ. ${kRow.annex4Row} (${kRow.scope === 'city' ? 'ქალაქის სტრიქონი' : 'ქვეყნის სტრიქონი'})` : 'დანართ №4-ში სტრიქონი არ არის — დაუდგენელი.', ['R-K-001'], { coefficientId: kRow?.id ?? null }, 'raw'),
-    C: comp('C', 'parameter', 'დანამატის მქონე ოჯახის წევრები (C)', C0, null, C0 != null ? 'calculated' : 'undetermined',
+    C: comp('C', 'parameter', 'დანამატის მქონე ოჯახის წევრები (C)', C0, null, C0 != null ? c0St : 'undetermined',
       'მოსამსახურე არ ითვლება; თითო წევრის უფლება — ოჯახის ცხრილში.', ['R-D-C'], {}, 'raw'),
-    Q: comp('Q', 'parameter', 'დანამატი თითო წევრზე (Q, %)', param('FAMILY-SUPPLEMENT-PCT') ?? '7', null, 'calculated', 'დანართი №1, მ.3(ბ)', ['R-D-001'], {}, 'raw'),
+    Q: comp('Q', 'parameter', 'დანამატი თითო წევრზე (Q, %)', Qv, null, 'calculated', 'დანართი №1, მ.3(ბ)', ['R-D-001'], {}, 'raw'),
     D: fm.D,
     E: comp('E', 'parameter', 'ბინის ქირის ხვედრითი წილი (E, %)', kRow?.ePercent ?? null, null, kSt, kRow ? `დანართი №4, სტრ. ${kRow.annex4Row}` : 'დაუდგენელი.', ['R-K-001', 'R-T-001'], {}, 'raw'),
     T: fm.T, G: g0Comp, F: fm.F, S: fm.S,
@@ -281,6 +323,8 @@ export function calculate(scenarioIn, data) {
   if (datesMode) {
     const cuts = [];
     for (const ch of sc.rent.changes) if (ch && isValidDate(ch.from)) cuts.push(ch.from);
+    if (special && isValidDate(special.from)) cuts.push(special.from);
+    if (special && isValidDate(special.to)) cuts.push(addDays(special.to, 1));
     for (const m of family) {
       if (isValidDate(m.from)) cuts.push(m.from);
       if (isValidDate(m.to)) cuts.push(addDays(m.to, 1));
@@ -299,16 +343,17 @@ export function calculate(scenarioIn, data) {
     const parts = [];
     let segStatus = 'calculated';
     segs.forEach((s, i) => {
-      const C = countC(s.from);
+      const { C, st: cSt } = countC(s.from);
       const G = rentAt(s.from);
-      const f = fullMonth(C, G, `seg${i}.`);
+      const pos = positionAt(s.from);
+      const f = fullMonth(C, G, `seg${i}.`, cSt, pos);
       const pr = prorate(f.r.S, s.days, s.daysInMonth);
       const pc = comp(`seg${i}.prorated`, 'monthly', `S ${s.from} – ${s.to}`, pr, cur, f.S.status,
         `S × ${s.days} / ${s.daysInMonth} (სეგმენტის სრული თვის განაკვეთი × დღეები / თვის დღეები)`, ['R-PRORATE-001', 'R-PRORATE-CHANGE'],
         { S: f.S.exact, days: s.days, daysInMonth: s.daysInMonth });
       parts.push(pr);
       segStatus = worst(segStatus, pc.status);
-      periodSegments.push({ from: s.from, to: s.to, month: s.month, days: s.days, daysInMonth: s.daysInMonth, C: C == null ? null : String(C), G: str(G),
+      periodSegments.push({ from: s.from, to: s.to, month: s.month, days: s.days, daysInMonth: s.daysInMonth, C: C == null ? null : String(C), G: str(G), A: pos.A,
         fullMonth: { D: f.D, T: f.T, F: f.F, S: f.S }, prorated: pc });
     });
     const tot = parts.some((x) => x == null) ? null : sum(parts);
@@ -336,13 +381,24 @@ export function calculate(scenarioIn, data) {
     let reimb = null, status = 'calculated', reason = '', rules = ['R-EDU-SCOPE', 'R-EDU-LIMIT', 'R-EDU-EXCESS'];
     const notes = [];
     if (elig.value === false) { reimb = ZERO; reason = elig.reason_ka; rules = elig.ruleIds; }
-    else if (x.freeStateLanguageSchoolAvailable && !x.ministerDecision34) { reimb = ZERO; reason = 'ქალაქში არის სახელმწიფო ენაზე უფასო სასწავლებელი — იმავე ენაზე ფასიანის ხარჯი არ ანაზღაურდება (პ.36).'; rules = ['R-EDU-FREESTATE']; }
+    else if (x.freeStateLanguageSchoolAvailable && !x.ministerDecision34 && x.paidSchoolLanguageSameAsState === true) { reimb = ZERO; reason = 'ქალაქში არის სახელმწიფო ენაზე უფასო სასწავლებელი და ფასიანი სკოლა იმავე ენაზეა — ხარჯი არ ანაზღაურდება (პ.36).'; rules = ['R-EDU-FREESTATE']; }
+    else if (x.freeStateLanguageSchoolAvailable && !x.ministerDecision34 && x.paidSchoolLanguageSameAsState !== false) {
+      reimb = null; status = 'undetermined'; reason = 'პ.36: მიუთითეთ, ფასიანი სკოლის სწავლების ენა იგივეა თუ არა, რაც უფასო სახელმწიფო ენის სკოლისა.'; rules = ['R-EDU-FREESTATE'];
+      ctx.missing(`${path}.paidSchoolLanguageSameAsState`, 'პ.36: ფასიანი სკოლის სწავლების ენა სახელმწიფო ენის იგივეა?');
+    }
     else {
       reimb = elig.value === null ? null : educationReimbursement(P, L, excessPct).reimbursement;
       reason = 'min(P, L) + 80% × max(P − L, 0) (პ.32–33)';
       if (elig.value === null) status = 'undetermined';
       if (x.ministerDecision34) { status = worst(status, 'unconfirmed'); notes.push('მინისტრის გადაწყვეტილებით შესაძლებელია განსხვავებული წესი (პ.34/პ.36) — სტანდარტული ფორმულა, დაუდასტურებელი.'); rules = [...rules, 'R-EDU-SPECIAL']; }
     }
+    if (x.freeStateLanguageSchoolAvailable && x.paidSchoolLanguageSameAsState === false) notes.push('უფასო სახელმწიფო ენის სკოლა არსებობს, მაგრამ ფასიანი სკოლა სხვა ენაზეა — პ.36 არ ზღუდავს.');
+    if (x.schoolYear && isValidDate(x.schoolYear.from) && isValidDate(x.schoolYear.to)) {
+      const outside = datesMode
+        ? compareDates(sc.period.start, x.schoolYear.from) < 0 || compareDates(sc.period.end, x.schoolYear.to) > 0
+        : periodMonth ? compareDates(monthEnd(periodMonth), x.schoolYear.from) < 0 || compareDates(periodMonth, x.schoolYear.to) > 0 : false;
+      if (outside) ctx.warn('EDU_SCHOOL_YEAR', 'პერიოდი (ნაწილობრივ) სასწავლო წლის გარეთაა — განათლების ხარჯი ანაზღაურდება მხოლოდ სასწავლო წლის დაწყებიდან დასრულებამდე (პ.32).', ['R-EDU-LIMIT'], `${path}.schoolYear`);
+    } else if (datesMode) ctx.info('EDU_SCHOOL_YEAR_UNKNOWN', 'განათლების ანაზღაურება — მხოლოდ სასწავლო წლის თვეებში (პ.32); თვიური თანხა პერიოდის ყველა თვეზე ავტომატურად არ მრავლდება.', ['R-EDU-LIMIT'], `${path}.schoolYear`);
     if (holiday != null && !isZero(holiday)) { notes.push('არდადეგების დამატებითი ხელშეკრულება არ ანაზღაურდება (პ.35).'); rules = [...rules, 'R-EDU-HOLIDAY']; }
     const expense = P == null ? null : add(P, holiday ?? ZERO);
     const personal = reimb == null || expense == null ? null : sub(expense, reimb);
@@ -417,6 +473,10 @@ export function calculate(scenarioIn, data) {
         st = reimb == null ? 'undetermined' : 'calculated';
         reason = 'min(პოლისის ღირებულება, წლიური ზღვარი − უკვე ანაზღაურებული) (პ.30)';
         if (p.member && DEPENDENT_STATUSES.includes(p.member.status)) {
+          const pS = entryI.policyStart, pE = entryI.policyEnd;
+          const covered = isValidDate(pS) && isValidDate(pE) && Array.isArray(p.member.presence) && compareDates(pE, pS) >= 0
+            && overlapDays(pS, pE, p.member.presence) === daysInclusive(pS, pE);
+          if (!covered && st === 'calculated') { st = 'scenario'; reason += ' პოლისის პერიოდი ყოფნის პერიოდს ზუსტად არ ემთხვევა ან უცნობია — სცენარი (პ.30ბ).'; }
           ctx.info('INS_DEPENDENT_PERIOD', 'მხარდაჭერის მიმღებს/მეურვეობის ან მზრუნველობის ქვეშ მყოფს დაზღვევა უნაზღაურდება მხოლოდ ქვეყანაში ყოფნის პერიოდში (პ.30ბ); ზღვარი ავტომატურად არ პროპორცირდება (P-11).', ['R-INS-PERIOD'], path);
         }
       }
@@ -486,8 +546,8 @@ export function calculate(scenarioIn, data) {
     let st = 'calculated', reason = 'თითო მოთხოვნა min(ხარჯი, დარჩენილი ზღვარი); ერთი ზღვარი ყველაზე (პ.4ბ).';
     if (b.kind === 'recall-5-1') { st = 'unconfirmed'; rules.push('R-TRAVEL-CALLBACK'); reason += ' გამოძახება — მინისტრის აქტის საფუძველზე (პ.5¹).'; }
     if (b.kind === 'recall' || b.kind === 'recall-5-1') ctx.assume('BAG_RECALL_CAP', 'გამოწვევისას ბარგის ზღვარი ცალკე ითვლება (წარგზავნისას გამოყენებული არ აკლდება) და მოქმედებს იმავე დაწესებულების ზღვარი.', ['R-BAG-001'], 'OQ-16');
-    const prev = amt(b.previouslyUsed ?? '0');
-    if (b.previouslyUsed === null) ctx.missing('baggage.previouslyUsed', 'მიუთითეთ ზღვრიდან უკვე გამოყენებული თანხა (0, თუ არაფერი).');
+    const prev = amt(b.previouslyUsed);
+    if (b.previouslyUsed == null) ctx.missing('baggage.previouslyUsed', 'მიუთითეთ ზღვრიდან უკვე გამოყენებული თანხა (0, თუ არაფერი).');
     const blocked = b.kind === 'recall' && b.callbackAlreadyReimbursed;
     const elsewhere = claimsIn.map((c) => c.who !== 'EMP' && famById.get(c.who)?.reimbursedElsewhere?.baggage);
     const amounts = claimsIn.map((c) => amt(c.amount));
@@ -518,7 +578,11 @@ export function calculate(scenarioIn, data) {
   function settlementBlock() {
     const s = sc.settlement;
     const id = 'settlement', label = 'პირველადი მოწყობა (ერთჯერადი დახმარება)';
-    const n = familyOut.filter((f) => f.eligibility.settlement10.value).length;
+    const posting = isValidDate(s.postingDate) ? s.postingDate : refDate;
+    const n = family.filter((m) => rightsById.get(m.id).eligibility.settlement10.value && !(posting && isValidDate(m.to) && compareDates(m.to, posting) < 0)).length;
+    ctx.assume('SETTLE_N', 'პირველადი მოწყობის +10% ითვლება წარგზავნისას ოჯახის შემადგენლობაში მყოფ (მხარდაჭერის მიმღებისა და მეურვეობის/მზრუნველობის ქვეშ მყოფის გარდა) წევრებზე; თან ახლება აუცილებელია თუ არა — ღია საკითხი.', ['R-SETTLE-001'], 'OQ-17');
+    const employedMember = family.some((m) => m.worksInSameMissionOrCity);
+    if (employedMember && !s.exclusion9) ctx.warn('SETTLE_CHECK_9E', 'ოჯახის წევრი იმავე ქალაქში მოსამსახურეა/მივლინებულია — შეამოწმეთ პ.9ე/9ვ (პირველადი მოწყობა შეიძლება არ ეკუთვნოდეს).', ['R-SETTLE-EXCL'], 'settlement.exclusion9');
     const iu = { n, exclusion9: s.exclusion9 ?? null, transfer10: !!s.transfer10, dailyRate: s.dailyRate ?? null, fx: s.fx ?? null };
     if (s.exclusion9) {
       const note = s.exclusion9 === 'f' ? ' (პ.9ვ — ვრცელდება ოჯახის ერთ-ერთ მოსამსახურეზე; ვისზე — OQ-17).' : '';
@@ -528,6 +592,10 @@ export function calculate(scenarioIn, data) {
     if (s.transfer10) { rules.push('R-SETTLE-TRANSFER'); ctx.info('SETTLE_TRANSFER', 'პ.10: სხვა ქალაქში გადაყვანისას ხარჯები ხელახლა ანაზღაურდება (ახალი დაწესებულების ნორმებით).', ['R-SETTLE-TRANSFER'], 'settlement.transfer10'); }
     const dr = s.dailyRate;
     const rate = dr ? amt(dr.amount) : null;
+    if (dr && rate != null && !dr.currency) {
+      ctx.missing('settlement.dailyRate.currency', 'მიუთითეთ სადღეღამისო ნორმის ვალუტა (ავტომატურად არ ითვლება მისიის ვალუტად).');
+      return comp(id, 'one-time-allowance', label, null, cur, 'undetermined', 'ნორმის ვალუტა მითითებული არ არის.', rules, iu);
+    }
     if (!dr || rate == null) {
       return comp(id, 'one-time-allowance', label, null, cur, 'undetermined', '№211 დადგენილების სადღეღამისო ნორმა მოწოდებულ წყაროებში არ არის; შეიყვანეთ ნორმა წყაროთი და თარიღით (P-9).', rules, iu);
     }
@@ -541,7 +609,7 @@ export function calculate(scenarioIn, data) {
       }
       return comp(id, 'one-time-allowance', label, mul(amountR, fx), cur, 'unconfirmed', `ნორმა × 60 × (1 + 10% × ${n}) × კურსი ${s.fx.rate} (${s.fx.date ?? '?'}, ${s.fx.source ?? '?'})`, rules, iu);
     }
-    return comp(id, 'one-time-allowance', label, amountR, dr.currency || cur, 'unconfirmed', `ნორმა × 60 × (1 + 10% × ${n}); მხარდაჭერის მიმღები და მეურვეობის/მზრუნველობის ქვეშ მყოფი არ ითვლება.`, rules, iu);
+    return comp(id, 'one-time-allowance', label, amountR, dr.currency, 'unconfirmed', `ნორმა × 60 × (1 + 10% × ${n}); მხარდაჭერის მიმღები და მეურვეობის/მზრუნველობის ქვეშ მყოფი არ ითვლება.`, rules, iu);
   }
 
   // ---------------------------------------------------------------- travel
@@ -674,7 +742,7 @@ export function calculate(scenarioIn, data) {
     missionId: mission?.id ?? null, mission_ka: mission?.name_ka ?? null, countryId: mission?.countryId ?? null, locationId: mission?.locationId ?? null,
     currency: cur, coefficientId: kRow?.id ?? null, coefficientBasis: mission?.costCoefficientBasis ?? null,
     insuranceCapId: mission?.insuranceCapId ?? null, baggageCapId: mission?.baggageCapId ?? null,
-    positionMode: mode, positionEntryId: aEntry?.id ?? null, positionPercent: A, rentHead: sc.status.rentHead, headBasis: sc.status.headBasis,
+    positionMode: mode, positionEntryId: pos0.entry?.id ?? null, positionPercent: A, rentHead: sc.status.rentHead, headBasis: sc.status.headBasis,
     rentBasis: sc.rent.basis, periodMode: datesMode ? 'dates' : 'full-month', period: datesMode ? { start: sc.period.start, end: sc.period.end } : null,
     familyCount: family.length,
   };

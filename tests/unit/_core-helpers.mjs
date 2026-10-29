@@ -55,6 +55,7 @@ export function synthData({ currency = 'EUR', H = currency === 'EUR' ? '3100' : 
         { id: 'A2-R1', rowNo: 1, title_ka: 'ელჩი', positions_ka: [], percent: '100' },
         { id: 'A2-R2', rowNo: 2, title_ka: 'გენერალური კონსული', positions_ka: [], percent: '80' },
         { id: 'A2-R3', rowNo: 3, title_ka: 'დესპანი', positions_ka: [], percent: '75' },
+        { id: 'A2-R5', rowNo: 5, title_ka: 'ადმინისტრაციული მენეჯერი', positions_ka: [], percent: '65' },
         { id: 'A2-RX', rowNo: 9, title_ka: 'test', positions_ka: [], percent: A }] },
       { id: 'annex3', entries: [{ id: 'A3-RX', rowNo: 8, title_ka: 'test', positions_ka: [], percent: annex3A ?? A }] },
     ],

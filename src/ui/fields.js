@@ -8,7 +8,7 @@ function shell(id, label, control, opts, err) {
   const hint = opts.hint ? h('p', { id: id + '-hint', class: 'hint' }, opts.hint) : null;
   return h('div', { class: 'field' + (opts.wide ? ' wide' : '') },
     h('label', { for: id }, label, opts.required ? h('span', { class: 'req', 'aria-hidden': 'true' }, ' *') : null),
-    opts.unit ? h('div', { class: 'with-unit' }, control, h('span', { class: 'unit', 'data-unit-for': id }, opts.unit)) : control,
+    opts.unit !== undefined ? h('div', { class: 'with-unit' }, control, h('span', { class: 'unit', 'data-unit-for': id }, opts.unit)) : control,
     hint, err);
 }
 

@@ -152,6 +152,42 @@ test('JSON ექსპორტი → გასუფთავება → �
   await page.close();
 });
 
+test('ონლაინ (http): /api/market, ქალაქის სწრაფი გადართვისას ძველი პასუხი არ წერს ახალს', async () => {
+  const page = await browser.newPage();
+  const html = readFileSync(path.join(root, 'dist/web/index.html'));
+  const seen = [];
+  const body = (loc, average, city) => ({
+    schemaVersion: 1, requestedLocationId: loc,
+    resolvedLocation: { city, countryCode: loc.slice(0, 2), providerCityId: '900001', matchStatus: 'exact' },
+    provider: { id: 'numbeo', name: 'Numbeo', sourceUrl: 'https://www.numbeo.com/cost-of-living/', attribution: 'წყარო: Numbeo.com' },
+    currency: 'EUR',
+    rent: { status: 'fresh', items: { centre_1br: { metric: 'centre_1br', bedrooms: 1, area: 'centre', average, low: null, high: null, dataPoints: 20, status: 'fresh', origin: 'provider', sourceUpdatedAt: '2026-09', fetchedAt: '2026-10-29T10:00:00Z' } } },
+    indices: { costOfLivingExcludingRent: null, rentIndex: null, costOfLivingPlusRent: null, baseline: null, status: 'not_found', origin: 'provider', sourceUpdatedAt: null, fetchedAt: null },
+    cache: { state: 'none', expiresAt: null }, warnings: [{ code: 'synthetic_test_data' }],
+  });
+  await page.route('**/*', async (r) => {
+    const u = new URL(r.request().url());
+    if (u.origin !== 'http://ui.test') return r.abort();
+    if (u.pathname === '/') return r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: html });
+    if (u.pathname === '/api/market') {
+      seen.push(u.search);
+      const loc = u.searchParams.get('location');
+      if (loc === 'AT-VIENNA') await new Promise((res) => setTimeout(res, 600));
+      return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body(loc, loc === 'AT-VIENNA' ? '1111' : '777', 'Synthetic')) });
+    }
+    return r.abort();
+  });
+  await page.goto('http://ui.test/');
+  const search = page.getByRole('combobox', { name: 'ძიება (ქართულად ან ლათინურად)' });
+  await search.fill('Vienna'); await page.keyboard.press('Enter');
+  await search.fill('Ljubljana'); await page.keyboard.press('Enter');
+  await page.waitForTimeout(1000);
+  assert.equal(await page.getByTestId('market-rent-average').getAttribute('data-value'), '777');
+  assert.equal(await page.locator('.market-index [data-status]').first().getAttribute('data-status'), 'not_found');
+  for (const q of seen) assert.match(q, /^\?location=[A-Z0-9-]+&currency=(EUR|USD)$/);
+  await page.close();
+});
+
 test('მობილური 375px: ჰორიზონტალური გადახვევა არ არის', async () => {
   const { page } = await openPage({ width: 375, height: 800 });
   await vienna(page);

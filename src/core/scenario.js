@@ -101,6 +101,7 @@ export function validateScenario(scenario, data) {
         if (ix && !entry) e('position.entryId', 'POSITION_UNKNOWN', 'თანამდებობა დანართ №2/№3-ში არ მოიძებნა.');
         else if (entry && entry.mode !== pos.mode) e('position.entryId', 'POSITION_MODE', 'თანამდებობა არჩეულ რეჟიმს (№2/№3) არ ეკუთვნის.');
       }
+      text('position.orderRef37', pos.orderRef37);
     }
   }
   const st = scenario.status;
@@ -114,7 +115,10 @@ export function validateScenario(scenario, data) {
         if (!isObj(st[k])) { e(`status.${k}`, 'STATUS', 'მოსალოდნელია ობიექტი.'); continue; }
         bool(`status.${k}.applies`, st[k].applies);
         text(`status.${k}.actRef`, st[k].actRef);
+        date(`status.${k}.from`, st[k].from); date(`status.${k}.to`, st[k].to);
+        if (isValidDate(st[k].from) && isValidDate(st[k].to) && compareDates(st[k].to, st[k].from) < 0) e(`status.${k}.to`, 'RANGE_ORDER', '„მდე“ თარიღი „დან“-ზე ადრეა.');
       }
+      if (st.adminManager202?.applies && pos?.entryId && pos.entryId !== 'A2-R5') e('status.adminManager202', 'POS_202_ENTRY', 'პ.20² ვრცელდება მხოლოდ ადმინისტრაციულ მენეჯერზე (დანართი №2, სტრ.5).');
     }
   }
   // period
@@ -123,6 +127,7 @@ export function validateScenario(scenario, data) {
     if (!isObj(per)) e('period', 'PERIOD', 'პერიოდი უნდა იყოს ობიექტი.');
     else {
       oneOf('period.mode', per.mode, ['full-month', 'dates'], false);
+      if (per.month !== undefined && per.month !== null && !(typeof per.month === 'string' && isValidDate(`${per.month}-01`))) e('period.month', 'MONTH_INVALID', 'თვე — ფორმატით YYYY-MM.');
       if (per.mode === 'dates') {
         date('period.start', per.start, true);
         date('period.end', per.end, true);
@@ -154,7 +159,7 @@ export function validateScenario(scenario, data) {
         if (isValidDate(r.from) && isValidDate(r.to) && compareDates(r.to, r.from) < 0) e(`${p}.presence[${j}].to`, 'RANGE_ORDER', 'ყოფნის დასრულება დაწყებაზე ადრეა.');
       });
     }
-    for (const k of ['worksInSameMissionOrCity', 'supplementPaidToOtherEmployee', 'spousePostedInOtherCity', 'adultChildInSchool']) bool(`${p}.${k}`, m[k]);
+    for (const k of ['worksInSameMissionOrCity', 'supplementPaidToOtherEmployee', 'spousePostedInOtherCity', 'adultChildInSchool', 'hostStateConsent']) bool(`${p}.${k}`, m[k]);
     if (m.reimbursedElsewhere !== undefined && m.reimbursedElsewhere !== null) {
       if (!isObj(m.reimbursedElsewhere)) e(`${p}.reimbursedElsewhere`, 'OBJECT', 'მოსალოდნელია ობიექტი.');
       else for (const k of ['insurance', 'education', 'travel', 'baggage']) bool(`${p}.reimbursedElsewhere.${k}`, m.reimbursedElsewhere[k]);
@@ -185,13 +190,18 @@ export function validateScenario(scenario, data) {
     for (const k of ['tuition', 'registration', 'transport', 'meals', 'holidayExtraContract']) amount(`${p}.${k}`, x[k]);
     bool(`${p}.freeStateLanguageSchoolAvailable`, x.freeStateLanguageSchoolAvailable);
     bool(`${p}.ministerDecision34`, x.ministerDecision34);
+    bool(`${p}.paidSchoolLanguageSameAsState`, x.paidSchoolLanguageSameAsState);
+    if (x.schoolYear !== undefined && x.schoolYear !== null) {
+      if (!isObj(x.schoolYear)) e(`${p}.schoolYear`, 'RANGE', 'მოსალოდნელია { from, to }.');
+      else { date(`${p}.schoolYear.from`, x.schoolYear.from, true); date(`${p}.schoolYear.to`, x.schoolYear.to, true); }
+    }
   });
   list('insurance', scenario.insurance).forEach((x, i) => {
     const p = `insurance[${i}]`;
     if (!isObj(x)) { e(p, 'INS', 'მოსალოდნელია ობიექტი.'); return; }
     person(`${p}.personId`, x.personId);
     amount(`${p}.policyCost`, x.policyCost); amount(`${p}.alreadyReimbursed`, x.alreadyReimbursed);
-    date(`${p}.policyStart`, x.policyStart);
+    date(`${p}.policyStart`, x.policyStart); date(`${p}.policyEnd`, x.policyEnd);
   });
   const emp = scenario.employee;
   if (isObj(emp)) {
@@ -238,6 +248,7 @@ export function validateScenario(scenario, data) {
         else { amount('settlement.fx.rate', se.fx.rate); date('settlement.fx.date', se.fx.date); text('settlement.fx.source', se.fx.source); }
       }
       oneOf('settlement.exclusion9', se.exclusion9, Object.keys(SETTLEMENT_EXCLUSIONS));
+      date('settlement.postingDate', se.postingDate);
       bool('settlement.transfer10', se.transfer10);
     }
   }
@@ -248,6 +259,7 @@ export function validateScenario(scenario, data) {
     person(`${p}.personId`, t.personId);
     amount(`${p}.actualCost`, t.actualCost); amount(`${p}.comparableTicket`, t.comparableTicket);
     text(`${p}.route`, t.route); bool(`${p}.ownCar`, t.ownCar);
+    date(`${p}.date`, t.date); bool(`${p}.interruptedLeave`, t.interruptedLeave); bool(`${p}.callbackAlreadyReimbursed`, t.callbackAlreadyReimbursed);
   });
   list('advances', scenario.advances).forEach((a, i) => {
     const p = `advances[${i}]`;
@@ -263,6 +275,11 @@ export function validateScenario(scenario, data) {
     oneOf(`${p}.category`, x.category, Object.keys(EXTRA_CATEGORIES), false);
     amount(`${p}.amount`, x.amount); text(`${p}.justification`, x.justification); bool(`${p}.ministerDecisionRequired`, x.ministerDecisionRequired);
   });
+  const rt = scenario.retention19;
+  if (rt !== undefined && rt !== null) {
+    if (!isObj(rt)) e('retention19', 'RETENTION', 'მოსალოდნელია { applies, from, to, decisionRef }.');
+    else { bool('retention19.applies', rt.applies); date('retention19.from', rt.from); date('retention19.to', rt.to); text('retention19.decisionRef', rt.decisionRef); }
+  }
   return { ok: errors.length === 0, errors };
 }
 

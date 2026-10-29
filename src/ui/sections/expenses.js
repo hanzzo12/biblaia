@@ -65,7 +65,7 @@ export function mountExpenses(root, store) {
     const children = sc.family.filter((m) => m.role === 'child' || m.role === 'stepchild' || m.role === 'other');
     replace(box,
       h('fieldset', { class: 'group' }, h('legend', null, 'ბინის ქირა'),
-        F.money(store, 'rent.amount', L.rent, { unit: '', hint: 'ცარიელი = უცნობი; 0 = ქირა არ არის. შეიყვანეთ დაფინანსების ვალუტაში.', onChange: () => {
+        F.money(store, 'rent.amount', L.rent, { unit: '', positive: false, hint: 'ცარიელი = უცნობი; 0 = ქირა არ არის. შეიყვანეთ დაფინანსების ვალუტაში.', onChange: () => {
           store.ui.rentLocationId = store.ui.locationId;
           if (sc.rent.basis === 'market-scenario') { sc.rent.basis = 'planned'; sc.rent.marketRef = null; render(); document.getElementById(store.ids['rent.amount'])?.focus(); }
           updateRentNotes();

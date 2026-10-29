@@ -18,16 +18,20 @@ export const EXTRA_CATEGORIES = freeze({
   'testing-quarantine': 'ტესტირება / იზოლაცია-კარანტინი (პ.6¹)',
   'toll-parking': 'ფასიანი გზა / პარკინგი (პ.21)',
   'early-termination-28': 'ხელშეკრულებების შეწყვეტის ხარჯი ადრეული გამოწვევისას (პ.28)',
+  'covid-aid-6-2': 'ერთჯერადი დახმარება COVID-ის მკურნალობაზე (პ.6², მინისტრის გადაწყვეტილებით)',
+  'head-residence-29': 'ხელმძღვანელის ბინის დაქირავება/შენახვა (პ.29, მინისტრის გადაწყვეტილებით)',
   other: 'სხვა ხარჯი (მინისტრის გადაწყვეტილებით)',
 });
 export const EXTRA_RULES = freeze({
   visa: ['R-VISA-071'], vaccination: ['R-VACC-006'], 'testing-quarantine': ['R-QUAR-061'],
-  'toll-parking': ['R-TOLL-021'], 'early-termination-28': ['R-RECALL-028'], other: ['R-COVID-062', 'R-HEADRES-029'],
+  'toll-parking': ['R-TOLL-021'], 'early-termination-28': ['R-RECALL-028'], 'covid-aid-6-2': ['R-COVID-062'],
+  'head-residence-29': ['R-HEADRES-029'], other: [],
 });
 
 export const TRAVEL_KINDS = freeze({
   departure: 'გამგზავრება მივლინებაში (პ.4ა)',
   recall: 'გამოწვევა (პ.4ა)',
+  'recall-5-1': 'გამოძახება მინისტრის აქტით (პ.5¹)',
   vacation: 'შვებულების მგზავრობა (პ.12ბ–გ)',
   'bereavement-17': 'ოჯახის წევრის გარდაცვალება (პ.17)',
 });

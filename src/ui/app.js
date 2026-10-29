@@ -124,9 +124,12 @@ export function startApp({ data, meta, online, client }) {
     try { results.render(result, err); } catch (e) { results.render(null, 'ჩვენების შეცდომა: ' + String(e?.message || e)); console.error(e); }
     family.updateEligibility(result);
     expenses.updateRentNotes();
+    clearTimeout(printTimer);
+    printTimer = setTimeout(buildPrintInputs, 300);
   });
 
   // ბეჭდვა: ყველა <details> გაიხსნება, შეყვანის ცხრილი აიგება, შემდეგ აღდგება.
+  let printTimer = null;
   let reopened = [];
   window.addEventListener('beforeprint', () => {
     reopened = [...document.querySelectorAll('details:not([open])')];

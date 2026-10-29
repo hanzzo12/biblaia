@@ -101,13 +101,15 @@ test('head status interpretations: consular head (P-5), acting head 20¹ (P-6), 
   assert.ok(noAct.warnings.some((w) => w.code === 'POS_201_ACT'));
   const odd = calculate(synthScenario({ C: 0, G: '3000', head: true }), data);
   assert.ok(odd.warnings.some((w) => w.code === 'HEAD_UNUSUAL'));
+  assert.equal(odd.monthly.F.status, 'scenario', 'LR-14: head flag on an ordinary position is a scenario');
 });
 
 test('pt 20²: admin manager uses Annex 2 row 3 (75%) only with an order reference, rent rule not head', () => {
-  const sc = synthScenario({ C: 0, G: '3000', head: false });
-  sc.status.adminManager202 = { applies: true, actRef: 'ბრძანება №01-1' };
+  const sc = synthScenario({ C: 0, G: '3000', head: false, entryId: 'A2-R5', period: { mode: 'full-month', month: '2027-03' } });
+  sc.status.adminManager202 = { applies: true, actRef: 'ბრძანება №01-1', from: '2027-01-01', to: '2027-12-31' };
   const r = calculate(sc, synthData({}));
   assert.equal(r.monthly.A.value, '75');
+  assert.equal(r.monthly.A.status, 'calculated');
   assert.equal(r.monthly.F.value, '2002.90');
 });
 
@@ -118,7 +120,7 @@ test('family eligibility: each rule separately; settlement count ≠ C', () => {
     { id: 'W', role: 'spouse', status: 'regular', age: 40, worksInSameMissionOrCity: true },
     { id: 'D', role: 'other', status: 'support-recipient', age: 70, presence: [{ from: '2027-01-01', to: '2027-12-31' }] },
     { id: 'P', role: 'spouse', status: 'regular', age: 41, spousePostedInOtherCity: true },
-    { id: 'A', role: 'child', status: 'regular', age: 18, adultChildInSchool: true },
+    { id: 'A', role: 'child', status: 'regular', age: 18, adultChildInSchool: true, hostStateConsent: true },
   ];
   const r = calculate(synthScenario({ G: '0', family: fam, settlement: { dailyRate: { amount: '60', currency: 'EUR', source: 't', sourceDate: '2026-01-01' }, fx: null, exclusion9: null, transfer10: false } }), synthData({}));
   const el = Object.fromEntries(r.family.map((f) => [f.memberId, f.eligibility]));
@@ -165,7 +167,7 @@ test('insurance age from birth date uses the period start and records OQ-08', ()
 
 test('education: free state-language school (pt 36) and minister decision (pt 34) states', () => {
   const fam = [{ id: 'K', role: 'child', status: 'regular', age: 9 }];
-  const r = calculate(synthScenario({ G: '0', family: fam, education: [{ memberId: 'K', tuition: '1000', freeStateLanguageSchoolAvailable: true }] }), synthData({}));
+  const r = calculate(synthScenario({ G: '0', family: fam, education: [{ memberId: 'K', tuition: '1000', freeStateLanguageSchoolAvailable: true, paidSchoolLanguageSameAsState: true }] }), synthData({}));
   assert.equal(r.education.perChild[0].reimbursement.value, '0.00');
   assert.ok(r.education.perChild[0].ruleIds.includes('R-EDU-FREESTATE'));
   const m = calculate(synthScenario({ G: '0', family: fam, education: [{ memberId: 'K', tuition: '1000', freeStateLanguageSchoolAvailable: true, ministerDecision34: true }] }), synthData({}));
