@@ -4,6 +4,8 @@ import { L, HEAD_BASIS } from '../labels.js';
 import * as F from '../fields.js';
 import * as core from '../../core/index.js';
 
+export const currentMonth = () => new Date().toISOString().slice(0, 7);
+
 export function mountPosition(root, store) {
   const box = h('div');
   root.append(box);
@@ -37,6 +39,7 @@ export function mountPosition(root, store) {
         box.querySelector('input[type=radio]:checked')?.focus();
       } }),
       store.ui.notice ? h('p', { class: 'warn', role: 'status' }, store.ui.notice) : null,
+      sc.position.mode === 'annex3' ? F.text(store, 'position.orderRef37', 'დანართი №3-ის გამოყენების საფუძველი — აქტის რეკვიზიტები (ბრძანების პ. 37)', { wide: true, hint: 'აქტის გარეშე დანართი №3-ის გამოყენება სცენარად ჩაითვლება.' }) : null,
       F.select(store, 'position.entryId', L.position,
         entries.map((e) => ({ value: e.id, label: `${e.title_ka} — ${e.percent}%` })),
         { wide: true, hint: prof ? `წყარო: ${prof.title_ka}` : '', onChange: (id) => {
@@ -57,10 +60,19 @@ export function mountPosition(root, store) {
           Object.entries(HEAD_BASIS).map(([value, label]) => ({ value, label }))) : null,
         F.check(store, 'status.actingHead201.applies', 'ხელმძღვანელის მოვალეობის შემსრულებელი (ბრძანების პ. 20¹)',
           { hint: 'A = ხელმძღვანელის მაჩვენებელი მხოლოდ მინისტრის აქტის მითითებით; ქირა/მაკლერი ხელმძღვანელის წესით — სცენარი (OQ-11).', onChange: () => render() }),
-        sc.status.actingHead201.applies ? F.text(store, 'status.actingHead201.actRef', 'აქტის რეკვიზიტები (პ. 20¹)') : null,
+        sc.status.actingHead201.applies ? h('div', { class: 'grid3' }, F.text(store, 'status.actingHead201.actRef', 'აქტის რეკვიზიტები (პ. 20¹)'),
+          F.date(store, 'status.actingHead201.from', 'მოვალეობის შესრულება — დან'), F.date(store, 'status.actingHead201.to', 'მოვალეობის შესრულება — მდე')) : null,
         F.check(store, 'status.adminManager202.applies', 'ადმინისტრაციული მენეჯერი სხვა დაწესებულებაში (ბრძანების პ. 20², 75%)',
           { hint: 'დანართი №2, სტრ. 3 — მოვალეობის შესრულების პერიოდში.', onChange: () => render() }),
-        sc.status.adminManager202.applies ? F.text(store, 'status.adminManager202.actRef', 'აქტის რეკვიზიტები (პ. 20²)') : null),
+        sc.status.adminManager202.applies ? h('div', { class: 'grid3' }, F.text(store, 'status.adminManager202.actRef', 'აქტის რეკვიზიტები (პ. 20²)'),
+          F.date(store, 'status.adminManager202.from', 'მოვალეობის შესრულება — დან'), F.date(store, 'status.adminManager202.to', 'მოვალეობის შესრულება — მდე')) : null,
+        F.toggle('თანხის შენარჩუნება შეჩერებისას (ბრძანების პ. 19)', !!sc.retention19?.applies, (on) => {
+          sc.retention19 = on ? { applies: true, from: null, to: null, decisionRef: null } : null;
+          store.forget('retention19'); render(); store.schedule();
+        }),
+        sc.retention19?.applies ? h('div', { class: 'grid3' },
+          F.date(store, 'retention19.from', 'შენარჩუნება — დან'), F.date(store, 'retention19.to', 'შენარჩუნება — მდე'),
+          F.text(store, 'retention19.decisionRef', 'მინისტრის გადაწყვეტილება (თუ საჭიროა)')) : null),
       h('div', { class: 'grid3' },
         F.integer(store, 'employee.age', 'თანამშრომლის ასაკი (სრული წლები)', { max: 120, hint: 'საჭიროა დაზღვევისთვის. ცარიელი = უცნობი.' }),
         F.date(store, 'employee.birthDate', 'ან დაბადების თარიღი')),
@@ -68,11 +80,12 @@ export function mountPosition(root, store) {
         { value: 'full-month', label: 'სრული თვე' },
         { value: 'dates', label: 'თარიღებით (არასრული თვეები, შუა თვის ცვლილებები)' },
       ], { inline: true, onChange: (mode) => {
-        if (mode === 'dates') { sc.period.start = sc.period.start ?? null; sc.period.end = sc.period.end ?? null; }
-        else { delete sc.period.start; delete sc.period.end; }
+        if (mode === 'dates') { sc.period.start = sc.period.start ?? null; sc.period.end = sc.period.end ?? null; delete sc.period.month; }
+        else { delete sc.period.start; delete sc.period.end; sc.period.month = sc.period.month ?? currentMonth(); }
         render(); store.structure('period');
         box.querySelector('[data-path="period.mode"] input:checked')?.focus();
       } }),
+      !dates ? h('div', { class: 'grid3' }, F.month(store, 'period.month', 'საანგარიშო თვე', { hint: 'საჭიროა დამოკიდებული პირების ყოფნისა და პ. 20¹/20²-ის პერიოდის შესამოწმებლად.' })) : null,
       dates ? h('div', { class: 'grid3 advanced' },
         F.date(store, 'period.start', 'პერიოდის დაწყება'),
         F.date(store, 'period.end', 'პერიოდის დასრულება', { hint: 'ორივე თარიღი ჩათვლით. ქირისა და ოჯახის ცვლილებები — სექციებში 3 და 4.' })) : null);

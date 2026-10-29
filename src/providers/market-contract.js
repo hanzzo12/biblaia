@@ -61,6 +61,8 @@ export const DATA_STATUS = Object.freeze({
   INVALID_RESPONSE: 'invalid_response',
   /** პასუხი სხვა ქალაქს ან ვალუტას ეკუთვნის — უარყოფილია. */
   WRONG_CITY: 'wrong_city',
+  /** ამ წყაროს ეს მაჩვენებელი საერთოდ არ აქვს (მაგ. Eurostat-ს ქირა) — შეიყვანეთ ხელით. */
+  NOT_PROVIDED: 'not_provided',
 });
 
 /** @type {ReadonlySet<string>} */
@@ -73,7 +75,7 @@ export const STATUSES_PARTIAL = Object.freeze(['partial']);
 /** სტატუსები, რომლებშიც ყველა მნიშვნელობა სავალდებულოდ null-ია. */
 export const STATUSES_WITHOUT_VALUE = Object.freeze([
   'loading', 'not_found', 'network_error', 'timeout', 'not_configured',
-  'unauthorized', 'rate_limited', 'upstream_error', 'invalid_response', 'wrong_city',
+  'unauthorized', 'rate_limited', 'upstream_error', 'invalid_response', 'wrong_city', 'not_provided',
 ]);
 
 /**
@@ -166,6 +168,11 @@ export const WARNING_CODE = Object.freeze({
   LICENSE_UNCONFIRMED: 'license_unconfirmed',
   SYNTHETIC_TEST_DATA: 'synthetic_test_data',
   ITEM_MAPPING_UNVERIFIED: 'item_mapping_unverified',
+  CORRECTION_COEFFICIENT_NOT_RENT_NOT_K: 'correction_coefficient_not_rent_not_k',
+  PROVIDER_DISCLAIMER: 'provider_disclaimer',
+  PROVISIONAL_VALUE: 'provisional_value',
+  RENT_MANUAL_ONLY: 'rent_manual_only',
+  GEO_CODE_UNVERIFIED: 'geo_code_unverified',
 });
 
 /** @type {ReadonlySet<string>} */
@@ -345,6 +352,22 @@ export function isSafeUrl(v) {
   }
 }
 
+/**
+ * რიცხვი → ათწილადი სტრიქონი (≤ 8 ათწილადი, ექსპონენტის გარეშე). 0, უარყოფითი, NaN → null (არასოდეს 0).
+ * @param {unknown} n @returns {string|null}
+ */
+export function toDecimalString(n) {
+  if (typeof n !== 'number' || !Number.isFinite(n) || n <= 0 || n >= 1e12) return null;
+  let s = String(n);
+  if (/e/i.test(s) || (s.split('.')[1] || '').length > 8) s = n.toFixed(8).replace(/\.?0+$/, '');
+  return DECIMAL_RE.test(s) && /[1-9]/.test(s) ? s : null;
+}
+
+/** ოფიციალური კოეფიციენტის პერიოდი: "YYYY", "YYYY-MM", "YYYY-S1|S2", "YYYY-Q1..4". @param {unknown} v */
+export function isStatPeriod(v) {
+  return typeof v === 'string' && /^\d{4}(?:-(?:0[1-9]|1[0-2]|S[12]|Q[1-4]))?$/.test(v);
+}
+
 /** ათწილადი სტრიქონების შედარება (მხოლოდ DECIMAL_RE-ს შესაბამისისთვის). @param {string} a @param {string} b */
 export function compareDecimalStrings(a, b) {
   const [ai, af = ''] = a.split('.');
@@ -440,6 +463,41 @@ function checkRentItem(item, key, path, errors) {
   return item.average !== null || item.low !== null || item.high !== null;
 }
 
+/** ცარიელი ოფიციალური კოეფიციენტი. @param {string} status */
+export function emptyCorrectionCoefficient(status) {
+  return { value: null, baseline: null, period: null, dataset: null, geo: null, status, origin: 'provider', sourceUpdatedAt: null, fetchedAt: null };
+}
+
+/** ოფიციალური კორექტირების კოეფიციენტის (Eurostat, ბრიუსელი = 100) შემოწმება. @returns {boolean} აქვს თუ არა მნიშვნელობა */
+function checkCorrectionCoefficient(/** @type {unknown} */ c, /** @type {string} */ path, /** @type {string[]} */ errors) {
+  if (!isPlainObject(c)) { errors.push(`${path}: not_object`); return false; }
+  checkKeys(c, ['value', 'baseline', 'period', 'dataset', 'geo', 'status', 'origin', 'sourceUpdatedAt', 'fetchedAt'], ['label', 'source'], `${path}.`, errors);
+  if (c.value !== null && !isPositiveDecimalString(c.value)) errors.push(`${path}.value: not_positive_decimal_or_null`);
+  if (c.baseline !== null) {
+    if (!isPlainObject(c.baseline)) errors.push(`${path}.baseline: not_object`);
+    else {
+      checkKeys(c.baseline, ['label', 'value'], [], `${path}.baseline.`, errors);
+      if (!isSafeText(c.baseline.label, 120)) errors.push(`${path}.baseline.label: invalid_text`);
+      if (!isPositiveDecimalString(c.baseline.value)) errors.push(`${path}.baseline.value: not_positive_decimal`);
+    }
+  } else if (c.value !== null) errors.push(`${path}.baseline: required_when_index_present`);
+  if (c.period !== null && !isStatPeriod(c.period)) errors.push(`${path}.period: invalid`);
+  if (c.value !== null && c.period === null) errors.push(`${path}.period: required_when_value_present`);
+  if (c.dataset !== null && !(typeof c.dataset === 'string' && /^[a-z0-9_]{1,40}$/.test(c.dataset))) errors.push(`${path}.dataset: invalid`);
+  if (c.value !== null && c.dataset === null) errors.push(`${path}.dataset: required_when_value_present`);
+  if (c.geo !== null && !(typeof c.geo === 'string' && PROVIDER_CITY_ID_RE.test(c.geo))) errors.push(`${path}.geo: invalid`);
+  if ('label' in c && c.label !== null && !isSafeText(c.label, 120)) errors.push(`${path}.label: invalid_text`);
+  if (typeof c.status !== 'string' || !ALL_STATUSES.has(c.status)) errors.push(`${path}.status: unknown`);
+  if (typeof c.origin !== 'string' || !Object.values(ORIGIN).includes(c.origin)) errors.push(`${path}.origin: unknown`);
+  if (c.sourceUpdatedAt !== null && !isPartialDate(c.sourceUpdatedAt)) errors.push(`${path}.sourceUpdatedAt: not_partial_date_or_null`);
+  if (c.fetchedAt !== null && !isIsoDateTime(c.fetchedAt)) errors.push(`${path}.fetchedAt: not_iso_datetime_or_null`);
+  if ('source' in c) checkSourceRef(c.source, `${path}.source`, errors);
+  if (typeof c.status === 'string' && typeof c.origin === 'string') {
+    checkStatusValueConsistency(c.status, c.origin, [c.value], c.value !== null, path, errors);
+  }
+  return c.value !== null;
+}
+
 /**
  * MarketData-ს სრული ვალიდაცია. სუფთა ფუნქციაა: არ ცვლის შესასვლელს, არ კითხულობს საათს.
  *
@@ -510,12 +568,14 @@ export function validateMarketData(obj, options = {}) {
   if (!isPlainObject(ind)) {
     errors.push('indices: not_object');
   } else {
-    checkKeys(ind, ['costOfLivingExcludingRent', 'rentIndex', 'costOfLivingPlusRent', 'baseline', 'status', 'origin', 'sourceUpdatedAt', 'fetchedAt'], ['source'], 'indices.', errors);
+    checkKeys(ind, ['costOfLivingExcludingRent', 'rentIndex', 'costOfLivingPlusRent', 'baseline', 'status', 'origin', 'sourceUpdatedAt', 'fetchedAt'], ['source', 'officialCorrectionCoefficient'], 'indices.', errors);
+    const occHasValue = 'officialCorrectionCoefficient' in ind ? checkCorrectionCoefficient(ind.officialCorrectionCoefficient, 'indices.officialCorrectionCoefficient', errors) : false;
     const vals = [ind.costOfLivingExcludingRent, ind.rentIndex, ind.costOfLivingPlusRent];
     ['costOfLivingExcludingRent', 'rentIndex', 'costOfLivingPlusRent'].forEach((f, i) => {
       if (vals[i] !== null && !isPositiveDecimalString(vals[i])) errors.push(`indices.${f}: not_positive_decimal_or_null`);
     });
-    anyIndexValue = vals.some((v) => v !== null);
+    const trioHasValue = vals.some((v) => v !== null);
+    anyIndexValue = trioHasValue || occHasValue;
     if (ind.baseline !== null) {
       if (!isPlainObject(ind.baseline)) errors.push('indices.baseline: not_object');
       else {
@@ -523,7 +583,7 @@ export function validateMarketData(obj, options = {}) {
         if (!isSafeText(ind.baseline.label, 120)) errors.push('indices.baseline.label: invalid_text');
         if (!isPositiveDecimalString(ind.baseline.value)) errors.push('indices.baseline.value: not_positive_decimal');
       }
-    } else if (anyIndexValue) {
+    } else if (trioHasValue) {
       errors.push('indices.baseline: required_when_index_present');
     }
     if (typeof ind.status !== 'string' || !ALL_STATUSES.has(ind.status)) errors.push('indices.status: unknown');
@@ -532,7 +592,7 @@ export function validateMarketData(obj, options = {}) {
     if (ind.fetchedAt !== null && !isIsoDateTime(ind.fetchedAt)) errors.push('indices.fetchedAt: not_iso_datetime_or_null');
     if ('source' in ind) checkSourceRef(ind.source, 'indices.source', errors);
     if (typeof ind.status === 'string' && typeof ind.origin === 'string') {
-      checkStatusValueConsistency(ind.status, ind.origin, vals, ind.costOfLivingExcludingRent !== null || ind.rentIndex !== null || ind.costOfLivingPlusRent !== null, 'indices', errors);
+      checkStatusValueConsistency(ind.status, ind.origin, [...vals, occHasValue ? 'x' : null], trioHasValue || occHasValue, 'indices', errors);
     }
   }
 
@@ -680,6 +740,7 @@ export function createEmptyMarketData(requestedLocationId, status, extra = {}) {
     indices: {
       costOfLivingExcludingRent: null, rentIndex: null, costOfLivingPlusRent: null,
       baseline: null, status, origin: 'provider', sourceUpdatedAt: null, fetchedAt: null,
+      officialCorrectionCoefficient: emptyCorrectionCoefficient(status),
     },
     cache: { state: 'none', expiresAt: null },
     warnings: extra.warnings ?? [],

@@ -14,7 +14,7 @@
  */
 
 import {
-  MARKET_SCHEMA_VERSION, NUMBEO_BASELINE, RENT_METRICS, createEmptyMarketData, validateMarketData,
+  MARKET_SCHEMA_VERSION, NUMBEO_BASELINE, RENT_METRICS, createEmptyMarketData, validateMarketData, toDecimalString, emptyCorrectionCoefficient,
 } from './market-contract.js';
 
 export const NUMBEO_API_BASE = 'https://www.numbeo.com/api';
@@ -95,16 +95,7 @@ export function httpStatusToDataStatus(code) {
   return 'invalid_response';
 }
 
-/**
- * რიცხვი → ათწილადი სტრიქონი (≤ 8 ათწილადი, ექსპონენტის გარეშე). 0, უარყოფითი, NaN → null (არასოდეს 0).
- * @param {unknown} n @returns {string|null}
- */
-export function toDecimalString(n) {
-  if (typeof n !== 'number' || !Number.isFinite(n) || n <= 0 || n >= 1e12) return null;
-  let s = String(n);
-  if (/e/i.test(s) || (s.split('.')[1] || '').length > 8) s = n.toFixed(8).replace(/\.?0+$/, '');
-  return /^(?:0|[1-9]\d{0,11})(?:\.\d{1,8})?$/.test(s) && /[1-9]/.test(s) ? s : null;
-}
+export { toDecimalString };
 
 /** @param {string} s */
 function normName(s) {
@@ -314,7 +305,7 @@ export async function fetchNumbeoMarket(p) {
     provider: { ...NUMBEO_PROVIDER },
     currency,
     rent: { status: rentN.status, items: rentN.items },
-    indices: /** @type {any} */ (indN.block),
+    indices: /** @type {any} */ ({ ...indN.block, officialCorrectionCoefficient: emptyCorrectionCoefficient('not_provided') }),
     cache: { state: 'none', expiresAt: null },
     warnings: [...w].slice(0, 20).map((code) => ({ code })),
   };

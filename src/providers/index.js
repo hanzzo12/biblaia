@@ -13,6 +13,11 @@ import {
 } from './market-contract.js';
 
 export * from './market-contract.js';
+export { marketDataFromSnapshot, validateMarketSnapshot } from './snapshot.js';
+export {
+  EUROSTAT_ATTRIBUTION_KA, EUROSTAT_DISCLAIMER_KA, EUROSTAT_MEANING_KA, EUROSTAT_LICENCE_NOTE, EUROSTAT_PROVIDER, EUROSTAT_BASELINE,
+} from './eurostat-adapter.js';
+import { EUROSTAT_DISCLAIMER_KA, EUROSTAT_MEANING_KA } from './eurostat-adapter.js';
 
 /** სტატუსების ქართული იარლიყები (UI). */
 export const MARKET_STATUS_LABELS_KA = Object.freeze({
@@ -31,6 +36,7 @@ export const MARKET_STATUS_LABELS_KA = Object.freeze({
   upstream_error: 'პროვაიდერის სერვისი დროებით მიუწვდომელია',
   invalid_response: 'პროვაიდერის პასუხი არასწორია',
   wrong_city: 'პასუხი სხვა ქალაქს ან ვალუტას ეკუთვნის — უარყოფილია',
+  not_provided: 'ამ წყაროში ეს მაჩვენებელი არ არის — შეიყვანეთ ხელით',
 });
 
 /** გაფრთხილებების ქართული ტექსტები (UI). */
@@ -50,6 +56,11 @@ export const MARKET_WARNING_LABELS_KA = Object.freeze({
   license_unconfirmed: 'პროვაიდერის ლიცენზიის პირობები ჯერ არ არის დადასტურებული.',
   synthetic_test_data: 'სინთეზური სატესტო მონაცემი — რეალური ფასი არ არის.',
   item_mapping_unverified: 'პროვაიდერის მაჩვენებლის იდენტიფიკატორი ვერ დადასტურდა.',
+  correction_coefficient_not_rent_not_k: EUROSTAT_MEANING_KA,
+  provider_disclaimer: EUROSTAT_DISCLAIMER_KA,
+  provisional_value: 'წყარო მნიშვნელობას წინასწარად ან შეფასებულად აღნიშნავს.',
+  rent_manual_only: 'ქირის ავტომატური წყარო საჯარო ვერსიაში არ არის — შეიყვანეთ ხელით ან JSON-ით; შეგიძლიათ გამოიყენოთ გარე ბმულები.',
+  geo_code_unverified: 'ქალაქის კოდი წყაროში ჯერ ცოცხლად არ არის დადასტურებული.',
 });
 
 /** ვალიდაციის კოდების ქართული ახსნა. */
@@ -223,4 +234,24 @@ export function createMarketClient(opts = {}) {
     }
   }
   return { get, schemaVersion: MARKET_SCHEMA_VERSION };
+}
+
+const EXTERNAL_LINK_NOTE_KA = 'გარე ბმული — მონაცემი არ იტვირთება';
+
+/**
+ * ქალაქის გარე გვერდების ბმულები (მხოლოდ ჰიპერბმული; არაფერი იტვირთება და არაფერი ინახება).
+ * URL-ის ფორმა აგებულია ინგლისური სახელიდან და დაუდასტურებელია — გვერდი შეიძლება არ არსებობდეს.
+ * @param {{ name_en?: string|null } | null | undefined} location  `normative-data.locations[]` ჩანაწერი
+ * @returns {{ id: string, label_ka: string, url: string, note_ka: string, rel: string }[]}
+ */
+export function externalCityLinks(location) {
+  const name = location && typeof location.name_en === 'string' ? location.name_en.trim() : '';
+  if (!name || name.length > 80 || !/^[\p{L}\p{M} .'()-]+$/u.test(name)) return [];
+  const words = name.replace(/[()]/g, ' ').trim().split(/\s+/);
+  const numbeoSlug = words.map(encodeURIComponent).join('-');
+  const expatSlug = words.map((w) => encodeURIComponent(w.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, ''))).join('-');
+  return [
+    { id: 'numbeo', label_ka: 'Numbeo — ქალაქის გვერდი', url: `https://www.numbeo.com/cost-of-living/in/${numbeoSlug}`, note_ka: EXTERNAL_LINK_NOTE_KA, rel: 'noopener noreferrer external' },
+    { id: 'expatistan', label_ka: 'Expatistan — ქალაქის გვერდი', url: `https://www.expatistan.com/cost-of-living/${expatSlug}`, note_ka: EXTERNAL_LINK_NOTE_KA, rel: 'noopener noreferrer external' },
+  ];
 }

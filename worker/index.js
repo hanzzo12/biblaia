@@ -11,12 +11,15 @@
  *  - ავთენტიფიკაცია — Cloudflare Access (Worker-ის წინ). CORS/Origin ავთენტიფიკაცია არ არის; CORS სათაურები არ ემატება.
  *  - `NUMBEO_API_KEY` მხოლოდ Secret-შია. ლოგებში: ლოკაცია, ვალუტა, სტატუსები, HTTP კოდები, ხანგრძლივობა. არასოდეს: გასაღები,
  *    upstream URL, IP, Access-ის identity ან მომხმარებლის ფინანსური მონაცემები.
- *  - ქეში ნაგულისხმევად გამორთულია (`MARKET_CACHE_TTL_SECONDS="0"`) ლიცენზიის დადასტურებამდე.
+ *  - პროვაიდერი: `MARKET_PROVIDER` = "eurostat" (ნაგულისხმევი; გასაღები არ სჭირდება, ქეში 24 სთ)
+ *    ან "numbeo" (მხოლოდ ლიცენზიით + `NUMBEO_API_KEY` Secret; ქეში ნაგულისხმევად 0). საჯარო გვერდზე Numbeo არ ირთვება (ADR-002).
  */
 
 import { MARKET_SCHEMA_VERSION, createEmptyMarketData, validateMarketData } from '../src/providers/market-contract.js';
 import { fetchNumbeoMarket, NUMBEO_PROVIDER, NUMBEO_ALLOWED_CURRENCIES, ERROR_STATUSES } from '../src/providers/numbeo-adapter.js';
+import { fetchEurostatMarket, EUROSTAT_PROVIDER } from '../src/providers/eurostat-adapter.js';
 import realCityMap from '../src/providers/numbeo-city-map.json' with { type: 'json' };
+import realGeoMap from '../src/providers/eurostat-geo-map.json' with { type: 'json' };
 import normative from '../src/data/normative-data.json' with { type: 'json' };
 
 const JSON_HEADERS = Object.freeze({
@@ -108,17 +111,19 @@ function markFromCache(md, to) {
   }
   c.rent.status = conv(c.rent.status);
   c.indices.status = conv(c.indices.status);
+  if (c.indices.officialCorrectionCoefficient) c.indices.officialCorrectionCoefficient.status = conv(c.indices.officialCorrectionCoefficient.status);
   return c;
 }
 
 /**
  * Worker-ის ქარხანა (ტესტებისთვის დამოკიდებულებების ჩანაცვლებით).
- * @param {{ cityMap?: any, locationIds?: Iterable<string>, fetchImpl?: typeof fetch, now?: () => number,
+ * @param {{ cityMap?: any, geoMap?: any, locationIds?: Iterable<string>, fetchImpl?: typeof fetch, now?: () => number,
  *           cacheStore?: ReturnType<typeof createMemoryCacheStore>, log?: (line: string) => void }} [deps]
  */
 export function createWorker(deps = {}) {
   const cityMap = deps.cityMap || realCityMap;
-  const known = new Set([...(deps.locationIds || (normative.locations || []).map((/** @type {any} */ l) => l.id)), ...Object.keys(cityMap.cities || {})]);
+  const geoMap = deps.geoMap || realGeoMap;
+  const known = new Set([...(deps.locationIds || (normative.locations || []).map((/** @type {any} */ l) => l.id)), ...Object.keys(cityMap.cities || {}), ...Object.keys(geoMap.locations || {})]);
   const now = deps.now || Date.now;
   const log = deps.log || ((/** @type {string} */ line) => console.log(line));
   const memory = createMemoryCacheStore();
@@ -129,14 +134,15 @@ export function createWorker(deps = {}) {
   /** @param {any} env */
   function config(env) {
     const allowed = String(env.MARKET_ALLOWED_CURRENCIES || 'EUR,USD').split(',').map((s) => s.trim()).filter((c) => NUMBEO_ALLOWED_CURRENCIES.includes(c));
+    const provider = env.MARKET_PROVIDER || 'eurostat';
     return {
       keyConfigured: typeof env.NUMBEO_API_KEY === 'string' && env.NUMBEO_API_KEY.trim() !== '',
-      ttl: intVar(env.MARKET_CACHE_TTL_SECONDS, 0, 7 * 86400),
+      ttl: intVar(env.MARKET_CACHE_TTL_SECONDS, provider === 'eurostat' ? 86400 : 0, 7 * 86400),
       staleMax: intVar(env.MARKET_STALE_MAX_SECONDS, 0, 30 * 86400),
       timeoutMs: intVar(env.MARKET_UPSTREAM_TIMEOUT_MS, 8000, 30000) || 8000,
       allowed: allowed.length ? allowed : ['EUR', 'USD'],
       licenseConfirmed: env.MARKET_LICENSE_CONFIRMED === 'true',
-      provider: env.MARKET_PROVIDER || 'numbeo',
+      provider,
     };
   }
 
@@ -154,15 +160,16 @@ export function createWorker(deps = {}) {
     const cur = /** @type {string} */ (url.searchParams.get('currency'));
     if (!LOCATION_ID_RE.test(loc) || !known.has(loc)) return apiError(400, 'invalid_location', 'უცნობი ლოკაცია.');
     if (!cfg.allowed.includes(cur)) return apiError(400, 'invalid_currency', 'ვალუტა დაშვებული არ არის.');
-    if (cfg.provider !== 'numbeo') {
+    if (cfg.provider !== 'numbeo' && cfg.provider !== 'eurostat') {
       return json(createEmptyMarketData(loc, 'not_configured', { currency: cur }));
     }
-    if (!cfg.keyConfigured) {
+    const providerRef = cfg.provider === 'eurostat' ? EUROSTAT_PROVIDER : NUMBEO_PROVIDER;
+    if (cfg.provider === 'numbeo' && !cfg.keyConfigured) {
       logLine({ loc, cur, rent: 'not_configured', idx: 'not_configured', cache: 'none', reason: 'no_key', ms: now() - started });
       return json(createEmptyMarketData(loc, 'not_configured', { currency: cur, provider: { ...NUMBEO_PROVIDER } }));
     }
 
-    const key = marketCacheKey('numbeo', loc, cur);
+    const key = marketCacheKey(cfg.provider, loc, cur);
     /** @type {{ storedAt: number, expiresAt: number, data: any } | null} */
     let cached = null;
     if (cfg.ttl > 0) {
@@ -181,17 +188,20 @@ export function createWorker(deps = {}) {
       try { ok = (await env.MARKET_RATE_LIMITER.limit({ key: 'market:all' })).success !== false; } catch { ok = true; }
       if (!ok) {
         logLine({ loc, cur, rent: 'rate_limited', idx: 'rate_limited', cache: 'none', reason: 'local_limiter', ms: now() - started });
-        return json(createEmptyMarketData(loc, 'rate_limited', { currency: cur, provider: { ...NUMBEO_PROVIDER } }), 429, { 'Retry-After': '60' });
+        return json(createEmptyMarketData(loc, 'rate_limited', { currency: cur, provider: { ...providerRef } }), 429, { 'Retry-After': '60' });
       }
     }
 
     // ერთნაირი პარალელური მოთხოვნების გაერთიანება.
     let p = inflight.get(key);
     if (!p) {
-      p = fetchNumbeoMarket({
-        locationId: loc, currency: cur, cityMap, apiKey: env.NUMBEO_API_KEY,
-        fetchImpl: deps.fetchImpl || fetch, timeoutMs: cfg.timeoutMs, now, licenseConfirmed: cfg.licenseConfirmed,
-      }).finally(() => inflight.delete(key));
+      const fetchImpl = deps.fetchImpl || fetch;
+      p = (cfg.provider === 'eurostat'
+        ? fetchEurostatMarket({ locationId: loc, currency: cur, geoMap, fetchImpl, timeoutMs: cfg.timeoutMs, now })
+        : fetchNumbeoMarket({
+          locationId: loc, currency: cur, cityMap, apiKey: env.NUMBEO_API_KEY,
+          fetchImpl, timeoutMs: cfg.timeoutMs, now, licenseConfirmed: cfg.licenseConfirmed,
+        })).finally(() => inflight.delete(key));
       inflight.set(key, p);
     }
     const { data, diagnostics } = await p;
@@ -204,7 +214,7 @@ export function createWorker(deps = {}) {
       if (!md.warnings.some((/** @type {any} */ w) => w.code === 'stale_cache_used')) md.warnings.push({ code: 'stale_cache_used' });
     } else if (cfg.ttl > 0) {
       md.cache = { state: 'miss', expiresAt: null };
-      if (!hasErrorStatus(md) && md.rent.status !== 'not_configured') {
+      if (!hasErrorStatus(md) && md.rent.status !== 'not_configured' && md.indices.status !== 'not_configured') {
         const t = now();
         const expiresAt = t + cfg.ttl * 1000;
         md.cache.expiresAt = isoSec(expiresAt);
@@ -215,7 +225,7 @@ export function createWorker(deps = {}) {
     }
 
     if (!validateMarketData(md, { allowedCurrencies: cfg.allowed }).ok) {
-      md = createEmptyMarketData(loc, 'invalid_response', { currency: cur, provider: { ...NUMBEO_PROVIDER } });
+      md = createEmptyMarketData(loc, 'invalid_response', { currency: cur, provider: { ...providerRef } });
     }
     logLine({ loc, cur, rent: md.rent.status, idx: md.indices.status, cache: md.cache.state, upstream: diagnostics, ms: now() - started });
     return json(md);
@@ -229,8 +239,9 @@ export function createWorker(deps = {}) {
   /** @param {any} env */
   function health(env) {
     const cfg = config(env);
-    const mapped = Object.keys(cityMap.cities || {}).length;
-    const status = cfg.provider === 'numbeo' && cfg.keyConfigured && mapped > 0 ? 'configured' : 'not_configured';
+    const mapped = cfg.provider === 'eurostat' ? Object.keys(geoMap.locations || {}).length
+      : cfg.provider === 'numbeo' ? Object.keys(cityMap.cities || {}).length : 0;
+    const status = (cfg.provider === 'eurostat' && mapped > 0) || (cfg.provider === 'numbeo' && cfg.keyConfigured && mapped > 0) ? 'configured' : 'not_configured';
     return json({
       schemaVersion: MARKET_SCHEMA_VERSION, status, provider: cfg.provider,
       keyConfigured: cfg.keyConfigured, mappedLocations: mapped,

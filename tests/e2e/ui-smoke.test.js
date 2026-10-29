@@ -188,6 +188,51 @@ test('ონლაინ (http): /api/market, ქალაქის სწრა
   await page.close();
 });
 
+test('ონლაინ Eurostat: ოფიციალური კორექტირების კოეფიციენტი, ატრიბუცია; ქირა — მხოლოდ ხელით', async () => {
+  const page = await browser.newPage();
+  const html = readFileSync(path.join(root, 'dist/web/index.html'));
+  const md = {
+    schemaVersion: 1, requestedLocationId: 'AT-VIENNA',
+    resolvedLocation: { city: 'Wien', countryCode: 'AT', providerCityId: 'AT', matchStatus: 'exact' },
+    provider: { id: 'eurostat', name: 'Eurostat', sourceUrl: 'https://ec.europa.eu/eurostat', attribution: 'წყარო: Eurostat (სინთეზური ტესტი)' },
+    currency: null, rent: { status: 'not_provided', items: {} },
+    indices: { costOfLivingExcludingRent: null, rentIndex: null, costOfLivingPlusRent: null, baseline: null, status: 'fresh', origin: 'provider', sourceUpdatedAt: '2025', fetchedAt: '2026-10-29T10:00:00Z',
+      officialCorrectionCoefficient: { value: '108.3', baseline: { label: 'Brussels', value: '100' }, period: '2025', dataset: 'prc_colc_nat', geo: 'AT', status: 'fresh', origin: 'provider', sourceUpdatedAt: '2025', fetchedAt: '2026-10-29T10:00:00Z' } },
+    cache: { state: 'none', expiresAt: null }, warnings: [{ code: 'synthetic_test_data' }],
+  };
+  await page.route('**/*', (r) => {
+    const u = new URL(r.request().url());
+    if (u.pathname === '/' && u.origin === 'http://ui.test') return r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: html });
+    if (u.pathname === '/api/market' && u.origin === 'http://ui.test') return r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(md) });
+    return r.abort();
+  });
+  await page.goto('http://ui.test/');
+  await page.getByRole('combobox', { name: 'ძიება (ქართულად ან ლათინურად)' }).fill('Vienna');
+  await page.keyboard.press('Enter');
+  await page.getByTestId('occ').waitFor();
+  assert.equal(await page.locator('[data-testid="occ"] [data-value]').first().getAttribute('data-value'), '108.3');
+  assert.match(await page.getByTestId('occ').innerText(), /ბრიუსელი = 100/);
+  await page.getByTestId('eurostat-attribution').waitFor();
+  assert.equal(await page.getByTestId('use-market-rent').isDisabled(), true);
+  await page.close();
+});
+
+test('ნიუ-იორკის გენ. საკონსულო, A2-R1, ხელმძღვანელი: გაანგარიშება შეცდომის გარეშე; v1.2 თვე ნაგულისხმევად', async () => {
+  const { page, errors } = await openPage();
+  await page.getByRole('combobox', { name: 'ძიება (ქართულად ან ლათინურად)' }).fill('გენერალური საკონსულო ნიუ-იორკ');
+  await page.keyboard.press('Enter');
+  assert.equal(await page.getByLabel('დაწესებულება', { exact: true }).inputValue(), 'M-A6-R28');
+  await page.getByLabel('თანამდებობა', { exact: true }).selectOption('A2-R1');
+  await page.locator('[data-path="status.rentHead"]').getByLabel(/^დიახ/).check();
+  await fieldByLabel(page, 'ბინის ყოველთვიური ქირა (G)').fill('3000');
+  await page.waitForTimeout(150);
+  assert.equal(await page.locator('.error-box').count(), 0);
+  assert.match(await val(page, '[data-testid="S"]'), /^\d+\.\d{2}$/);
+  assert.match(await page.getByLabel('საანგარიშო თვე').inputValue(), /^\d{4}-\d{2}$/);
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
 test('მობილური 375px: ჰორიზონტალური გადახვევა არ არის', async () => {
   const { page } = await openPage({ width: 375, height: 800 });
   await vienna(page);

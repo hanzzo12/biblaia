@@ -2,11 +2,15 @@
 import { h, replace, uid } from '../dom.js';
 import { L, MARKET_STATUS, MARKET_WARNINGS, MARKET_RETRYABLE, RENT_METRICS_KA, INDEX_KA, MATCH_KA } from '../labels.js';
 import { createEmptyMarketData, marketDataFromManualRecords, validateManualRecord, RENT_METRICS, DEFAULT_RENT_METRIC } from '../../providers/market-contract.js';
-import { parseManualMarketJson } from '../../providers/index.js';
+import * as P from '../../providers/index.js';
+import { snapshotFor } from '../snapshot.js';
+const parseManualMarketJson = P.parseManualMarketJson;
 import { formatAmount, parseDecimalInput } from '../../core/index.js';
 
 const fmtTime = (iso) => (iso ? String(iso).replace('T', ' ').replace(/:\d\d(\.\d+)?Z$/, ' UTC').replace(/Z$/, ' UTC') : 'უცნობია');
-const badge = (status) => h('span', { class: `badge st-${status}`, 'data-status': status }, MARKET_STATUS[status] ?? status);
+const badge = (status) => h('span', { class: `badge st-${status}`, 'data-status': status }, MARKET_STATUS[status] ?? P.MARKET_STATUS_LABELS_KA?.[status] ?? status);
+const warnText = (code) => MARKET_WARNINGS[code] ?? P.MARKET_WARNING_LABELS_KA?.[code] ?? code;
+const baseKa = (l) => ({ 'New York City': 'ნიუ-იორკი', Brussels: 'ბრიუსელი', 'Brussels (BE)': 'ბრიუსელი' }[l] ?? l);
 const nowIso = () => new Date().toISOString().replace(/\.\d+Z$/, 'Z');
 
 /**
@@ -36,7 +40,13 @@ export function mountMarket(root, store, deps) {
     if (m.ctrl) m.ctrl.abort();
     m.ctrl = null;
     if (!locationId) { m.md = null; render(); return; }
-    if (!deps.online || !deps.client) { m.md = createEmptyMarketData(locationId, 'not_configured'); render(); return; }
+    if (!deps.online || !deps.client) {
+      const snap = snapshotFor(locationId);
+      m.snapshot = snap;
+      m.md = snap ? snap.md : createEmptyMarketData(locationId, 'not_configured');
+      render(); return;
+    }
+    m.snapshot = null;
     m.md = createEmptyMarketData(locationId, 'loading');
     render();
     const ctrl = new AbortController();
@@ -98,6 +108,10 @@ export function mountMarket(root, store, deps) {
         return h('div', { class: 'radio' }, inp, h('label', { for: id }, RENT_METRICS_KA[k]));
       }));
     const ind = md?.indices;
+    const occ = ind?.officialCorrectionCoefficient && (ind.officialCorrectionCoefficient.value != null || ind.officialCorrectionCoefficient.status !== 'not_configured') ? ind.officialCorrectionCoefficient : null;
+    const isEurostat = md?.provider?.id === 'eurostat' || (occ && occ.value != null);
+    let links = [];
+    try { links = typeof P.externalCityLinks === 'function' ? (P.externalCityLinks(loc) || []) : []; } catch { links = []; }
     const provider = md?.provider;
     const src = item?.source || provider;
     const srcView = (s) => s ? h('span', null, s.name, s.sourceUrl ? [' — ', h('a', { href: s.sourceUrl, rel: 'noopener noreferrer', target: '_blank' }, s.sourceUrl)] : null, s.attribution ? ` (${s.attribution})` : null) : 'უცნობია';
@@ -107,8 +121,9 @@ export function mountMarket(root, store, deps) {
     const status = md?.rent?.status ?? 'not_configured';
     replace(box,
       h('h3', null, 'ქირა და ცხოვრების ღირებულება (საორიენტაციო)'),
-      !deps.online ? h('p', { class: 'note', 'data-testid': 'offline-note' }, 'ოფლაინ ფაილი: ავტომატური ბაზრის მონაცემი არ ითხოვება — პროვაიდერის საიდუმლო გასაღები ბრაუზერში ვერ დაიმალება. შეიყვანეთ მონაცემი ხელით ან ჩატვირთეთ JSON ფაილი (ქვემოთ).') : null,
+      !deps.online ? h('p', { class: 'note', 'data-testid': 'offline-note' }, 'ოფლაინ ფაილი: ბაზრის მონაცემი ქსელიდან არ ითხოვება (ფაილი სერვერის გარეშე მუშაობს). გამოიყენება მხოლოდ ჩაშენებული დათარიღებული ასლი (თუ არის), ხელით შეყვანა ან JSON ფაილი (ქვემოთ). ონლაინ ვერსიაში ცხოვრების ღირებულების კოეფიციენტი მოდის Eurostat-იდან.') : null,
       manual ? h('p', { class: 'note' }, 'ნაჩვენებია ხელით შეყვანილი / იმპორტირებული მონაცემი.') : null,
+      !manual && m.snapshot ? h('p', { class: 'note', 'data-testid': 'snapshot-note' }, `შენახული ასლი, თარიღი: ${m.snapshot.date ? fmtTime(m.snapshot.date) : 'უცნობია'} — არ არის მიმდინარე (live) მონაცემი.`) : null,
       loc?.marketFallbackNote ? h('p', { class: 'warn' }, loc.marketFallbackNote) : null,
       md?.resolvedLocation?.city ? h('p', { class: 'hint' }, `პროვაიდერის ქალაქი: ${md.resolvedLocation.city} — ${MATCH_KA[md.resolvedLocation.matchStatus] ?? md.resolvedLocation.matchStatus}`, md.resolvedLocation.note ? `. ${md.resolvedLocation.note}` : '') : null,
       h('div', { class: 'market-grid' },
@@ -126,15 +141,28 @@ export function mountMarket(root, store, deps) {
           useButton(md, item)),
         h('section', { class: 'market-index', 'aria-label': 'ცხოვრების ღირებულების ინდექსი' },
           h('h4', null, 'ცხოვრების ღირებულება ', badge(ind?.status ?? status)),
+          occ ? h('div', { class: 'occ', 'data-testid': 'occ' },
+            h('dl', { class: 'kv' },
+              h('dt', null, 'ოფიციალური კორექტირების კოეფიციენტი (Eurostat)'), h('dd', { 'data-value': occ.value ?? '' }, occ.value ?? '—', ' ', badge(occ.status)),
+              h('dt', null, 'შედარების ბაზა'), h('dd', null, occ.baseline ? `${baseKa(occ.baseline.label)} = ${occ.baseline.value}` : '—'),
+              h('dt', null, 'პერიოდი'), h('dd', null, occ.period ?? 'უცნობია'),
+              occ.dataset ? [h('dt', null, 'მონაცემთა ნაკრები'), h('dd', null, occ.dataset)] : null,
+              h('dt', null, 'მიღების დრო'), h('dd', null, fmtTime(occ.fetchedAt))),
+            h('p', { class: 'hint' }, 'ევროკავშირის მოსამსახურეთა ანაზღაურების კორექტირების კოეფიციენტი (ბრიუსელი = 100). ეს არ არის ქირა და არ ცვლის ბრძანების K-ს.')) : null,
           h('dl', { class: 'kv' },
-            Object.keys(INDEX_KA).map((k) => [h('dt', null, INDEX_KA[k]), h('dd', { 'data-testid': `index-${k}` }, ind?.[k] ?? '—')]),
-            h('dt', null, 'შედარების ბაზა'), h('dd', null, ind?.baseline ? `${ind.baseline.label === 'New York City' ? 'ნიუ-იორკი' : ind.baseline.label} = ${ind.baseline.value}` : '—'),
+            Object.keys(INDEX_KA).map((k) => (occ && ind?.[k] == null ? null : [h('dt', null, INDEX_KA[k]), h('dd', { 'data-testid': `index-${k}` }, ind?.[k] ?? '—')])),
+            occ && !ind?.baseline ? null : [h('dt', null, 'შედარების ბაზა'), h('dd', null, ind?.baseline ? `${baseKa(ind.baseline.label)} = ${ind.baseline.value}` : '—')],
             h('dt', null, 'მონაცემის განახლება (წყაროში)'), h('dd', null, ind?.sourceUpdatedAt ?? 'უცნობია'),
             h('dt', null, 'მიღების დრო'), h('dd', null, fmtTime(ind?.fetchedAt)),
             h('dt', null, 'წყარო'), h('dd', null, srcView(ind?.source || provider))),
           h('p', { class: 'hint' }, 'ინდექსი ფულადი თანხა არ არის, თვიურ ხარჯად არ ჩანს და ბრძანების K-ს არ ცვლის.'))),
       md?.cache?.expiresAt ? h('p', { class: 'hint' }, `შენახული ასლის ვადა: ${fmtTime(md.cache.expiresAt)}`) : null,
-      (md?.warnings || []).length ? h('ul', { class: 'warnings' }, md.warnings.map((w) => h('li', null, MARKET_WARNINGS[w.code] ?? w.code))) : null,
+      (md?.warnings || []).length ? h('ul', { class: 'warnings' }, md.warnings.map((w) => h('li', null, warnText(w.code)))) : null,
+      isEurostat ? h('p', { class: 'hint', 'data-testid': 'eurostat-attribution' },
+        md?.provider?.attribution || 'წყარო: Eurostat (© European Union), CC BY 4.0.',
+        ' Eurostat პასუხისმგებელი არ არის ამ გვერდზე მონაცემის გამოყენებასა და ინტერპრეტაციაზე. კოეფიციენტი საორიენტაციოა.') : null,
+      links.length ? h('div', { class: 'ext-links' }, h('p', { class: 'hint' }, 'გარე ბმული — მონაცემი არ იტვირთება:'),
+        h('ul', null, links.map((l) => h('li', null, h('a', { href: l.url ?? l.href, rel: 'noopener noreferrer', target: '_blank' }, l.label_ka ?? l.label ?? l.name ?? (l.url ?? l.href)))))) : null,
       retryBtn);
     renderManual();
   }

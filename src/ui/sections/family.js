@@ -12,7 +12,7 @@ export function newMember(family) {
     id: 'F' + n, label: 'ოჯახის წევრი ' + n, role: family.some((m) => m.role === 'spouse') ? 'child' : 'spouse', status: 'regular',
     age: null, birthDate: null, from: null, to: null, presence: null,
     worksInSameMissionOrCity: false, supplementPaidToOtherEmployee: false, spousePostedInOtherCity: false,
-    reimbursedElsewhere: { insurance: false, education: false, travel: false, baggage: false }, adultChildInSchool: false,
+    reimbursedElsewhere: { insurance: false, education: false, travel: false, baggage: false }, adultChildInSchool: false, hostStateConsent: false,
   };
 }
 
@@ -56,6 +56,7 @@ export function mountFamily(root, store, { onMembersChange }) {
           F.check(store, `${p}.supplementPaidToOtherEmployee`, 'მასზე დანამატს სხვა მოსამსახურე იღებს (მ. 4, პ. 1–2)'),
           m.role === 'spouse' ? F.check(store, `${p}.spousePostedInOtherCity`, 'მეუღლე მივლინებულია სხვა ქალაქში (მ. 4, პ. 2)') : null,
           (m.role === 'child' || m.role === 'stepchild') ? F.check(store, `${p}.adultChildInSchool`, 'სრულწლოვანი შვილი/გერი სწავლობს (სრულწლოვანებიდან ≤ 1 წელი)') : null,
+          (m.role === 'child' || m.role === 'stepchild') ? F.check(store, `${p}.hostStateConsent`, 'სრულწლოვან შვილზე/გერზე არსებობს ადგილსამყოფელი სახელმწიფოს თანხმობა') : null,
           h('fieldset', { class: 'group' }, h('legend', null, 'ანაზღაურებას იღებს სხვა წყაროდან (მ. 4, პ. 4)'),
             F.check(store, `${p}.reimbursedElsewhere.insurance`, 'დაზღვევა'),
             F.check(store, `${p}.reimbursedElsewhere.education`, 'განათლება'),

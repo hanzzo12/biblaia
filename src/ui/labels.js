@@ -73,7 +73,7 @@ export const MARKET_STATUS = {
   network_error: 'კავშირი ვერ შედგა', timeout: 'მოთხოვნის დრო ამოიწურა',
   not_configured: 'პროვაიდერი არ არის კონფიგურირებული', unauthorized: 'პროვაიდერმა წვდომა უარყო',
   rate_limited: 'მოთხოვნების ლიმიტი ამოიწურა', upstream_error: 'პროვაიდერის შეცდომა',
-  invalid_response: 'არასწორი პასუხი — უარყოფილია', wrong_city: 'პასუხი სხვა ქალაქს ან ვალუტას ეკუთვნის — უარყოფილია',
+  invalid_response: 'არასწორი პასუხი — უარყოფილია', not_provided: 'წყაროს ეს მაჩვენებელი არ აქვს', wrong_city: 'პასუხი სხვა ქალაქს ან ვალუტას ეკუთვნის — უარყოფილია',
 };
 export const MARKET_RETRYABLE = new Set(['network_error', 'timeout', 'stale', 'upstream_error', 'rate_limited', 'invalid_response']);
 
@@ -93,6 +93,10 @@ export const MARKET_WARNINGS = {
   license_unconfirmed: 'მონაცემის გამოყენების ლიცენზია დაუდასტურებელია.',
   synthetic_test_data: 'სატესტო (სინთეზური) მონაცემი — რეალური ფასი არ არის.',
   item_mapping_unverified: 'მაჩვენებლის იდენტიფიკაცია დაუდასტურებელია.',
+  correction_coefficient_not_rent_not_k: 'კორექტირების კოეფიციენტი არ არის ქირა და არ ცვლის ბრძანების K-ს.',
+  rent_manual_only: 'ქირა ამ წყაროდან არ მოდის — შეიყვანეთ ხელით ან JSON-ით.',
+  provisional_value: 'წინასწარი (provisional) მნიშვნელობა.',
+  geo_code_unverified: 'ქალაქის/ქვეყნის კოდის შესაბამისობა დაუდასტურებელია.',
 };
 
 export const MATCH_KA = {

@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "schemaVersion": 1,
+    "status": "unverified",
+    "description": "შიდა ლოკაციის ID → Eurostat-ის მორიგე სადგურის (duty station) geo კოდი. კოდები აღებულია მხოლოდ იქიდან, სადაც ისინი წყაროში ჩანდა (Eurostat Data Browser-ის/DBnomics-ის სერიების სახელები, ვებ-ძიების ამონარიდით, 2026-10-29). Eurostat API ამ გარემოდან მიუწვდომელი იყო (proxy 403) — ყველა ჩანაწერი ცოცხლად დასადასტურებელია. დანარჩენი ქალაქები განზრახ არ არის ჩამატებული (კოდი არ გამოგონილა).",
+    "datasets": {
+      "prc_colc_tot": "Correction coefficients in the European Union (Duty stations) — index (Brussels = 100); semiannual (S); dims freq.unit.coicop.geo; e.g. series S.INX.TOTAL.AT_CAP",
+      "prc_colc_extm": "Correction coefficients outside the European Union (Duty stations) — index (Brussels = 100), monthly (M); dims freq.unit.coicop.geo; e.g. series M.INX.TOTAL.BY_CAP",
+      "prc_colc_ext": "Correction coefficients outside the European Union (Duty stations) — index (Brussels = 100); annual table"
+    },
+    "verifiedAt": null
+  },
+  "locations": {
+    "AT-VIENNA":     { "dataset": "prc_colc_tot",  "geo": "AT_CAP", "label": "Wien",                 "matchStatus": "exact", "evidence": "DBnomics series S.INX.TOTAL.AT_CAP 'Wien' (search snippet)" },
+    "BE-BRUSSELS":   { "dataset": "prc_colc_tot",  "geo": "BE_CAP", "label": "Bruxelles/Brussel",    "matchStatus": "exact", "evidence": "DBnomics series S.INX.TOTAL.BE_CAP = base 100 (search snippet)" },
+    "DE-BERLIN":     { "dataset": "prc_colc_tot",  "geo": "DE_CAP", "label": "Berlin",               "matchStatus": "exact", "evidence": "DBnomics series S.INX.TOTAL.DE_CAP 'Berlin' (search snippet)" },
+    "BY-MINSK":      { "dataset": "prc_colc_extm", "geo": "BY_CAP", "label": "Minsk",                "matchStatus": "exact", "evidence": "Eurostat/DBnomics prc_colc_ext(m) 'Minsk [BY_CAP]' (search snippet)" },
+    "CN-BEIJING":    { "dataset": "prc_colc_extm", "geo": "CN_CAP", "label": "Beijing",              "matchStatus": "exact", "evidence": "prc_colc_extm 'Beijing [CN_CAP]' (search snippet)" },
+    "AM-YEREVAN":    { "dataset": "prc_colc_extm", "geo": "AM_CAP", "label": "Yerevan",              "matchStatus": "exact", "evidence": "prc_colc_extm '[AM_CAP] Yerevan' (search snippet)" },
+    "AZ-BAKU":       { "dataset": "prc_colc_extm", "geo": "AZ_CAP", "label": "Baki (Baku)",          "matchStatus": "exact", "evidence": "prc_colc_extm '[AZ_CAP] Baki (Baku)' (search snippet)" },
+    "JP-TOKYO":      { "dataset": "prc_colc_extm", "geo": "JP_CAP", "label": "Tokyo",                "matchStatus": "exact", "evidence": "prc_colc_extm 'Tokyo [JP_CAP]' (search snippet)" },
+    "CH-GENEVA":     { "dataset": "prc_colc_extm", "geo": "CH_DEL", "label": "Genève",               "matchStatus": "exact", "evidence": "third-party mirror of prc_colc_extm '[CH_DEL] Genève' (search snippet) — weakest evidence" },
+    "US-WASHINGTON": { "dataset": "prc_colc_ext",  "geo": "US_CAP", "label": "Washington, D.C.",     "matchStatus": "exact", "evidence": "prc_colc_ext 'Washington, D.C. [US_CAP]' (search snippet)" },
+    "GB-LONDON":     { "dataset": "prc_colc_ext",  "geo": "UK_CAP", "label": "London",               "matchStatus": "exact", "evidence": "prc_colc_ext 'London [UK_CAP]' (search snippet; Eurostat uses UK, not GB)" }
+  }
+}

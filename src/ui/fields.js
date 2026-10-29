@@ -157,3 +157,21 @@ export function toggle(label, checked, onChange) {
   input.addEventListener('change', () => onChange(input.checked));
   return h('div', { class: 'check' }, input, h('label', { for: id }, label));
 }
+
+/** თვე "YYYY-MM" (type=month; ძველ ბრაუზერში ტექსტური შეყვანა იგივე ფორმატით). */
+export function month(store, path, label, opts = {}) {
+  const id = uid('f');
+  store.ids[path] = id;
+  const err = h('p', { id: id + '-err', class: 'field-error' });
+  const input = h('input', { id, type: 'month', min: '1990-01', max: '2100-12', placeholder: 'წწწწ-თთ', 'data-path': path, value: store.get(path) ?? '',
+    'aria-describedby': (opts.hint ? id + '-hint ' : '') + id + '-err' });
+  const apply = () => {
+    const v = input.value.trim();
+    const ok = v === '' || /^\d{4}-(0[1-9]|1[0-2])$/.test(v);
+    setError(store, path, input, err, ok ? null : 'არასწორი თვე (წწწწ-თთ).');
+    store.set(path, ok && v !== '' ? v : null);
+  };
+  input.addEventListener('input', apply);
+  input.addEventListener('change', apply);
+  return shell(id, label, input, opts, err);
+}

@@ -3,7 +3,7 @@ import { h, replace, $ } from './dom.js';
 import { createStore, clone } from './state.js';
 import { mountLocation } from './sections/location.js';
 import { mountMarket } from './sections/market.js';
-import { mountPosition } from './sections/position.js';
+import { mountPosition, currentMonth } from './sections/position.js';
 import { mountFamily } from './sections/family.js';
 import { mountExpenses, syncInsurance } from './sections/expenses.js';
 import { mountResults } from './sections/results.js';
@@ -11,7 +11,8 @@ import { mountExport } from './sections/export.js';
 import * as core from '../core/index.js';
 
 export function startApp({ data, meta, online, client }) {
-  const store = createStore(data, core.emptyScenario());
+  const fresh = () => { const sc = core.emptyScenario(); if (sc.period.mode === 'full-month' && !sc.period.month) sc.period.month = currentMonth(); return sc; };
+  const store = createStore(data, fresh());
   store.meta = meta;
   syncInsurance(store.scenario);
 
@@ -72,7 +73,7 @@ export function startApp({ data, meta, online, client }) {
       rerenderAll();
     },
     reset() {
-      store.scenario = core.emptyScenario();
+      store.scenario = fresh();
       for (const k of ['raw', 'errors', 'ids']) store[k] = {};
       Object.assign(store.ui, { countryId: null, locationId: null, rentLocationId: null, rentHeadTouched: false, notice: null });
       store.market.manualRecords = [];
