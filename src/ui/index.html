@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>დიპლომატიური როტაციის კალკულატორი</title>
+<!-- @inline-styles -->
+</head>
+<body>
+<a class="skip" href="#sec-results">შედეგზე გადასვლა</a>
+<header class="app-header">
+  <h1>დიპლომატიური როტაციის კალკულატორი</h1>
+  <p class="sub">ბრძანება №01-82 · წესების ვერსია: <span data-meta="rulesVersion"></span> · <span id="run-mode"></span></p>
+  <nav aria-label="სექციები" class="no-print">
+    <ol class="toc">
+      <li><a href="#h-location">1. ადგილი</a></li>
+      <li><a href="#h-position">2. თანამდებობა და პერიოდი</a></li>
+      <li><a href="#h-family">3. ოჯახი</a></li>
+      <li><a href="#h-expenses">4. ქირა და ხარჯები</a></li>
+      <li><a href="#results-title">5. შედეგი</a></li>
+    </ol>
+  </nav>
+</header>
+<noscript><p class="error-box">კალკულატორს სჭირდება JavaScript. ფაილი მუშაობს ინტერნეტის გარეშე.</p></noscript>
+<section id="print-inputs" class="print-only" aria-hidden="true"></section>
+<main class="layout">
+  <form id="form" class="form" autocomplete="off" novalidate>
+    <section class="sec" aria-labelledby="h-location">
+      <h2 id="h-location">1. ქვეყანა, ქალაქი და დაწესებულება</h2>
+      <div id="sec-location-fields"></div>
+      <div id="sec-market"></div>
+    </section>
+    <section class="sec" aria-labelledby="h-position">
+      <h2 id="h-position">2. რეჟიმი, თანამდებობა, სტატუსი და პერიოდი</h2>
+      <div id="sec-position"></div>
+    </section>
+    <section class="sec" aria-labelledby="h-family">
+      <h2 id="h-family">3. ოჯახი და პირობები</h2>
+      <p class="hint">სახელი არ ითხოვება. თითო უფლება (დანამატი, მოწყობა, დაზღვევა, მგზავრობა, განათლება) ცალკე დგინდება.</p>
+      <div id="sec-family"></div>
+    </section>
+    <section class="sec" aria-labelledby="h-expenses">
+      <h2 id="h-expenses">4. ქირა, განათლება და სხვა ხარჯები</h2>
+      <div id="sec-expenses"></div>
+    </section>
+  </form>
+  <aside class="results" id="sec-results-wrap">
+    <section id="sec-results" class="sec" aria-labelledby="results-title" tabindex="-1">
+      <h2 id="results-title">5. შედეგი</h2>
+    </section>
+    <section class="sec no-print" aria-label="ექსპორტი და ბეჭდვა">
+      <div id="sec-export"></div>
+    </section>
+  </aside>
+</main>
+<footer class="app-footer">
+  <p>საინფორმაციო გაანგარიშება; ოფიციალური თანხა დგინდება შესაბამისი აქტით. წყარო: ბრძანება №01-82 და დანართები №1–10 (მოწოდებული სამუშაო ასლი).</p>
+  <p class="meta">წესების ვერსია: <span data-meta="rulesVersion"></span> · მონაცემების SHA-256: <span data-meta="dataSha"></span> · ვერსია <span data-meta="appVersion"></span> · აწყობა <span data-meta="buildDate"></span></p>
+</footer>
+<!-- @inline-script -->
+</body>
+</html>

@@ -1,7 +1,8 @@
 // სექცია 1-ის ბაზრის ბლოკი: ქირა და ცხოვრების ღირებულების ინდექსი (საორიენტაციო; ოფიციალურ გაანგარიშებას არ ცვლის).
 import { h, replace, uid } from '../dom.js';
 import { L, MARKET_STATUS, MARKET_WARNINGS, MARKET_RETRYABLE, RENT_METRICS_KA, INDEX_KA, MATCH_KA } from '../labels.js';
-import { createEmptyMarketData, marketDataFromManualRecords, validateManualRecord, validateMarketImport, RENT_METRICS, DEFAULT_RENT_METRIC } from '../../providers/market-contract.js';
+import { createEmptyMarketData, marketDataFromManualRecords, validateManualRecord, RENT_METRICS, DEFAULT_RENT_METRIC } from '../../providers/market-contract.js';
+import { parseManualMarketJson } from '../../providers/index.js';
 import { formatAmount, parseDecimalInput } from '../../core/index.js';
 
 const fmtTime = (iso) => (iso ? String(iso).replace('T', ' ').replace(/:\d\d(\.\d+)?Z$/, ' UTC').replace(/Z$/, ' UTC') : 'უცნობია');
@@ -224,10 +225,9 @@ export function mountMarket(root, store, deps) {
     const f = input.files && input.files[0];
     if (!f) return;
     if (f.size > 256 * 1024) { m.importErrors = ['ფაილი ძალიან დიდია (მაქს. 256 KB).']; render(); return; }
-    let obj;
-    try { obj = JSON.parse(await f.text()); } catch { m.importErrors = ['ფაილი სწორი JSON არ არის.']; render(); return; }
-    const v = validateMarketImport(obj, { allowedCurrencies: ['EUR', 'USD'] });
-    if (!v.ok) { m.importErrors = ['იმპორტი უარყოფილია:', ...v.errors]; render(); input.value = ''; return; }
+    const res = parseManualMarketJson(await f.text(), { allowedCurrencies: ['EUR', 'USD'] });
+    if (!res.ok) { m.importErrors = ['იმპორტი უარყოფილია:', ...res.errors.map((e) => `${e.path}: ${e.message_ka}`)]; render(); input.value = ''; return; }
+    const obj = res.data;
     const keys = new Set(obj.records.map((r) => `${r.locationId}|${r.metricType}|${r.metric}`));
     m.manualRecords = m.manualRecords.filter((r) => !keys.has(`${r.locationId}|${r.metricType}|${r.metric}`)).concat(obj.records);
     m.importErrors = [`იმპორტირებულია ${obj.records.length} ჩანაწერი.`];

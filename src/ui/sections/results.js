@@ -3,7 +3,8 @@ import { h, replace } from '../dom.js';
 import { L, COMPLETENESS, COMP_STATUS, MONTHLY, PERCENT_IDS, MARKET_STATUS, RENT_METRICS_KA, INDEX_KA } from '../labels.js';
 import * as core from '../../core/index.js';
 
-const fmt = (v, cur) => (v == null ? null : cur ? `${core.formatAmount(v)} ${cur}` : String(v));
+const vOf = (x) => (x && typeof x === 'object' ? x.value ?? null : x ?? null);
+const fmt = (v, cur) => { v = vOf(v); return v == null ? null : cur ? `${core.formatAmount(v)} ${cur}` : String(v); };
 
 function catalogEntry(id) {
   const cat = core.ruleCatalog;
@@ -59,7 +60,7 @@ export function mountResults(root, store, { marketSummary }) {
     const fieldErrors = Object.entries(store.errors);
     const missing = r.missingInputs || [];
     const link = (path, text) => {
-      const id = store.ids[path];
+      const id = store.ids[store.resolvePath ? store.resolvePath(path) : path];
       return id ? h('a', { href: '#' + id, on: { click: (e) => { e.preventDefault(); const el = document.getElementById(id); el?.closest('details')?.setAttribute('open', ''); el?.focus(); } } }, text) : text;
     };
     // მოკლე ზოლი (aria-live debounce)
@@ -95,7 +96,7 @@ export function mountResults(root, store, { marketSummary }) {
           h('thead', null, h('tr', null, ['დან', 'მდე', 'დღე', 'C', 'G', 'სრული თვის S', 'მონაკვეთის თანხა'].map((t) => h('th', { scope: 'col' }, t)))),
           h('tbody', null, r.periodSegments.map((s) => h('tr', null,
             h('td', null, s.from), h('td', null, s.to), h('td', null, `${s.days}/${s.daysInMonth}`),
-            h('td', null, s.C?.value ?? s.C ?? '—'), h('td', null, s.G?.value != null ? fmt(s.G.value, cur) : (typeof s.G === 'string' ? s.G : '—')),
+            h('td', null, vOf(s.C) ?? '—'), h('td', null, fmt(s.G, cur) ?? '—'),
             h('td', null, s.fullMonth?.S?.value != null ? fmt(s.fullMonth.S.value, cur) : '—'),
             h('td', { 'data-value': s.prorated?.value ?? '' }, s.prorated?.value != null ? fmt(s.prorated.value, cur) : 'დაუდგენელი')))))) : null,
         r.periodTotal ? compRow(r.periodTotal, 'პერიოდის ჯამი') : null),
@@ -112,7 +113,7 @@ export function mountResults(root, store, { marketSummary }) {
       block('res-remainder', '3. ' + L.remainder,
         r.remainder?.value ? [compRow(r.remainder.value, L.remainder),
           h('p', { class: 'formula' }, 'S + განათლების ანაზღაურება − G − განათლების ხარჯი' +
-            (r.remainder.terms ? ` = ${['S', 'educationReimbursement', 'G', 'educationExpense'].map((k) => { const t = r.remainder.terms[k]; const v = t?.value ?? t; return v == null ? '?' : core.formatAmount(v); }).join(' / ')}` : ''))]
+            (r.remainder.terms ? ` = ${['S', 'educationReimbursement', 'G', 'educationExpense'].map((k) => { const v = vOf(r.remainder.terms[k]); return v == null ? '?' : core.formatAmount(v); }).join(' / ')}` : ''))]
           : empty('დაუდგენელი.'),
         h('p', { class: 'hint' }, 'სხვა ყოველდღიური ხარჯები (კვება, კომუნალური და სხვ.) გამოკლებული არ არის. უარყოფითი ნაშთი ნაჩვენებია როგორც არის.')),
 
@@ -143,7 +144,7 @@ export function mountResults(root, store, { marketSummary }) {
         (r.advances || []).length ? r.advances.map((a, i) => h('div', { class: 'sub' }, h('h4', null, `ავანსი ${i + 1}`, ' ', statusBadge(a.status)),
           compRow(a.amount, 'ავანსის თანხა', cur), compRow(a.monthlyRepayment, 'ყოველთვიური დაფარვა', cur),
           (a.schedule || []).length ? h('table', { class: 'schedule' }, h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'თვე'), h('th', { scope: 'col' }, 'დაფარვა'), h('th', { scope: 'col' }, 'დარჩენილი ვალდებულება'))),
-            h('tbody', null, a.schedule.map((s) => h('tr', null, h('td', null, s.month), h('td', null, fmt(s.repayment?.value ?? s.repayment, cur) ?? '—'), h('td', null, fmt(s.outstanding?.value ?? s.outstanding, cur) ?? '—'))))) : null,
+            h('tbody', null, a.schedule.map((s) => h('tr', null, h('td', null, s.month), h('td', null, fmt(s.repayment, cur) ?? '—'), h('td', null, fmt(s.outstanding, cur) ?? '—'))))) : null,
           rules(a.ruleIds))) : empty('ავანსი არ არის შეყვანილი.'),
         h('p', { class: 'hint' }, 'ავანსი შემოსავალში და ანაზღაურების ჯამში არ შედის.')),
 

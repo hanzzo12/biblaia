@@ -1,0 +1,25 @@
+@media print {
+  @page { size: A4; margin: 15mm 12mm; }
+  body { background: #fff; color: #000; font-size: 10.5pt; padding: 0 !important; }
+  .no-print, .skip, nav, button, .combo, input[type=file], .market-manual, .summary-wrap, .use-rent, .btn { display: none !important; }
+  .print-only { display: block !important; }
+  .app-header { background: none; color: #000; padding: 0 0 6pt; border-bottom: 2px solid #000; }
+  .app-header a { color: #000; }
+  .layout { display: block; padding: 0; max-width: none; }
+  .results { position: static; max-height: none; overflow: visible; }
+  .sec { border: none; padding: 0; margin: 0 0 8pt; }
+  #form { display: none; }              /* შეყვანა იბეჭდება ცხრილად (#print-inputs) */
+  #print-inputs { break-after: page; }
+  h2, h3, h4, caption { break-after: avoid; page-break-after: avoid; }
+  .res-block, .row, .sub, tr, .kv, .completeness { break-inside: avoid; page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  table { font-size: 9pt; }
+  .print-table th { width: 45%; font-weight: 400; }
+  .row { grid-template-columns: 1.8fr 1fr; }
+  .badge { border: 1px solid #000; background: none !important; color: #000 !important; }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  a { color: #000; text-decoration: none; }
+  * { overflow-wrap: anywhere; word-break: normal; }
+  .meta { word-break: break-all; }
+}
