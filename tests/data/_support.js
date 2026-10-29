@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/normative-data.json'), 'utf8'));
+const data = JSON.parse(fs.readFileSync(process.env.NORMATIVE_DATA || path.join(ROOT, 'src/data/normative-data.json'), 'utf8'));
 const golden = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests/fixtures/golden-cases.json'), 'utf8'));
 const layoutPages = fs.readFileSync(path.join(ROOT, 'sources/extracted/rotation_sources.layout.txt'), 'utf8').split('\f');
 

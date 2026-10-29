@@ -11,9 +11,9 @@
   "scripts": {
     "validate:data": "node scripts/validate-data.mjs",
     "build": "node scripts/build.mjs",
-    "test": "node --test tests/unit/ tests/data/ tests/providers/ tests/worker/",
+    "test": "node --test \"tests/unit/**/*.test.js\" \"tests/data/**/*.test.js\" \"tests/providers/**/*.test.js\" \"tests/worker/**/*.test.js\"",
     "test:golden": "python3 -I tests/independent/compute_golden.py",
-    "test:e2e": "node --test tests/e2e/",
+    "test:e2e": "node --test --test-concurrency=1 \"tests/e2e/**/*.test.js\"",
     "test:all": "npm run validate:data && npm run build && npm test && npm run test:e2e",
     "dev": "npm run build && wrangler dev",
     "deploy:dry": "npm run build && wrangler deploy --dry-run --outdir .wrangler-dry",
