@@ -614,6 +614,17 @@ export function calculate(scenarioIn, data) {
 
   // ---------------------------------------------------------------- travel
   const ownCarSeen = new Set();
+  // pts 12b/12c: the comparator caps the TOTAL of a person's vacation tickets in a year (LR-25)
+  const vacGroups = new Map();
+  sc.travel.forEach((t) => {
+    if (!t || t.kind !== 'vacation') return;
+    const key = `${t.personId}|${isValidDate(t.date) ? t.date.slice(0, 4) : '?'}`;
+    const g = vacGroups.get(key) || { n: 0, comparable: null, remaining: null, comparables: new Set() };
+    g.n++;
+    const c = amt(t.comparableTicket);
+    if (c != null) { g.comparables.add(toExactString(c)); if (g.comparable == null) { g.comparable = c; g.remaining = c; } }
+    vacGroups.set(key, g);
+  });
   const travel = sc.travel.filter((t) => t && typeof t === 'object').map((t, i) => {
     const id = `travel[${i}]`;
     const who = t.personId === 'EMP' ? 'მოსამსახურე' : famById.get(t.personId)?.label ?? t.personId;
@@ -622,6 +633,10 @@ export function calculate(scenarioIn, data) {
     const m = famById.get(t.personId);
     const iu = { kind: t.kind, personId: t.personId, actualCost: str(actual), comparableTicket: str(comparable), route: t.route ?? null, ownCar: !!t.ownCar };
     if (m?.reimbursedElsewhere?.travel) return comp(id, 'one-time-reimbursement', label, ZERO, cur, 'calculated', 'სხვა უწყება ანაზღაურებს (დ1 მ.4 პ.4).', ['R-FAM-OTHERAGENCY'], iu);
+    if (t.kind === 'recall-5-1') {
+      if (actual == null) ctx.missing(`${id}.actualCost`, 'მიუთითეთ ბილეთის ფაქტობრივი ღირებულება.');
+      return comp(id, 'one-time-reimbursement', label, actual, cur, actual == null ? 'undetermined' : 'unconfirmed', 'გამოძახება მინისტრის ინდივიდუალური აქტით (პ.5¹) — ჩვეულებრივი ნორმებით; ამავე როტაციის გამოწვევისას ხელმეორედ არ ანაზღაურდება (პ.5²).', ['R-TRAVEL-CALLBACK', 'R-TRAVEL-001'], iu);
+    }
     if (t.callbackAlreadyReimbursed && t.kind === 'recall') return comp(id, 'one-time-reimbursement', label, ZERO, cur, 'calculated', 'გამოძახებისას (პ.5¹) უკვე ანაზღაურდა (პ.5²).', ['R-TRAVEL-CALLBACK'], iu);
     if (t.ownCar && (t.kind === 'departure' || t.kind === 'recall')) {
       const key = t.kind;
@@ -641,8 +656,22 @@ export function calculate(scenarioIn, data) {
     if (t.kind === 'vacation') {
       const r = m ? rightsById.get(m.id).eligibility.vacationTravel : right(true, '', ['R-VAC-TICKETS']);
       if (r.value === false) return comp(id, 'one-time-reimbursement', label, ZERO, cur, 'calculated', r.reason_ka, r.ruleIds, iu);
-      ctx.info('VAC_ONCE', 'შვებულების ბილეთები — წელიწადში ერთხელ; ზღვარი — საქართველოს ორმხრივი ეკონომ ბილეთი (პ.12).', ['R-VAC-TICKETS'], id);
-      return capped(['R-VAC-TICKETS'], 'min(ფაქტობრივი, ორმხრივი ეკონომ ბილეთი საქართველოში) (პ.12ბ–გ)');
+      if (t.interruptedLeave && t.personId !== 'EMP') return comp(id, 'one-time-reimbursement', label, ZERO, cur, 'calculated', 'შეწყვეტილი შვებულების დარჩენილი ნაწილისას მგზავრობა უნაზღაურდება მხოლოდ მოსამსახურეს (პ.16).', ['R-VAC-OTHER'], iu);
+      ctx.info('VAC_ONCE', 'შვებულების ბილეთები — წელიწადში ერთხელ; ზღვარი — საქართველოს ორმხრივი ეკონომ ბილეთი, ერთი მგზავრის ყველა ბილეთის ჯამზე (პ.12ბ–გ).', ['R-VAC-TICKETS'], id);
+      const key = `${t.personId}|${isValidDate(t.date) ? t.date.slice(0, 4) : '?'}`;
+      const g = vacGroups.get(key);
+      if (g.comparables.size > 1) ctx.warn('VAC_COMPARATOR_DIFF', 'ერთი მგზავრის ბილეთებზე სხვადასხვა შესადარებელი ფასია მითითებული; გამოყენებულია პირველი.', ['R-VAC-TICKETS'], id);
+      let st = 'calculated';
+      if (g.n > 1) {
+        st = 'scenario';
+        ctx.assume('VAC_TOTAL_CAP', 'შვებულების ზღვარი ვრცელდება ერთი მგზავრის წლის ყველა ბილეთის ჯამზე (პ.12ბ–გ „მათი საერთო ღირებულება“).', ['R-VAC-TICKETS'], 'OQ-32');
+        ctx.warn('VAC_MULTIPLE', 'ერთ პირზე/წელზე რამდენიმე შვებულების მგზავრობაა: ნაწილ-ნაწილ შვებულებისას მგზავრობა ანაზღაურდება მხოლოდ ერთხელ (პ.12დ), ოჯახის წევრებს — წელიწადში ერთხელ (პ.14). ზღვარი ჯამზეა; შედეგი სცენარია.', ['R-VAC-TICKETS'], id);
+      }
+      if (g.comparable == null) { ctx.missing(`${id}.comparableTicket`, 'მიუთითეთ საქართველოს ორმხრივი ეკონომ ბილეთის ღირებულება.'); return comp(id, 'one-time-reimbursement', label, null, cur, 'undetermined', 'შესადარებელი ბილეთი უცნობია.', ['R-VAC-TICKETS'], iu); }
+      if (actual == null) return comp(id, 'one-time-reimbursement', label, null, cur, 'undetermined', 'ფაქტობრივი ღირებულება უცნობია.', ['R-VAC-TICKETS'], iu);
+      const re = min(actual, g.remaining);
+      g.remaining = sub(g.remaining, re);
+      return comp(id, 'one-time-reimbursement', label, re, cur, st, 'Σ ფაქტობრივი (მგზავრზე, წელიწადში) ≤ საქართველოს ორმხრივი ეკონომ ბილეთი (პ.12ბ–გ)', ['R-VAC-TICKETS'], { ...iu, capRemainingAfter: str(g.remaining) });
     }
     if (t.kind === 'bereavement-17') {
       if (t.personId !== 'EMP') return comp(id, 'one-time-reimbursement', label, ZERO, cur, 'calculated', 'პ.17 ეხება მხოლოდ მოსამსახურეს.', ['R-VAC-OTHER'], iu);
@@ -658,8 +687,17 @@ export function calculate(scenarioIn, data) {
   });
 
   // ---------------------------------------------------------------- advances (pt 22–27)
+  const rentAdvanceEnds = [];
   const advances = sc.advances.filter((a) => a && typeof a === 'object').map((a, i) => {
     const id = `advances[${i}]`;
+    let overlap = false;
+    if (a.kind === 'rent') {
+      if (isValidDate(a.issueDate)) {
+        overlap = rentAdvanceEnds.some((end) => compareDates(a.issueDate, end) < 0);
+        if (Number.isInteger(a.months)) rentAdvanceEnds.push(addMonths(a.issueDate, a.months));
+      } else if (rentAdvanceEnds.length) overlap = true;
+      if (overlap) ctx.error('ADV_SECOND_BEFORE_REPAYMENT', 'ქირის ავანსი ხელმეორედ გაიცემა მხოლოდ წინა ავანსის სრულად დაბრუნების შემდეგ (პ.26).', ['R-ADV-RENT'], `${id}.issueDate`);
+    }
     const amount = amt(a.amount);
     const months = Number.isInteger(a.months) ? a.months : null;
     const rules = a.kind === 'rent' ? ['R-ADV-RENT', 'R-ADV-027'] : ['R-ADV-027'];
@@ -678,6 +716,7 @@ export function calculate(scenarioIn, data) {
       } else if (requiresMinisterOrder === null) { status = 'undetermined'; reasons.push('ზღვრის შესამოწმებლად საჭიროა ქირა და თანხა.'); }
       else reasons.push('არაუმეტეს 6 თვის ქირისა; დაბრუნება ≤ 6 თვეში (პ.22).');
     } else { status = 'unconfirmed'; reasons.push('პ.27-ის შემთხვევა — ხელით, დასადასტურებელი.'); }
+    if (overlap) { status = 'unconfirmed'; reasons.push('წინა ქირის ავანსი ჯერ დაბრუნებული არ არის (პ.26).'); }
     ctx.assume('ADV_EQUAL_REPAYMENT', 'ავანსი ბრუნდება თანაბარი ყოველთვიური ნაწილებით; ავანსი შემოსავალს ან ანაზღაურებათა ჯამს არ ზრდის.', ['R-ADV-RENT'], 'OQ-19');
     const sched = advanceSchedule(amount, months);
     return {
@@ -693,13 +732,34 @@ export function calculate(scenarioIn, data) {
   const extras = sc.extras.filter((x) => x && typeof x === 'object').map((x, i) => {
     const id = `extras[${i}]`;
     const a = amt(x.amount);
-    const rules = EXTRA_RULES[x.category] || ['R-COVID-062'];
-    const manual = x.ministerDecisionRequired || x.category === 'early-termination-28' || x.category === 'other';
+    const rules = EXTRA_RULES[x.category] || [];
+    const manual = x.ministerDecisionRequired || ['early-termination-28', 'other', 'covid-aid-6-2', 'head-residence-29'].includes(x.category) || !EXTRA_RULES[x.category];
+    if (x.category === 'head-residence-29') ctx.assume('HEAD_RESIDENCE_29', 'ხელმძღვანელის რეზიდენციის ხარჯი (პ.29) და ქირის სუბსიდია F ერთდროულად — ორმაგი დაფინანსების რისკი; F ავტომატურად არ იცვლება.', ['R-HEADRES-029'], 'OQ-24');
     if (!x.justification) ctx.warn('EXTRA_JUSTIFICATION', 'ხარჯს დაურთეთ საფუძველი/დოკუმენტი.', rules, `${id}.justification`, 'info');
     if (a == null) ctx.missing(`${id}.amount`, 'მიუთითეთ ფაქტობრივი თანხა.');
-    return comp(id, 'one-time-reimbursement', EXTRA_CATEGORIES[x.category] ?? 'სხვა ხარჯი', a, cur, a == null ? 'undetermined' : manual ? 'unconfirmed' : 'calculated',
+    return comp(id, x.category === 'covid-aid-6-2' ? 'one-time-allowance' : 'one-time-reimbursement', EXTRA_CATEGORIES[x.category] ?? 'სხვა ხარჯი', a, cur, a == null ? 'undetermined' : manual ? 'unconfirmed' : 'calculated',
       manual ? 'მინისტრის გადაწყვეტილებით — ავტომატურად არ დასტურდება.' : 'ფაქტობრივი, დოკუმენტით დადასტურებული ხარჯი.', rules, { category: x.category, justification: x.justification ?? null });
   });
+
+  // ---------------------------------------------------------------- pt 18/19 retention of the allowance
+  const retention19 = (() => {
+    const rt = raw.retention19;
+    if (!rt || typeof rt !== 'object' || !rt.applies) return comp('retention19', 'monthly', 'თანხის შენარჩუნება შეჩერებისას (პ.19)', null, cur, 'not_applicable', 'არ არის მონიშნული.', ['R-RETAIN-019']);
+    ctx.info('RETAIN_18', 'პ.18: შრომისუუნარობის, გარდაცვალების გამო შვებულებისა და საპატიო მგზავრობის დღეებში თანხა ჩვეულებრივ გრძელდება.', ['R-RETAIN-018'], 'retention19');
+    if (!isValidDate(rt.from) || !isValidDate(rt.to) || compareDates(rt.to, rt.from) < 0) {
+      ctx.missing('retention19.from', 'მიუთითეთ შენარჩუნების პერიოდი (დან/მდე).');
+      return comp('retention19', 'monthly', 'თანხის შენარჩუნება შეჩერებისას (პ.19)', null, cur, 'undetermined', 'პერიოდი უცნობია.', ['R-RETAIN-019']);
+    }
+    const limitEnd = addDays(addMonths(rt.from, 1), -1);
+    if (compareDates(rt.to, limitEnd) > 0) ctx.warn('RETAIN_LIMIT', 'პ.19: შენარჩუნება — არაუმეტეს ერთი თვისა (მინისტრის გადაწყვეტილებით).', ['R-RETAIN-019'], 'retention19.to');
+    const to = compareDates(rt.to, limitEnd) > 0 ? limitEnd : rt.to;
+    const S = rat(fm.S);
+    let v = null;
+    if (S != null) v = segmentPeriod(rt.from, to).reduce((acc, sg) => add(acc, prorate(S, sg.days, sg.daysInMonth)), ZERO);
+    if (!rt.decisionRef) ctx.warn('RETAIN_DECISION', 'პ.19: საჭიროა მინისტრის გადაწყვეტილების რეკვიზიტი.', ['R-RETAIN-019'], 'retention19.decisionRef');
+    return comp('retention19', 'monthly', 'თანხის შენარჩუნება შეჩერებისას (პ.19)', v, cur, v == null ? 'undetermined' : 'unconfirmed',
+      'S × დღეები / თვის დღეები, ≤ 1 თვე; მინისტრის გადაწყვეტილებით — დასადასტურებელია.', ['R-RETAIN-019'], { from: rt.from, to, decisionRef: rt.decisionRef ?? null });
+  })();
 
   // ---------------------------------------------------------------- vacation month (pt 12a) — never added automatically
   const vacationMonth = comp('vacationMonth', 'one-time-allowance', 'შვებულების ერთთვიანი თანხა (პ.12ა)', rat(fm.S), cur, fm.S.status === 'undetermined' ? 'undetermined' : 'scenario',
@@ -732,7 +792,7 @@ export function calculate(scenarioIn, data) {
     undeterminedIds: entered.filter((c) => c.status === 'undetermined').map((c) => c.id),
     otherCurrencyIds: entered.filter((c) => c.status !== 'undetermined' && !inCur(c)).map((c) => c.id),
   };
-  const essential = [datesMode ? periodTotal : fm.S, remainder.value, ...entered];
+  const essential = [datesMode ? periodTotal : fm.S, remainder.value, ...entered, retention19];
   let completeness = 'complete';
   if (rat(fm.D) == null && !(datesMode && periodSegments.some((s) => s.fullMonth.D.value != null))) completeness = 'incomplete';
   else if (ctx.missingInputs.length || essential.some((c) => c && (c.status === 'undetermined' || c.status === 'unconfirmed'))) completeness = 'partial';
@@ -752,7 +812,7 @@ export function calculate(scenarioIn, data) {
     schemaVersion: 1, rulesVersion: data.rulesVersion, currency: cur, completeness, missingInputs: ctx.missingInputs, inputsUsed,
     monthly, family: familyOut, periodSegments, periodTotal, education, remainder,
     insurance: { perPerson },
-    oneTimeAllowances: { settlement, vacationMonth },
+    oneTimeAllowances: { settlement, vacationMonth, retention19 },
     oneTimeReimbursements: { broker, baggage, travel, extras },
     annualCaps: { insurance: annualCaps },
     advances, fx, totals,
