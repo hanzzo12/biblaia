@@ -1,0 +1,1091 @@
+{
+  "schemaVersion": "1.0",
+  "manifestCreated": "2026-10-29",
+  "createdBy": "legal-rules-analyst (phase 1)",
+  "retrievalDate": "2026-10-29",
+  "retrievalDateNote": "მოპოვების თარიღი = ფაილების რეპოზიტორიაში შემოწმების თარიღი. ფაილების შექმნის/შეცვლის თარიღი (ფაილური სისტემა ან PDF მეტამონაცემები) ნორმის ამოქმედების თარიღად არ გამოიყენება.",
+  "editionVerificationStatus": {
+    "suppliedEditionChecked": true,
+    "publicMatsnePageChecked": false,
+    "fullConsolidatedTextChecked": false,
+    "summary": "შემოწმებულია მხოლოდ მოწოდებული გაერთიანებული სამუშაო ასლი (შედგენილია 2026-10-28). matsne.gov.ge ამ სესიიდან მიუწვდომელი იყო (DNS/ქსელის ნებართვა: getaddrinfo ENOTFOUND, 2026-10-29). ბოლო რედაქციის სრული გადამოწმება არ შესრულებულა და დასრულებულად არ ითვლება.",
+    "taskStatement": "დავალების (docs/task.md §2) თანახმად, 2026-10-28-ს მაცნეს საჯარო გვერდზე ჩანდა კონსოლიდაციის თარიღი 13/08/2026, სრული კონსოლიდირებული ტექსტი ავტორიზაციას მოითხოვდა, საჯარო ტექსტი პირველადი რედაქცია იყო. ეს ცნობა დავალებიდან არის და ჩვენ მიერ დამოუკიდებლად არ გადამოწმებულა.",
+    "latestAmendmentCitationInSuppliedCopy": "№01-317 of 13.08.2026 published 14.08.2026 (პუნქტები 20, 20², დანართი №2)"
+  },
+  "suppliedFiles": [
+    {
+      "fileName": "sources/original/rotation_sources.pdf",
+      "sha256": "7ccfcaaa100f06b870d5037238c8e99bfebb750a7cfc9348767fc9a09dcf8717",
+      "sizeBytes": 833388,
+      "pages": 34,
+      "role": "ერთადერთი მოწოდებული სამართლებრივი წყარო: ბრძანება №01-82 (5 აპრილი 2018) და დანართები №1–10 ერთ გაერთიანებულ სამუშაო ასლად",
+      "coverPage": {
+        "page": 1,
+        "title": "როტაციის ბრძანება და დანართები — ბრძანება №01-82 და ათივე დანართი ერთ ფაილში",
+        "printedText": [
+          "მოწოდებული დოკუმენტების გაერთიანებული სამუშაო ასლი. სარჩევი დამატებულია ნავიგაციისთვის და ნორმატიული აქტის ნაწილი არ არის.",
+          "შედგენილია 2026 წლის 28 ოქტომბერს  სულ 34 გვერდი"
+        ],
+        "compiledOn": "2026-10-28"
+      },
+      "pdfMetadata": {
+        "Title": "როტაციის ბრძანება №01-82 და დანართები №1-10",
+        "Subject": "მოწოდებული სამართლებრივი წყაროების გაერთიანებული სამუშაო ასლი",
+        "Producer": "pypdf",
+        "CreationDate": "",
+        "ModDate": "",
+        "note": "მეტამონაცემები ამოქმედების თარიღად არ გამოიყენება"
+      },
+      "pageFooter": "http://www.matsne.gov.ge 48004000022030016176 (ბრძანების გვერდებზე)",
+      "contents": [
+        {
+          "part": "ბრძანება №01-82",
+          "pages": "2-9",
+          "act": "საქართველოს საგარეო საქმეთა მინისტრის ბრძანება №01-82, 2018 წლის 5 აპრილი, ქ. თბილისი; ხელს აწერს: დავით ზალკალიანი (გვ.9)",
+          "legalBasis": "„დიპლომატიური სამსახურის შესახებ“ კანონის 21-ე მუხლი; ზოგადი ადმინისტრაციული კოდექსის 61-ე მუხლი",
+          "effectiveDateInText": "პ.42: „ბრძანება ამოქმედდეს გამოქვეყნებისთანავე“ — გამოქვეყნების თარიღი მოწოდებულ ასლში არ არის დაბეჭდილი (უცნობია). პ.43: მე-2 და მე-3 პუნქტების მოქმედება ვრცელდება 2017-12-29-დან წარმოშობილ ურთიერთობებზე.",
+          "pointAmendmentCitations": [
+            {
+              "point": "2",
+              "amendmentCitations": [
+                {
+                  "order": "№01-1",
+                  "adopted": "2019-01-14",
+                  "publishedOnWebsite": "2019-01-15",
+                  "asPrinted": "№01-1 of 14.01.2019 published 15.01.2019",
+                  "page": 3
+                },
+                {
+                  "order": "№01-1",
+                  "adopted": "2020-01-10",
+                  "publishedOnWebsite": "2020-01-10",
+                  "asPrinted": "№01-1 of 10.01.2020 published 10.01.2020",
+                  "page": 3
+                },
+                {
+                  "order": "№01-2",
+                  "adopted": "2021-01-22",
+                  "publishedOnWebsite": "2020-01-25",
+                  "asPrinted": "№01-2 of 22.01.2021 published 25.01.2020",
+                  "page": 3,
+                  "anomaly": "printed publication date precedes adoption date (recorded verbatim, not corrected)"
+                },
+                {
+                  "order": "№01-28",
+                  "adopted": "2022-01-27",
+                  "publishedOnWebsite": "2022-01-31",
+                  "asPrinted": "№01-28 of 27.01.2022 published 31.01.2022",
+                  "page": 3
+                },
+                {
+                  "order": "№01-25",
+                  "adopted": "2023-01-20",
+                  "publishedOnWebsite": "2023-01-23",
+                  "asPrinted": "№01-25 of 20.01.2023 published 23.01.2023",
+                  "page": 3
+                },
+                {
+                  "order": "№01-3",
+                  "adopted": "2024-01-10",
+                  "publishedOnWebsite": "2024-01-11",
+                  "asPrinted": "№01-3 of 10.01.2024 published 11.01.2024",
+                  "page": 3
+                },
+                {
+                  "order": "№01-20",
+                  "adopted": "2026-01-26",
+                  "publishedOnWebsite": "2026-01-26",
+                  "asPrinted": "№01-20 of 26.01.2026 published 26.01.2026",
+                  "page": 3
+                }
+              ]
+            },
+            {
+              "point": "3",
+              "amendmentCitations": [
+                {
+                  "order": "№01-770",
+                  "adopted": "2025-09-17",
+                  "publishedOnWebsite": "2025-09-23",
+                  "asPrinted": "№01-770 of 17.09.2025 published 23.09.2025",
+                  "page": 3
+                }
+              ]
+            },
+            {
+              "point": "5¹",
+              "amendmentCitations": [
+                {
+                  "order": "№01-735",
+                  "adopted": "2024-12-23",
+                  "publishedOnWebsite": "2024-12-12",
+                  "asPrinted": "№01-735 of 23.12.2024 published 12.12.2024",
+                  "page": 3,
+                  "anomaly": "printed publication date precedes adoption date (recorded verbatim, not corrected)"
+                }
+              ]
+            },
+            {
+              "point": "5²",
+              "amendmentCitations": [
+                {
+                  "order": "№01-735",
+                  "adopted": "2024-12-23",
+                  "publishedOnWebsite": "2024-12-12",
+                  "asPrinted": "№01-735 of 23.12.2024 published 12.12.2024",
+                  "page": 3,
+                  "anomaly": "printed publication date precedes adoption date (recorded verbatim, not corrected)"
+                }
+              ]
+            },
+            {
+              "point": "6¹",
+              "amendmentCitations": [
+                {
+                  "order": "№01-127",
+                  "adopted": "2020-07-08",
+                  "publishedOnWebsite": "2020-07-09",
+                  "asPrinted": "№01-127 of 08.07.2020 published 09.07.2020",
+                  "page": 4
+                }
+              ]
+            },
+            {
+              "point": "6²",
+              "amendmentCitations": [
+                {
+                  "order": "№01-28",
+                  "adopted": "2022-01-27",
+                  "publishedOnWebsite": "2022-01-31",
+                  "asPrinted": "№01-28 of 27.01.2022 published 31.01.2022",
+                  "page": 4
+                }
+              ]
+            },
+            {
+              "point": "7",
+              "amendmentCitations": [
+                {
+                  "order": "№01-110",
+                  "adopted": "2024-03-15",
+                  "publishedOnWebsite": "2024-03-18",
+                  "asPrinted": "№01-110 of 15.03.2024 published 18.03.2024",
+                  "page": 4
+                }
+              ]
+            },
+            {
+              "point": "7¹",
+              "amendmentCitations": [
+                {
+                  "order": "№01-569",
+                  "adopted": "2023-11-22",
+                  "publishedOnWebsite": "2023-11-24",
+                  "asPrinted": "№01-569 of 22.11.2023 published 24.11.2023",
+                  "page": 4
+                }
+              ]
+            },
+            {
+              "point": "8",
+              "amendmentCitations": [
+                {
+                  "order": "№01-100",
+                  "adopted": "2019-06-05",
+                  "publishedOnWebsite": "2019-06-06",
+                  "asPrinted": "№01-100 of 05.06.2019 published 06.06.2019",
+                  "page": 4
+                }
+              ]
+            },
+            {
+              "point": "8¹",
+              "amendmentCitations": [
+                {
+                  "order": "№01-100",
+                  "adopted": "2019-06-05",
+                  "publishedOnWebsite": "2019-06-06",
+                  "asPrinted": "№01-100 of 05.06.2019 published 06.06.2019",
+                  "page": 4
+                }
+              ]
+            },
+            {
+              "point": "17",
+              "amendmentCitations": [
+                {
+                  "order": "№01-156",
+                  "adopted": "2021-08-27",
+                  "publishedOnWebsite": "2021-08-30",
+                  "asPrinted": "№01-156 of 27.08.2021 published 30.08.2021",
+                  "page": 6
+                }
+              ]
+            },
+            {
+              "point": "20",
+              "amendmentCitations": [
+                {
+                  "order": "№01-317",
+                  "adopted": "2026-08-13",
+                  "publishedOnWebsite": "2026-08-14",
+                  "asPrinted": "№01-317 of 13.08.2026 published 14.08.2026",
+                  "page": 6
+                }
+              ]
+            },
+            {
+              "point": "20¹",
+              "amendmentCitations": [
+                {
+                  "order": "№01-134",
+                  "adopted": "2024-04-10",
+                  "publishedOnWebsite": "2024-04-10",
+                  "asPrinted": "№01-134 of 10.04.2024 published 10.04.2024",
+                  "page": 6
+                },
+                {
+                  "order": "№01-453",
+                  "adopted": "2024-09-20",
+                  "publishedOnWebsite": "2024-09-23",
+                  "asPrinted": "№01-453 of 20.09.2024 published 23.09.2024",
+                  "page": 6
+                }
+              ]
+            },
+            {
+              "point": "20²",
+              "amendmentCitations": [
+                {
+                  "order": "№01-317",
+                  "adopted": "2026-08-13",
+                  "publishedOnWebsite": "2026-08-14",
+                  "asPrinted": "№01-317 of 13.08.2026 published 14.08.2026",
+                  "page": 6
+                }
+              ]
+            },
+            {
+              "point": "23",
+              "amendmentCitations": [
+                {
+                  "order": "№01-331",
+                  "adopted": "2022-09-19",
+                  "publishedOnWebsite": "2022-09-20",
+                  "asPrinted": "№01-331 of 19.09.2022 published 20.09.2022",
+                  "page": 7
+                }
+              ]
+            },
+            {
+              "point": "32",
+              "amendmentCitations": [
+                {
+                  "order": "№01-485",
+                  "adopted": "2023-10-02",
+                  "publishedOnWebsite": "2023-10-03",
+                  "asPrinted": "№01-485 of 02.10.2023 published 03.10.2023",
+                  "page": 8
+                }
+              ]
+            },
+            {
+              "point": "33",
+              "amendmentCitations": [
+                {
+                  "order": "№01-342",
+                  "adopted": "2025-04-07",
+                  "publishedOnWebsite": "2025-04-08",
+                  "asPrinted": "№01-342 of 07.04.2025 published 08.04.2025",
+                  "page": 8
+                }
+              ]
+            },
+            {
+              "point": "41¹",
+              "amendmentCitations": [
+                {
+                  "order": "№01-110",
+                  "adopted": "2024-03-15",
+                  "publishedOnWebsite": "2024-03-18",
+                  "asPrinted": "№01-110 of 15.03.2024 published 18.03.2024",
+                  "page": 8
+                }
+              ]
+            },
+            {
+              "point": "შენიშვნა (note)",
+              "amendmentCitations": [
+                {
+                  "order": "№01-8",
+                  "adopted": "2019-01-18",
+                  "publishedOnWebsite": "2019-01-21",
+                  "asPrinted": "№01-8 of 18.01.2019 published 21.01.2019",
+                  "page": 8
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "annex": "1",
+          "title": "ინსტრუქცია — ნორმები და გაანგარიშების წესი (მუხლები 1–4)",
+          "pages": "10-12",
+          "amendmentCitations": [
+            {
+              "order": "№01-608",
+              "adopted": "2023-12-15",
+              "publishedOnWebsite": "2023-12-15",
+              "asPrinted": "№01-608 of 15.12.2023 published 15.12.2023",
+              "page": 12
+            }
+          ],
+          "notes": [
+            "ციტატა №01-608 (15.12.2023) დაბეჭდილია მუხლი 4-ის მეორე „6“ პუნქტის შემდეგ (გვ.12).",
+            "მუხლი 4-ში პუნქტი „6“ ორჯერ გვხვდება (გვ.12) — იხ. open-questions OQ-06.",
+            "ფორმულა დაბეჭდილია ასე: „D = (H x A x K ) x (100+C x Q )%“, „S = D + (– T + F)“, „T=DxE“."
+          ],
+          "part": "დანართი №1"
+        },
+        {
+          "annex": "2",
+          "title": "როტაციით მივლინებულ მოსამსახურეთა თანამდებობრივი მაჩვენებლები (9 სტრიქონი)",
+          "pages": "13",
+          "amendmentCitations": [
+            {
+              "order": "№01-331",
+              "adopted": "2022-09-19",
+              "publishedOnWebsite": "2022-09-20",
+              "asPrinted": "№01-331 of 19.09.2022 published 20.09.2022",
+              "page": 13
+            },
+            {
+              "order": "№01-317",
+              "adopted": "2026-08-13",
+              "publishedOnWebsite": "2026-08-14",
+              "asPrinted": "№01-317 of 13.08.2026 published 14.08.2026",
+              "page": 13
+            }
+          ],
+          "notes": [
+            "სტრიქონი 3 (75%) მოიცავს „ადმინისტრაციული მენეჯერი, რომელიც დროებით/მუდმივად ასრულებს სხვა ... ადმინისტრაციული მენეჯერის მოვალეობას“ — ჩანაწერი დამატებულია, სავარაუდოდ, №01-317-ით (13.08.2026); სტრიქონი 5 (65%) — ჩვეულებრივი ადმინისტრაციული მენეჯერი. ზუსტად რომელი სტრიქონი შეცვალა რომელმა ციტატამ, ტექსტიდან არ ჩანს."
+          ],
+          "part": "დანართი №2"
+        },
+        {
+          "annex": "3",
+          "title": "ცენტრალური აპარატის მოსამსახურეთა თანამდებობრივი მაჩვენებლები (8 სტრიქონი)",
+          "pages": "14",
+          "amendmentCitations": [
+            {
+              "order": "№01-770",
+              "adopted": "2025-09-17",
+              "publishedOnWebsite": "2025-09-23",
+              "asPrinted": "№01-770 of 17.09.2025 published 23.09.2025",
+              "page": 14
+            }
+          ],
+          "notes": [],
+          "part": "დანართი №3"
+        },
+        {
+          "annex": "4",
+          "title": "ადგილსამყოფელი ქვეყნის/ქალაქის სიძვირის ადაპტირებული კოეფიციენტი K და ბინის წილი E (69 სტრიქონი)",
+          "pages": "15-18",
+          "amendmentCitations": [
+            {
+              "order": "№01-60",
+              "adopted": "2019-04-16",
+              "publishedOnWebsite": "2019-04-17",
+              "asPrinted": "№01-60 of 16.04.2019 published 17.04.2019",
+              "page": 17
+            },
+            {
+              "order": "№01-234",
+              "adopted": "2019-12-03",
+              "publishedOnWebsite": "2019-12-05",
+              "asPrinted": "№01-234 of 03.12.2019 published 05.12.2019",
+              "page": 17
+            },
+            {
+              "order": "№01-101",
+              "adopted": "2020-06-09",
+              "publishedOnWebsite": "2020-06-10",
+              "asPrinted": "№01-101 of 09.06.2020 published 10.06.2020",
+              "page": 17
+            },
+            {
+              "order": "№01-133",
+              "adopted": "2020-07-17",
+              "publishedOnWebsite": "2020-07-20",
+              "asPrinted": "№01-133 of 17.07.2020 published 20.07.2020",
+              "page": 17
+            },
+            {
+              "order": "№01-171",
+              "adopted": "2020-10-01",
+              "publishedOnWebsite": "2020-10-07",
+              "asPrinted": "№01-171 of 01.10.2020 published 07.10.2020",
+              "page": 17
+            },
+            {
+              "order": "№01-271",
+              "adopted": "2021-12-13",
+              "publishedOnWebsite": "2021-12-14",
+              "asPrinted": "№01-271 of 13.12.2021 published 14.12.2021",
+              "page": 17
+            },
+            {
+              "order": "№01-172",
+              "adopted": "2022-05-24",
+              "publishedOnWebsite": "2022-05-25",
+              "asPrinted": "№01-172 of 24.05.2022 published 25.05.2022",
+              "page": 17
+            },
+            {
+              "order": "№01-384",
+              "adopted": "2022-10-13",
+              "publishedOnWebsite": "2022-10-17",
+              "asPrinted": "№01-384 of 13.10.2022 published 17.10.2022",
+              "page": 17
+            },
+            {
+              "order": "№01-34",
+              "adopted": "2023-01-25",
+              "publishedOnWebsite": "2023-01-26",
+              "asPrinted": "№01-34 of 25.01.2023 published 26.01.2023",
+              "page": 17
+            },
+            {
+              "order": "№01-35",
+              "adopted": "2023-01-25",
+              "publishedOnWebsite": "2023-01-26",
+              "asPrinted": "№01-35 of 25.01.2023 published 26.01.2023",
+              "page": 17
+            },
+            {
+              "order": "№01-140",
+              "adopted": "2023-03-24",
+              "publishedOnWebsite": "2023-03-27",
+              "asPrinted": "№01-140 of 24.03.2023 published 27.03.2023",
+              "page": 17
+            },
+            {
+              "order": "№01-234",
+              "adopted": "2023-05-22",
+              "publishedOnWebsite": "2023-05-23",
+              "asPrinted": "№01-234 of 22.05.2023 published 23.05.2023",
+              "page": 17
+            },
+            {
+              "order": "№01-306",
+              "adopted": "2023-07-04",
+              "publishedOnWebsite": "2023-07-05",
+              "asPrinted": "№01-306 of 04.07.2023 published 05.07.2023",
+              "page": 17
+            },
+            {
+              "order": "№01-374",
+              "adopted": "2023-07-28",
+              "publishedOnWebsite": "2023-07-28",
+              "asPrinted": "№01-374 of 28.07.2023 published 28.07.2023",
+              "page": 17
+            },
+            {
+              "order": "№01-436",
+              "adopted": "2023-09-05",
+              "publishedOnWebsite": "2023-09-06",
+              "asPrinted": "№01-436 of 05.09.2023 published 06.09.2023",
+              "page": 17
+            },
+            {
+              "order": "№01-546",
+              "adopted": "2023-11-07",
+              "publishedOnWebsite": "2023-11-09",
+              "asPrinted": "№01-546 of 07.11.2023 published 09.11.2023",
+              "page": 18
+            },
+            {
+              "order": "№01-608",
+              "adopted": "2023-12-15",
+              "publishedOnWebsite": "2023-12-15",
+              "asPrinted": "№01-608 of 15.12.2023 published 15.12.2023",
+              "page": 18
+            },
+            {
+              "order": "№01-110",
+              "adopted": "2024-03-15",
+              "publishedOnWebsite": "2024-03-18",
+              "asPrinted": "№01-110 of 15.03.2024 published 18.03.2024",
+              "page": 18
+            },
+            {
+              "order": "№01-190",
+              "adopted": "2024-05-16",
+              "publishedOnWebsite": "2024-04-16",
+              "asPrinted": "№01-190 of 16.05.2024 published 16.04.2024",
+              "page": 18,
+              "anomaly": "printed publication date precedes adoption date (recorded verbatim, not corrected)"
+            },
+            {
+              "order": "№01-373",
+              "adopted": "2024-08-20",
+              "publishedOnWebsite": "2024-08-21",
+              "asPrinted": "№01-373 of 20.08.2024 published 21.08.2024",
+              "page": 18
+            },
+            {
+              "order": "№01-415",
+              "adopted": "2024-08-30",
+              "publishedOnWebsite": "2024-09-02",
+              "asPrinted": "№01-415 of 30.08.2024 published 02.09.2024",
+              "page": 18
+            },
+            {
+              "order": "№01-494",
+              "adopted": "2024-10-09",
+              "publishedOnWebsite": "2024-10-10",
+              "asPrinted": "№01-494 of 09.10.2024 published 10.10.2024",
+              "page": 18
+            },
+            {
+              "order": "№01-559",
+              "adopted": "2024-10-30",
+              "publishedOnWebsite": "2024-11-01",
+              "asPrinted": "№01-559 of 30.10.2024 published 01.11.2024",
+              "page": 18
+            },
+            {
+              "order": "№01-43",
+              "adopted": "2026-02-09",
+              "publishedOnWebsite": "2026-02-10",
+              "asPrinted": "№01-43 of 09.02.2026 published 10.02.2026",
+              "page": 18
+            }
+          ],
+          "notes": [
+            "ციტატები გვ.17–18-ზე დაბეჭდილია ცხრილის ბოლოს ერთ ბლოკად; რომელმა ციტატამ რომელი სტრიქონი შეცვალა, არ ჩანს.",
+            "ცხრილის ფორმატირების ხარვეზები (ათწილადი მძიმე: 1,588; 2,280; 1,600; 2,2; დუბლირებული უჯრები, მაგ. დანია 2.200) — მონაცემთა ინჟინრის აუდიტის საგანი."
+          ],
+          "part": "დანართი №4"
+        },
+        {
+          "annex": "5",
+          "title": "ევროში დასაფინანსებელი დაწესებულებები (45 ნომერი, №40 ამოღებულია → 44 მოქმედი ჩანაწერი)",
+          "pages": "19-20",
+          "amendmentCitations": [
+            {
+              "order": "№01-101",
+              "adopted": "2020-06-09",
+              "publishedOnWebsite": "2020-06-10",
+              "asPrinted": "№01-101 of 09.06.2020 published 10.06.2020",
+              "page": 20
+            },
+            {
+              "order": "№01-171",
+              "adopted": "2020-10-01",
+              "publishedOnWebsite": "2020-10-07",
+              "asPrinted": "№01-171 of 01.10.2020 published 07.10.2020",
+              "page": 20
+            },
+            {
+              "order": "№01-166",
+              "adopted": "2021-09-14",
+              "publishedOnWebsite": "2021-09-15",
+              "asPrinted": "№01-166 of 14.09.2021 published 15.09.2021",
+              "page": 20
+            },
+            {
+              "order": "№01-227",
+              "adopted": "2021-11-08",
+              "publishedOnWebsite": "2021-11-11",
+              "asPrinted": "№01-227 of 08.11.2021 published 11.11.2021",
+              "page": 20
+            },
+            {
+              "order": "№01-34",
+              "adopted": "2023-01-25",
+              "publishedOnWebsite": "2023-01-26",
+              "asPrinted": "№01-34 of 25.01.2023 published 26.01.2023",
+              "page": 20
+            },
+            {
+              "order": "№01-436",
+              "adopted": "2023-09-05",
+              "publishedOnWebsite": "2023-09-06",
+              "asPrinted": "№01-436 of 05.09.2023 published 06.09.2023",
+              "page": 20
+            },
+            {
+              "order": "№01-559",
+              "adopted": "2024-10-30",
+              "publishedOnWebsite": "2024-11-01",
+              "asPrinted": "№01-559 of 30.10.2024 published 01.11.2024",
+              "page": 20
+            }
+          ],
+          "notes": [
+            "სტრიქონი 40: „(ამოღებულია - 14.09.2021, №01-166)“."
+          ],
+          "part": "დანართი №5"
+        },
+        {
+          "annex": "6",
+          "title": "აშშ დოლარში დასაფინანსებელი დაწესებულებები (38 ჩანაწერი)",
+          "pages": "21-22",
+          "amendmentCitations": [
+            {
+              "order": "№01-234",
+              "adopted": "2019-12-03",
+              "publishedOnWebsite": "2019-12-05",
+              "asPrinted": "№01-234 of 03.12.2019 published 05.12.2019",
+              "page": 22
+            },
+            {
+              "order": "№01-171",
+              "adopted": "2020-10-01",
+              "publishedOnWebsite": "2020-10-07",
+              "asPrinted": "№01-171 of 01.10.2020 published 07.10.2020",
+              "page": 22
+            },
+            {
+              "order": "№01-265",
+              "adopted": "2021-12-08",
+              "publishedOnWebsite": "2021-12-09",
+              "asPrinted": "№01-265 of 08.12.2021 published 09.12.2021",
+              "page": 22
+            }
+          ],
+          "notes": [],
+          "part": "დანართი №6"
+        },
+        {
+          "annex": "7",
+          "title": "სამედიცინო დაზღვევის წლიური ზღვრული ოდენობები, EUR, 12 ასაკობრივი ჯგუფი",
+          "pages": "23-26",
+          "amendmentCitations": [
+            {
+              "order": "№01-100",
+              "adopted": "2019-06-05",
+              "publishedOnWebsite": "2019-06-06",
+              "asPrinted": "№01-100 of 05.06.2019 published 06.06.2019",
+              "page": 26
+            },
+            {
+              "order": "№01-101",
+              "adopted": "2020-06-09",
+              "publishedOnWebsite": "2020-06-10",
+              "asPrinted": "№01-101 of 09.06.2020 published 10.06.2020",
+              "page": 26
+            },
+            {
+              "order": "№01-171",
+              "adopted": "2020-10-01",
+              "publishedOnWebsite": "2020-10-07",
+              "asPrinted": "№01-171 of 01.10.2020 published 07.10.2020",
+              "page": 26
+            },
+            {
+              "order": "№01-166",
+              "adopted": "2021-09-14",
+              "publishedOnWebsite": "2021-09-15",
+              "asPrinted": "№01-166 of 14.09.2021 published 15.09.2021",
+              "page": 26
+            },
+            {
+              "order": "№01-227",
+              "adopted": "2021-11-08",
+              "publishedOnWebsite": "2021-11-11",
+              "asPrinted": "№01-227 of 08.11.2021 published 11.11.2021",
+              "page": 26
+            },
+            {
+              "order": "№01-176",
+              "adopted": "2022-06-02",
+              "publishedOnWebsite": "2022-06-03",
+              "asPrinted": "№01-176 of 02.06.2022 published 03.06.2022",
+              "page": 26
+            },
+            {
+              "order": "№01-34",
+              "adopted": "2023-01-25",
+              "publishedOnWebsite": "2023-01-26",
+              "asPrinted": "№01-34 of 25.01.2023 published 26.01.2023",
+              "page": 26
+            },
+            {
+              "order": "№01-247",
+              "adopted": "2023-06-01",
+              "publishedOnWebsite": "2023-06-02",
+              "asPrinted": "№01-247 of 01.06.2023 published 02.06.2023",
+              "page": 26
+            },
+            {
+              "order": "№01-345",
+              "adopted": "2023-07-18",
+              "publishedOnWebsite": "2023-07-19",
+              "asPrinted": "№01-345 of 18.07.2023 published 19.07.2023",
+              "page": 26
+            },
+            {
+              "order": "№01-416",
+              "adopted": "2023-08-21",
+              "publishedOnWebsite": "2023-08-23",
+              "asPrinted": "№01-416 of 21.08.2023 published 23.08.2023",
+              "page": 26
+            },
+            {
+              "order": "№01-436",
+              "adopted": "2023-09-05",
+              "publishedOnWebsite": "2023-09-06",
+              "asPrinted": "№01-436 of 05.09.2023 published 06.09.2023",
+              "page": 26
+            },
+            {
+              "order": "№01-63",
+              "adopted": "2024-02-19",
+              "publishedOnWebsite": "2024-02-20",
+              "asPrinted": "№01-63 of 19.02.2024 published 20.02.2024",
+              "page": 26
+            },
+            {
+              "order": "№01-559",
+              "adopted": "2024-10-30",
+              "publishedOnWebsite": "2024-11-01",
+              "asPrinted": "№01-559 of 30.10.2024 published 01.11.2024",
+              "page": 26
+            }
+          ],
+          "notes": [
+            "ასაკობრივი ჯგუფები: 0–18, 19–24, 25–29, 30–34, 35–39, 40–44, 45–49, 50–54, 55–59, 60–64, 65–69, 70 და ზევით.",
+            "სტრიქონი 40 ამოღებულია (14.09.2021, №01-166). ნუმერაცია №5-ს არ ემთხვევა — დაკავშირება დასახელებით."
+          ],
+          "part": "დანართი №7"
+        },
+        {
+          "annex": "8",
+          "title": "სამედიცინო დაზღვევის წლიური ზღვრული ოდენობები, USD, 12 ასაკობრივი ჯგუფი",
+          "pages": "27-29",
+          "amendmentCitations": [
+            {
+              "order": "№01-234",
+              "adopted": "2019-12-03",
+              "publishedOnWebsite": "2019-12-05",
+              "asPrinted": "№01-234 of 03.12.2019 published 05.12.2019",
+              "page": 29
+            },
+            {
+              "order": "№01-171",
+              "adopted": "2020-10-01",
+              "publishedOnWebsite": "2020-10-07",
+              "asPrinted": "№01-171 of 01.10.2020 published 07.10.2020",
+              "page": 29
+            },
+            {
+              "order": "№01-156",
+              "adopted": "2021-08-27",
+              "publishedOnWebsite": "2021-08-30",
+              "asPrinted": "№01-156 of 27.08.2021 published 30.08.2021",
+              "page": 29
+            },
+            {
+              "order": "№01-265",
+              "adopted": "2021-12-08",
+              "publishedOnWebsite": "2021-12-09",
+              "asPrinted": "№01-265 of 08.12.2021 published 09.12.2021",
+              "page": 29
+            },
+            {
+              "order": "№01-177",
+              "adopted": "2022-06-06",
+              "publishedOnWebsite": "2022-06-07",
+              "asPrinted": "№01-177 of 06.06.2022 published 07.06.2022",
+              "page": 29
+            },
+            {
+              "order": "№01-10",
+              "adopted": "2023-01-11",
+              "publishedOnWebsite": "2023-01-12",
+              "asPrinted": "№01-10 of 11.01.2023 published 12.01.2023",
+              "page": 29
+            },
+            {
+              "order": "№01-376",
+              "adopted": "2023-08-01",
+              "publishedOnWebsite": "2023-08-02",
+              "asPrinted": "№01-376 of 01.08.2023 published 02.08.2023",
+              "page": 29
+            },
+            {
+              "order": "№01-434",
+              "adopted": "2023-09-04",
+              "publishedOnWebsite": "2023-09-05",
+              "asPrinted": "№01-434 of 04.09.2023 published 05.09.2023",
+              "page": 29
+            },
+            {
+              "order": "№01-63",
+              "adopted": "2024-02-19",
+              "publishedOnWebsite": "2024-02-20",
+              "asPrinted": "№01-63 of 19.02.2024 published 20.02.2024",
+              "page": 29
+            },
+            {
+              "order": "№01-190",
+              "adopted": "2024-05-16",
+              "publishedOnWebsite": "2024-04-16",
+              "asPrinted": "№01-190 of 16.05.2024 published 16.04.2024",
+              "page": 29,
+              "anomaly": "printed publication date precedes adoption date (recorded verbatim, not corrected)"
+            },
+            {
+              "order": "№01-217",
+              "adopted": "2024-05-29",
+              "publishedOnWebsite": "2024-05-30",
+              "asPrinted": "№01-217 of 29.05.2024 published 30.05.2024",
+              "page": 29
+            }
+          ],
+          "notes": [],
+          "part": "დანართი №8"
+        },
+        {
+          "annex": "9",
+          "title": "ბარგის გადაზიდვის ზღვრული ოდენობები, EUR",
+          "pages": "30-31",
+          "amendmentCitations": [
+            {
+              "order": "№01-101",
+              "adopted": "2020-06-09",
+              "publishedOnWebsite": "2020-06-10",
+              "asPrinted": "№01-101 of 09.06.2020 published 10.06.2020",
+              "page": 31
+            },
+            {
+              "order": "№01-171",
+              "adopted": "2020-10-01",
+              "publishedOnWebsite": "2020-10-07",
+              "asPrinted": "№01-171 of 01.10.2020 published 07.10.2020",
+              "page": 31
+            },
+            {
+              "order": "№01-166",
+              "adopted": "2021-09-14",
+              "publishedOnWebsite": "2021-09-15",
+              "asPrinted": "№01-166 of 14.09.2021 published 15.09.2021",
+              "page": 31
+            },
+            {
+              "order": "№01-227",
+              "adopted": "2021-11-08",
+              "publishedOnWebsite": "2021-11-11",
+              "asPrinted": "№01-227 of 08.11.2021 published 11.11.2021",
+              "page": 31
+            },
+            {
+              "order": "№01-34",
+              "adopted": "2023-01-25",
+              "publishedOnWebsite": "2023-01-26",
+              "asPrinted": "№01-34 of 25.01.2023 published 26.01.2023",
+              "page": 31
+            },
+            {
+              "order": "№01-374",
+              "adopted": "2023-07-28",
+              "publishedOnWebsite": "2023-07-28",
+              "asPrinted": "№01-374 of 28.07.2023 published 28.07.2023",
+              "page": 31
+            },
+            {
+              "order": "№01-436",
+              "adopted": "2023-09-05",
+              "publishedOnWebsite": "2023-09-06",
+              "asPrinted": "№01-436 of 05.09.2023 published 06.09.2023",
+              "page": 31
+            },
+            {
+              "order": "№01-559",
+              "adopted": "2024-10-30",
+              "publishedOnWebsite": "2024-11-01",
+              "asPrinted": "№01-559 of 30.10.2024 published 01.11.2024",
+              "page": 31
+            }
+          ],
+          "notes": [],
+          "part": "დანართი №9"
+        },
+        {
+          "annex": "10",
+          "title": "ბარგის გადაზიდვის ზღვრული ოდენობები, USD",
+          "pages": "32-34",
+          "amendmentCitations": [
+            {
+              "order": "№01-234",
+              "adopted": "2019-12-03",
+              "publishedOnWebsite": "2019-12-05",
+              "asPrinted": "№01-234 of 03.12.2019 published 05.12.2019",
+              "page": 34
+            },
+            {
+              "order": "№01-171",
+              "adopted": "2020-10-01",
+              "publishedOnWebsite": "2020-10-07",
+              "asPrinted": "№01-171 of 01.10.2020 published 07.10.2020",
+              "page": 34
+            },
+            {
+              "order": "№01-265",
+              "adopted": "2021-12-08",
+              "publishedOnWebsite": "2021-12-09",
+              "asPrinted": "№01-265 of 08.12.2021 published 09.12.2021",
+              "page": 34
+            },
+            {
+              "order": "№01-374",
+              "adopted": "2023-07-28",
+              "publishedOnWebsite": "2023-07-28",
+              "asPrinted": "№01-374 of 28.07.2023 published 28.07.2023",
+              "page": 34
+            }
+          ],
+          "notes": [],
+          "part": "დანართი №10"
+        }
+      ],
+      "limitations": [
+        "სამუშაო ასლია, არა სერტიფიცირებული/ოფიციალური კონსოლიდირებული ტექსტი; ვინ და რა წყაროდან შეადგინა, ცნობილი არ არის.",
+        "ცვლილების ციტატები შეიცავს მიღებისა და ვებგვერდზე გამოქვეყნების თარიღებს, მაგრამ ცვლილების ამოქმედების თარიღი არ არის დაბეჭდილი — ამოქმედების თარიღი უცნობია.",
+        "წინა რედაქციების ტექსტი/თანხები არ არის მოწოდებული — ისტორიული პერიოდების (მაგ. 2025 წლის) გაანგარიშება შეუძლებელია დადასტურებულად.",
+        "სამი ციტატის დაბეჭდილი გამოქვეყნების თარიღი წინ უსწრებს მიღების თარიღს (იხ. anomaly ველები) — ჩაწერილია როგორც დაბეჭდილია, არ არის შესწორებული.",
+        "ზედა ინდექსიანი პუნქტების ნომრები ტექსტურ ამონაწერში გაბრტყელებულია (მაგ. „51 .“ = 5¹, „201“ = 20¹, „411“ = 41¹); ნომრები გადამოწმებულია გვერდის გამოსახულებით.",
+        "დავალებაში ჩამოთვლილი 12 ცალკეული ფაილი (.pdf/.doc/.html) არ მოგვეწოდა; მათი SHA-256 და შინაარსი არ შემოწმებულა. ჩვენ ვამოწმებთ მხოლოდ ამ PDF-ს."
+      ]
+    },
+    {
+      "fileName": "sources/extracted/rotation_sources.layout.txt",
+      "sha256": "ace2b82f9b23d221c6576b6a8a7421092e48d6486cde0b03d102c37832a2c7b0",
+      "sizeBytes": 187996,
+      "role": "PDF-ის layout ტექსტური ამონაწერი (წარმოებული, არა წყარო); გვერდები გაყოფილია form-feed სიმბოლოთი",
+      "limitations": [
+        "ზედა ინდექსები გაბრტყელებულია; ცხრილების უჯრები ზოგჯერ გადანაცვლებულია — საეჭვო ადგილები გადამოწმდეს PDF-ის გამოსახულებით."
+      ]
+    },
+    {
+      "fileName": "sources/legacy/rotation_calculator_v7_11.html",
+      "sha256": "6fd7215def1a131056c83260c8e2a10b26a1c6fe46f284180d6e6929c1206481",
+      "sizeBytes": 59300,
+      "role": "ძველი პროტოტიპი — მხოლოდ შესადარებელი კოდი, არა სამართლებრივი წყარო (სათაურის ბეჯი: „ვერსია 7.0 — სრული“)",
+      "limitations": [
+        "მასში ჩაწერილი K/E/dsa/ბარგი/დაზღვევის მნიშვნელობები დაუდასტურებელია, სანამ დანართებს არ შედარდება; dsa-ს წყარო მითითებული არ არის."
+      ]
+    },
+    {
+      "fileName": "docs/task.md",
+      "sha256": "d46c5fa950041022a31ce76692618c4a8688d0ca095f4f3a76d305cd5a70d3c1",
+      "role": "დავალება (მომზადებულია 2026-10-28); შეიცავს ეტალონურ სცენარებს და აღმოჩენილი საკითხების საწყის სიას. სამართლებრივი წყარო არ არის."
+    }
+  ],
+  "namedInTaskButNotSupplied": [
+    {
+      "fileName": "ბრძანება №01-82(1).pdf",
+      "expectedContent": "ძირითადი ბრძანება"
+    },
+    {
+      "fileName": "matsne-4135171-58 (10)(1).doc",
+      "expectedContent": "დანართი №1 (დავალების თანახმად რეალურად DOCX)"
+    },
+    {
+      "fileName": "matsne-4135171-58 (11)(1).doc",
+      "expectedContent": "დანართი №2"
+    },
+    {
+      "fileName": "matsne-4135171-58 (12)(1).doc",
+      "expectedContent": "დანართი №3"
+    },
+    {
+      "fileName": "matsne-4135171-58 (13)(1).doc",
+      "expectedContent": "დანართი №4"
+    },
+    {
+      "fileName": "matsne-4135171-58 (14)(1).doc",
+      "expectedContent": "დანართი №5"
+    },
+    {
+      "fileName": "matsne-4135171-58 (15)(1).doc",
+      "expectedContent": "დანართი №6"
+    },
+    {
+      "fileName": "matsne-4135171-58 (16).doc",
+      "expectedContent": "დანართი №7"
+    },
+    {
+      "fileName": "matsne-4135171-58 (17).doc",
+      "expectedContent": "დანართი №8"
+    },
+    {
+      "fileName": "matsne-4135171-58 (18)(1).doc",
+      "expectedContent": "დანართი №9"
+    },
+    {
+      "fileName": "matsne-4135171-58 (19)(1).doc",
+      "expectedContent": "დანართი №10"
+    },
+    {
+      "fileName": "rotation_calculator_v7 (1)(1).html",
+      "expectedContent": "ძველი კალკულატორი — მოწოდებულია სხვა სახელით: sources/legacy/rotation_calculator_v7_11.html (იგივეობა დადასტურებული ვერ იქნება ჰეშის გარეშე)"
+    }
+  ],
+  "namedInTaskButNotSuppliedNote": "ეს 12 ფაილი არ შემოწმებულა; მათ მაგივრად მოწოდებულია ერთი გაერთიანებული PDF. .doc/.docx ფორმატის ამოცნობა და LibreOffice-ით კონვერტაცია არ ჩატარებულა, რადგან ფაილები არ არსებობს.",
+  "referencedButNotSupplied": [
+    {
+      "id": "SRC-GOV-211-ANNEX1",
+      "title": "საქართველოს მთავრობის 2017 წლის 25 აპრილის №211 დადგენილება „პროფესიული საჯარო მოხელის სამსახურებრივი მივლინებით გაგზავნის წესის, მისი სამსახურებრივი მივლინების ხარჯების ანაზღაურებისა და კომპენსაციის ოდენობისა და პირობების განსაზღვრის შესახებ“, დანართი №1 (საზღვარგარეთ მოკლევადიანი მივლინების სადღეღამისო ნორმები უცხოური ვალუტით)",
+      "referencedBy": "ბრძანება №01-82 პ.7 (გვ.4)",
+      "neededFor": "პირველადი მოწყობის დახმარება (R-SETTLE-001)",
+      "url": "https://www.matsne.gov.ge/ka/document/view/3649787",
+      "accessAttempt": {
+        "date": "2026-10-29",
+        "tool": "WebFetch",
+        "result": "getaddrinfo ENOTFOUND www.matsne.gov.ge — ჰოსტი სესიის ქსელის ნებართვებში არ არის"
+      },
+      "status": "not-obtained",
+      "consequence": "სადღეღამისო ნორმა, მისი ვალუტა და მოქმედი რედაქცია უცნობია; აპი ითხოვს ხელით შეყვანას წყაროს/თარიღის/ვალუტის მითითებით და შედეგს „დაუდასტურებლად“ ნიშნავს. sources/extracted/decree211-annex1.raw.txt არ შექმნილა."
+    },
+    {
+      "id": "SRC-MFA-01-74-2019",
+      "title": "საგარეო საქმეთა მინისტრის 2019 წლის 2 მაისის ბრძანება №01-74 „დიპლომატიური სამსახურის გავლის წესის დამტკიცების შესახებ“",
+      "referencedBy": "პ.17 (34-ე მუხლის მე-3 პუნქტი — დამატებითი შვებულება ოჯახის წევრის გარდაცვალებისას); პ.20¹ (მე-18 მუხლის მე-8 პუნქტით განსაზღვრული პირები); პ.18(გ) (საპატიო მგზავრობის დღეები)",
+      "status": "not-supplied"
+    },
+    {
+      "id": "SRC-LAW-DIPLOMATIC-SERVICE",
+      "title": "„დიპლომატიური სამსახურის შესახებ“ საქართველოს კანონი",
+      "referencedBy": "პრეამბულა (მ.21), პ.9(ე), დანართი №1 მ.4(3)(ბ), მ.4(4)",
+      "neededFor": "„ოჯახის წევრის“, „მხარდაჭერის მიმღების“, „მეურვეობის/მზრუნველობის ქვეშ მყოფი პირის“ განმარტება — მოწოდებულ ტექსტში არ არის განსაზღვრული",
+      "status": "not-supplied"
+    },
+    {
+      "id": "SRC-MFA-308-2011",
+      "title": "საგარეო საქმეთა მინისტრის 2011 წლის 28 დეკემბრის №308 ბრძანება",
+      "referencedBy": "პ.40 (ძალადაკარგულია)",
+      "status": "not-supplied; not needed for calculations"
+    },
+    {
+      "id": "SRC-AMENDING-ORDERS",
+      "title": "ცვლილების შემტანი ბრძანებები (100 ციტატა, ქვემოთ ჩამოთვლილი თითო პუნქტსა/დანართზე)",
+      "status": "not-supplied",
+      "consequence": "თითოეული ცვლილების ამოქმედების თარიღი და გარდამავალი დებულებები უცნობია."
+    },
+    {
+      "id": "SRC-MATSNE-01-82",
+      "title": "ბრძანება №01-82 მაცნეზე",
+      "url": "https://matsne.gov.ge/ka/document/view/4135171",
+      "accessAttempt": {
+        "date": "2026-10-29",
+        "tool": "WebFetch",
+        "result": "getaddrinfo ENOTFOUND matsne.gov.ge — ჰოსტი სესიის ქსელის ნებართვებში არ არის"
+      },
+      "status": "not-checked"
+    }
+  ]
+}
