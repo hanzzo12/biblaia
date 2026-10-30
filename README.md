@@ -11,19 +11,15 @@
 | **ონლაინ (ძირითადი)** — Cloudflare-ზე განთავსებული გვერდი | სრული კალკულატორი + ქირა/კომუნალური/სურსათი/რესტორნები + 5 ქალაქის შედარება | ✅ (Worker → Apify → Numbeo, 30-დღიანი ქეში) |
 | **ოფლაინ ფაილი** — `release/rotation-calculator.html` ორმაგი დაწკაპუნებით | ყველა ოფიციალური გამოთვლა ინტერნეტის გარეშე | ❌ (ფაილს სერვერი არ აქვს) |
 
-განთავსება — ნაბიჯ-ნაბიჯ: **[docs/deploy.md](docs/deploy.md)**. მოკლედ:
+### როგორ ავტვირთო
 
-```bash
-npm ci
-npm test && npm run test:e2e
-npx wrangler login
-npx wrangler kv namespace create MARKET_CACHE   # დაბეჭდილი id → wrangler.jsonc (REPLACE_WITH_KV_NAMESPACE_ID)
-npx wrangler secret put APIFY_TOKEN             # ტოკენს ბრძანება თავად გკითხავთ; კოდში არასოდეს ჩაწეროთ
-npm run deploy:dry                              # შემოწმება ატვირთვის გარეშე
-npm run deploy
-```
+**უმარტივესი გზა (ბრძანებების გარეშე): Cloudflare Pages + GitHub — [docs/deploy-pages.md](docs/deploy-pages.md).**
+მოკლედ: Workers & Pages → Create application → Pages → Connect to Git → `hanzzo12/biblaia` → Framework preset `None`, Build command `npm run build`, Build output directory `dist/web` → ცვლადები `NODE_VERSION=22`, `APIFY_TOKEN` (Encrypt) → Save and Deploy → Settings → Bindings → KV `MARKET_CACHE` → ხელახალი განთავსება → შემოწმება: `/api/market/health`.
 
-ლოკალურად: `.dev.vars.example` → `.dev.vars` (ჩაწერეთ `APIFY_TOKEN`), შემდეგ `npm run dev` და გახსენით http://localhost:8787.
+- ZIP-ის ჩაგდება (drag-and-drop) მხოლოდ `release/pages-upload.zip`-ით და **ფასების გარეშე** (Functions არ ეშვება).
+- დეველოპერებისთვის CLI გზა (Workers, `wrangler.worker.jsonc`): [docs/deploy.md](docs/deploy.md).
+
+ლოკალურად: `.dev.vars.example` → `.dev.vars` (ჩაწერეთ `APIFY_TOKEN`), შემდეგ `npm run pages:dev` (http://localhost:8788) ან `npm run dev` (Workers, http://localhost:8787).
 
 ## რას ითვლის
 
@@ -57,7 +53,7 @@ npm run deploy
 - ქეში 30 დღე (Workers KV); ვერ მიღებისას ჩანს ბოლო შენახული ასლი „მოძველებულის“ ნიშნით.
 - **ღირებულება (Apify, 2026-10-30):** $0.01 გაშვებაზე + $0.005 ქალაქზე. ყველა ქალაქის ინდექსები (547) ≈ $2.75 ერთ გაშვებაზე, ერთი ქალაქის ფასები ≈ $0.015. 30-დღიანი ქეშით ≈ $2.75/თვე + ≤ $1.22/თვე 81 ქალაქზე. ინდექსების გამორთვა: `"MARKET_RANKINGS_ENABLED": "false"`.
 - სურსათის „კალათა“ = Numbeo-ს „Markets“ ერთეულების ფასების ჯამი ალკოჰოლისა და თამბაქოს გარეშე (არა თვიური ხარჯი).
-- **რისკი:** Numbeo-ს გამოყენების პირობები კრძალავს ნებართვის გარეშე ავტომატურ ამოკითხვას და მონაცემის ხელახალ გავრცელებას; მესამე მხარის actor ამას არ ცვლის. საჭიროებისას გამორთვა: `wrangler.jsonc` → `"MARKET_PROVIDER": "off"`. დეტალები — `docs/providers.md`.
+- **რისკი:** Numbeo-ს გამოყენების პირობები კრძალავს ნებართვის გარეშე ავტომატურ ამოკითხვას და მონაცემის ხელახალ გავრცელებას; მესამე მხარის actor ამას არ ცვლის. საჭიროებისას გამორთვა: Pages: Settings → Variables and Secrets → `MARKET_PROVIDER` = `off` (Workers/CLI: `wrangler.worker.jsonc`). დეტალები — `docs/providers.md`.
 - ბაზრის მაჩვენებლები ბრძანების `K`-ს, `E`-ს, `H`-ს და თქვენს მიერ შეყვანილ ქირას **არ ცვლის**; ქირა გადადის გაანგარიშებაში მხოლოდ ღილაკით „გამოვიყენო დაგეგმილ ქირად“ (სცენარად).
 
 ## პროექტის სტრუქტურა

@@ -10,15 +10,12 @@ const meta = {
   dataSha: typeof __DATA_SHA256__ !== 'undefined' ? __DATA_SHA256__ : 'unknown',
   buildDate: typeof __BUILD_DATE__ !== 'undefined' ? __BUILD_DATE__ : 'dev',
 };
-
-// ონლაინ რეჟიმი მხოლოდ http/https-დან (Cloudflare Worker, same-origin /api/market). file:// — ქსელის მოთხოვნა არ იგზავნება.
+// ბაზრის ფასები მხოლოდ http/https-დან (Cloudflare Worker, same-origin /api/market). file:// — ქსელის მოთხოვნა არ იგზავნება.
 const online = location.protocol === 'http:' || location.protocol === 'https:';
 const client = online ? createMarketClient({ endpoint: '/api/market', timeoutMs: 100000 }) : null;
 
 function boot() {
   for (const el of document.querySelectorAll('[data-meta]')) el.textContent = meta[el.getAttribute('data-meta')] ?? '';
-  const mode = document.getElementById('run-mode');
-  if (mode) mode.textContent = online ? 'ფასები: Numbeo.com' : 'ოფლაინ ვერსია';
   window.__rotationApp = startApp({ data, meta, online, client });
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();

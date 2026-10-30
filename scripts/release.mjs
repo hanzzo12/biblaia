@@ -1,5 +1,6 @@
 // გამოშვება: release/rotation-calculator-cloudflare.zip (git-ში დაკომიტებული წყაროები + აწყობილი dist/web)
-// და release/rotation-calculator.html (ოფლაინ გამოთვლები, ბაზრის მონაცემების გარეშე).
+// release/rotation-calculator.html (ოფლაინ გამოთვლები, ბაზრის მონაცემების გარეშე)
+// და release/pages-upload.zip (Pages drag-and-drop: ფესვში index.html; Functions/ფასები არ მუშაობს).
 // არქივი იქმნება `git archive HEAD`-იდან, ამიტომ დაუკომიტებელი ფაილები (მათ შორის .dev.vars) მასში ვერ მოხვდება.
 import { execFileSync } from 'node:child_process';
 import { mkdir, copyFile, readFile, rm, stat } from 'node:fs/promises';
@@ -30,6 +31,13 @@ sh('bash', ['-c', `cd "$(mktemp -d)" && unzip -q "${zipPath}" && mkdir -p rotati
 
 await copyFile(r('dist/rotation-calculator.html'), r('release/rotation-calculator.html'));
 
+// Pages drag-and-drop-ის სარეზერვო არქივი: ფესვში მხოლოდ index.html (სტატიკური; Functions არ მუშაობს → ბაზრის ფასები მიუწვდომელია).
+const pagesZip = r('release/pages-upload.zip');
+await rm(pagesZip, { force: true });
+sh('zip', ['-qj', pagesZip, 'dist/web/index.html']);
+const pagesEntries = sh('unzip', ['-Z1', pagesZip]).split('\n').filter(Boolean);
+if (pagesEntries.join(',') !== 'index.html') throw new Error('pages-upload.zip-ის ფესვში მხოლოდ index.html უნდა იყოს: ' + pagesEntries.join(', '));
+
 // უსაფრთხოების შემოწმება: საიდუმლოებები და ლოკალური ფაილები არქივში არ უნდა იყოს.
 const entries = sh('unzip', ['-Z1', zipPath]).split('\n').filter(Boolean);
 const bad = entries.filter((e) => /(^|\/)(\.dev\.vars|\.env)$/.test(e) || /(^|\/)(node_modules|\.wrangler|\.wrangler-dry)\//.test(e));
@@ -43,3 +51,4 @@ if (new RegExp(['apify', '_api_'].join('') + '[A-Za-z0-9]{20,}').test(html)) thr
 const kb = async (p) => ((await stat(p)).size / 1024).toFixed(0);
 console.log(`✓ release/rotation-calculator-cloudflare.zip (${await kb(zipPath)} KB, commit ${head})`);
 console.log(`✓ release/rotation-calculator.html (${await kb(r('release/rotation-calculator.html'))} KB)`);
+console.log(`✓ release/pages-upload.zip (${await kb(pagesZip)} KB) — Pages drag-and-drop, მხოლოდ სტატიკური (ბაზრის ფასების გარეშე)`);

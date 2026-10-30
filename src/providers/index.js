@@ -194,7 +194,8 @@ export function createMarketClient(opts = {}) {
         { method: 'GET', headers: { Accept: 'application/json' }, credentials: 'same-origin', cache: 'no-store', signal: ac.signal });
       let body = null;
       try { body = JSON.parse(await res.text()); } catch { body = null; }
-      const byHttp = () => (res.status === 401 || res.status === 403 ? 'unauthorized' : res.status === 429 ? 'rate_limited' : res.status >= 500 ? 'upstream_error' : 'invalid_response');
+      // 404 (მაგ. Pages drag-and-drop — სტატიკური ატვირთვა Functions-ის გარეშე) → „წყარო არ არის კონფიგურირებული“.
+      const byHttp = () => (res.status === 404 ? 'not_configured' : res.status === 401 || res.status === 403 ? 'unauthorized' : res.status === 429 ? 'rate_limited' : res.status >= 500 ? 'upstream_error' : 'invalid_response');
       if (body === null || !validateMarketData(body, { allowedCurrencies: allowed }).ok) return empty(byHttp());
       if (body.requestedLocationId !== loc || (body.currency !== null && body.currency !== currency)) return empty(DATA_STATUS.WRONG_CITY);
       return body;

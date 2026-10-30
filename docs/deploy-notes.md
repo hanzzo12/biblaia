@@ -208,3 +208,20 @@ Design notes:
 | `wrangler dev` + `.dev.vars`, rankings seeded into local KV (`wrangler kv key put --local …`) | Health: `configured`, `cacheBackend: kv`, `tokenConfigured: true`. The seeded rankings were read from local KV (no rankings run). Two real bugs were found and fixed: (1) a named export in the main module (`export const RANKINGS_KEY`) stops workerd from starting ("Incorrect type for map entry"), so `worker/index.js` now has only a default export and the logic lives in `worker/market-worker.js`, with a test; (2) `redirect: "error"` throws `TypeError` in Workers, and calling the global fetch as an object method gives "Illegal invocation"; now `redirect: "manual"` (3xx → invalid_response) and a bound fetch wrapper, with tests. After the fixes, the upstream call from workerd fails with `Error: internal error` within a few ms. workerd in this sandbox does not use the HTTPS egress proxy (Node does), so the miss → hit sequence could not be shown live here. Cache miss/hit/stale are covered by Worker tests with a mocked KV. |
 
 Approximate spend in these checks: 4 × city_prices ≈ $0.06 (no new rankings run).
+
+## 14. Cloudflare Pages + Git (primary path from round 2), verified 2026-10-30 against developers.cloudflare.com
+
+Doc facts (fetched as `…/index.md`):
+- Git setup: Workers & Pages → **Create application** → **Pages** → **Connect to Git** → Install & Authorize → **Begin setup**. Fields: Production branch, Framework preset, Build command, Build output directory, Root directory (advanced), Environment variables. Then **Save and Deploy**.
+- **Direct Upload projects cannot switch to Git integration**; a new project is required. Drag-and-drop does not compile `functions/`.
+- Build image: Node default 22.23.4; override with `NODE_VERSION` or `.nvmrc`/`.node-version` (the repo has `.node-version` = `22`).
+- Secrets: Settings → **Variables and Secrets** → Add → **Encrypt**. KV: Settings → **Bindings** → Add → **KV namespace**; redeploy needed. Create KV: **Workers KV** → **Create instance**.
+- A Wrangler file is used for Pages only when it contains `pages_build_output_dir`; Workers keys like `main` don't apply. To avoid confusing Pages builds and `wrangler pages dev`, the Workers config was renamed to **`wrangler.worker.jsonc`** and the npm scripts pass `--config`.
+- Routing: `functions/api/market/index.js` → `/api/market`; `functions/api/market/health.js` → `/api/market/health`; `functions/api/[[path]].js` → other `/api/*` return a JSON 404 (without it, Pages serves `index.html` with status 200). Pages CI auto-generates `_routes.json` when `functions/` exists.
+- Button names "Retry deployment" and "Delete project" are not spelled out in the docs; the guide marks them as such.
+
+Local verification (wrangler 4.155.0):
+- `npx wrangler pages functions build --outdir …` → "Compiled Worker successfully".
+- `npx wrangler pages dev dist/web --kv MARKET_CACHE` with `.dev.vars` → "Using secrets defined in .dev.vars". `/api/market/health` 200 `{"status":"configured","tokenConfigured":true,"cacheBackend":"kv","rateLimiter":false,…}`; `/` 200 text/html; `?currency=GBP` 400; POST 405; `/api/x` JSON 404. No paid Apify call was made.
+- Workers path still works: `npx wrangler deploy --config wrangler.worker.jsonc --dry-run` → "Total Upload: 371.54 KiB / gzip: 44.33 KiB".
+- `npm run build` currently fails only because `src/ui` is mid-rewrite (missing `./result.js`/`./compare.js`/`state.js` imports at the time of the checks); the Pages checks used the previous `dist/web`.
