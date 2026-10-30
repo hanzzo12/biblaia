@@ -44,7 +44,7 @@ export function marketCards(md, { area = 'centre', bedrooms = 1, compact = false
       figure('ინტერნეტი', money(md.utilities?.internet?.average, cur), { raw: md.utilities?.internet?.average ?? '', sub: 'თვეში' })),
     card('groceries', 'სურსათი', g.status,
       figure('ჩამონათვლის ფასების ჯამი', money(g.basketItemsSum, cur), { big: true, raw: g.basketItemsSum ?? '',
-        sub: 'ცალკეული ერთეულების (1 ლ რძე, 1 კგ ბრინჯი…) ფასების ჯამი — არა თვიური ხარჯი' + (g.itemsMissing ? `; ${g.itemsMissing} ერთეული აკლია` : '') }),
+        sub: 'ცალკეული ერთეულების (1 ლ რძე, 1 კგ ბრინჯი…) ფასების ჯამი, ალკოჰოლისა და თამბაქოს გარეშე — არა თვიური ხარჯი' + (g.itemsMissing ? `; ${g.itemsMissing} ერთეული აკლია` : '') }),
       compact ? null : indexLine('სურსათის ინდექსი', g.groceriesIndex ?? md.indices?.groceries)),
     card('restaurants', 'რესტორნები', md.restaurants?.status,
       figure('ბიუჯეტური კვება, 1 პირი', money(md.restaurants?.inexpensiveMeal?.average, cur), { big: true, raw: md.restaurants?.inexpensiveMeal?.average ?? '' }),

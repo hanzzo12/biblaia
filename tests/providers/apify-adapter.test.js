@@ -86,8 +86,8 @@ test('legacy (nested, old names) shape still parsed', async () => {
   assert.equal(data.restaurants.inexpensiveMeal.average, '12');
 });
 
-test('basic85m2 matches regardless of spacing / m² spelling', () => {
-  for (const n of ['Basic Utilities for 85 m2 Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic Utilities for 85m2 Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic Utilities for 85 m² Apartment (Electricity, Heating, Cooling, Water, Garbage)']) {
+test('basic85m2 matches spacing/m² variants and the US 915 sq ft spelling', () => {
+  for (const n of ['Basic Utilities for 85 m2 Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic Utilities for 85m2 Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic Utilities for 85 m² Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic Utilities for 915 Square Feet Apartment (Electricity, Heating, Cooling, Water, Garbage)']) {
     assert.equal(selectItems(extractPriceRows([{ city: 'Vienna', category: 'Utilities (Monthly)', item: n, price: 100, currency: 'EUR', range: '' }])).items.basic85m2.average, '100', n);
   }
 });
@@ -191,4 +191,25 @@ test('decimal helpers: exact sums, strings with separators, no zeros', () => {
 test('normalizeApify output never contains the token', () => {
   const d = normalizeApify({ locationId: 'AT-VIENNA', currency: 'EUR', entry: SYNTHETIC_NAMES.locations['AT-VIENNA'], prices: { status: 'ok', items: nestedPrices() }, rankings: { status: 'ok', items: rankingsRows() }, fetchedAt: '2026-10-30T10:00:00Z' });
   assert.ok(!JSON.stringify(d).includes(FAKE_TOKEN));
+});
+
+test('pricesQueryFor: actor input strips ", XX" and parentheses (live: "Washington, DC" → HTTP 400)', async () => {
+  const { pricesQueryFor } = await import('../../src/providers/apify-numbeo-adapter.js');
+  assert.equal(pricesQueryFor({ numbeoCity: 'Washington, DC' }), 'Washington');
+  assert.equal(pricesQueryFor({ numbeoCity: 'Kiev (Kyiv)' }), 'Kiev');
+  assert.equal(pricesQueryFor({ numbeoCity: 'Tel Aviv-Yafo' }), 'Tel Aviv-Yafo');
+  assert.equal(pricesQueryFor({ numbeoCity: 'X', pricesQuery: 'Y' }), 'Y');
+  const f = mockApify({ city_prices: flatPrices({ city: 'New York', country: 'United States', currency: 'USD' }), rankings: rankingsRows() });
+  const { data } = await run(f, { locationId: 'US-NEW-YORK', currency: 'USD' });
+  assert.deepEqual(f.calls.find((c) => c.input.mode === 'city_prices').input.cities, ['New York']);
+  assert.equal(data.rent.items.centre_1br.average, '1234.56', 'row city "New York" accepted for "New York, NY"');
+  assert.equal(data.indices.costOfLiving, '100');
+});
+
+test('fetch uses redirect:"manual" (Workers rejects "error"); 3xx → invalid_response', async () => {
+  let init;
+  const f = async (u, i) => { init = i; return new Response('', { status: 302, headers: { Location: 'https://elsewhere.example/' } }); };
+  const { data } = await run(f);
+  assert.equal(init.redirect, 'manual');
+  assert.equal(data.status, 'invalid_response');
 });

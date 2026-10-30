@@ -7,7 +7,7 @@
 | `apify-numbeo-adapter.js` | მხოლოდ სერვერი | Apify actor `automation-lab/numbeo-scraper`: `runActor`, `normalizeApify`, `fetchApifyMarket` |
 | `numbeo-city-names.json` | სერვერი | შიდა ლოკაციის ID → Numbeo-ს ქალაქის სახელი (ყველა `verified:false`; ვატიკანი → რომი `nearby-explained`) |
 
-ნაკადი: ბრაუზერი → `GET /api/market?location=<ID>&currency=EUR|USD` → Worker (`worker/index.js`): პარამეტრების შემოწმება → KV ქეში (30 დღე) → rate limit (IP) → Apify (`city_prices` ქალაქზე + `rankings` ერთხელ ყველაზე) → ნორმალიზება/ვალიდაცია → MarketData v2.
+ნაკადი: ბრაუზერი → `GET /api/market?location=<ID>&currency=EUR|USD` → Worker (`worker/index.js` — მხოლოდ default export; ლოგიკა `worker/market-worker.js`): პარამეტრების შემოწმება → KV ქეში (30 დღე) → rate limit (IP) → Apify (`city_prices` ქალაქზე + `rankings` ერთხელ ყველაზე) → ნორმალიზება/ვალიდაცია → MarketData v2.
 
 ბლოკები: `rent` (4 ქირა + `rentIndex`), `utilities` (85 მ² + ინტერნეტი), `groceries` („Markets“ კატეგორიის ფასების ჯამი, `itemsCounted/itemsMissing` + ინდექსი), `restaurants` (2 კერძი + ინდექსი), `indices` (ნიუ-იორკი = 100). თითო ბლოკს საკუთარი `status` აქვს; ზედა დონის `status` — `overallStatus()`.
 

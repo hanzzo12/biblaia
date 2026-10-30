@@ -30,6 +30,16 @@ export const DEFAULT_TIMEOUT_MS = 90000;
 /** maxCities: 0 = ყველა ქალაქი (ნაგულისხმევი 50 — ამიტომ ვენა ადრე არ ჩანდა). ~547 ქალაქი, ≈ $2.745 ერთ გაშვებაზე. */
 export const RANKINGS_INPUT = Object.freeze({ mode: 'rankings', maxCities: 0 });
 
+/**
+ * city_prices-ის შესავალი სახელი: actor სახელს URL slug-ად აქცევს, ამიტომ „Washington, DC“ → „Washington“,
+ * „Kiev (Kyiv)“ → „Kiev“. ჩანაწერში `pricesQuery` ამას აჭარბებს. (რეალური გაშვება: „Washington, DC“ → HTTP 400.)
+ * @param {{ numbeoCity: string, pricesQuery?: string }} entry
+ */
+export function pricesQueryFor(entry) {
+  if (typeof entry.pricesQuery === 'string' && entry.pricesQuery.trim()) return entry.pricesQuery.trim();
+  return entry.numbeoCity.replace(/\s*\([^)]*\)/g, '').replace(/,\s*[A-Z]{2}$/, '').trim();
+}
+
 /** @param {string} providerCity */
 export function providerRef(providerCity) {
   const slug = providerCity.split(',')[0].replace(/\(.*?\)/g, '').trim().split(/\s+/).map(encodeURIComponent).join('-');
@@ -50,7 +60,8 @@ export const ITEM_DEFS = Object.freeze({
   outside_1br: { exact: ['1 Bedroom Apartment Outside of City Centre', 'Apartment (1 bedroom) Outside of Centre'], prefix: [] },
   centre_3br: { exact: ['3 Bedroom Apartment in City Centre', 'Apartment (3 bedrooms) in City Centre'], prefix: [] },
   outside_3br: { exact: ['3 Bedroom Apartment Outside of City Centre', 'Apartment (3 bedrooms) Outside of Centre'], prefix: [] },
-  basic85m2: { exact: ['Basic Utilities for 85 m2 Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment'], prefix: ['Basic Utilities for 85', 'Basic (Electricity'] },
+  // აშშ-ის ქალაქებში Numbeo იმავე ერთეულს ფუტებში წერს: 915 sq ft ≈ 85 m² (რეალური გაშვება, Washington, 2026-10-30).
+  basic85m2: { exact: ['Basic Utilities for 85 m2 Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic Utilities for 915 Square Feet Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment'], prefix: ['Basic Utilities for 85', 'Basic Utilities for 915 Square Feet', 'Basic (Electricity'] },
   internet: { exact: ['Broadband Internet (Unlimited Data, 60 Mbps or Higher)', 'Internet (60 Mbps or More, Unlimited Data, Cable/ADSL)'], prefix: ['Broadband Internet', 'Internet ('] },
   inexpensiveMeal: { exact: ['Meal at an Inexpensive Restaurant', 'Meal, Inexpensive Restaurant'], prefix: [] },
   midRangeForTwo: { exact: ['Meal for Two at a Mid-Range Restaurant (Three Courses, Without Drinks)', 'Meal for 2 People, Mid-range Restaurant, Three-course'], prefix: [] },
@@ -203,12 +214,15 @@ export async function runActor(p) {
   const timer = setTimeout(() => { timedOut = true; ac.abort(); }, timeoutMs);
   const url = `${APIFY_SYNC_URL}?timeout=${Math.max(10, Math.min(300, Math.floor(timeoutMs / 1000) - 5))}`;
   try {
-    const res = await p.fetchImpl(url, {
-      method: 'POST', signal: ac.signal, redirect: 'error',
+    const doFetch = p.fetchImpl; // გამოძახება `this`-ის გარეშე (workerd-ში p.fetchImpl(...) → Illegal invocation)
+    const res = await doFetch(url, {
+      // Workers-ში redirect:'error' არ არსებობს (TypeError) — 'manual': 3xx არ მივყვებით, ტოკენი სხვა ჰოსტზე არ გადადის.
+      method: 'POST', signal: ac.signal, redirect: 'manual',
       headers: { Authorization: `Bearer ${p.token}`, 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(p.input),
     });
     const ms = () => Date.now() - started;
+    if (res.status >= 300 && res.status < 400) { try { await res.body?.cancel(); } catch { /* ignore */ } return { status: 'invalid_response', http: res.status, ms: ms() }; }
     if (!res.ok) {
       try { await res.body?.cancel(); } catch { /* ignore */ }
       const s = res.status;
@@ -346,7 +360,7 @@ export async function fetchApifyMarket(p) {
   const token = p.token.trim();
   const getRankings = p.getRankings || (() => runActor({ input: RANKINGS_INPUT, token, fetchImpl: p.fetchImpl, timeoutMs: p.timeoutMs }));
   const [prices, rankings] = await Promise.all([
-    runActor({ input: { mode: 'city_prices', cities: [entry.numbeoCity], currency: p.currency }, token, fetchImpl: p.fetchImpl, timeoutMs: p.timeoutMs }),
+    runActor({ input: { mode: 'city_prices', cities: [pricesQueryFor(entry)], currency: p.currency }, token, fetchImpl: p.fetchImpl, timeoutMs: p.timeoutMs }),
     getRankings(),
   ]);
   const fetchedAt = new Date(now()).toISOString().replace(/\.\d{3}Z$/, 'Z');

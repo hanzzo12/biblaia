@@ -5,11 +5,14 @@
 //
 //   node scripts/live-check-apify.mjs [AT-VIENNA US-NEW-YORK] [--currency=EUR]
 //   პროქსის უკან: NODE_USE_ENV_PROXY=1 node scripts/live-check-apify.mjs
+//   --skip-rankings            rankings არ გაეშვება (≈ $2.745 დაზოგვა); ინდექსები → not_found
+//   --rankings-file=<path>     rankings-ის ნაცვლად ფაილი: rankings სტრიქონების მასივი ან [city, country] წყვილები
+//                              (წყვილებში ინდექსები არ არის — ამოწმებს მხოლოდ ქალაქის სახელს)
 // შენიშვნა: თითო გაშვება ხარჯავს Apify-ის კრედიტს (3 actor run: 2 ქალაქი + rankings).
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { runActor, normalizeApify } from '../src/providers/apify-numbeo-adapter.js';
+import { runActor, normalizeApify, RANKINGS_INPUT, pricesQueryFor } from '../src/providers/apify-numbeo-adapter.js';
 import { validateMarketData } from '../src/providers/market-contract.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -44,18 +47,37 @@ const targets = locs.length ? locs : ['AT-VIENNA', 'US-NEW-YORK'];
 if (!token) { console.error('APIFY_TOKEN არ არის (.dev.vars ან გარემო). შეწყდა.'); process.exit(2); }
 console.log(`Apify live check — ${new Date().toISOString()} — locations: ${targets.join(', ')}, currency: ${currency}`);
 
+const shapePath = path.join(root, 'sources/extracted/apify-sample-shape.json');
+const prev = existsSync(shapePath) ? JSON.parse(readFileSync(shapePath, 'utf8')) : null;
 const out = { checkedAt: new Date().toISOString(), actor: 'automation-lab/numbeo-scraper', note: 'Shape only (keys + first item truncated). No token, no full data.', runs: {} };
 let anyOk = false;
-const rankings = await runActor({ input: { mode: 'rankings' }, token, fetchImpl: fetch, timeoutMs: 120000 });
-console.log(`rankings: status=${rankings.status} http=${rankings.http} ms=${rankings.ms}${'items' in rankings ? ` items=${rankings.items.length}` : ''}`);
-if ('items' in rankings) { anyOk = true; out.runs.rankings = shape(rankings.items); }
+const rankFile = (args.find((a) => a.startsWith('--rankings-file=')) || '').slice('--rankings-file='.length);
+/** @type {any} */
+let rankings;
+if (rankFile) {
+  const raw = JSON.parse(readFileSync(rankFile, 'utf8'));
+  const items = (Array.isArray(raw) ? raw : []).map((r) => (Array.isArray(r) ? { city: r[0], country: r[1] } : r));
+  rankings = { status: 'ok', items, http: null, ms: 0 };
+  console.log(`rankings: from file (${items.length} rows; no new actor run)`);
+} else if (args.includes('--skip-rankings')) {
+  rankings = { status: 'not_found', http: null, ms: 0 };
+  console.log('rankings: skipped');
+} else {
+  rankings = await runActor({ input: RANKINGS_INPUT, token, fetchImpl: fetch, timeoutMs: 120000 });
+  console.log(`rankings: status=${rankings.status} http=${rankings.http} ms=${rankings.ms}${'items' in rankings ? ` items=${rankings.items.length}` : ''}`);
+  if ('items' in rankings) { anyOk = true; out.runs.rankings = shape(rankings.items); }
+}
 
 for (const loc of targets) {
   const entry = names.locations[loc];
   if (!entry) { console.log(`${loc}: რუკაში არ არის`); continue; }
-  const prices = await runActor({ input: { mode: 'city_prices', cities: [entry.numbeoCity], currency }, token, fetchImpl: fetch, timeoutMs: 120000 });
-  console.log(`${loc} (${entry.numbeoCity}): status=${prices.status} http=${prices.http} ms=${prices.ms}${'items' in prices ? ` items=${prices.items.length}` : ''}`);
+  const prices = await runActor({ input: { mode: 'city_prices', cities: [pricesQueryFor(entry)], currency }, token, fetchImpl: fetch, timeoutMs: 120000 });
+  console.log(`${loc} (${entry.numbeoCity} → "${pricesQueryFor(entry)}"): status=${prices.status} http=${prices.http} ms=${prices.ms}${'items' in prices ? ` items=${prices.items.length}` : ''}`);
   if ('items' in prices) { anyOk = true; out.runs[`city_prices:${loc}`] = shape(prices.items); }
+  if ('items' in prices) {
+    // diagnostika: ერთეულების სახელები (კომუნალური/ქირა) და აქვს თუ არა ფასი — მნიშვნელობების გარეშე
+    for (const r of prices.items) if (/utilit|rent/i.test(String(r.category))) console.log(`  [${r.category}] ${r.item} — price:${typeof r.price === 'number' ? 'yes' : JSON.stringify(r.price)}`);
+  }
   const md = normalizeApify({ locationId: loc, currency, entry, prices, rankings, fetchedAt: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z') });
   const v = validateMarketData(md);
   console.log(scrub(JSON.stringify({ valid: v.ok, errors: v.errors.slice(0, 5), md }, null, 1)));
@@ -64,6 +86,7 @@ for (const loc of targets) {
 if (anyOk) {
   const dir = path.join(root, 'sources/extracted');
   mkdirSync(dir, { recursive: true });
+  out.runs = { ...(prev && prev.runs ? prev.runs : {}), ...out.runs };
   const text = scrub(JSON.stringify(out, null, 1));
   if (text.includes(token)) throw new Error('token leak guard');
   writeFileSync(path.join(dir, 'apify-sample-shape.json'), text + '\n');

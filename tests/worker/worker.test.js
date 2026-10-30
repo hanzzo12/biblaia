@@ -1,7 +1,13 @@
 // Worker v2 tests: fetch handler called directly with mocked env, KV and Apify. SYNTHETIC data only.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import worker, { createWorker, cacheKey, RANKINGS_KEY } from '../../worker/index.js';
+import worker from '../../worker/index.js';
+import * as entry from '../../worker/index.js';
+import { createWorker, cacheKey, RANKINGS_KEY } from '../../worker/market-worker.js';
+
+test('worker/index.js has only a default export (workerd treats named exports as entrypoints)', () => {
+  assert.deepEqual(Object.keys(entry), ['default']);
+});
 import { validateMarketData } from '../../src/providers/market-contract.js';
 import { SYNTHETIC_NAMES, flatPrices as nestedPrices, rankingsRows, mockApify, FAKE_TOKEN } from '../providers/fixtures/apify-synthetic.js';
 
@@ -160,4 +166,11 @@ test('non-API paths go to static assets', async () => {
   const w = createWorker({ names: SYNTHETIC_NAMES });
   const r = await w.fetch(req('/'), { ASSETS: { fetch: async () => new Response('<!doctype html>') } });
   assert.equal(await r.text(), '<!doctype html>');
+});
+
+test('upstream fetch is never invoked as a method (workerd "Illegal invocation")', async () => {
+  const inner = mockApify({ city_prices: nestedPrices(), rankings: rankingsRows() });
+  const strict = function (u, i) { if (this !== undefined && this !== globalThis) throw new TypeError('Illegal invocation'); return inner(u, i); };
+  const s = setup({ fetchImpl: strict });
+  assert.equal((await body(await s.get(URL_OK))).status, 'fresh');
 });

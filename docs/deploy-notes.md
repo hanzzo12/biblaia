@@ -197,3 +197,14 @@ Design notes:
 - Rate limit: key `market:<cf-connecting-ip>`; only applied on cache miss; the IP is never logged. Over the limit with a stale copy available → the stale copy is returned instead of 429.
 - Upstream: `POST …/run-sync-get-dataset-items?timeout=<s>`, `Authorization: Bearer`, `redirect: "error"`, 90 s abort, no retries. 401/402/403 → `unauthorized` (402 adds `payment_required`), 408 → `timeout`, 429 → `rate_limited`, 5xx/404 → `upstream_error`, non-JSON/non-array → `invalid_response`, `[]` → `not_found`.
 - Secret hygiene: `tests/providers/no-secrets.test.js` scans `src`, `worker`, `scripts`, `docs`, `tests`, `dist`, `release` (including zip entries) and `sources/extracted` for the Apify token prefix.
+
+## 13. Live results with the real Apify token, 2026-10-30 (api.apify.com allowed; token only in `.dev.vars`, never printed)
+
+| Run | Result |
+| --- | --- |
+| `node scripts/live-check-apify.mjs AT-VIENNA --currency=EUR --rankings-file=<547 names>` (Node, via proxy; no new rankings run) | HTTP 201, 55 rows, 15.8 s. Valid MarketData. All 4 rents present with ranges; basic85m2 and internet present; groceries basket 15 counted / 0 missing (alcohol and tobacco excluded); both meals present. `status: partial` only because the names-only rankings file has no index values (`indices: not_found`). |
+| `US-WASHINGTON --currency=USD`, first try with input "Washington, DC" | **HTTP 400** after 42 s. The actor turns the name into a URL slug. Fix: the input name now drops ", XX" and parentheses (`pricesQueryFor` → "Washington"). |
+| `US-WASHINGTON --currency=USD`, retry | HTTP 201, 55 rows, 7.8 s. Valid, USD. 4 rents, internet, basket 15/0 and meals present. basic85m2 was null because the US item is named "Basic Utilities for 915 Square Feet Apartment (…)". That spelling was added (915 sq ft ≈ 85 m²) and is covered by a test. |
+| `wrangler dev` + `.dev.vars`, rankings seeded into local KV (`wrangler kv key put --local …`) | Health: `configured`, `cacheBackend: kv`, `tokenConfigured: true`. The seeded rankings were read from local KV (no rankings run). Two real bugs were found and fixed: (1) a named export in the main module (`export const RANKINGS_KEY`) stops workerd from starting ("Incorrect type for map entry"), so `worker/index.js` now has only a default export and the logic lives in `worker/market-worker.js`, with a test; (2) `redirect: "error"` throws `TypeError` in Workers, and calling the global fetch as an object method gives "Illegal invocation"; now `redirect: "manual"` (3xx → invalid_response) and a bound fetch wrapper, with tests. After the fixes, the upstream call from workerd fails with `Error: internal error` within a few ms. workerd in this sandbox does not use the HTTPS egress proxy (Node does), so the miss → hit sequence could not be shown live here. Cache miss/hit/stale are covered by Worker tests with a mocked KV. |
+
+Approximate spend in these checks: 4 × city_prices ≈ $0.06 (no new rankings run).

@@ -57,13 +57,26 @@ npm run deploy                          # → https://rotation-calculator.<subdo
 | `MARKET_CACHE_TTL_DAYS` | `30` | ქეშის ვადა |
 | `MARKET_STALE_MAX_DAYS` | `365` | რამდენ ხანს ჩანს ძველი ასლი („მოძველებულია“), თუ ახალი ვერ მივიღეთ |
 | `MARKET_UPSTREAM_TIMEOUT_MS` | `90000` | Apify-ის პასუხის ლოდინი; განმეორებითი ცდა არ არის |
+| `MARKET_RANKINGS_ENABLED` | `true` | `false` — ინდექსები გამორთულია (rankings ≈ $2.745 / 30 დღე დაიზოგება); ფასები რჩება |
 | `ratelimits` | 20 მოთხ./წთ/IP | მიახლოებითი ლიმიტი |
 
 ცვლილების შემდეგ: `npm run deploy`. ქეშის გასუფთავება: `npx wrangler kv key list --binding MARKET_CACHE` და `npx wrangler kv key delete --binding MARKET_CACHE "<key>"` (ან ახალი namespace).
 
+## 6ა. ღირებულება (Apify)
+
+≈ $0.015 ერთი ქალაქის ფასებზე და ≈ $2.745 ინდექსების სრულ სიაზე (547 ქალაქი); 30-დღიანი ქეშით ≈ $2.75/თვე + $0.015 × ქალაქი × ვალუტა. დეტალები — `docs/providers.md` §4.
+
+## 6ბ. ლოკალური dev ინდექსების ქეშით (rankings-ის ხელახალი გადახდის გარეშე)
+
+```sh
+# rankings.json — ადრე მიღებული rankings სტრიქონები; ჩაწერეთ ლოკალურ KV-ში ფორმით { storedAt, expiresAt, items }
+npx wrangler kv key put --local --binding MARKET_CACHE "v2:numbeo-apify:rankings" --path rankings-seed.json
+npm run dev
+```
+
 ## 7. პირველი რეალური გაშვების შემოწმება
 
-`NODE_USE_ENV_PROXY=1 node scripts/live-check-apify.mjs AT-VIENNA US-NEW-YORK` — ბეჭდავს ნორმალიზებულ მონაცემს (ტოკენის გარეშე) და ინახავს პასუხის ფორმას `sources/extracted/apify-sample-shape.json`-ში. შემდეგი ნაბიჯები — `docs/providers.md` §4.
+`NODE_USE_ENV_PROXY=1 node scripts/live-check-apify.mjs AT-VIENNA --currency=EUR` (`--skip-rankings` ან `--rankings-file=<file>` — rankings-ის ხელახალი გადახდის გარეშე) — ბეჭდავს ნორმალიზებულ მონაცემს (ტოკენის გარეშე) და ინახავს პასუხის ფორმას `sources/extracted/apify-sample-shape.json`-ში. შემდეგი ნაბიჯები — `docs/providers.md` §4.
 
 ## 8. განახლება, დაბრუნება, ლოგები
 

@@ -1,5 +1,5 @@
 {
- "checkedAt": "2026-10-30T04:49:28.245Z",
+ "checkedAt": "2026-10-30T12:03:36.052Z",
  "actor": "automation-lab/numbeo-scraper",
  "note": "Shape only (keys + first item truncated). No token, no full data.",
  "runs": {
@@ -29,7 +29,21 @@
     "currency": "EUR",
     "range": "12.00-26.00",
     "url": "https://www.numbeo.com/cost-of-living/in/Vienna?displayCurrency=EUR",
-    "scrapedAt": "2026-10-30T04:49:50.898Z"
+    "scrapedAt": "2026-10-30T12:01:42.274Z"
+   }
+  },
+  "city_prices:US-WASHINGTON": {
+   "_array": 55,
+   "first": {
+    "city": "Washington",
+    "country": "United States",
+    "category": "Restaurants",
+    "item": "Meal at an Inexpensive Restaurant",
+    "price": 25,
+    "currency": "USD",
+    "range": "15.00-45.00",
+    "url": "https://www.numbeo.com/cost-of-living/in/Washington?displayCurrency=USD",
+    "scrapedAt": "2026-10-30T12:04:20.896Z"
    }
   }
  }
