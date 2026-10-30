@@ -87,11 +87,12 @@ export function mountResults(root, store, { marketSummary }) {
         h('p', { class: 'hero-label' }, L.S),
         h('p', { class: 'hero-value' }, h('span', { 'data-value': S?.value ?? '', 'data-testid': 'S' }, S?.value != null ? fmt(S.value, cur) : '—'),
           S?.value != null ? h('span', { class: 'per' }, ' / თვე') : null),
-        h('p', { class: 'hero-sub' },
+        started ? null : h('p', { class: 'hero-sub' }, 'თვეში, ბრძანება №01-82-ის მიხედვით'),
+        !started ? null : h('p', { class: 'hero-sub' },
           h('span', { class: `pill cp-${r.completeness ?? 'none'}`, 'data-testid': 'completeness', 'data-completeness': r.completeness ?? '' }, COMPLETENESS[r.completeness] ?? 'დაუდგენელი'),
           scen ? h('span', { class: 'pill cs-scenario' }, 'სცენარი: ქირა საბაზრო ფასიდან') : null,
-          S?.value == null && S?.reason_ka ? h('span', { class: 'hint' }, ' ' + S.reason_ka) : null),
-        missingList);
+          S?.value == null && S?.reason_ka && !missing.length ? h('span', { class: 'hint' }, ' ' + S.reason_ka) : null),
+        started ? missingList : null);
     }
     function kc(label, c, note) {
       if (!c) return null;
@@ -102,7 +103,9 @@ export function mountResults(root, store, { marketSummary }) {
         c.status && c.status !== 'calculated' ? statusBadge(c.status) : null,
         note ? h('span', { class: 'k-note' }, note) : null);
     }
+    const started = !!(store.scenario.missionId && store.scenario.position.entryId);
     function keyCards() {
+      if (!started) return h('p', { class: 'empty-state' }, 'აირჩიეთ დაწესებულება და თანამდებობა — შედეგი აქ გამოჩნდება და შეყვანისთანავე განახლდება.');
       const edEntered = (store.scenario.education || []).length > 0;
       return h('div', { class: 'kcards' },
         r.periodTotal ? kc('პერიოდის ჯამი', r.periodTotal) : null,
@@ -115,7 +118,7 @@ export function mountResults(root, store, { marketSummary }) {
     function oneTimeCompact() {
       const items = [];
       const add = (label, c) => { if (c && c.status !== 'not_applicable') items.push([label, c]); };
-      add('პირველადი მოწყობა', r.oneTimeAllowances?.settlement);
+      if (store.scenario.settlement?.dailyRate) add('პირველადი მოწყობა', r.oneTimeAllowances?.settlement);
       add('მაკლერი', otr.broker);
       if (store.scenario.baggage) add('ბარგი', bag?.reimbursable);
       (otr.travel || []).forEach((c, i) => add(`მგზავრობა ${i + 1}`, c));

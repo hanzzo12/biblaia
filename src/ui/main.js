@@ -13,7 +13,7 @@ const meta = {
 
 // ონლაინ რეჟიმი მხოლოდ http/https-დან (Cloudflare Worker, same-origin /api/market). file:// — ქსელის მოთხოვნა არ იგზავნება.
 const online = location.protocol === 'http:' || location.protocol === 'https:';
-const client = online ? createMarketClient({ endpoint: '/api/market', timeoutMs: 15000 }) : null;
+const client = online ? createMarketClient({ endpoint: '/api/market', timeoutMs: 100000 }) : null;
 
 function boot() {
   for (const el of document.querySelectorAll('[data-meta]')) el.textContent = meta[el.getAttribute('data-meta')] ?? '';

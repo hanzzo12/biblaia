@@ -179,3 +179,21 @@ Implementation decisions:
 - **Rate limiter:** applied only before an upstream call (cache hits don't count), with key `market:all`. An absent binding is skipped; a throwing binding fails open, so the calculator is never blocked. Our own limiter returns HTTP 429 with a MarketData body (`rate_limited`) and `Retry-After: 60`.
 - **Upstream:** two parallel GETs with `X-Api-Key`, `redirect: "error"`, a timeout via `AbortController`, and **no retries**. A 200 response carrying `{error}` is mapped heuristically (key-related text → `unauthorized`, quota text → `rate_limited`, otherwise `invalid_response`).
 - **Request validation:** only `location` and `currency`, each exactly once. The location must be in `normative-data.locations` or the city map, and the currency in `MARKET_ALLOWED_CURRENCIES` ∩ {EUR, USD}. Anything else → 400. Non-GET → 405. Unknown `/api/*` → 404.
+
+## 12. ADR-003 (Apify/Numbeo) — verification, 2026-10-30
+
+Superseded: §§5–7 caching/Access recommendations apply to the old Numbeo-API design. Eurostat and the official-API adapter were removed from the product.
+
+| Check | Result |
+| --- | --- |
+| `node --test "tests/providers/**/*.test.js" "tests/worker/**/*.test.js"` | 53 pass, 0 fail (synthetic fixtures for both actor output shapes; mocked KV; token never in URL/logs/KV) |
+| `npm run build` | ✓ `dist/rotation-calculator.html (666.1 KB)`, `dist/web/index.html` |
+| `npx wrangler deploy --dry-run --outdir .wrangler-dry` | ✓ "Total Upload: 362.34 KiB / gzip: 43.09 KiB"; bindings `MARKET_CACHE (REPLACE_WITH_KV_NAMESPACE_ID) KV Namespace`, `MARKET_RATE_LIMITER (20 requests/60s)`, `ASSETS`, 5 `MARKET_*` vars; "--dry-run: exiting now." (the placeholder KV id is accepted by dry-run; a real deploy needs the id from `wrangler kv namespace create MARKET_CACHE`) |
+| KV commands (wrangler 4.155.0 `--help`) | `wrangler kv namespace create <namespace>`, `wrangler kv key list --binding`, `wrangler kv key delete <key>` exist |
+| Live Apify run: `NODE_USE_ENV_PROXY=1 node scripts/live-check-apify.mjs AT-VIENNA` (token from `.dev.vars`, not printed) | **Blocked**: `rankings: status=network_error`, `AT-VIENNA (Vienna): status=network_error`. The agent proxy reports `connect_rejected` for `api.apify.com:443` (and `apify.com:443`). No shape file was written. Re-run once the domain is allowed. |
+
+Design notes:
+- Cache: KV `MARKET_CACHE` (`expirationTtl = TTL + stale window`) → Cache API → in-isolate memory. Keys: `v2:numbeo-apify:<loc>:<cur>` and `v2:numbeo-apify:rankings` (one actor run for all cities). Values carry `expiresAt`; past TTL but within `MARKET_STALE_MAX_DAYS` they are served only when upstream fails (`status: stale`). Error results are never stored.
+- Rate limit: key `market:<cf-connecting-ip>`; only applied on cache miss; the IP is never logged. Over the limit with a stale copy available → the stale copy is returned instead of 429.
+- Upstream: `POST …/run-sync-get-dataset-items?timeout=<s>`, `Authorization: Bearer`, `redirect: "error"`, 90 s abort, no retries. 401/402/403 → `unauthorized` (402 adds `payment_required`), 408 → `timeout`, 429 → `rate_limited`, 5xx/404 → `upstream_error`, non-JSON/non-array → `invalid_response`, `[]` → `not_found`.
+- Secret hygiene: `tests/providers/no-secrets.test.js` scans `src`, `worker`, `scripts`, `docs`, `tests`, `dist`, `release` (including zip entries) and `sources/extracted` for the Apify token prefix.

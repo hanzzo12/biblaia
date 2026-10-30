@@ -252,3 +252,6 @@ input[type=file] { max-width: 100%; font: inherit; font-size: .82rem; }
 .cmarket { margin-top: 10px; }
 
 .foot { max-width: 1280px; margin: 0 auto; padding: 8px 16px 28px; color: var(--muted); font-size: .82rem; }
+.grid3 > *, details, fieldset, .list-editor, .card { min-width: 0; }
+input, select { min-width: 0; max-width: 100%; }
+@media screen { details:not([open]) > :not(summary) { display: none; } }

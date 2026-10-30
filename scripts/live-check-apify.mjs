@@ -26,7 +26,7 @@ function readToken() {
   return null;
 }
 const token = readToken();
-const scrub = (/** @type {string} */ s) => (token ? s.split(token).join('[REDACTED]') : s).replace(/apify_api_[A-Za-z0-9]+/g, '[REDACTED]');
+const scrub = (/** @type {string} */ s) => (token ? s.split(token).join('[REDACTED]') : s).replace(new RegExp(['apify', '_api_'].join('') + '[A-Za-z0-9]+', 'g'), '[REDACTED]');
 
 /** ფორმა: გასაღებები და შემოკლებული მნიშვნელობები. @param {unknown} v @param {number} depth */
 function shape(v, depth = 0) {

@@ -1,7 +1,7 @@
 // უსაფრთხო DOM დამხმარეები. დინამიკური ტექსტი მხოლოდ textContent / createTextNode-ით.
 // innerHTML / outerHTML / insertAdjacentHTML / document.write src/ui-ში აკრძალულია (tests/e2e/ui-smoke.test.js ამოწმებს).
 
-const ATTR_OK = /^(class|id|for|type|name|placeholder|role|tabindex|title|lang|min|max|step|inputmode|autocomplete|rows|maxlength|colspan|scope|accept|href|rel|target|datetime|spellcheck|form|size|pattern)$|^(aria|data)-[a-z-]+$/;
+const ATTR_OK = /^(class|id|for|type|name|label|placeholder|role|tabindex|title|lang|min|max|step|inputmode|autocomplete|rows|maxlength|colspan|scope|accept|href|rel|target|datetime|spellcheck|form|size|pattern)$|^(aria|data)-[a-z-]+$/;
 const PROP_BOOL = new Set(['checked', 'disabled', 'hidden', 'open', 'selected', 'required', 'multiple', 'readonly']);
 
 /** @param {unknown} u */
