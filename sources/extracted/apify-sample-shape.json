@@ -1,0 +1,36 @@
+{
+ "checkedAt": "2026-10-30T04:49:28.245Z",
+ "actor": "automation-lab/numbeo-scraper",
+ "note": "Shape only (keys + first item truncated). No token, no full data.",
+ "runs": {
+  "rankings": {
+   "_array": 50,
+   "first": {
+    "rank": 1,
+    "city": "Zurich",
+    "country": "Switzerland",
+    "costOfLivingIndex": 123.1,
+    "rentIndex": 74.5,
+    "costOfLivingPlusRentIndex": 100.9,
+    "groceriesIndex": 125,
+    "restaurantPriceIndex": 121.7,
+    "localPurchasingPowerIndex": 152,
+    "url": "https://www.numbeo.com/cost-of-living/in/Zurich"
+   }
+  },
+  "city_prices:AT-VIENNA": {
+   "_array": 55,
+   "first": {
+    "city": "Vienna",
+    "country": "Austria",
+    "category": "Restaurants",
+    "item": "Meal at an Inexpensive Restaurant",
+    "price": 17,
+    "currency": "EUR",
+    "range": "12.00-26.00",
+    "url": "https://www.numbeo.com/cost-of-living/in/Vienna?displayCurrency=EUR",
+    "scrapedAt": "2026-10-30T04:49:50.898Z"
+   }
+  }
+ }
+}

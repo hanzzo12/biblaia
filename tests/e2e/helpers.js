@@ -132,7 +132,7 @@ export async function startServer(opts = {}) {
 }
 
 /** Open the served build; every request outside `origin` is aborted and recorded. */
-export async function openServed(browser, origin, { viewport } = {}) {
+export async function openServed(browser, origin, { viewport, fakeClock = false } = {}) {
   const context = await browser.newContext({ viewport: viewport || { width: 1280, height: 900 } });
   const blockedRequests = [], consoleErrors = [];
   await context.route('**/*', (route, request) => {
@@ -144,6 +144,7 @@ export async function openServed(browser, origin, { viewport } = {}) {
   const page = await context.newPage();
   page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text()); });
   page.on('pageerror', (e) => consoleErrors.push(String(e)));
+  if (fakeClock) await page.clock.install(); // lets tests fast-forward client timeouts
   await page.goto(origin + '/', { waitUntil: 'load' });
   return { context, page, blockedRequests, consoleErrors, close: () => context.close() };
 }
