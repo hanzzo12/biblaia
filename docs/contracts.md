@@ -156,3 +156,29 @@ UI ეკრანზეც და ბეჭდვაშიც იყენე�
 - ენუმები: travel `recall-5-1`; extras `covid-aid-6-2` (`one-time-allowance`), `head-residence-29`.
 - შედეგი: `oneTimeAllowances.retention19`; `periodSegments[].A`; `inputsUsed.positionEntryId`; `inputsUsed.capRemainingAfter`.
 - კოდები: warnings `DEP_FULL_MONTH`, `POS_SPECIAL_PERIOD`, `POS_A3_NO_ORDER`, `EDU_SCHOOL_YEAR`, `EDU_SCHOOL_YEAR_UNKNOWN`, `VAC_MULTIPLE`, `VAC_COMPARATOR_DIFF`, `SETTLE_CHECK_9E`, `RETAIN_LIMIT`, `RETAIN_DECISION`; info `RENT_ONE_EMPLOYEE`, `RETAIN_18`; errors `POS_202_ENTRY`, `ADV_SECOND_BEFORE_REPAYMENT`; assumptions `SETTLE_N` (OQ-17), `VAC_TOTAL_CAP` (OQ-32), `HEAD_RESIDENCE_29` (OQ-24).
+
+## 8. MarketData v2 (ADR-003) — `schemaVersion: 2`
+
+```js
+{
+  schemaVersion: 2,
+  requestedLocationId: "AT-VIENNA",
+  resolvedLocation: { city: "Vienna", countryCode: "AT", providerCity: "Vienna", matchStatus: "exact" | "nearby-explained" | "none" },
+  provider: { id: "numbeo-apify", name: "Numbeo", via: "Apify automation-lab/numbeo-scraper",
+              sourceUrl: "https://www.numbeo.com/cost-of-living/in/Vienna", attribution_ka: "წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით)" },
+  currency: "EUR" | "USD",
+  status: "fresh" | "cached" | "stale" | "partial" | "not_found" | "network_error" | "timeout" | "not_configured" | "unauthorized" | "rate_limited" | "upstream_error" | "invalid_response" | "wrong_city" | "disabled",
+  rent:        { status, items: { centre_1br: Price|null, outside_1br: Price|null, centre_3br: Price|null, outside_3br: Price|null }, rentIndex: Dec|null },
+  utilities:   { status, basic85m2: Price|null, internet: Price|null },
+  groceries:   { status, basketItemsSum: Dec|null, itemsCounted: 0, itemsMissing: 0, groceriesIndex: Dec|null },
+  restaurants: { status, inexpensiveMeal: Price|null, midRangeForTwo: Price|null, restaurantIndex: Dec|null },
+  indices:     { costOfLiving: Dec|null, rent: Dec|null, groceries: Dec|null, restaurants: Dec|null, costOfLivingPlusRent: Dec|null,
+                 baseline: "ნიუ-იორკი = 100", status, period: null | "YYYY" | "YYYY-MM" },
+  fetchedAt: "ISO", sourceUpdatedAt: null | "YYYY-MM",
+  cache: { state: "miss" | "hit" | "stale", expiresAt: "ISO" | null },
+  warnings: [{ code, message_ka }]
+}
+// Price = { average: Dec, low: Dec|null, high: Dec|null }; Dec = ათწილადი სტრიქონი; აკლია → null, არასოდეს "0".
+```
+
+Worker: `GET /api/market?location=<შიდა ID>&currency=EUR|USD` → MarketData v2; `GET /api/market/health`. ბრაუზერი: `createMarketClient().get(locationId, currency, { signal })`, რომელიც არასოდეს ისვრის. `suggestBedrooms(familyCount) → 1 | 3`.
