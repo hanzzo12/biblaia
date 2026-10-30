@@ -11,9 +11,12 @@ import * as F from '../fields.js';
 import * as core from '../../core/index.js';
 
 
-export function mountExpenses(root, store) {
+export function mountExpenses(root, advRoot, store) {
   const box = h('div');
+  const advBox = h('div');
   root.append(box);
+  advRoot.append(advBox);
+  const scope = { querySelector: (q) => box.querySelector(q) || advBox.querySelector(q) };
   const open = store.ui.open = store.ui.open || {};
 
   const det = (key, summary, ...children) => {
@@ -32,14 +35,14 @@ export function mountExpenses(root, store) {
       const del = h('button', { type: 'button', class: 'btn small secondary', 'aria-label': `${itemLabel} ${i + 1}-ის წაშლა` }, 'წაშლა');
       del.addEventListener('click', () => {
         arr.splice(i, 1); store.forget(path); render(); store.structure(path);
-        (box.querySelector(`[data-list="${path}"] fieldset:last-of-type select, [data-list="${path}"] fieldset:last-of-type input`) || box.querySelector(`[data-list="${path}"] > button`))?.focus();
+        (scope.querySelector(`[data-list="${path}"] fieldset:last-of-type select, [data-list="${path}"] fieldset:last-of-type input`) || scope.querySelector(`[data-list="${path}"] > button`))?.focus();
       });
       return h('fieldset', { class: 'card' }, h('legend', null, `${itemLabel} ${i + 1}`), h('div', { class: 'grid3' }, fields(`${path}.${i}`, it)), del);
     });
     const add = h('button', { type: 'button', class: 'btn secondary' }, addLabel);
     add.addEventListener('click', () => {
       arr.push(make()); render(); store.structure(path);
-      box.querySelector(`[data-list="${path}"] fieldset:last-of-type select, [data-list="${path}"] fieldset:last-of-type input`)?.focus();
+      scope.querySelector(`[data-list="${path}"] fieldset:last-of-type select, [data-list="${path}"] fieldset:last-of-type input`)?.focus();
     });
     wrap.append(...items, add);
     return wrap;
@@ -94,6 +97,7 @@ export function mountExpenses(root, store) {
           fields: (p) => [
             F.select(store, `${p}.memberId`, 'ბავშვი', children.map((m) => ({ value: m.id, label: m.label }))),
             F.money(store, `${p}.tuition`, 'სწავლის საფასური (თვეში)', { unit: '' }),
+            h('details', { class: 'conds wide' }, h('summary', null, 'სხვა კომპონენტები და პირობები'), h('div', { class: 'grid3' },
             F.money(store, `${p}.registration`, 'რეგისტრაცია', { unit: '' }),
             F.money(store, `${p}.transport`, 'ნებადართული ტრანსპორტირება (თვეში)', { unit: '' }),
             F.money(store, `${p}.meals`, 'კვება (თვეში)', { unit: '' }),
@@ -102,10 +106,10 @@ export function mountExpenses(root, store) {
             F.date(store, `${p}.schoolYear.to`, 'სასწავლო წელი — მდე', { onChange: () => cleanRange(p, 'schoolYear') }),
             F.check(store, `${p}.freeStateLanguageSchoolAvailable`, 'ხელმისაწვდომია უფასო სასწავლებელი სახელმწიფო ენაზე'),
             F.check(store, `${p}.paidSchoolLanguageSameAsState`, 'ფასიანი სასწავლებლის სწავლების ენა ემთხვევა სახელმწიფო ენას'),
-            F.check(store, `${p}.ministerDecision34`, 'ინდივიდუალური გადაწყვეტილება (პ. 34)'),
-          ] })),
-
-      det('extra', 'დამატებითი ხარჯები (დაზღვევა, მაკლერი, ბარგი, მოწყობა, მგზავრობა, ავანსი, სხვა)',
+            F.check(store, `${p}.ministerDecision34`, 'ინდივიდუალური გადაწყვეტილება (პ. 34)'))),
+          ] }))
+    );
+    replace(advBox,
         det('ins', 'დაზღვევა (თითო პირზე)',
           h('p', { class: 'hint' }, 'წლიური ზღვარი დაზღვევის ანაზღაურების მაქსიმუმია და გასაცემ თანხას არ ნიშნავს.'),
           sc.insurance.map((it, i) => h('fieldset', { class: 'card' }, h('legend', null, people().find((p) => p.value === it.personId)?.label ?? it.personId),
@@ -190,7 +194,7 @@ export function mountExpenses(root, store) {
               F.money(store, `${p}.amount`, 'ფაქტობრივი თანხა', { unit: '' }),
               F.text(store, `${p}.justification`, 'დასაბუთება', { wide: true }),
               F.check(store, `${p}.ministerDecisionRequired`, 'საჭიროებს მინისტრის გადაწყვეტილებას'),
-            ] }))));
+            ] })));
     updateRentNotes();
   }
 

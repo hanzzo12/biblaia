@@ -1,69 +1,77 @@
 // @ts-check
 /**
- * ბაზრის მონაცემების საჯარო API ბრაუზერისთვის (და Worker-ისთვის უსაფრთხო): კლიენტი `/api/market`-ისთვის,
- * „მხოლოდ ბოლო მოთხოვნა“ დამხმარე, ხელით შეყვანის/JSON იმპორტის ვალიდაცია და ქართული იარლიყები.
- * ქსელს მხოლოდ `createMarketClient().get()` იყენებს; დანარჩენი სუფთა ფუნქციებია.
- * Numbeo-ს გასაღები და upstream URL აქ არასოდეს ჩნდება.
+ * ბაზრის მონაცემების საჯარო API ბრაუზერისთვის (MarketData v2, ADR-003). Worker-შიც უსაფრთხოა.
+ * ქსელს მხოლოდ `createMarketClient().get()` იყენებს (`/api/market`); ტოკენი/upstream URL აქ არასოდეს ჩნდება.
  */
 
 import {
-  MARKET_SCHEMA_VERSION, DATA_STATUS, DEFAULT_ALLOWED_CURRENCIES, createEmptyMarketData,
-  validateMarketData, validateManualRecord as validateManualRecordRaw, validateMarketImport,
-  marketDataFromManualRecords,
+  MARKET_SCHEMA_VERSION, DATA_STATUS, DEFAULT_ALLOWED_CURRENCIES, createEmptyMarketData, validateMarketData,
+  validateManualRecord as validateManualRecordRaw, validateMarketImport,
 } from './market-contract.js';
 
 export * from './market-contract.js';
-export { marketDataFromSnapshot, validateMarketSnapshot } from './snapshot.js';
-export {
-  EUROSTAT_ATTRIBUTION_KA, EUROSTAT_DISCLAIMER_KA, EUROSTAT_MEANING_KA, EUROSTAT_LICENCE_NOTE, EUROSTAT_PROVIDER, EUROSTAT_BASELINE,
-} from './eurostat-adapter.js';
-import { EUROSTAT_DISCLAIMER_KA, EUROSTAT_MEANING_KA } from './eurostat-adapter.js';
 
-/** სტატუსების ქართული იარლიყები (UI). */
 export const MARKET_STATUS_LABELS_KA = Object.freeze({
   loading: 'იტვირთება',
   fresh: 'განახლებულია',
   cached: 'შენახული მონაცემია',
-  stale: 'მოძველებულია',
-  manual: 'ხელითაა შეყვანილი',
+  stale: 'მოძველებულია (ბოლო შენახული ასლი)',
   partial: 'ნაწილობრივ ხელმისაწვდომია',
+  manual: 'ხელითაა შეყვანილი',
   not_found: 'ვერ მოიძებნა',
   network_error: 'კავშირი ვერ შედგა',
   timeout: 'პასუხის ლოდინის დრო ამოიწურა',
-  not_configured: 'პროვაიდერი არ არის კონფიგურირებული',
-  unauthorized: 'პროვაიდერთან წვდომა უარყოფილია',
+  not_configured: 'მონაცემთა წყარო არ არის კონფიგურირებული',
+  unauthorized: 'წყაროსთან წვდომა უარყოფილია',
   rate_limited: 'მოთხოვნების ლიმიტი ამოიწურა — სცადეთ მოგვიანებით',
-  upstream_error: 'პროვაიდერის სერვისი დროებით მიუწვდომელია',
-  invalid_response: 'პროვაიდერის პასუხი არასწორია',
+  upstream_error: 'მონაცემთა სერვისი დროებით მიუწვდომელია',
+  invalid_response: 'წყაროს პასუხი არასწორია',
   wrong_city: 'პასუხი სხვა ქალაქს ან ვალუტას ეკუთვნის — უარყოფილია',
-  not_provided: 'ამ წყაროში ეს მაჩვენებელი არ არის — შეიყვანეთ ხელით',
+  disabled: 'ბაზრის მონაცემები გამორთულია',
 });
 
-/** გაფრთხილებების ქართული ტექსტები (UI). */
+export const MARKET_CATEGORY_LABELS_KA = Object.freeze({
+  rent: 'ქირა',
+  utilities: 'კომუნალური',
+  groceries: 'სურსათი',
+  restaurants: 'რესტორნები',
+  indices: 'ცხოვრების ღირებულების ინდექსები',
+  centre_1br: 'ცენტრი — 1 საძინებელი',
+  outside_1br: 'გარეუბანი — 1 საძინებელი',
+  centre_3br: 'ცენტრი — 3 საძინებელი',
+  outside_3br: 'გარეუბანი — 3 საძინებელი',
+  rentIndex: 'ქირის ინდექსი',
+  basic85m2: 'ძირითადი კომუნალური (85 მ² ბინა: ელექტროენერგია, გათბობა/გაგრილება, წყალი, ნარჩენები)',
+  internet: 'ინტერნეტი (60 Mbps ან მეტი)',
+  basketItemsSum: 'სურსათის ჩამონათვლის ერთეულების ფასების ჯამი',
+  groceriesIndex: 'სურსათის ინდექსი',
+  inexpensiveMeal: 'კვება იაფ რესტორანში (1 პირი)',
+  midRangeForTwo: 'საშუალო რესტორანი, 2 პირი, სამი კერძი',
+  restaurantIndex: 'რესტორნების ფასების ინდექსი',
+  costOfLiving: 'ცხოვრების ღირებულების ინდექსი (ქირის გარეშე)',
+  costOfLivingPlusRent: 'ცხოვრების ღირებულება + ქირა',
+});
+
 export const MARKET_WARNING_LABELS_KA = Object.freeze({
   nearby_city: 'ნაჩვენებია ახლომდებარე ქალაქის მონაცემი (ზუსტი დამთხვევა არ არის).',
-  country_level_only: 'ხელმისაწვდომია მხოლოდ ქვეყნის დონის მონაცემი; ქალაქის ცენტრის ქირად არ გამოიყენება.',
-  low_data_points: 'მონაცემთა წერტილები ცოტაა — შეფასება ნაკლებად სანდოა.',
-  range_is_not_confidence_interval: 'დიაპაზონი პროვაიდერის მინიმალური–მაქსიმალური მნიშვნელობებია და არა ნდობის ინტერვალი.',
+  low_data: 'მონაცემთა წერტილები ცოტაა — შეფასება ნაკლებად სანდოა.',
+  range_is_not_confidence_interval: 'დიაპაზონი წყაროს მინიმალური–მაქსიმალური მნიშვნელობებია და არა ნდობის ინტერვალი.',
   quality_not_guaranteed: 'ბინის ხარისხი, ფართობი, ავეჯი და უბანი განსხვავდება; საშუალო „საშუალო ხარისხს“ არ უზრუნველყოფს.',
-  index_is_not_money: 'ინდექსი ფულადი თანხა არ არის და თვიურ ხარჯად არ გამოიყენება.',
-  source_date_unknown: 'წყაროში მონაცემის განახლების თარიღი უცნობია.',
-  stale_cache_used: 'ნაჩვენებია ადრე შენახული (მოძველებული) მონაცემი, რადგან პროვაიდერი ახლა მიუწვდომელია.',
+  index_is_not_money: 'ინდექსი ფულადი თანხა არ არის (ნიუ-იორკი = 100).',
+  source_date_unknown: 'წყაროში მონაცემის განახლების თარიღი უცნობია; ნაჩვენებია მიღების თარიღი.',
+  stale_cache_used: 'ახალი მონაცემი ვერ მივიღეთ — ნაჩვენებია ბოლო შენახული ასლი.',
   partial_data: 'მონაცემი ნაწილობრივია.',
   manual_entry: 'მონაცემი ხელითაა შეყვანილი და ავტომატურად მოპოვებული არ არის.',
-  snapshot_not_live: 'ეს დათარიღებული ასლია და არა მიმდინარე ფასი.',
   mixed_sources: 'მაჩვენებლები სხვადასხვა წყაროდანაა.',
-  license_unconfirmed: 'პროვაიდერის ლიცენზიის პირობები ჯერ არ არის დადასტურებული.',
+  basket_incomplete: 'სურსათის ჩამონათვალში ზოგიერთი ერთეულის ფასი აკლია — ჯამში ისინი არ შედის.',
+  currency_unconfirmed: 'წყარომ ვალუტა ცხადად არ მიუთითა.',
+  city_name_unverified: 'ქალაქის დასახელება წყაროში ჯერ არ არის დადასტურებული.',
+  output_schema_unverified: 'მონაცემთა ფორმატი რეალური გაშვებით ჯერ არ არის დადასტურებული.',
+  scraped_source_terms: 'მონაცემი Numbeo.com-დან მესამე მხარის სერვისით (Apify) არის მოპოვებული; Numbeo-ს პირობები ავტომატურ შეგროვებას ზღუდავს.',
+  payment_required: 'Apify-ის ანგარიშზე კრედიტი ამოიწურა ან გადახდაა საჭირო.',
   synthetic_test_data: 'სინთეზური სატესტო მონაცემი — რეალური ფასი არ არის.',
-  item_mapping_unverified: 'პროვაიდერის მაჩვენებლის იდენტიფიკატორი ვერ დადასტურდა.',
-  correction_coefficient_not_rent_not_k: EUROSTAT_MEANING_KA,
-  provider_disclaimer: EUROSTAT_DISCLAIMER_KA,
-  provisional_value: 'წყარო მნიშვნელობას წინასწარად ან შეფასებულად აღნიშნავს.',
-  rent_manual_only: 'ქირის ავტომატური წყარო საჯარო ვერსიაში არ არის — შეიყვანეთ ხელით ან JSON-ით; შეგიძლიათ გამოიყენოთ გარე ბმულები.',
-  geo_code_unverified: 'ქალაქის კოდი წყაროში ჯერ ცოცხლად არ არის დადასტურებული.',
 });
 
-/** ვალიდაციის კოდების ქართული ახსნა. */
 const ERROR_MESSAGES_KA = Object.freeze({
   missing: 'სავალდებულო ველი აკლია.',
   unknown_field: 'უცნობი ველი — დაშვებული არ არის.',
@@ -81,12 +89,10 @@ const ERROR_MESSAGES_KA = Object.freeze({
   greater_than_high: 'მინიმუმი მაქსიმუმზე მეტია.',
   below_low: 'მნიშვნელობა მინიმუმზე ნაკლებია.',
   above_high: 'მნიშვნელობა მაქსიმუმზე მეტია.',
-  unknown_rent_metric: 'ქირის უცნობი ტიპი (დაშვებულია: centre_1br, centre_3br, outside_1br, outside_3br).',
+  unknown_rent_metric: 'ქირის უცნობი ტიპი (დაშვებულია: centre_1br, outside_1br, centre_3br, outside_3br).',
   unknown_index_metric: 'ინდექსის უცნობი ტიპი.',
   must_be_null_for_index: 'ინდექსს ვალუტა არ აქვს — უნდა იყოს null.',
   not_allowed_for_index: 'ინდექსს დიაპაზონი არ აქვს.',
-  not_allowed_for_rent: 'ქირისთვის საბაზო მნიშვნელობა არ გამოიყენება.',
-  required_for_index: 'ინდექსისთვის საბაზო შედარება (baseline) სავალდებულოა.',
   must_be_rent_or_index: 'metricType უნდა იყოს "rent" ან "index".',
   not_partial_date_or_null: 'თარიღი: YYYY, YYYY-MM ან YYYY-MM-DD, ან null თუ უცნობია.',
   not_iso_datetime: 'მოსალოდნელია ISO 8601 დრო (მაგ. 2026-10-29T10:00:00Z).',
@@ -96,11 +102,7 @@ const ERROR_MESSAGES_KA = Object.freeze({
   must_be_array_1_to_200: 'records უნდა იყოს 1–200 ჩანაწერის მასივი.',
 });
 
-/**
- * "<path>: <code>" სტრიქონები → [{ path, code, message_ka }] (contracts.md §5).
- * @param {string[]} errors
- * @returns {{ path: string, code: string, message_ka: string }[]}
- */
+/** "<path>: <code>" → [{ path, code, message_ka }] (contracts.md §5). @param {string[]} errors */
 export function toStructuredErrors(errors) {
   return errors.map((e) => {
     const i = e.lastIndexOf(': ');
@@ -110,11 +112,7 @@ export function toStructuredErrors(errors) {
   });
 }
 
-/**
- * ხელით შეყვანილი ერთი ჩანაწერის ვალიდაცია სტრუქტურირებული შეცდომებით.
- * @param {unknown} record
- * @param {{ allowedCurrencies?: readonly string[] }} [options]
- */
+/** ხელით შეყვანილი ერთი ჩანაწერი → { ok, errors:[{path, code, message_ka}] }. @param {unknown} record @param {{ allowedCurrencies?: readonly string[] }} [options] */
 export function validateManualRecord(record, options = {}) {
   const r = validateManualRecordRaw(record, options);
   return { ok: r.ok, errors: toStructuredErrors(r.errors) };
@@ -122,29 +120,30 @@ export function validateManualRecord(record, options = {}) {
 
 export const MAX_IMPORT_BYTES = 256 * 1024;
 
-/**
- * JSON იმპორტის ტექსტის გარჩევა და ვალიდაცია. არასოდეს ისვრის.
- * @param {unknown} text
- * @param {{ allowedCurrencies?: readonly string[] }} [options]
- * @returns {{ ok: boolean, data: import('./market-contract.js').MarketImportFile | null, errors: { path: string, code: string, message_ka: string }[] }}
- */
+/** JSON იმპორტის ტექსტი → { ok, data, errors }. არასოდეს ისვრის. @param {unknown} text @param {{ allowedCurrencies?: readonly string[] }} [options] */
 export function parseManualMarketJson(text, options = {}) {
   if (typeof text !== 'string') return { ok: false, data: null, errors: toStructuredErrors(['$: invalid_json']) };
   if (text.length > MAX_IMPORT_BYTES) return { ok: false, data: null, errors: toStructuredErrors(['$: too_large']) };
   let parsed;
-  try { parsed = JSON.parse(text.replace(/^﻿/, '')); } catch {
-    return { ok: false, data: null, errors: toStructuredErrors(['$: invalid_json']) };
-  }
+  try { parsed = JSON.parse(text.replace(/^﻿/, '')); } catch { return { ok: false, data: null, errors: toStructuredErrors(['$: invalid_json']) }; }
   const v = validateMarketImport(parsed, options);
   return v.ok ? { ok: true, data: parsed, errors: [] } : { ok: false, data: null, errors: toStructuredErrors(v.errors) };
 }
 
-/** იმპორტირებული ჩანაწერებიდან MarketData ერთი ლოკაციისთვის (ვალიდაციის შემდეგ). */
-export { marketDataFromManualRecords };
+/**
+ * საძინებლების ნაგულისხმევი შერჩევა ოჯახის მიხედვით (ADR-003 §5): მოსამსახურე მარტო ან +1 → 1; +2 და მეტი → 3.
+ * Numbeo-ს 2-საძინებლიანი არ აქვს; ინტერპოლაცია აკრძალულია. მომხმარებელს შეუძლია შეცვალოს.
+ * @param {unknown} familyCount თანმხლები ოჯახის წევრების რაოდენობა (მოსამსახურის გარეშე)
+ * @returns {1|3}
+ */
+export function suggestBedrooms(familyCount) {
+  const n = typeof familyCount === 'number' ? familyCount : Number(familyCount);
+  return Number.isFinite(n) && n >= 2 ? 3 : 1;
+}
 
 /**
- * „მხოლოდ ბოლო“ — წინა მოთხოვნას აუქმებს და მის გვიან პასუხს უგულებელყოფს.
- * გამოყენება: `const r = await latest.run((signal) => client.get(id, cur, { signal })); if (r.superseded) return;`
+ * „მხოლოდ ბოლო მოთხოვნა“ — წინას აუქმებს და მის გვიან პასუხს უგულებელყოფს.
+ * `const r = await latest.run((signal) => client.get(id, cur, { signal })); if (r.superseded) return;`
  * @template T
  */
 export function createLatestOnly() {
@@ -152,25 +151,16 @@ export function createLatestOnly() {
   /** @type {AbortController|null} */
   let current = null;
   return {
-    /**
-     * @param {(signal: AbortSignal) => Promise<T>} fn
-     * @returns {Promise<{ superseded: true } | { superseded: false, value: T }>}
-     */
+    /** @param {(signal: AbortSignal) => Promise<T>} fn @returns {Promise<{ superseded: true } | { superseded: false, value: T }>} */
     async run(fn) {
       const id = ++seq;
       if (current) current.abort();
       const ac = new AbortController();
       current = ac;
       let value;
-      try { value = await fn(ac.signal); } catch (e) {
-        if (id !== seq) return { superseded: true };
-        throw e;
-      } finally {
-        if (current === ac && id === seq) current = null;
-      }
+      try { value = await fn(ac.signal); } catch (e) { if (id !== seq) return { superseded: true }; throw e; } finally { if (current === ac && id === seq) current = null; }
       return id === seq ? { superseded: false, value } : { superseded: true };
     },
-    /** მიმდინარე მოთხოვნის გაუქმება (მაგ. ქალაქის გასუფთავებისას). */
     cancel() { seq++; if (current) current.abort(); current = null; },
   };
 }
@@ -178,26 +168,21 @@ export function createLatestOnly() {
 const LOCATION_ID_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 
 /**
- * `/api/market` კლიენტი. `get` არასოდეს ისვრის: ყველა შეცდომა MarketData-ს სტატუსად ბრუნდება.
+ * `/api/market` კლიენტი. `get` არასოდეს ისვრის. ნაგულისხმევი timeout 100 წმ (Apify-ის სინქრონული გაშვება ≤ 90 წმ).
  * @param {{ endpoint?: string, fetchImpl?: typeof fetch, timeoutMs?: number, allowedCurrencies?: readonly string[] }} [opts]
  */
 export function createMarketClient(opts = {}) {
   const endpoint = opts.endpoint || '/api/market';
   const fetchImpl = opts.fetchImpl || (typeof fetch === 'function' ? fetch.bind(globalThis) : null);
-  const timeoutMs = opts.timeoutMs && opts.timeoutMs > 0 ? opts.timeoutMs : 15000;
+  const timeoutMs = opts.timeoutMs && opts.timeoutMs > 0 ? opts.timeoutMs : 100000;
   const allowed = opts.allowedCurrencies || DEFAULT_ALLOWED_CURRENCIES;
 
-  /**
-   * @param {string} locationId @param {string} currency
-   * @param {{ signal?: AbortSignal }} [o]
-   * @returns {Promise<import('./market-contract.js').MarketData>}
-   */
+  /** @param {string} locationId @param {string} currency @param {{ signal?: AbortSignal }} [o] @returns {Promise<import('./market-contract.js').MarketData>} */
   async function get(locationId, currency, o = {}) {
-    const safeLoc = typeof locationId === 'string' && LOCATION_ID_RE.test(locationId) ? locationId : 'invalid';
-    const empty = (/** @type {string} */ status) => createEmptyMarketData(safeLoc, status, { currency: allowed.includes(currency) ? currency : null });
-    if (safeLoc === 'invalid' || !allowed.includes(currency)) return empty(DATA_STATUS.NOT_CONFIGURED);
+    const loc = typeof locationId === 'string' && LOCATION_ID_RE.test(locationId) ? locationId : 'invalid';
+    const empty = (/** @type {string} */ s) => createEmptyMarketData(loc, s, { currency: allowed.includes(currency) ? currency : null });
+    if (loc === 'invalid' || !allowed.includes(currency)) return empty(DATA_STATUS.NOT_CONFIGURED);
     if (!fetchImpl) return empty(DATA_STATUS.NETWORK_ERROR);
-
     const ac = new AbortController();
     let timedOut = false;
     const timer = setTimeout(() => { timedOut = true; ac.abort(); }, timeoutMs);
@@ -205,26 +190,13 @@ export function createMarketClient(opts = {}) {
     if (o.signal) { if (o.signal.aborted) ac.abort(); else o.signal.addEventListener('abort', onAbort, { once: true }); }
     try {
       const sep = endpoint.includes('?') ? '&' : '?';
-      const url = `${endpoint}${sep}location=${encodeURIComponent(safeLoc)}&currency=${encodeURIComponent(currency)}`;
-      const res = await fetchImpl(url, { method: 'GET', headers: { Accept: 'application/json' }, credentials: 'same-origin', cache: 'no-store', signal: ac.signal });
+      const res = await fetchImpl(`${endpoint}${sep}location=${encodeURIComponent(loc)}&currency=${encodeURIComponent(currency)}`,
+        { method: 'GET', headers: { Accept: 'application/json' }, credentials: 'same-origin', cache: 'no-store', signal: ac.signal });
       let body = null;
       try { body = JSON.parse(await res.text()); } catch { body = null; }
-      if (body === null) {
-        if (res.status === 401 || res.status === 403) return empty(DATA_STATUS.UNAUTHORIZED);
-        if (res.status === 429) return empty(DATA_STATUS.RATE_LIMITED);
-        if (res.status >= 500) return empty(DATA_STATUS.UPSTREAM_ERROR);
-        return empty(DATA_STATUS.INVALID_RESPONSE);
-      }
-      const v = validateMarketData(body, { allowedCurrencies: allowed });
-      if (!v.ok) {
-        if (res.status === 401 || res.status === 403) return empty(DATA_STATUS.UNAUTHORIZED);
-        if (res.status === 429) return empty(DATA_STATUS.RATE_LIMITED);
-        if (res.status >= 500) return empty(DATA_STATUS.UPSTREAM_ERROR);
-        return empty(DATA_STATUS.INVALID_RESPONSE);
-      }
-      if (body.requestedLocationId !== safeLoc || (body.currency !== null && body.currency !== currency)) {
-        return empty(DATA_STATUS.WRONG_CITY);
-      }
+      const byHttp = () => (res.status === 401 || res.status === 403 ? 'unauthorized' : res.status === 429 ? 'rate_limited' : res.status >= 500 ? 'upstream_error' : 'invalid_response');
+      if (body === null || !validateMarketData(body, { allowedCurrencies: allowed }).ok) return empty(byHttp());
+      if (body.requestedLocationId !== loc || (body.currency !== null && body.currency !== currency)) return empty(DATA_STATUS.WRONG_CITY);
       return body;
     } catch {
       return empty(timedOut ? DATA_STATUS.TIMEOUT : DATA_STATUS.NETWORK_ERROR);
@@ -234,24 +206,4 @@ export function createMarketClient(opts = {}) {
     }
   }
   return { get, schemaVersion: MARKET_SCHEMA_VERSION };
-}
-
-const EXTERNAL_LINK_NOTE_KA = 'გარე ბმული — მონაცემი არ იტვირთება';
-
-/**
- * ქალაქის გარე გვერდების ბმულები (მხოლოდ ჰიპერბმული; არაფერი იტვირთება და არაფერი ინახება).
- * URL-ის ფორმა აგებულია ინგლისური სახელიდან და დაუდასტურებელია — გვერდი შეიძლება არ არსებობდეს.
- * @param {{ name_en?: string|null } | null | undefined} location  `normative-data.locations[]` ჩანაწერი
- * @returns {{ id: string, label_ka: string, url: string, note_ka: string, rel: string }[]}
- */
-export function externalCityLinks(location) {
-  const name = location && typeof location.name_en === 'string' ? location.name_en.trim() : '';
-  if (!name || name.length > 80 || !/^[\p{L}\p{M} .'()-]+$/u.test(name)) return [];
-  const words = name.replace(/[()]/g, ' ').trim().split(/\s+/);
-  const numbeoSlug = words.map(encodeURIComponent).join('-');
-  const expatSlug = words.map((w) => encodeURIComponent(w.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, ''))).join('-');
-  return [
-    { id: 'numbeo', label_ka: 'Numbeo — ქალაქის გვერდი', url: `https://www.numbeo.com/cost-of-living/in/${numbeoSlug}`, note_ka: EXTERNAL_LINK_NOTE_KA, rel: 'noopener noreferrer external' },
-    { id: 'expatistan', label_ka: 'Expatistan — ქალაქის გვერდი', url: `https://www.expatistan.com/cost-of-living/${expatSlug}`, note_ka: EXTERNAL_LINK_NOTE_KA, rel: 'noopener noreferrer external' },
-  ];
 }

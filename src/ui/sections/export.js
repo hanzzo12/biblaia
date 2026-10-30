@@ -1,7 +1,6 @@
 // სცენარის JSON ექსპორტი/იმპორტი, ადგილობრივი შენახვა (მხოლოდ ღილაკით), ბეჭდვა.
 import { h, replace } from '../dom.js';
 import * as core from '../../core/index.js';
-import { validateManualRecord } from '../../providers/market-contract.js';
 
 export const STORAGE_KEY = 'rotationCalc.scenario.v1';
 const MAX_BYTES = 256 * 1024;
@@ -15,7 +14,8 @@ export function mountExport(root, store, { load, reset }) {
   const fileDoc = () => ({
     kind: 'rotation-scenario', schemaVersion: core.SCENARIO_SCHEMA_VERSION ?? 1,
     appVersion: store.meta.appVersion, rulesVersion: store.data.rulesVersion, dataSha256: store.meta.dataSha,
-    exportedAt: new Date().toISOString(), scenario: store.coreScenario ? store.coreScenario() : store.scenario, marketManual: store.market?.manualRecords ?? [],
+    exportedAt: new Date().toISOString(), scenario: store.coreScenario ? store.coreScenario() : store.scenario,
+    compare: (store.ui.compare || []).map((c) => ({ missionId: c.missionId, rent: c.rent ?? null })),
   });
 
   /** @returns {{ok:boolean, errors:string[], warnings:string[], doc?:any}} */
@@ -27,9 +27,13 @@ export function mountExport(root, store, { load, reset }) {
     if (doc.schemaVersion !== (core.SCENARIO_SCHEMA_VERSION ?? 1)) return { ok: false, errors: [`სქემის ვერსია (${String(doc.schemaVersion).slice(0, 20)}) არ არის მხარდაჭერილი.`], warnings: [] };
     const v = core.validateScenario(doc.scenario, store.data);
     const errors = v.ok ? [] : v.errors.map((e) => `${e.path}: ${e.message_ka}`);
-    const recs = Array.isArray(doc.marketManual) ? doc.marketManual : [];
-    if (doc.marketManual !== undefined && !Array.isArray(doc.marketManual)) errors.push('marketManual: უნდა იყოს მასივი.');
-    recs.forEach((r, i) => { const x = validateManualRecord(r, { allowedCurrencies: ['EUR', 'USD'] }); if (!x.ok) errors.push(`marketManual[${i}]: ${x.errors.join(', ')}`); });
+    if (doc.compare !== undefined) {
+      if (!Array.isArray(doc.compare) || doc.compare.length > 5) errors.push('compare: უნდა იყოს მასივი (მაქს. 5).');
+      else doc.compare.forEach((c, i) => {
+        if (!c || typeof c.missionId !== 'string' || !core.resolveMission(store.data, c.missionId)) errors.push(`compare[${i}].missionId: უცნობი დაწესებულება.`);
+        if (c && c.rent !== null && c.rent !== undefined) { const p = core.parseDecimalInput(c.rent); if (!p.ok || typeof c.rent !== 'string') errors.push(`compare[${i}].rent: ${p.error_ka ?? 'არასწორი თანხა.'}`); }
+      });
+    }
     const warnings = doc.rulesVersion && doc.rulesVersion !== store.data.rulesVersion ? [`ფაილი შექმნილია წესების სხვა ვერსიით (${String(doc.rulesVersion).slice(0, 80)}); შედეგი გადაითვალა მიმდინარე ვერსიით.`] : [];
     return { ok: errors.length === 0, errors, warnings, doc };
   }
@@ -54,7 +58,7 @@ export function mountExport(root, store, { load, reset }) {
     const res = f.size > MAX_BYTES ? { ok: false, errors: ['ფაილი ძალიან დიდია (მაქს. 256 KB).'], warnings: [] } : check(await f.text());
     file.value = '';
     if (!res.ok) { say('იმპორტი უარყოფილია — მიმდინარე ფორმა არ შეცვლილა.', 'error', res.errors); return; }
-    load(res.doc.scenario, res.doc.marketManual || []);
+    load(res.doc.scenario, { compare: res.doc.compare || [] });
     say('სცენარი იმპორტირებულია.', 'ok', res.warnings);
   });
 
@@ -76,7 +80,7 @@ export function mountExport(root, store, { load, reset }) {
       try { text = storage().getItem(STORAGE_KEY); } catch { text = null; }
       const res = check(text ?? '');
       if (!res.ok) { say('შენახული სცენარი ვერ აღდგა.', 'error', res.errors); return; }
-      load(res.doc.scenario, res.doc.marketManual || []);
+      load(res.doc.scenario, { compare: res.doc.compare || [] });
       say('შენახული სცენარი აღდგენილია.', 'ok', res.warnings);
     });
     replace(restoreBox, b);

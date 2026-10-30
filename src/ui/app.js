@@ -8,9 +8,12 @@ import { mountFamily } from './sections/family.js';
 import { mountExpenses, syncInsurance } from './sections/expenses.js';
 import { mountResults } from './sections/results.js';
 import { mountExport } from './sections/export.js';
+import { mountCompare } from './sections/compare.js';
+import { createMarketService } from './market-service.js';
 import * as core from '../core/index.js';
 
 export function startApp({ data, meta, online, client }) {
+  void h;
   const fresh = () => { const sc = core.emptyScenario(); if (sc.period.mode === 'full-month' && !sc.period.month) sc.period.month = currentMonth(); return sc; };
   const store = createStore(data, fresh());
   store.meta = meta;
@@ -29,8 +32,9 @@ export function startApp({ data, meta, online, client }) {
       expenses.updateRentNotes();
     },
   });
+  const service = createMarketService({ online, client });
   const market = mountMarket($('#sec-market'), store, {
-    online, client, fundingCurrency,
+    service, fundingCurrency,
     onUseRent({ amount, marketRef }) {
       const r = store.scenario.rent;
       r.amount = amount; r.basis = 'market-scenario'; r.marketRef = marketRef;
@@ -40,43 +44,44 @@ export function startApp({ data, meta, online, client }) {
       document.getElementById(store.ids['rent.amount'])?.focus();
     },
   });
-  const position = mountPosition($('#sec-position'), store);
+  const position = mountPosition($('#sec-position'), $('#adv-status'), store);
   const family = mountFamily($('#sec-family'), store, { onMembersChange: () => syncInsurance(store.scenario) });
-  const expenses = mountExpenses($('#sec-expenses'), store);
+  const expenses = mountExpenses($('#sec-expenses'), $('#adv-expenses'), store);
   const results = mountResults($('#sec-results'), store, {
     marketSummary() {
-      const m = store.market;
-      if (!m?.locationId) return null;
-      const own = (m.manualRecords || []).filter((r) => r.locationId === m.locationId);
-      const md = own.length ? null : m.md;
-      const recRent = own.find((r) => r.metricType === 'rent' && r.metric === m.metric);
-      const recIdx = own.find((r) => r.metricType === 'index' && r.metric === 'costOfLivingExcludingRent');
-      const item = md?.rent?.items?.[m.metric];
-      return {
-        metric: m.metric,
-        rent: recRent?.value ?? item?.average ?? null, currency: recRent?.currency ?? md?.currency ?? null,
-        rentStatus: recRent ? 'manual' : (item?.status ?? md?.rent?.status),
-        index: recIdx?.value ?? md?.indices?.costOfLivingExcludingRent ?? null,
-        indexStatus: recIdx ? 'manual' : md?.indices?.status,
-        source: recRent?.source?.name ?? recIdx?.source?.name ?? md?.provider?.name ?? null,
-      };
+      const x = market.summary();
+      if (!x) return null;
+      const metric = `${x.area}_${x.bedrooms}br`;
+      return { metric, rent: x.md.rent?.items?.[metric]?.average ?? null, currency: x.md.currency, rentStatus: x.md.rent?.status ?? x.md.status,
+        index: x.md.indices?.costOfLiving ?? null, indexStatus: x.md.indices?.status ?? x.md.status, source: x.md.provider?.attribution_ka ?? x.md.provider?.name ?? null };
     },
   });
+  const compareSec = $('#sec-compare');
+  const compare = mountCompare($('#compare-body'), store, { service });
+  const openCompare = (show = true) => {
+    compareSec.hidden = !show;
+    for (const b of document.querySelectorAll('[data-open-compare]')) b.setAttribute('aria-expanded', String(show));
+    if (show) { compare.render(); compareSec.scrollIntoView({ behavior: 'smooth', block: 'start' }); compareSec.querySelector('select')?.focus({ preventScroll: true }); }
+  };
+  for (const b of document.querySelectorAll('[data-open-compare]')) b.addEventListener('click', () => openCompare(compareSec.hidden));
+  $('#compare-close')?.addEventListener('click', () => { openCompare(false); document.querySelector('[data-open-compare]')?.focus(); });
   mountExport($('#sec-export'), store, {
-    load(scenario, records) {
+    load(scenario, extra = {}) {
       store.scenario = clone(scenario);
       for (const k of ['raw', 'errors', 'ids']) store[k] = {};
       store.ui.rentHeadTouched = true;
       store.ui.rentLocationId = null;
       syncInsurance(store.scenario);
-      store.market.manualRecords = clone(records);
+      compare.setColumns(Array.isArray(extra.compare) ? extra.compare : []);
+      if (store.ui.compare.length) openCompare(true);
       rerenderAll();
     },
     reset() {
       store.scenario = fresh();
       for (const k of ['raw', 'errors', 'ids']) store[k] = {};
       Object.assign(store.ui, { countryId: null, locationId: null, rentLocationId: null, rentHeadTouched: false, notice: null });
-      store.market.manualRecords = [];
+      compare.setColumns([]);
+      openCompare(false);
       syncInsurance(store.scenario);
       rerenderAll();
     },
@@ -92,7 +97,7 @@ export function startApp({ data, meta, online, client }) {
   }
 
   store.on('structure', (section) => {
-    if (section === 'family') { syncInsurance(store.scenario); expenses.render(); }
+    if (section === 'family') { syncInsurance(store.scenario); expenses.render(); market.render(); }
     if (section === 'period') { family.render(); expenses.render(); }
   });
 
@@ -125,6 +130,7 @@ export function startApp({ data, meta, online, client }) {
     try { results.render(result, err); } catch (e) { results.render(null, 'ჩვენების შეცდომა: ' + String(e?.message || e)); console.error(e); }
     family.updateEligibility(result);
     expenses.updateRentNotes();
+    if (!compareSec.hidden && store.ui.compare.length) compare.render();
     clearTimeout(printTimer);
     printTimer = setTimeout(buildPrintInputs, 300);
   });

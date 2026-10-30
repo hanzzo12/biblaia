@@ -6,24 +6,26 @@ import {
 } from '../../src/providers/index.js';
 
 const rec = (o = {}) => ({
-  kind: 'manual-market-record', schemaVersion: 1, origin: 'json-import', locationId: 'AT-VIENNA', city: 'Vienna', countryCode: 'AT',
+  kind: 'manual-market-record', schemaVersion: 2, origin: 'json-import', locationId: 'AT-VIENNA', city: 'Vienna', countryCode: 'AT',
   metricType: 'rent', metric: 'centre_1br', value: '1200', currency: 'EUR',
   source: { name: 'Synthetic agency', url: 'https://example.org/x' }, sourceDate: '2026-09', enteredAt: '2026-10-29T09:00:00Z', ...o,
 });
-const idx = (o = {}) => rec({ metricType: 'index', metric: 'costOfLivingExcludingRent', value: '61', currency: null, baseline: { label: 'New York City', value: '100' }, ...o });
-const file = (records) => JSON.stringify({ kind: 'market-import', schemaVersion: 1, records });
+const idx = (o = {}) => rec({ metricType: 'index', metric: 'costOfLiving', value: '61', currency: null, ...o });
+const file = (records) => JSON.stringify({ kind: 'market-import', schemaVersion: 2, records });
 
 test('valid import → MarketData marked manual, never provider/fresh', () => {
   const r = parseManualMarketJson(file([rec(), idx()]), { allowedCurrencies: ['EUR', 'USD'] });
   assert.equal(r.ok, true, JSON.stringify(r.errors));
   const md = marketDataFromManualRecords('AT-VIENNA', r.data.records);
   assert.ok(validateMarketData(md).ok);
-  assert.equal(md.rent.items.centre_1br.status, 'manual');
-  assert.equal(md.rent.items.centre_1br.origin, 'json-import');
+  assert.deepEqual(md.rent.items.centre_1br, { average: '1200', low: null, high: null });
+  assert.equal(md.rent.status, 'manual');
+  assert.equal(md.status, 'manual');
+  assert.equal(md.sourceUpdatedAt, '2026-09');
   assert.equal(md.indices.status, 'manual');
   assert.equal(md.provider, null);
   assert.ok(md.warnings.some((w) => w.code === 'manual_entry'));
-  const forged = structuredClone(md); forged.rent.items.centre_1br.status = 'fresh';
+  const forged = structuredClone(md); forged.rent.status = 'not_found';
   assert.equal(validateMarketData(forged).ok, false);
 });
 
@@ -38,11 +40,11 @@ test('errors are structured { path, code, message_ka }', () => {
 test('rejects invalid JSON, wrong schema, unknown fields, too large', () => {
   assert.equal(parseManualMarketJson('{not json').errors[0].code, 'invalid_json');
   assert.equal(parseManualMarketJson(null).ok, false);
-  assert.ok(parseManualMarketJson(JSON.stringify({ kind: 'market-import', schemaVersion: 2, records: [rec()] })).errors.some((e) => e.code === 'unsupported'));
-  assert.ok(parseManualMarketJson(JSON.stringify({ kind: 'x', schemaVersion: 1, records: [] })).errors.some((e) => e.path === 'kind'));
+  assert.ok(parseManualMarketJson(JSON.stringify({ kind: 'market-import', schemaVersion: 1, records: [rec()] })).errors.some((e) => e.code === 'unsupported'));
+  assert.ok(parseManualMarketJson(JSON.stringify({ kind: 'x', schemaVersion: 2, records: [] })).errors.some((e) => e.path === 'kind'));
   assert.ok(parseManualMarketJson(file([{ ...rec(), extra: 1 }])).errors.some((e) => e.code === 'unknown_field'));
   assert.ok(parseManualMarketJson(file([{ ...rec(), __proto__polluted: 1 }])).errors.some((e) => e.code === 'unknown_field'));
-  assert.ok(parseManualMarketJson('{"__proto__": {"x": 1}, "kind": "market-import", "schemaVersion": 1, "records": []}').errors.some((e) => e.code === 'unknown_field'));
+  assert.ok(parseManualMarketJson('{"__proto__": {"x": 1}, "kind": "market-import", "schemaVersion": 2, "records": []}').errors.some((e) => e.code === 'unknown_field'));
   assert.equal(parseManualMarketJson(' '.repeat(300 * 1024)).errors[0].code, 'too_large');
 });
 
@@ -77,12 +79,15 @@ test('manual form record (origin manual) validates; source date may be unknown',
   assert.equal(r.ok, true, JSON.stringify(r.errors));
 });
 
-test('contract: country-level rent and values with matchStatus none are rejected', () => {
+test('contract: values with matchStatus none rejected; empty data valid; value statuses need values', () => {
   const md = marketDataFromManualRecords('AT-VIENNA', [rec()]);
-  const c = structuredClone(md); c.resolvedLocation.matchStatus = 'country-level';
-  assert.ok(validateMarketData(c).errors.includes('rent: country_level_rent_not_allowed_as_city_rent'));
   const n = structuredClone(md); n.resolvedLocation.matchStatus = 'none';
   assert.ok(validateMarketData(n).errors.includes('resolvedLocation.matchStatus: none_but_values_present'));
+  const z = structuredClone(md); z.rent.items.centre_1br.average = '0';
+  assert.ok(validateMarketData(z).errors.includes('rent.items.centre_1br.average: not_positive_decimal'));
+  const two = structuredClone(md); two.rent.items.centre_2br = null;
+  assert.ok(validateMarketData(two).errors.includes('rent.items.centre_2br: unknown_field'));
   assert.ok(validateMarketData(createEmptyMarketData('AT-VIENNA', 'not_configured')).ok);
+  assert.ok(validateMarketData(createEmptyMarketData('AT-VIENNA', 'disabled')).ok);
   assert.throws(() => createEmptyMarketData('AT-VIENNA', 'fresh'));
 });

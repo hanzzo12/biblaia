@@ -1,6 +1,6 @@
 {
   // Cloudflare Workers Static Assets + /api/market. შემოწმებულია wrangler 4.155.0-ით (deploy --dry-run).
-  // აქ მხოლოდ არასაიდუმლო პარამეტრებია. საჯარო (Eurostat) რეჟიმს საიდუმლო არ სჭირდება.
+  // აქ მხოლოდ არასაიდუმლო პარამეტრებია. APIFY_TOKEN → `npx wrangler secret put APIFY_TOKEN` (ლოკალურად — .dev.vars).
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "rotation-calculator",
   "main": "worker/index.js",
@@ -14,24 +14,26 @@
     "run_worker_first": ["/api/*"]
   },
   "vars": {
-    // საჯარო ვერსია (ADR-002): Eurostat-ის ოფიციალური კოეფიციენტები, გასაღები არ სჭირდება.
-    // "numbeo" — მხოლოდ Numbeo-ს ლიცენზიით + `wrangler secret put NUMBEO_API_KEY` (იხ. docs/deploy.md, დანართი ა).
-    "MARKET_PROVIDER": "eurostat",
-    // Eurostat-ის ლიცენზია ქეშირებას უშვებს: 24 სთ. Numbeo-ს რეჟიმში დააყენეთ "0" ლიცენზიის დადასტურებამდე.
-    "MARKET_CACHE_TTL_SECONDS": "86400",
-    // ვადაგასული ასლის ჩვენება upstream შეცდომისას (წამი; 7 დღე). მოქმედებს მხოლოდ TTL > 0-ისას.
-    "MARKET_STALE_MAX_SECONDS": "604800",
-    "MARKET_UPSTREAM_TIMEOUT_MS": "8000",
-    "MARKET_ALLOWED_CURRENCIES": "EUR,USD",
-    // მხოლოდ Numbeo-ს რეჟიმისთვის: "true" ლიცენზიის დადასტურების შემდეგ.
-    "MARKET_LICENSE_CONFIRMED": "false"
+    // "apify" (ნაგულისხმევი) | "off" — ბაზრის მონაცემების სრული გამორთვა (status "disabled").
+    "MARKET_PROVIDER": "apify",
+    "MARKET_CACHE_TTL_DAYS": "30",
+    // ვადაგასული ასლის ჩვენება upstream-ის ჩავარდნისას (დღე).
+    "MARKET_STALE_MAX_DAYS": "365",
+    // Apify-ის სინქრონული გაშვების ლოდინი (მწმ); განმეორებითი ცდა არ არის.
+    "MARKET_UPSTREAM_TIMEOUT_MS": "90000",
+    "MARKET_ALLOWED_CURRENCIES": "EUR,USD"
   },
+  // Workers KV ქეში. შექმნა: `npx wrangler kv namespace create MARKET_CACHE` → დაბეჭდილი id ჩასვით ქვემოთ.
+  // KV-ის გარეშე (id არ არის) Worker იყენებს Cache API-ს/მეხსიერებას — ამისთვის ეს ბლოკი წაშალეთ.
+  "kv_namespaces": [
+    { "binding": "MARKET_CACHE", "id": "REPLACE_WITH_KV_NAMESPACE_ID" }
+  ],
   "ratelimits": [
-    // მიახლოებითი ლიმიტი თითო Cloudflare ლოკაციაზე; period მხოლოდ 10 ან 60.
-    { "name": "MARKET_RATE_LIMITER", "namespace_id": "4201", "simple": { "limit": 60, "period": 60 } }
+    // მიახლოებითი ლიმიტი თითო IP-ზე და Cloudflare ლოკაციაზე; period მხოლოდ 10 ან 60.
+    { "name": "MARKET_RATE_LIMITER", "namespace_id": "4201", "simple": { "limit": 20, "period": 60 } }
   ],
   "observability": { "enabled": true },
-  // საჯარო გვერდი: workers.dev ან საკუთარი დომენი. Access საჭირო არ არის (ADR-002).
+  // საჯარო გვერდი: workers.dev ან საკუთარი დომენი (ADR-003).
   "workers_dev": true,
   "preview_urls": false
 }

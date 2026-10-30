@@ -5,59 +5,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; font-src data:; img-src data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
-<title>დიპლომატიური როტაციის კალკულატორი</title>
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="როტაციით მივლინების თვიური თანხის კალკულატორი — ბრძანება №01-82">
+<title>როტაციის კალკულატორი</title>
 <!-- @inline-styles -->
 </head>
 <body>
 <a class="skip" href="#sec-results">შედეგზე გადასვლა</a>
-<header class="app-header">
-  <h1>დიპლომატიური როტაციის კალკულატორი</h1>
-  <p class="sub">ბრძანება №01-82 · წესების ვერსია: <span data-meta="rulesVersion"></span> · <span id="run-mode"></span></p>
-  <nav aria-label="სექციები" class="no-print">
-    <ol class="toc">
-      <li><a href="#h-location">1. ადგილი</a></li>
-      <li><a href="#h-position">2. თანამდებობა და პერიოდი</a></li>
-      <li><a href="#h-family">3. ოჯახი</a></li>
-      <li><a href="#h-expenses">4. ქირა და ხარჯები</a></li>
-      <li><a href="#results-title">5. შედეგი</a></li>
-    </ol>
-  </nav>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <h1>როტაციის კალკულატორი</h1>
+      <p class="tagline">სამივლინებო თანხა ბრძანება №01-82-ის მიხედვით · <span id="run-mode"></span></p>
+    </div>
+    <div class="top-actions no-print">
+      <button type="button" class="btn ghost on-dark" data-open-compare aria-controls="sec-compare" aria-expanded="false">შედარება</button>
+    </div>
+  </div>
 </header>
-<noscript><p class="error-box">კალკულატორს სჭირდება JavaScript. ფაილი მუშაობს ინტერნეტის გარეშე.</p></noscript>
 <section id="print-inputs" class="print-only" aria-hidden="true"></section>
+<noscript><p class="error-box">კალკულატორს სჭირდება JavaScript.</p></noscript>
 <main class="layout">
   <form id="form" class="form" autocomplete="off" novalidate>
-    <section class="sec" aria-labelledby="h-location">
-      <h2 id="h-location">1. ქვეყანა, ქალაქი და დაწესებულება</h2>
+    <section class="card step" aria-labelledby="h-location">
+      <div class="step-head"><span class="step-no" aria-hidden="true">1</span><h2 id="h-location">სად მიდიხართ?</h2></div>
       <div id="sec-location-fields"></div>
       <div id="sec-market"></div>
     </section>
-    <section class="sec" aria-labelledby="h-position">
-      <h2 id="h-position">2. რეჟიმი, თანამდებობა, სტატუსი და პერიოდი</h2>
+    <section class="card step" aria-labelledby="h-position">
+      <div class="step-head"><span class="step-no" aria-hidden="true">2</span><h2 id="h-position">თქვენი თანამდებობა</h2></div>
       <div id="sec-position"></div>
     </section>
-    <section class="sec" aria-labelledby="h-family">
-      <h2 id="h-family">3. ოჯახი და პირობები</h2>
-      <p class="hint">სახელი არ ითხოვება. თითო უფლება (დანამატი, მოწყობა, დაზღვევა, მგზავრობა, განათლება) ცალკე დგინდება.</p>
+    <section class="card step" aria-labelledby="h-family">
+      <div class="step-head"><span class="step-no" aria-hidden="true">3</span><h2 id="h-family">ოჯახი</h2></div>
       <div id="sec-family"></div>
     </section>
-    <section class="sec" aria-labelledby="h-expenses">
-      <h2 id="h-expenses">4. ქირა, განათლება და სხვა ხარჯები</h2>
+    <section class="card step" aria-labelledby="h-expenses">
+      <div class="step-head"><span class="step-no" aria-hidden="true">4</span><h2 id="h-expenses">ქირა და განათლება</h2></div>
       <div id="sec-expenses"></div>
     </section>
+    <details class="card adv" id="adv">
+      <summary><span class="adv-title">დამატებითი პირობები</span><span class="hint"> სპეციალური სტატუსი, პერიოდი, დაზღვევა, მაკლერი, ბარგი, მოწყობა, მგზავრობა, ავანსი</span></summary>
+      <div id="adv-status"></div>
+      <div id="adv-expenses"></div>
+    </details>
   </form>
-  <aside class="results" id="sec-results-wrap">
-    <section id="sec-results" class="sec" aria-labelledby="results-title" tabindex="-1">
-      <h2 id="results-title">5. შედეგი</h2>
+  <aside class="results">
+    <section id="sec-results" class="card result-card" aria-labelledby="results-title" tabindex="-1">
+      <h2 id="results-title" class="sr-only">შედეგი</h2>
     </section>
-    <section class="sec no-print" aria-label="ექსპორტი და ბეჭდვა">
+    <section class="card tools no-print" aria-label="შენახვა, ექსპორტი და ბეჭდვა">
       <div id="sec-export"></div>
     </section>
   </aside>
 </main>
-<footer class="app-footer">
+<section id="sec-compare" class="compare card" aria-labelledby="h-compare" hidden>
+  <div class="compare-head">
+    <h2 id="h-compare">შედარება</h2>
+    <button type="button" class="btn ghost no-print" id="compare-close">დახურვა</button>
+  </div>
+  <div id="compare-body"></div>
+</section>
+<footer class="foot">
   <p>საინფორმაციო გაანგარიშება; ოფიციალური თანხა დგინდება შესაბამისი აქტით. წყარო: ბრძანება №01-82 და დანართები №1–10 (მოწოდებული სამუშაო ასლი).</p>
-  <p class="meta">წესების ვერსია: <span data-meta="rulesVersion"></span> · მონაცემების SHA-256: <span data-meta="dataSha"></span> · ვერსია <span data-meta="appVersion"></span> · აწყობა <span data-meta="buildDate"></span></p>
+  <p class="meta">წესების ვერსია <span data-meta="rulesVersion"></span> · მონაცემები SHA-256 <span data-meta="dataSha"></span> · ვერსია <span data-meta="appVersion"></span> (<span data-meta="buildDate"></span>)</p>
 </footer>
 <!-- @inline-script -->
 </body>

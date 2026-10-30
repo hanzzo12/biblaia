@@ -77,17 +77,68 @@ export function mountResults(root, store, { marketSummary }) {
     const ruleIds = [...collectRuleIds(r)].sort();
     const srcs = store.data.sourceReferences || [];
 
+
+    const missingList = missing.length ? h('div', { class: 'missing' }, h('p', null, 'სრული შედეგისთვის შეავსეთ:'),
+      h('ul', null, missing.map((x) => h('li', null, link(x.path, x.message_ka || x.path))))) : null;
+    function hero() {
+      const S = m.S;
+      const scen = S?.status === 'scenario' || store.scenario.rent.basis === 'market-scenario';
+      return h('div', { class: 'hero' },
+        h('p', { class: 'hero-label' }, L.S),
+        h('p', { class: 'hero-value' }, h('span', { 'data-value': S?.value ?? '', 'data-testid': 'S' }, S?.value != null ? fmt(S.value, cur) : '—'),
+          S?.value != null ? h('span', { class: 'per' }, ' / თვე') : null),
+        h('p', { class: 'hero-sub' },
+          h('span', { class: `pill cp-${r.completeness ?? 'none'}`, 'data-testid': 'completeness', 'data-completeness': r.completeness ?? '' }, COMPLETENESS[r.completeness] ?? 'დაუდგენელი'),
+          scen ? h('span', { class: 'pill cs-scenario' }, 'სცენარი: ქირა საბაზრო ფასიდან') : null,
+          S?.value == null && S?.reason_ka ? h('span', { class: 'hint' }, ' ' + S.reason_ka) : null),
+        missingList);
+    }
+    function kc(label, c, note) {
+      if (!c) return null;
+      const v = vOf(c);
+      return h('div', { class: 'kcard', 'data-component': c.id ?? null },
+        h('span', { class: 'k-label' }, label),
+        h('span', { class: 'k-value' + (v != null && String(v).startsWith('-') ? ' neg' : ''), 'data-value': v ?? '' }, v == null ? '—' : fmt(v, c.currency ?? cur)),
+        c.status && c.status !== 'calculated' ? statusBadge(c.status) : null,
+        note ? h('span', { class: 'k-note' }, note) : null);
+    }
+    function keyCards() {
+      const edEntered = (store.scenario.education || []).length > 0;
+      return h('div', { class: 'kcards' },
+        r.periodTotal ? kc('პერიოდის ჯამი', r.periodTotal) : null,
+        kc('დარჩება ქირისა და განათლების შემდეგ', r.remainder?.value, 'სხვა ყოველდღიური ხარჯები არ აკლდება'),
+        kc('ქირის ანაზღაურება (F)', m.F),
+        m.uncoveredRent?.value && Number(m.uncoveredRent.value) > 0 ? kc('ქირის თქვენი წილი', m.uncoveredRent) : null,
+        edEntered ? kc('განათლების ანაზღაურება', ed.total) : null,
+        edEntered && ed.personal?.value && Number(ed.personal.value) > 0 ? kc('განათლების თქვენი წილი', ed.personal) : null);
+    }
+    function oneTimeCompact() {
+      const items = [];
+      const add = (label, c) => { if (c && c.status !== 'not_applicable') items.push([label, c]); };
+      add('პირველადი მოწყობა', r.oneTimeAllowances?.settlement);
+      add('მაკლერი', otr.broker);
+      if (store.scenario.baggage) add('ბარგი', bag?.reimbursable);
+      (otr.travel || []).forEach((c, i) => add(`მგზავრობა ${i + 1}`, c));
+      (otr.extras || []).forEach((c, i) => add(c.label_ka || `ხარჯი ${i + 1}`, c));
+      const caps = ins.filter((p) => vOf(p.annualCap) != null);
+      if (!items.length && !caps.length && !(r.advances || []).length) return null;
+      return h('section', { class: 'onetime', 'aria-labelledby': 'ot-title' }, h('h3', { id: 'ot-title' }, 'ერთჯერადი თანხები და ზღვრები'),
+        items.length ? h('ul', { class: 'plain' }, items.map(([label, c]) => h('li', null, h('span', null, label), h('span', { class: 'v', 'data-value': vOf(c) ?? '' }, vOf(c) == null ? 'დაუდგენელი' : fmt(c, c.currency ?? cur)), c.status !== 'calculated' ? statusBadge(c.status) : null))) : null,
+        caps.length ? h('p', { class: 'hint' }, 'დაზღვევის წლიური ზღვარი (არ არის გასაცემი თანხა): ',
+          caps.map((p) => `${p.personId === 'EMP' ? 'თქვენ' : (store.scenario.family.find((f) => f.id === p.personId)?.label ?? p.personId)} — ${fmt(p.annualCap, p.annualCap?.currency ?? cur)}`).join('; ')) : null,
+        (r.advances || []).length ? h('p', { class: 'hint' }, `ავანსი: ${r.advances.map((a) => fmt(a.amount, cur) ?? '—').join(', ')} — დასაბრუნებელია, შემოსავალი არ არის.`) : null);
+    }
+
     replace(body,
       calcError ? h('div', { class: 'error-box', role: 'alert' }, 'გაანგარიშება ვერ შესრულდა: ', calcError) : null,
-      h('div', { class: `completeness cp-${r.completeness ?? 'none'}`, 'data-testid': 'completeness', 'data-completeness': r.completeness ?? '' },
-        h('strong', null, 'სისრულე: '), COMPLETENESS[r.completeness] ?? 'დაუდგენელი'),
-      missing.length ? h('div', { class: 'missing' }, h('p', null, 'სრული შედეგისთვის საჭიროა:'),
-        h('ul', null, missing.map((x) => h('li', null, link(x.path, x.message_ka || x.path))))) : null,
-      fieldErrors.length ? h('div', { class: 'error-box', role: 'alert' }, h('p', null, 'შეასწორეთ ველები (არასწორი მნიშვნელობა გაანგარიშებაში უცნობად ითვლება):'),
-        h('ul', null, fieldErrors.map(([path, msg]) => h('li', null, link(path, `${path}: ${msg}`))))) : null,
-
+      hero(),
+      fieldErrors.length ? h('div', { class: 'error-box', role: 'alert' }, h('p', null, 'შეასწორეთ ველები (არასწორი მნიშვნელობა უცნობად ითვლება):'),
+        h('ul', null, fieldErrors.map(([path, msg]) => h('li', null, link(path, msg))))) : null,
+      keyCards(),
+      oneTimeCompact(),
+      (r.errors || []).length ? h('ul', { class: 'errors compact' }, r.errors.map((w) => h('li', { 'data-code': w.code }, link(w.path, w.message_ka)))) : null,
+      h('details', { class: 'details-all', 'data-testid': 'details' }, h('summary', null, 'როგორ დაითვალა / დეტალები'),
       block('res-monthly', '1. ' + L.S,
-        h('div', { class: 'big', 'data-component': 'S-big' }, h('span', { 'data-value': m.S?.value ?? '', 'data-testid': 'S' }, m.S?.value != null ? fmt(m.S.value, cur) : 'დაუდგენელი'), ' ', statusBadge(m.S?.status)),
         h('details', { class: 'how', open: true }, h('summary', null, 'როგორ დაითვალა'),
           h('p', { class: 'formula' }, 'D = H × A × K × (1 + Q × C);  T = D × E;  S = D − T + F'),
           ['H', 'A', 'K', 'C', 'Q', 'D', 'E', 'T', 'DminusT', 'G', 'F', 'S', 'uncoveredRent', 'rentSurplus'].map((k) => compRow(m[k], MONTHLY[k]))),
@@ -175,7 +226,7 @@ export function mountResults(root, store, { marketSummary }) {
           h('ul', { class: 'rules' }, ruleIds.map((id) => { const e = catalogEntry(id); return h('li', null, h('code', null, id), e ? ` — ${e.title_ka ?? e.title ?? ''}${e.source_ka || e.source ? ` (${e.source_ka ?? e.source})` : ''}` : ''); }))) : null,
         h('h4', null, 'წყაროები'),
         h('ul', { class: 'sources' }, srcs.map((s) => h('li', null, `${s.title}${s.pages ? `, გვ. ${s.pages.join('–')}` : ''}`))),
-        h('p', { class: 'meta', 'data-testid': 'versions' }, `წესების ვერსია: ${r.rulesVersion ?? store.data.rulesVersion} · მონაცემების SHA-256: ${store.meta.dataSha} · აპის ვერსია: ${store.meta.appVersion} · აწყობა: ${store.meta.buildDate}`)));
+        h('p', { class: 'meta', 'data-testid': 'versions' }, `წესების ვერსია: ${r.rulesVersion ?? store.data.rulesVersion} · მონაცემების SHA-256: ${store.meta.dataSha} · აპის ვერსია: ${store.meta.appVersion} · აწყობა: ${store.meta.buildDate}`))));
   }
 
   return { render };

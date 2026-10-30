@@ -1,4 +1,4 @@
-# ლოკალური საიდუმლოებები `npx wrangler dev`-ისთვის: cp .dev.vars.example .dev.vars
-# საჯარო (Eurostat) რეჟიმს საიდუმლო არ სჭირდება — ფაილი შეიძლება საერთოდ არ შექმნათ.
-# NUMBEO_API_KEY მხოლოდ არჩევითი, ლიცენზირებული Numbeo რეჟიმისთვისაა (MARKET_PROVIDER=numbeo). .dev.vars არასოდეს ატვირთოთ git-ში.
-NUMBEO_API_KEY=""
+# ლოკალური საიდუმლოებები `npx wrangler dev`-ისთვის: cp .dev.vars.example .dev.vars და ჩაწერეთ თქვენი Apify ტოკენი.
+# .dev.vars არასოდეს ატვირთოთ git-ში ან არქივში (ის .gitignore-შია). ცარიელი ტოკენი = „წყარო არ არის კონფიგურირებული“.
+APIFY_TOKEN=""
+MARKET_PROVIDER="apify"

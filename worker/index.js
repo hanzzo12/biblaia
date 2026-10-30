@@ -1,266 +1,241 @@
 // @ts-check
 /**
- * Cloudflare Worker: Static Assets (dist/web) + `/api/market`.
+ * Cloudflare Worker: Static Assets (dist/web) + ბაზრის მონაცემები (ADR-003).
  *
- *   GET /api/market?location=<შიდა ID>&currency=<EUR|USD>  → MarketData (JSON)
- *   GET /api/market/health                                 → კონფიგურაციის მდგომარეობა (საიდუმლოს გარეშე)
+ *   GET /api/market?location=<შიდა ID>&currency=<EUR|USD>  → MarketData v2
+ *   GET /api/market/health                                 → პროვაიდერი, ტოკენი კონფიგურირებულია თუ არა, ქეშის backend, რუკის ზომა
  *
- * უსაფრთხოება:
- *  - მხოლოდ ეს ორი მარშრუტი; სხვა `/api/*` → 404; სხვა მეთოდი → 405; უცნობი პარამეტრი → 400.
- *    upstream URL-ს, ქალაქის სახელს ან `query`-ს მომხმარებელი ვერ გადასცემს.
- *  - ავთენტიფიკაცია — Cloudflare Access (Worker-ის წინ). CORS/Origin ავთენტიფიკაცია არ არის; CORS სათაურები არ ემატება.
- *  - `NUMBEO_API_KEY` მხოლოდ Secret-შია. ლოგებში: ლოკაცია, ვალუტა, სტატუსები, HTTP კოდები, ხანგრძლივობა. არასოდეს: გასაღები,
- *    upstream URL, IP, Access-ის identity ან მომხმარებლის ფინანსური მონაცემები.
- *  - პროვაიდერი: `MARKET_PROVIDER` = "eurostat" (ნაგულისხმევი; გასაღები არ სჭირდება, ქეში 24 სთ)
- *    ან "numbeo" (მხოლოდ ლიცენზიით + `NUMBEO_API_KEY` Secret; ქეში ნაგულისხმევად 0). საჯარო გვერდზე Numbeo არ ირთვება (ADR-002).
+ *  - წყარო: Apify actor automation-lab/numbeo-scraper (`MARKET_PROVIDER=apify`, ნაგულისხმევი); `off` — გამორთვა (status `disabled`).
+ *  - `APIFY_TOKEN` მხოლოდ Secret-ში; იგზავნება `Authorization: Bearer`-ით; არასოდეს URL-ში, ლოგში ან პასუხში.
+ *  - ქეში: Workers KV `MARKET_CACHE` → (არარსებობისას) Cache API → მეხსიერება. TTL `MARKET_CACHE_TTL_DAYS` (30).
+ *    შეცდომა არ ქეშირდება; upstream-ის ჩავარდნისას ბრუნდება ვადაგასული ასლი (`stale`) `MARKET_STALE_MAX_DAYS`-ის ფარგლებში.
+ *    rankings (ინდექსები ყველა ქალაქისთვის) ქეშირდება ცალკე, ერთი გამოძახებით.
+ *  - მხოლოდ location/currency პარამეტრები; უცნობი → 400. CORS სათაურები არ ემატება. Rate limit — IP-ზე (IP არ ილოგება).
  */
 
-import { MARKET_SCHEMA_VERSION, createEmptyMarketData, validateMarketData } from '../src/providers/market-contract.js';
-import { fetchNumbeoMarket, NUMBEO_PROVIDER, NUMBEO_ALLOWED_CURRENCIES, ERROR_STATUSES } from '../src/providers/numbeo-adapter.js';
-import { fetchEurostatMarket, EUROSTAT_PROVIDER } from '../src/providers/eurostat-adapter.js';
-import realCityMap from '../src/providers/numbeo-city-map.json' with { type: 'json' };
-import realGeoMap from '../src/providers/eurostat-geo-map.json' with { type: 'json' };
+import { MARKET_SCHEMA_VERSION, createEmptyMarketData, validateMarketData, ERROR_STATUSES, DEFAULT_ALLOWED_CURRENCIES } from '../src/providers/market-contract.js';
+import { fetchApifyMarket, runActor, GENERIC_PROVIDER, DEFAULT_TIMEOUT_MS } from '../src/providers/apify-numbeo-adapter.js';
+import realNames from '../src/providers/numbeo-city-names.json' with { type: 'json' };
 import normative from '../src/data/normative-data.json' with { type: 'json' };
 
 const JSON_HEADERS = Object.freeze({
-  'Content-Type': 'application/json; charset=utf-8',
-  'Cache-Control': 'private, no-store',
-  'X-Content-Type-Options': 'nosniff',
-  'Referrer-Policy': 'no-referrer',
+  'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'private, no-store',
+  'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer',
 });
 const LOCATION_ID_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
+const DAY = 86400;
 
 /** @param {unknown} body @param {number} [status] @param {Record<string,string>} [extra] */
-function json(body, status = 200, extra = {}) {
-  return new Response(JSON.stringify(body), { status, headers: { ...JSON_HEADERS, ...extra } });
-}
-/** @param {number} status @param {string} code @param {string} message_ka */
-function apiError(status, code, message_ka, extra = {}) {
-  return json({ schemaVersion: MARKET_SCHEMA_VERSION, error: { code, message_ka } }, status, extra);
-}
+const json = (body, status = 200, extra = {}) => new Response(JSON.stringify(body), { status, headers: { ...JSON_HEADERS, ...extra } });
+/** @param {number} status @param {string} code @param {string} message_ka @param {Record<string,string>} [extra] */
+const apiError = (status, code, message_ka, extra = {}) => json({ schemaVersion: MARKET_SCHEMA_VERSION, error: { code, message_ka } }, status, extra);
 /** @param {unknown} v @param {number} dflt @param {number} max */
 function intVar(v, dflt, max) {
   const n = typeof v === 'string' && /^\d{1,9}$/.test(v.trim()) ? Number(v.trim()) : typeof v === 'number' ? v : NaN;
   return Number.isSafeInteger(n) && n >= 0 ? Math.min(n, max) : dflt;
 }
-/** @param {string} iso */
-const isoSec = (/** @type {number} */ ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, 'Z');
+const iso = (/** @type {number} */ ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, 'Z');
 
-/** in-isolate მეხსიერების ქეში (fallback, როცა Cache API მიუწვდომელია — მაგ. Access-ის უკან ან Node ტესტებში). */
-export function createMemoryCacheStore(maxEntries = 500) {
-  /** @type {Map<string, { entry: any, until: number }>} */
+/**
+ * @typedef {{ name: string, get(key: string): Promise<any>, put(key: string, value: any, ttlSeconds: number): Promise<void> }} CacheStore
+ */
+
+/** @returns {CacheStore} */
+export function createMemoryStore(maxEntries = 500, now = Date.now) {
+  /** @type {Map<string, { v: any, until: number }>} */
   const m = new Map();
   return {
-    /** @param {string} key @param {number} nowMs */
-    async get(key, nowMs) {
-      const e = m.get(key);
-      if (!e) return null;
-      if (nowMs > e.until) { m.delete(key); return null; }
-      return e.entry;
-    },
-    /** @param {string} key @param {any} entry @param {number} keepSeconds @param {number} nowMs */
-    async put(key, entry, keepSeconds, nowMs) {
-      if (m.size >= maxEntries) m.delete(/** @type {string} */ (m.keys().next().value));
-      m.set(key, { entry, until: nowMs + keepSeconds * 1000 });
-    },
+    name: 'memory',
+    async get(k) { const e = m.get(k); if (!e) return null; if (now() > e.until) { m.delete(k); return null; } return e.v; },
+    async put(k, v, ttl) { if (m.size >= maxEntries) m.delete(/** @type {string} */ (m.keys().next().value)); m.set(k, { v, until: now() + ttl * 1000 }); },
   };
 }
-
-/** Workers Cache API store (data-centre local). შეცდომისას — fallback მეხსიერებაზე. */
-function createCacheApiStore(fallback) {
-  const hasCaches = typeof caches !== 'undefined' && caches && typeof caches.open === 'function';
-  if (!hasCaches) return fallback;
+/** Workers KV. @param {any} kv @returns {CacheStore} */
+export function createKvStore(kv) {
   return {
-    /** @param {string} key @param {number} nowMs */
-    async get(key, nowMs) {
-      try {
-        const c = await caches.open('market');
-        const res = await c.match(key);
-        if (res) return await res.json();
-      } catch { /* Cache API მიუწვდომელია */ }
-      return fallback.get(key, nowMs);
+    name: 'kv',
+    async get(k) { try { return await kv.get(k, 'json'); } catch { return null; } },
+    async put(k, v, ttl) { try { await kv.put(k, JSON.stringify(v), { expirationTtl: Math.max(60, ttl) }); } catch { /* ignore */ } },
+  };
+}
+/** Cache API (data-centre local). @param {CacheStore} fallback @returns {CacheStore} */
+function createCacheApiStore(fallback) {
+  if (typeof caches === 'undefined' || !caches || typeof caches.open !== 'function') return fallback;
+  const url = (/** @type {string} */ k) => `https://market-cache.internal/${encodeURIComponent(k)}`;
+  return {
+    name: 'cache-api',
+    async get(k) {
+      try { const r = await (await caches.open('market')).match(url(k)); if (r) return await r.json(); } catch { /* ignore */ }
+      return fallback.get(k);
     },
-    /** @param {string} key @param {any} entry @param {number} keepSeconds @param {number} nowMs */
-    async put(key, entry, keepSeconds, nowMs) {
-      await fallback.put(key, entry, keepSeconds, nowMs);
-      try {
-        const c = await caches.open('market');
-        await c.put(key, new Response(JSON.stringify(entry), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `max-age=${keepSeconds}` } }));
-      } catch { /* ignore */ }
+    async put(k, v, ttl) {
+      await fallback.put(k, v, ttl);
+      try { await (await caches.open('market')).put(url(k), new Response(JSON.stringify(v), { headers: { 'Content-Type': 'application/json', 'Cache-Control': `max-age=${ttl}` } })); } catch { /* ignore */ }
     },
   };
 }
 
-/** ქეშის გასაღები: პროვაიდერი + ლოკაცია + ვალუტა + სქემის ვერსია. */
-export function marketCacheKey(provider, locationId, currency) {
-  return `https://market-cache.internal/v${MARKET_SCHEMA_VERSION}/${provider}/${encodeURIComponent(locationId)}/${currency}`;
-}
+export const cacheKey = (/** @type {string} */ loc, /** @type {string} */ cur) => `v${MARKET_SCHEMA_VERSION}:numbeo-apify:${loc}:${cur}`;
+export const RANKINGS_KEY = `v${MARKET_SCHEMA_VERSION}:numbeo-apify:rankings`;
 
 /** @param {any} md */
-function hasErrorStatus(md) {
-  return ERROR_STATUSES.includes(md.rent.status) || ERROR_STATUSES.includes(md.indices.status);
-}
+const hasError = (md) => [md.rent, md.utilities, md.groceries, md.restaurants, md.indices].some((b) => ERROR_STATUSES.includes(b.status));
 
-/** fresh → cached/stale, ინდექსის და ქირის ყველა ჩანაწერზე. @param {any} md @param {'cached'|'stale'} to */
-function markFromCache(md, to) {
+/** @param {any} md @param {'cached'|'stale'} to */
+function relabel(md, to) {
   const c = structuredClone(md);
-  const conv = (/** @type {string} */ s) => (s === 'fresh' || s === 'cached' || (to === 'stale' && s === 'partial')) ? to : s;
-  for (const it of Object.values(c.rent.items)) {
-    // ვადაგასულ partial ჩანაწერში საშუალო აუცილებლად არის (ადაპტერის წესი), ამიტომ stale დასაშვებია.
-    /** @type {any} */ (it).status = conv(/** @type {any} */ (it).status);
-  }
-  c.rent.status = conv(c.rent.status);
-  c.indices.status = conv(c.indices.status);
-  if (c.indices.officialCorrectionCoefficient) c.indices.officialCorrectionCoefficient.status = conv(c.indices.officialCorrectionCoefficient.status);
+  const conv = (/** @type {string} */ s) => (s === 'fresh' || s === 'cached' || (to === 'stale' && s === 'partial') ? to : s);
+  for (const b of [c.rent, c.utilities, c.groceries, c.restaurants, c.indices]) b.status = conv(b.status);
+  c.status = to === 'stale' ? 'stale' : conv(c.status);
   return c;
 }
 
 /**
- * Worker-ის ქარხანა (ტესტებისთვის დამოკიდებულებების ჩანაცვლებით).
- * @param {{ cityMap?: any, geoMap?: any, locationIds?: Iterable<string>, fetchImpl?: typeof fetch, now?: () => number,
- *           cacheStore?: ReturnType<typeof createMemoryCacheStore>, log?: (line: string) => void }} [deps]
+ * @param {{ names?: any, locationIds?: Iterable<string>, fetchImpl?: typeof fetch, now?: () => number,
+ *           cacheStore?: CacheStore, log?: (line: string) => void }} [deps]
  */
 export function createWorker(deps = {}) {
-  const cityMap = deps.cityMap || realCityMap;
-  const geoMap = deps.geoMap || realGeoMap;
-  const known = new Set([...(deps.locationIds || (normative.locations || []).map((/** @type {any} */ l) => l.id)), ...Object.keys(cityMap.cities || {}), ...Object.keys(geoMap.locations || {})]);
+  const names = deps.names || realNames;
+  const known = new Set([...(deps.locationIds || (normative.locations || []).map((/** @type {any} */ l) => l.id)), ...Object.keys(names.locations || {})]);
   const now = deps.now || Date.now;
-  const log = deps.log || ((/** @type {string} */ line) => console.log(line));
-  const memory = createMemoryCacheStore();
-  const store = deps.cacheStore || createCacheApiStore(memory);
+  const log = deps.log || ((/** @type {string} */ l) => console.log(l));
+  const memory = createMemoryStore(500, now);
   /** @type {Map<string, Promise<any>>} */
   const inflight = new Map();
 
+  /** @param {any} env @returns {CacheStore} */
+  const storeFor = (env) => deps.cacheStore || (env.MARKET_CACHE && typeof env.MARKET_CACHE.get === 'function' ? createKvStore(env.MARKET_CACHE) : createCacheApiStore(memory));
+
   /** @param {any} env */
   function config(env) {
-    const allowed = String(env.MARKET_ALLOWED_CURRENCIES || 'EUR,USD').split(',').map((s) => s.trim()).filter((c) => NUMBEO_ALLOWED_CURRENCIES.includes(c));
-    const provider = env.MARKET_PROVIDER || 'eurostat';
+    const allowed = String(env.MARKET_ALLOWED_CURRENCIES || 'EUR,USD').split(',').map((s) => s.trim()).filter((c) => DEFAULT_ALLOWED_CURRENCIES.includes(c));
     return {
-      keyConfigured: typeof env.NUMBEO_API_KEY === 'string' && env.NUMBEO_API_KEY.trim() !== '',
-      ttl: intVar(env.MARKET_CACHE_TTL_SECONDS, provider === 'eurostat' ? 86400 : 0, 7 * 86400),
-      staleMax: intVar(env.MARKET_STALE_MAX_SECONDS, 0, 30 * 86400),
-      timeoutMs: intVar(env.MARKET_UPSTREAM_TIMEOUT_MS, 8000, 30000) || 8000,
+      provider: String(env.MARKET_PROVIDER || 'apify').trim().toLowerCase(),
+      tokenConfigured: typeof env.APIFY_TOKEN === 'string' && env.APIFY_TOKEN.trim() !== '',
+      ttl: intVar(env.MARKET_CACHE_TTL_DAYS, 30, 365) * DAY,
+      staleMax: intVar(env.MARKET_STALE_MAX_DAYS, 365, 3650) * DAY,
+      timeoutMs: intVar(env.MARKET_UPSTREAM_TIMEOUT_MS, DEFAULT_TIMEOUT_MS, 290000) || DEFAULT_TIMEOUT_MS,
       allowed: allowed.length ? allowed : ['EUR', 'USD'],
-      licenseConfirmed: env.MARKET_LICENSE_CONFIRMED === 'true',
-      provider,
+    };
+  }
+  /** @param {Record<string, unknown>} o */
+  const logLine = (o) => { try { log(JSON.stringify({ evt: 'market', ...o })); } catch { /* ignore */ } };
+
+  /** @template T @param {string} key @param {() => Promise<T>} fn @returns {Promise<T>} */
+  function coalesce(key, fn) {
+    let p = inflight.get(key);
+    if (!p) { p = fn().finally(() => inflight.delete(key)); inflight.set(key, p); }
+    return p;
+  }
+
+  /** rankings — 30 დღიანი ქეშით, ყველა ქალაქისთვის ერთი გაშვება. @param {any} env @param {CacheStore} store @param {ReturnType<typeof config>} cfg */
+  function getRankings(env, store, cfg) {
+    return async () => {
+      const c = await store.get(RANKINGS_KEY);
+      if (c && now() < c.expiresAt) return { status: 'ok', items: c.items };
+      const r = await coalesce(RANKINGS_KEY, () => runActor({ input: { mode: 'rankings' }, token: env.APIFY_TOKEN.trim(), fetchImpl: deps.fetchImpl || fetch, timeoutMs: cfg.timeoutMs }));
+      if (r.status === 'ok' && 'items' in r) {
+        await store.put(RANKINGS_KEY, { storedAt: now(), expiresAt: now() + cfg.ttl * 1000, items: r.items }, cfg.ttl + cfg.staleMax);
+        return r;
+      }
+      if (c && now() <= c.expiresAt + cfg.staleMax * 1000) return { status: 'ok', items: c.items };
+      return r;
     };
   }
 
-  /** @param {URL} url @param {any} env */
-  async function handleMarket(url, env) {
-    const started = now();
+  /** @param {Request} request @param {URL} url @param {any} env */
+  async function handleMarket(request, url, env) {
+    const t0 = now();
     const cfg = config(env);
-    for (const k of url.searchParams.keys()) {
-      if (k !== 'location' && k !== 'currency') return apiError(400, 'unknown_parameter', 'დაშვებულია მხოლოდ location და currency პარამეტრები.');
-    }
-    if (url.searchParams.getAll('location').length !== 1 || url.searchParams.getAll('currency').length !== 1) {
-      return apiError(400, 'invalid_parameters', 'location და currency თითო ერთხელ უნდა იყოს მითითებული.');
-    }
+    for (const k of url.searchParams.keys()) if (k !== 'location' && k !== 'currency') return apiError(400, 'unknown_parameter', 'დაშვებულია მხოლოდ location და currency პარამეტრები.');
+    if (url.searchParams.getAll('location').length !== 1 || url.searchParams.getAll('currency').length !== 1) return apiError(400, 'invalid_parameters', 'location და currency თითო ერთხელ უნდა იყოს მითითებული.');
     const loc = /** @type {string} */ (url.searchParams.get('location'));
     const cur = /** @type {string} */ (url.searchParams.get('currency'));
     if (!LOCATION_ID_RE.test(loc) || !known.has(loc)) return apiError(400, 'invalid_location', 'უცნობი ლოკაცია.');
     if (!cfg.allowed.includes(cur)) return apiError(400, 'invalid_currency', 'ვალუტა დაშვებული არ არის.');
-    if (cfg.provider !== 'numbeo' && cfg.provider !== 'eurostat') {
-      return json(createEmptyMarketData(loc, 'not_configured', { currency: cur }));
+
+    if (cfg.provider === 'off' || cfg.provider === 'disabled' || cfg.provider === 'none') {
+      logLine({ loc, cur, status: 'disabled' });
+      return json(createEmptyMarketData(loc, 'disabled', { currency: cur }));
     }
-    const providerRef = cfg.provider === 'eurostat' ? EUROSTAT_PROVIDER : NUMBEO_PROVIDER;
-    if (cfg.provider === 'numbeo' && !cfg.keyConfigured) {
-      logLine({ loc, cur, rent: 'not_configured', idx: 'not_configured', cache: 'none', reason: 'no_key', ms: now() - started });
-      return json(createEmptyMarketData(loc, 'not_configured', { currency: cur, provider: { ...NUMBEO_PROVIDER } }));
+    if (cfg.provider !== 'apify' || !cfg.tokenConfigured) {
+      logLine({ loc, cur, status: 'not_configured', reason: cfg.provider !== 'apify' ? 'provider' : 'no_token' });
+      return json(createEmptyMarketData(loc, 'not_configured', { currency: cur, provider: { ...GENERIC_PROVIDER } }));
     }
 
-    const key = marketCacheKey(cfg.provider, loc, cur);
-    /** @type {{ storedAt: number, expiresAt: number, data: any } | null} */
-    let cached = null;
-    if (cfg.ttl > 0) {
-      cached = await store.get(key, now());
-      if (cached && now() < cached.expiresAt) {
-        const md = markFromCache(cached.data, 'cached');
-        md.cache = { state: 'hit', expiresAt: isoSec(cached.expiresAt) };
-        logLine({ loc, cur, rent: md.rent.status, idx: md.indices.status, cache: 'hit', ms: now() - started });
-        return json(md);
-      }
+    const store = storeFor(env);
+    const key = cacheKey(loc, cur);
+    const cached = await store.get(key);
+    if (cached && now() < cached.expiresAt) {
+      const md = relabel(cached.data, 'cached');
+      md.cache = { state: 'hit', expiresAt: iso(cached.expiresAt) };
+      logLine({ loc, cur, status: md.status, cache: 'hit', ms: now() - t0 });
+      return json(md);
     }
 
-    // სიჩქარის ლიმიტი მხოლოდ upstream-მდე მისვლისას (ქეშის hit-ი კვოტას არ ხარჯავს). binding-ის არქონა (ლოკალური ტესტი) — გამოტოვება.
     if (env.MARKET_RATE_LIMITER && typeof env.MARKET_RATE_LIMITER.limit === 'function') {
       let ok = true;
-      try { ok = (await env.MARKET_RATE_LIMITER.limit({ key: 'market:all' })).success !== false; } catch { ok = true; }
+      const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+      try { ok = (await env.MARKET_RATE_LIMITER.limit({ key: `market:${ip}` })).success !== false; } catch { ok = true; }
       if (!ok) {
-        logLine({ loc, cur, rent: 'rate_limited', idx: 'rate_limited', cache: 'none', reason: 'local_limiter', ms: now() - started });
-        return json(createEmptyMarketData(loc, 'rate_limited', { currency: cur, provider: { ...providerRef } }), 429, { 'Retry-After': '60' });
+        logLine({ loc, cur, status: 'rate_limited', reason: 'local_limiter' });
+        if (cached && now() <= cached.expiresAt + cfg.staleMax * 1000) return json(staleOf(cached));
+        return json(createEmptyMarketData(loc, 'rate_limited', { currency: cur, provider: { ...GENERIC_PROVIDER } }), 429, { 'Retry-After': '60' });
       }
     }
 
-    // ერთნაირი პარალელური მოთხოვნების გაერთიანება.
-    let p = inflight.get(key);
-    if (!p) {
-      const fetchImpl = deps.fetchImpl || fetch;
-      p = (cfg.provider === 'eurostat'
-        ? fetchEurostatMarket({ locationId: loc, currency: cur, geoMap, fetchImpl, timeoutMs: cfg.timeoutMs, now })
-        : fetchNumbeoMarket({
-          locationId: loc, currency: cur, cityMap, apiKey: env.NUMBEO_API_KEY,
-          fetchImpl, timeoutMs: cfg.timeoutMs, now, licenseConfirmed: cfg.licenseConfirmed,
-        })).finally(() => inflight.delete(key));
-      inflight.set(key, p);
-    }
-    const { data, diagnostics } = await p;
+    const { data, diagnostics } = await coalesce(key, () => fetchApifyMarket({
+      locationId: loc, currency: cur, names, token: env.APIFY_TOKEN, fetchImpl: deps.fetchImpl || fetch,
+      timeoutMs: cfg.timeoutMs, now, getRankings: getRankings(env, store, cfg),
+    }));
     /** @type {any} */
     let md = structuredClone(data);
-
-    if (hasErrorStatus(md) && cached && cfg.staleMax > 0 && now() <= cached.expiresAt + cfg.staleMax * 1000) {
-      md = markFromCache(cached.data, 'stale');
-      md.cache = { state: 'stale', expiresAt: isoSec(cached.expiresAt) };
-      if (!md.warnings.some((/** @type {any} */ w) => w.code === 'stale_cache_used')) md.warnings.push({ code: 'stale_cache_used' });
-    } else if (cfg.ttl > 0) {
-      md.cache = { state: 'miss', expiresAt: null };
-      if (!hasErrorStatus(md) && md.rent.status !== 'not_configured' && md.indices.status !== 'not_configured') {
-        const t = now();
-        const expiresAt = t + cfg.ttl * 1000;
-        md.cache.expiresAt = isoSec(expiresAt);
-        await store.put(key, { storedAt: t, expiresAt, data }, cfg.ttl + cfg.staleMax, t);
-      }
+    if (hasError(md) && cached && now() <= cached.expiresAt + cfg.staleMax * 1000) {
+      md = staleOf(cached);
+    } else if (!hasError(md) && md.status !== 'not_configured' && md.status !== 'not_found') {
+      const expiresAt = now() + cfg.ttl * 1000;
+      md.cache = { state: 'miss', expiresAt: iso(expiresAt) };
+      await store.put(key, { storedAt: now(), expiresAt, data }, cfg.ttl + cfg.staleMax);
     } else {
-      md.cache = { state: 'none', expiresAt: null };
+      md.cache = { state: 'miss', expiresAt: null };
     }
-
-    if (!validateMarketData(md, { allowedCurrencies: cfg.allowed }).ok) {
-      md = createEmptyMarketData(loc, 'invalid_response', { currency: cur, provider: { ...providerRef } });
-    }
-    logLine({ loc, cur, rent: md.rent.status, idx: md.indices.status, cache: md.cache.state, upstream: diagnostics, ms: now() - started });
+    if (!validateMarketData(md, { allowedCurrencies: cfg.allowed }).ok) md = createEmptyMarketData(loc, 'invalid_response', { currency: cur, provider: { ...GENERIC_PROVIDER } });
+    logLine({ loc, cur, status: md.status, cache: md.cache.state, upstream: diagnostics, ms: now() - t0 });
     return json(md);
   }
 
-  /** @param {Record<string, unknown>} o */
-  function logLine(o) {
-    try { log(JSON.stringify({ evt: 'market', ...o })); } catch { /* ignore */ }
+  /** @param {any} cached */
+  function staleOf(cached) {
+    const md = relabel(cached.data, 'stale');
+    md.cache = { state: 'stale', expiresAt: iso(cached.expiresAt) };
+    if (!md.warnings.some((/** @type {any} */ w) => w.code === 'stale_cache_used')) md.warnings.push({ code: 'stale_cache_used' });
+    return md;
   }
 
   /** @param {any} env */
   function health(env) {
     const cfg = config(env);
-    const mapped = cfg.provider === 'eurostat' ? Object.keys(geoMap.locations || {}).length
-      : cfg.provider === 'numbeo' ? Object.keys(cityMap.cities || {}).length : 0;
-    const status = (cfg.provider === 'eurostat' && mapped > 0) || (cfg.provider === 'numbeo' && cfg.keyConfigured && mapped > 0) ? 'configured' : 'not_configured';
+    const mapped = Object.keys(names.locations || {}).length;
+    const status = cfg.provider === 'off' || cfg.provider === 'disabled' || cfg.provider === 'none' ? 'disabled'
+      : cfg.provider === 'apify' && cfg.tokenConfigured && mapped > 0 ? 'configured' : 'not_configured';
     return json({
-      schemaVersion: MARKET_SCHEMA_VERSION, status, provider: cfg.provider,
-      keyConfigured: cfg.keyConfigured, mappedLocations: mapped,
-      cacheTtlSeconds: cfg.ttl, staleMaxSeconds: cfg.staleMax, licenseConfirmed: cfg.licenseConfirmed,
+      schemaVersion: MARKET_SCHEMA_VERSION, status, provider: cfg.provider, tokenConfigured: cfg.tokenConfigured,
+      cacheBackend: storeFor(env).name, cacheTtlDays: cfg.ttl / DAY, staleMaxDays: cfg.staleMax / DAY,
+      mappedLocations: mapped, mappingVerified: names._meta?.status === 'verified',
       rateLimiter: Boolean(env.MARKET_RATE_LIMITER), allowedCurrencies: cfg.allowed,
     });
   }
 
   return {
-    /** @param {Request} request @param {any} env @param {any} [ctx] */
-    async fetch(request, env = {}, ctx) {
-      void ctx;
+    /** @param {Request} request @param {any} [env] */
+    async fetch(request, env = {}) {
       let url;
       try { url = new URL(request.url); } catch { return apiError(400, 'bad_request', 'არასწორი მოთხოვნა.'); }
       if (url.pathname === '/api' || url.pathname.startsWith('/api/')) {
         if (request.method !== 'GET' && request.method !== 'HEAD') return apiError(405, 'method_not_allowed', 'დაშვებულია მხოლოდ GET.', { Allow: 'GET, HEAD' });
         try {
           if (url.pathname === '/api/market/health') return health(env);
-          if (url.pathname === '/api/market') return await handleMarket(url, env);
+          if (url.pathname === '/api/market') return await handleMarket(request, url, env);
         } catch {
           logLine({ reason: 'internal_error' });
           return apiError(500, 'internal_error', 'შიდა შეცდომა.');

@@ -1,0 +1,497 @@
+{
+ "_meta": {
+  "schemaVersion": 2,
+  "status": "unverified",
+  "description": "შიდა ლოკაციის ID → Numbeo-ს ქალაქის სახელი (Apify actor-ის `cities` შესასვლელისთვის). ნაგულისხმევად აღებულია ჩვენი `name_en`; აშშ-ის ქალაქები და რამდენიმე გამონაკლისი — Numbeo-ს ცნობილი დაწერილობით. ყველა ჩანაწერი verified:false, სანამ რეალური Apify გაშვება არ დაადასტურებს (გაშვების შედეგი ამოწმებს დაბრუნებულ ქალაქს და შეუსაბამობისას აბრუნებს wrong_city). ID არ გამოიგონება — მხოლოდ სახელები.",
+  "verifiedAt": null
+ },
+ "locations": {
+  "AT-VIENNA": {
+   "numbeoCity": "Vienna",
+   "countryCode": "AT",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "BE-BRUSSELS": {
+   "numbeoCity": "Brussels",
+   "countryCode": "BE",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "BG-SOFIA": {
+   "numbeoCity": "Sofia",
+   "countryCode": "BG",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "DE-BERLIN": {
+   "numbeoCity": "Berlin",
+   "countryCode": "DE",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "DE-FRANKFURT": {
+   "numbeoCity": "Frankfurt am Main",
+   "countryCode": "DE",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "DE-STUTTGART": {
+   "numbeoCity": "Stuttgart",
+   "countryCode": "DE",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "DK-COPENHAGEN": {
+   "numbeoCity": "Copenhagen",
+   "countryCode": "DK",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "GB-LONDON": {
+   "numbeoCity": "London",
+   "countryCode": "GB",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "FR-PARIS": {
+   "numbeoCity": "Paris",
+   "countryCode": "FR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "FR-STRASBOURG": {
+   "numbeoCity": "Strasbourg",
+   "countryCode": "FR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "FR-LYON": {
+   "numbeoCity": "Lyon",
+   "countryCode": "FR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "ES-MADRID": {
+   "numbeoCity": "Madrid",
+   "countryCode": "ES",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "ES-BARCELONA": {
+   "numbeoCity": "Barcelona",
+   "countryCode": "ES",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "EE-TALLINN": {
+   "numbeoCity": "Tallinn",
+   "countryCode": "EE",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "TR-ANKARA": {
+   "numbeoCity": "Ankara",
+   "countryCode": "TR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "TR-ISTANBUL": {
+   "numbeoCity": "Istanbul",
+   "countryCode": "TR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "TR-TRABZON": {
+   "numbeoCity": "Trabzon",
+   "countryCode": "TR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "IE-DUBLIN": {
+   "numbeoCity": "Dublin",
+   "countryCode": "IE",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "IT-ROME": {
+   "numbeoCity": "Rome",
+   "countryCode": "IT",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "IT-MILAN": {
+   "numbeoCity": "Milan",
+   "countryCode": "IT",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "IT-BARI": {
+   "numbeoCity": "Bari",
+   "countryCode": "IT",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "VA-VATICAN-CITY": {
+   "numbeoCity": "Rome",
+   "countryCode": "IT",
+   "matchStatus": "nearby-explained",
+   "note": "ვატიკანისთვის Numbeo-ში ცალკე ქალაქი არ არის — ნაჩვენებია რომის მონაცემი (ახლომდებარე ქალაქი).",
+   "verified": false
+  },
+  "CY-NICOSIA": {
+   "numbeoCity": "Nicosia",
+   "countryCode": "CY",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "LV-RIGA": {
+   "numbeoCity": "Riga",
+   "countryCode": "LV",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "LT-VILNIUS": {
+   "numbeoCity": "Vilnius",
+   "countryCode": "LT",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "MD-CHISINAU": {
+   "numbeoCity": "Chișinău",
+   "countryCode": "MD",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "NL-THE-HAGUE": {
+   "numbeoCity": "The Hague (Den Haag)",
+   "countryCode": "NL",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "NO-OSLO": {
+   "numbeoCity": "Oslo",
+   "countryCode": "NO",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "PL-WARSAW": {
+   "numbeoCity": "Warsaw",
+   "countryCode": "PL",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "PL-KRAKOW": {
+   "numbeoCity": "Kraków",
+   "countryCode": "PL",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "PT-LISBON": {
+   "numbeoCity": "Lisbon",
+   "countryCode": "PT",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "RO-BUCHAREST": {
+   "numbeoCity": "Bucharest",
+   "countryCode": "RO",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "GR-ATHENS": {
+   "numbeoCity": "Athens",
+   "countryCode": "GR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "GR-THESSALONIKI": {
+   "numbeoCity": "Thessaloniki",
+   "countryCode": "GR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "SK-BRATISLAVA": {
+   "numbeoCity": "Bratislava",
+   "countryCode": "SK",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "SI-LJUBLJANA": {
+   "numbeoCity": "Ljubljana",
+   "countryCode": "SI",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "HU-BUDAPEST": {
+   "numbeoCity": "Budapest",
+   "countryCode": "HU",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "SE-STOCKHOLM": {
+   "numbeoCity": "Stockholm",
+   "countryCode": "SE",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "CH-BERN": {
+   "numbeoCity": "Bern",
+   "countryCode": "CH",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "CH-GENEVA": {
+   "numbeoCity": "Geneva",
+   "countryCode": "CH",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "CZ-PRAGUE": {
+   "numbeoCity": "Prague",
+   "countryCode": "CZ",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "FI-HELSINKI": {
+   "numbeoCity": "Helsinki",
+   "countryCode": "FI",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "HR-ZAGREB": {
+   "numbeoCity": "Zagreb",
+   "countryCode": "HR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "RS-BELGRADE": {
+   "numbeoCity": "Belgrade",
+   "countryCode": "RS",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "AU-CANBERRA": {
+   "numbeoCity": "Canberra",
+   "countryCode": "AU",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "AR-BUENOS-AIRES": {
+   "numbeoCity": "Buenos Aires",
+   "countryCode": "AR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "AZ-BAKU": {
+   "numbeoCity": "Baku",
+   "countryCode": "AZ",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "AZ-GANJA": {
+   "numbeoCity": "Ganja",
+   "countryCode": "AZ",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "US-WASHINGTON": {
+   "numbeoCity": "Washington, DC",
+   "countryCode": "US",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "US-NEW-YORK": {
+   "numbeoCity": "New York, NY",
+   "countryCode": "US",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "US-SAN-FRANCISCO": {
+   "numbeoCity": "San Francisco, CA",
+   "countryCode": "US",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "BY-MINSK": {
+   "numbeoCity": "Minsk",
+   "countryCode": "BY",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "BR-BRASILIA": {
+   "numbeoCity": "Brasília",
+   "countryCode": "BR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "EG-CAIRO": {
+   "numbeoCity": "Cairo",
+   "countryCode": "EG",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "TM-ASHGABAT": {
+   "numbeoCity": "Ashgabat",
+   "countryCode": "TM",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "JP-TOKYO": {
+   "numbeoCity": "Tokyo",
+   "countryCode": "JP",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "JO-AMMAN": {
+   "numbeoCity": "Amman",
+   "countryCode": "JO",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "IL-TEL-AVIV": {
+   "numbeoCity": "Tel Aviv-Yafo",
+   "countryCode": "IL",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "IN-NEW-DELHI": {
+   "numbeoCity": "New Delhi",
+   "countryCode": "IN",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "ID-JAKARTA": {
+   "numbeoCity": "Jakarta",
+   "countryCode": "ID",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "IR-TEHRAN": {
+   "numbeoCity": "Tehran",
+   "countryCode": "IR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "QA-DOHA": {
+   "numbeoCity": "Doha",
+   "countryCode": "QA",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "CA-OTTAWA": {
+   "numbeoCity": "Ottawa",
+   "countryCode": "CA",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "KR-SEOUL": {
+   "numbeoCity": "Seoul",
+   "countryCode": "KR",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "MY-KUALA-LUMPUR": {
+   "numbeoCity": "Kuala Lumpur",
+   "countryCode": "MY",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "MX-MEXICO-CITY": {
+   "numbeoCity": "Mexico City",
+   "countryCode": "MX",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "RU-MOSCOW": {
+   "numbeoCity": "Moscow",
+   "countryCode": "RU",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "ZA-PRETORIA": {
+   "numbeoCity": "Pretoria",
+   "countryCode": "ZA",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "AM-YEREVAN": {
+   "numbeoCity": "Yerevan",
+   "countryCode": "AM",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "SA-RIYADH": {
+   "numbeoCity": "Riyadh",
+   "countryCode": "SA",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "UZ-TASHKENT": {
+   "numbeoCity": "Tashkent",
+   "countryCode": "UZ",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "UA-KYIV": {
+   "numbeoCity": "Kyiv (Kiev)",
+   "countryCode": "UA",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "UA-ODESA": {
+   "numbeoCity": "Odesa",
+   "countryCode": "UA",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "UA-DONETSK": {
+   "numbeoCity": "Donetsk",
+   "countryCode": "UA",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "KW-KUWAIT-CITY": {
+   "numbeoCity": "Kuwait City",
+   "countryCode": "KW",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "KZ-ASTANA": {
+   "numbeoCity": "Astana",
+   "countryCode": "KZ",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "CN-BEIJING": {
+   "numbeoCity": "Beijing",
+   "countryCode": "CN",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "CU-HAVANA": {
+   "numbeoCity": "Havana",
+   "countryCode": "CU",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "ET-ADDIS-ABABA": {
+   "numbeoCity": "Addis Ababa",
+   "countryCode": "ET",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "AE-ABU-DHABI": {
+   "numbeoCity": "Abu Dhabi",
+   "countryCode": "AE",
+   "matchStatus": "exact",
+   "verified": false
+  },
+  "VN-HANOI": {
+   "numbeoCity": "Hanoi",
+   "countryCode": "VN",
+   "matchStatus": "exact",
+   "verified": false
+  }
+ }
+}

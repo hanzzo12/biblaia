@@ -1,26 +1,30 @@
 @media print {
-  @page { size: A4; margin: 15mm 12mm; }
+  @page { size: A4; margin: 14mm 12mm; }
+  :root { --surface: #fff; --surface-2: #fff; --ink: #000; --muted: #333; --line: #bbb; --hero: #fff; }
   body { background: #fff; color: #000; font-size: 10.5pt; padding: 0 !important; }
-  .no-print, .skip, nav, button, .combo, input[type=file], .market-manual, .summary-wrap, .use-rent, .btn { display: none !important; }
+  .no-print, .skip, button, .combo, input[type=file], .summary-wrap, .use-rent, .btn, .icon-btn, .tools, .compare-picker, #form { display: none !important; }
   .print-only { display: block !important; }
-  .app-header { background: none; color: #000; padding: 0 0 6pt; border-bottom: 2px solid #000; }
-  .app-header a { color: #000; }
+  .top { background: none; color: #000; border-bottom: 2px solid #000; }
+  .top-inner { padding: 0 0 6pt; }
   .layout { display: block; padding: 0; max-width: none; }
   .results { position: static; max-height: none; overflow: visible; }
-  .sec { border: none; padding: 0; margin: 0 0 8pt; }
-  #form { display: none; }              /* შეყვანა იბეჭდება ცხრილად (#print-inputs) */
-  #print-inputs { break-after: page; }
-  h2, h3, h4, caption { break-after: avoid; page-break-after: avoid; }
-  .row, tr, .completeness, .kv dd { break-inside: avoid; page-break-inside: avoid; }
+  .card { border: none; box-shadow: none; padding: 0; margin: 0 0 8pt; }
+  .hero { background: none; color: #000; margin: 0 0 8pt; padding: 0; border-bottom: 1px solid #000; }
+  .hero a, .hero .hint { color: #000; }
+  .hero .missing { background: none; padding: 0; }
+  .results-body { padding: 0; }
+  #print-inputs { break-after: page; padding: 0 2mm; }
+  details::details-content { display: block; content-visibility: visible; }
+  details > summary { list-style: none; color: #000; }
+  details > summary::-webkit-details-marker { display: none; }
+  h2, h3, h4, caption { break-after: avoid; }
+  .row, tr, .kcard, .ccol, .mcard { break-inside: avoid; }
   thead { display: table-header-group; }
   table { font-size: 9pt; }
   .print-table th { width: 45%; font-weight: 400; }
-  .row { grid-template-columns: 1.8fr 1fr; }
-  .badge { border: 1px solid #000; background: none !important; color: #000 !important; }
-  details::details-content { display: block; content-visibility: visible; }
-  details > summary { list-style: none; }
-  details > summary::-webkit-details-marker { display: none; }
+  .badge, .pill { border: 1px solid #000; background: none !important; color: #000 !important; }
   a { color: #000; text-decoration: none; }
-  * { overflow-wrap: anywhere; word-break: normal; }
-  .meta { word-break: break-all; }
+  .compare { break-before: page; margin: 0; }
+  .cgrid { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); overflow: visible; }
+  * { overflow-wrap: anywhere; }
 }

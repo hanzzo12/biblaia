@@ -73,7 +73,7 @@ export const MARKET_STATUS = {
   network_error: 'კავშირი ვერ შედგა', timeout: 'მოთხოვნის დრო ამოიწურა',
   not_configured: 'პროვაიდერი არ არის კონფიგურირებული', unauthorized: 'პროვაიდერმა წვდომა უარყო',
   rate_limited: 'მოთხოვნების ლიმიტი ამოიწურა', upstream_error: 'პროვაიდერის შეცდომა',
-  invalid_response: 'არასწორი პასუხი — უარყოფილია', not_provided: 'წყაროს ეს მაჩვენებელი არ აქვს', wrong_city: 'პასუხი სხვა ქალაქს ან ვალუტას ეკუთვნის — უარყოფილია',
+  invalid_response: 'არასწორი პასუხი — უარყოფილია', not_provided: 'წყაროს ეს მაჩვენებელი არ აქვს', disabled: 'გამორთულია', wrong_city: 'პასუხი სხვა ქალაქს ან ვალუტას ეკუთვნის — უარყოფილია',
 };
 export const MARKET_RETRYABLE = new Set(['network_error', 'timeout', 'stale', 'upstream_error', 'rate_limited', 'invalid_response']);
 
@@ -111,3 +111,18 @@ export function enumOptions(coreEnum, fallback) {
   const src = coreEnum && typeof coreEnum === 'object' && Object.keys(coreEnum).length ? coreEnum : fallback;
   return Object.entries(src).map(([value, v]) => ({ value, label: typeof v === 'string' ? v : (v?.label_ka ?? v?.name_ka ?? fallback[value] ?? value) }));
 }
+
+/** ბაზრის ბლოკის მეგობრული შეტყობინებები მონაცემის არქონისას */
+export const MARKET_FRIENDLY = {
+  offline: 'ფასები ჩანს ონლაინ ვერსიაში. ეს ფაილი ინტერნეტის გარეშე მუშაობს და ბაზრის მონაცემს არ ითხოვს.',
+  not_configured: 'ბაზრის მონაცემი ამ ვერსიაში ჩართული არ არის.',
+  disabled: 'ბაზრის მონაცემი დროებით გამორთულია.',
+  not_found: 'ამ ქალაქისთვის ფასები ვერ მოიძებნა.',
+  network_error: 'ფასები ვერ ჩაიტვირთა — შეამოწმეთ ინტერნეტი და სცადეთ თავიდან.',
+  timeout: 'წყარომ დროულად არ უპასუხა. სცადეთ თავიდან.',
+  rate_limited: 'ძალიან ბევრი მოთხოვნაა. სცადეთ ცოტა ხანში.',
+  upstream_error: 'წყარო დროებით მიუწვდომელია. სცადეთ მოგვიანებით.',
+  unauthorized: 'წყაროსთან წვდომა ვერ დადასტურდა.',
+  invalid_response: 'მიღებული მონაცემი არასწორია და არ ჩანს.',
+  wrong_city: 'პასუხი სხვა ქალაქს ეკუთვნოდა და უარყოფილია.',
+};
