@@ -170,3 +170,13 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
 .cmarket .mrow { font-size: .82rem; }
 .wide { grid-column: 1 / -1; }
 .foot { text-align: center; color: var(--muted); font-size: .78rem; margin-top: 22px; }
+.field p { margin: 0; }
+.pills { flex-wrap: nowrap; }
+@media (max-width: 600px) { .pill.active .pill-t { max-width: 52vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
+.seg { display: flex; width: 100%; max-width: 460px; }
+.seg-opt { flex: 1; }
+.seg-opt label { display: block; text-align: center; padding: 8px 10px; }
+.cgrid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.crow strong { white-space: nowrap; text-align: right; }
+.rent-in { display: flex; flex-direction: column; gap: 4px; padding: 8px 0; border-top: 1px solid var(--line); }
+.rent-in label { color: var(--muted); font-weight: 400; font-size: .85rem; }

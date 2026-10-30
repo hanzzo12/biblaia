@@ -43,7 +43,6 @@ export function renderResult({ r, st, sc, noRent, mission, data, onPrint, onComp
     ['D', 'პერსონალური თანხა', m.D, true], ['E', 'ბინის წილი', m.E, false, '%'], ['T', 'ბინის წილი თანხაში', m.T, true],
     ['G', 'ქირა', m.G, true], ['F', 'ქირის ანაზღაურება', m.F, true], ['S', 'ყოველთვიური თანხა (D − T + F)', m.S, true],
   ];
-  const notes = [...(r?.assumptions || []), ...(r?.warnings || []).filter((w) => w.severity !== 'info')].map((a) => a.message_ka).filter(Boolean);
   const detId = uid('det');
   const det = h('div', { id: detId, class: 'details', hidden: true },
     h('table', { class: 'calc' }, h('tbody', null, rows.map(([k, label, c, money, suf]) => h('tr', { 'data-component': k },
@@ -51,7 +50,7 @@ export function renderResult({ r, st, sc, noRent, mission, data, onPrint, onComp
       h('td', { 'data-value': v(c) ?? '' }, v(c) == null ? '—' : money ? fmt(c, cur) : `${v(c)}${suf ?? ''}`))))),
     h('p', { class: 'formula' }, 'D = H × A × K × (1 + 7% × C) · T = D × E · S = D − T + F'),
     hasEdu ? h('p', { class: 'small' }, `სწავლა: ანაზღაურდება თვეში ${cur === 'USD' ? '750 USD' : '690 EUR'}-მდე სრულად, ზედმეტის 80%.`) : null,
-    notes.length ? h('ul', { class: 'foot-notes' }, notes.slice(0, 6).map((n) => h('li', null, n))) : null,
+    h('p', { class: 'tiny muted' }, 'თანხები ითვლება ზუსტად და მრგვალდება 2 ათწილადამდე.'),
     h('p', { class: 'tiny muted' }, `წესების ვერსია: ${r?.rulesVersion ?? data.rulesVersion}`));
   const detBtn = h('button', { type: 'button', class: 'btn ghost', 'aria-expanded': 'false', 'aria-controls': detId, 'data-testid': 'how' }, 'როგორ დაითვალა');
   detBtn.addEventListener('click', () => { det.hidden = !det.hidden; detBtn.setAttribute('aria-expanded', String(!det.hidden)); });
@@ -84,7 +83,7 @@ export function renderResult({ r, st, sc, noRent, mission, data, onPrint, onComp
     h('div', { class: 'rcards' },
       card('ქირის ანაზღაურება', noRent ? '—' : fmt(m.F, cur), noRent ? null : v(m.F), noRent ? 'ქირა არ არის მითითებული' : `თქვენი წილი ქირაში: ${fmt(m.uncoveredRent, cur)}`, 'F'),
       card('სწავლის ანაზღაურება', hasEdu ? fmt(ed.total, cur) : '—', hasEdu ? v(ed.total) : null, hasEdu ? `თქვენი წილი: ${fmt(ed.personal, cur)}` : 'სწავლის ხარჯი არ არის მითითებული', 'edu'),
-      card('დარჩენილი თანხა ქირისა და სწავლის შემდეგ', noRent ? '—' : fmt(r?.remainder?.value, cur), noRent ? null : v(r?.remainder?.value), 'თვიურ თანხას + სწავლის ანაზღაურებას გამოკლებული ქირა და სწავლის გადასახადი; სხვა ხარჯები არ აკლდება.', 'remainder')),
+      card('დარჩენილი თანხა ქირისა და სწავლის შემდეგ', noRent ? '—' : fmt(r?.remainder?.value, cur), noRent ? null : v(r?.remainder?.value), 'სხვა ხარჯები (კვება, კომუნალური…) არ აკლდება.', 'remainder')),
     ot.length || caps.length ? h('section', { class: 'onetime' },
       ot.length ? [h('h3', null, 'ერთჯერადი'), h('ul', { class: 'olist' }, ot.map(([label, text, raw, sub]) => h('li', null,
         h('span', null, label, sub ? h('span', { class: 'small muted block' }, sub) : null), h('strong', { 'data-value': raw ?? '' }, text))))] : null,

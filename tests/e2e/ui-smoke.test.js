@@ -29,24 +29,36 @@ async function openPage(viewport = { width: 1280, height: 900 }) {
 }
 
 const val = (page, sel) => page.locator(sel).first().getAttribute('data-value');
-const fieldByLabel = (page, text) => page.getByLabel(text, { exact: true });
-const search = (page) => page.getByRole('combobox', { name: 'ძიება (ქართულად ან ლათინურად)' });
+const next = (page) => page.getByTestId('next').click();
 
-async function vienna(page, { rent = '1500' } = {}) {
-  await search(page).fill('Vienna');
+async function pickMission(page, q, testid = 'mission') {
+  const inp = page.getByTestId(testid);
+  await inp.click();
+  await inp.fill(q);
   await page.keyboard.press('Enter');
-  await page.getByLabel('თანამდებობა', { exact: true }).selectOption('A2-R5');
-  for (let i = 0; i < 2; i++) await page.getByTestId('add-family').click();
-  const rows = page.locator('#sec-family fieldset.member');
-  await rows.nth(0).getByLabel('როლი').selectOption('spouse');
-  await rows.nth(0).getByLabel('ასაკი', { exact: true }).fill('38');
-  await rows.nth(1).getByLabel('როლი').selectOption('child');
-  await rows.nth(1).getByLabel('ასაკი', { exact: true }).fill('8');
-  if (rent !== null) await fieldByLabel(page, 'ბინის ყოველთვიური ქირა (G)').fill(rent);
-  await page.getByRole('button', { name: '+ ბავშვის განათლების ხარჯი' }).click();
-  await page.locator('[data-list="education"] fieldset').getByLabel('ბავშვი').selectOption({ index: 1 });
-  await page.locator('[data-list="education"] fieldset').getByLabel('სწავლის საფასური (თვეში)').fill('1000');
-  await page.waitForTimeout(100);
+}
+
+/** ვენა: №2 „მრჩეველი“ 65%, მეუღლე + შვილი, არახელმძღვანელი, ქირა 1500, სკოლა 1000 */
+async function vienna(page, { rent = '1500', shots = null } = {}) {
+  await pickMission(page, 'Vienna');
+  if (shots) await shots('step1');
+  await next(page);
+  await page.getByTestId('position').selectOption('A2-R5');
+  assert.equal(await page.getByTestId('head').isChecked(), false);
+  await page.getByTestId('add-family').click();
+  await page.getByTestId('add-family').click();
+  const rows = page.locator('.fam-row');
+  await rows.nth(0).locator('select').selectOption('spouse');
+  await rows.nth(0).locator('input').fill('38');
+  await rows.nth(1).locator('select').selectOption('child');
+  await rows.nth(1).locator('input').fill('8');
+  if (shots) await shots('step2');
+  await next(page);
+  if (rent !== null) await page.getByTestId('rent').fill(rent);
+  await page.getByTestId('edu').first().fill('1000');
+  if (shots) await shots('step3');
+  await next(page);
+  await page.getByTestId('S').waitFor();
 }
 
 /** სინთეზური MarketData v2 (contracts §8) — რეალური ფასი არ არის. */
@@ -87,170 +99,145 @@ async function openOnline({ delays = {}, viewport } = {}) {
   return { page, seen, errors };
 }
 
-test('ოფლაინ file://: ვენის სცენარი, გარე მოთხოვნების გარეშე', async () => {
+test('ოფლაინ file://: ვენის სცენარი ოთხ საფეხურად, გარე მოთხოვნების გარეშე', async () => {
   const { page, external, errors } = await openPage();
-  await vienna(page);
+  const shots = SHOTS ? (n) => page.screenshot({ path: path.join(SHOTS, `d-${n}.png`), fullPage: true }) : null;
+  await vienna(page, { shots });
   assert.equal(await val(page, '[data-testid="S"]'), '4985.16');
-  assert.equal(await val(page, '[data-component="education.total"] .row-value'), '938.00');
-  assert.equal(await val(page, '.kcard[data-component="remainder"] .k-value'), '3423.16');
-  assert.equal(await page.getByTestId('completeness').getAttribute('data-completeness'), 'complete');
-  await page.getByTestId('offline-note').waitFor();
+  assert.equal(await val(page, '[data-testid="edu"] .rc-value'), '938.00');
+  assert.equal(await val(page, '[data-testid="remainder"] .rc-value'), '3423.16');
+  assert.equal(await val(page, '[data-testid="F"] .rc-value'), '1246.86');
+  await page.getByTestId('how').click();
+  assert.equal(await val(page, 'tr[data-component="D"] td'), '4732.03');
   assert.deepEqual(external, []);
   assert.deepEqual(errors, []);
   const text = await page.locator('body').innerText();
   for (const b of BANNED) assert.ok(!text.includes(b), `აკრძალული ტერმინი: ${b}`);
+  assert.ok(!/R-[A-Z]+-/.test(await page.locator('#app').innerText()), 'წესების ID მთავარ ხედზე არ ჩანს');
   if (SHOTS) {
-    await page.screenshot({ path: path.join(SHOTS, 'offline-desktop.png'), fullPage: true });
+    await shots('step4');
     await page.emulateMedia({ media: 'print' });
     await page.pdf({ path: path.join(SHOTS, 'print.pdf'), format: 'A4' });
   }
   await page.close();
 });
 
-test('ცარიელი ქირა = უცნობი; 0 = ქირა არ არის; არასწორი რიცხვი', async () => {
+test('ქირის გარეშე: თანხა ქირის გარეშე და შენიშვნა; არასწორი თანხა', async () => {
   const { page } = await openPage();
-  await vienna(page);
-  const rent = fieldByLabel(page, 'ბინის ყოველთვიური ქირა (G)');
-  await rent.fill('');
-  await page.waitForTimeout(50);
-  assert.match(await page.getByTestId('rent-hint').innerText(), /უცნობია/);
-  assert.equal(await page.getByTestId('completeness').getAttribute('data-completeness'), 'partial');
-  await rent.fill('0');
-  await page.waitForTimeout(50);
-  assert.match(await page.getByTestId('rent-hint').innerText(), /G = 0/);
-  assert.equal(await val(page, '.kcard[data-component="F"] .k-value'), '0.00');
+  await vienna(page, { rent: null });
+  assert.match(await page.locator('.hero').innerText(), /ქირის გარეშე/);
+  assert.match(await val(page, '[data-testid="S"]'), /^\d+\.\d{2}$/);
+  await page.locator('.pill').nth(2).click();
+  const rent = page.getByTestId('rent');
   for (const bad of ['-5', '1.234,5', 'Infinity', '1e5', '99999999']) {
     await rent.fill(bad);
-    await page.waitForTimeout(30);
     assert.equal(await rent.getAttribute('aria-invalid'), 'true', bad);
   }
   await rent.fill('1500,5');
-  await page.waitForTimeout(50);
   assert.equal(await rent.getAttribute('aria-invalid'), null);
   await page.close();
 });
 
-test('XSS: შეყვანილი ტექსტი HTML-ად არ სრულდება (ეკრანი და ბეჭდვის ცხრილი)', async () => {
-  const { page } = await openPage();
-  await page.evaluate(() => { window.__xss = 0; });
-  await vienna(page);
-  await page.locator('#adv > summary').click();
-  await page.getByLabel(/მოვალეობის შემსრულებელი \(პ\. 20¹\)/).check();
-  await page.locator('#adv-status').getByLabel('აქტის რეკვიზიტები').first().fill('<img src=x onerror="window.__xss=1">');
-  await page.waitForTimeout(500);
-  assert.equal(await page.locator('#print-inputs img, #sec-results img').count(), 0);
-  assert.match(await page.locator('#print-inputs').textContent(), /<img src=x/);
-  assert.equal(await page.evaluate(() => window.__xss), 0);
-  await page.close();
-});
-
-test('JSON ექსპორტი (შედარების არჩევანით) → გასუფთავება → იმპორტი; localStorage მხოლოდ ღილაკით', async () => {
-  const { page } = await openPage();
-  await vienna(page);
-  await page.locator('[data-open-compare]').click();
-  await page.getByTestId('compare-select').selectOption('M-A5-R1');
-  await page.getByTestId('compare-add').click();
-  assert.equal(await page.evaluate(() => localStorage.length), 0);
-  const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('export-json').click()]);
-  const file = await dl.path();
-  const doc = JSON.parse(readFileSync(file, 'utf8'));
-  assert.equal(doc.kind, 'rotation-scenario');
-  assert.equal(doc.schemaVersion, 1);
-  assert.deepEqual(doc.compare, [{ missionId: 'M-A5-R1', rent: null }]);
-  await page.getByTestId('save-local').click();
-  assert.equal(await page.evaluate(() => localStorage.length), 1);
-  await page.getByTestId('clear').click();
-  await page.getByTestId('clear-confirm').click();
-  await page.waitForTimeout(100);
-  assert.equal(await page.evaluate(() => localStorage.length), 0);
-  assert.equal(await val(page, '[data-testid="S"]'), '');
-  await page.getByTestId('import-json').setInputFiles(file);
-  await page.waitForTimeout(150);
-  assert.equal(await val(page, '[data-testid="S"]'), '4985.16');
-  assert.equal(await page.locator('[data-col="M-A5-R1"]').count(), 1);
-  await page.getByTestId('import-json').setInputFiles({ name: 'bad.json', mimeType: 'application/json', buffer: Buffer.from('{"kind":"rotation-scenario","schemaVersion":99}') });
-  await page.waitForTimeout(100);
-  assert.match(await page.locator('.export-msg').innerText(), /უარყოფილია/);
-  assert.equal(await val(page, '[data-testid="S"]'), '4985.16');
-  await page.close();
-});
-
-test('ონლაინ: 4 ბარათი, საძინებლები ოჯახით, რბოლისგან დაცვა, ქირა G-ში მხოლოდ ღილაკით', async () => {
-  const { page, seen, errors } = await openOnline({ delays: { 'AT-VIENNA': 700 } });
-  await search(page).fill('Vienna'); await page.keyboard.press('Enter');
-  await page.locator('.mcard.skeleton').first().waitFor();
-  await search(page).fill('Ljubljana'); await page.keyboard.press('Enter');
-  await page.waitForTimeout(1200);
-  assert.equal(await page.getByTestId('market-rent-average').getAttribute('data-value'), '1000.00', 'ლიუბლიანა, არა ვენა');
-  for (const k of ['rent', 'utilities', 'groceries', 'restaurants']) assert.equal(await page.locator(`.market [data-card="${k}"]`).count(), 1, k);
-  assert.match(await page.locator('.market').innerText(), /ნიუ-იორკი = 100/);
-  assert.match(await page.locator('.market').innerText(), /არა თვიური ხარჯი/);
-  assert.match(await page.locator('.market').innerText(), /Numbeo\.com \(მოპოვებულია Apify-ის მეშვეობით\)/);
-  // ვენა + 2 ოჯახის წევრი → 3 საძინებელი
-  await vienna(page, { rent: '1500' });
-  await page.waitForTimeout(900);
-  assert.equal(await page.locator('[data-seg="beds"] input:checked').getAttribute('value'), '3');
-  assert.equal(await page.getByTestId('market-rent-average').getAttribute('data-value'), '3000.00');
-  const rent = fieldByLabel(page, 'ბინის ყოველთვიური ქირა (G)');
-  await page.getByTestId('use-market-rent').click();
-  assert.equal(await rent.inputValue(), '1500', 'დადასტურების გარეშე არ იცვლება');
-  await page.getByRole('button', { name: 'დიახ, ჩავანაცვლო' }).click();
-  assert.equal(await rent.inputValue(), '3000.00');
-  for (const q of seen) assert.match(q, /^\?location=[A-Z0-9-]+&currency=(EUR|USD)$/);
-  assert.deepEqual(errors, []);
-  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'desktop.png'), fullPage: true });
-  await page.close();
-});
-
-test('შედარება: სხვადასხვა ვალუტა სვეტებად, ქირა თითო ქალაქზე, ბაზარი პარალელურად', async () => {
-  const { page, errors } = await openOnline({ delays: { 'US-WASHINGTON': 400 } });
-  await vienna(page);
-  await page.locator('[data-open-compare]').click();
-  await page.getByRole('button', { name: 'მიმდინარე დაწესებულების დამატება' }).click();
-  const wash = await page.evaluate(() => [...document.querySelectorAll('[data-testid="compare-select"] option')].find((o) => /ვაშინგტონ/.test(o.textContent) && /საელჩო/.test(o.textContent))?.value);
-  await page.getByTestId('compare-select').selectOption(wash);
-  await page.getByTestId('compare-add').click();
-  const cols = page.locator('.ccol');
-  assert.equal(await cols.count(), 2);
-  assert.equal(await cols.nth(0).getByTestId('compare-S').getAttribute('data-value'), '4985.16');
-  assert.match(await cols.nth(1).innerText(), /USD/);
-  assert.equal(await cols.nth(1).getByTestId('compare-S').getAttribute('data-value'), '', 'ქირის გარეშე S დაუდგენელია');
-  await cols.nth(1).getByTestId('compare-rent').fill('2500');
-  await cols.nth(1).getByTestId('compare-rent').press('Tab');
-  await page.waitForTimeout(800);
-  assert.match(await cols.nth(1).getByTestId('compare-S').getAttribute('data-value'), /^\d+\.\d{2}$/);
-  assert.equal(await cols.nth(1).locator('.mcard').count() >= 4, true);
-  assert.deepEqual(errors, []);
-  if (SHOTS) await page.locator('#sec-compare').screenshot({ path: path.join(SHOTS, 'compare.png') });
-  await page.setViewportSize({ width: 375, height: 800 });
-  await page.waitForTimeout(100);
-  const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  assert.ok(over <= 0, `page overflow ${over}px`);
-  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'compare-mobile.png') });
-  await page.close();
-});
-
-test('ნიუ-იორკის გენ. საკონსულო, A2-R1: გაანგარიშება შეცდომის გარეშე', async () => {
+test('ელჩი → ხელმძღვანელი ავტომატურად; ნიუ-იორკის გენ. საკონსულო A2-R1 შეცდომის გარეშე', async () => {
   const { page, errors } = await openPage();
-  await search(page).fill('გენერალური საკონსულო ნიუ-იორკ');
-  await page.keyboard.press('Enter');
-  assert.equal(await page.getByLabel('დაწესებულება', { exact: true }).inputValue(), 'M-A6-R28');
-  await page.getByLabel('თანამდებობა', { exact: true }).selectOption('A2-R1');
-  await fieldByLabel(page, 'ბინის ყოველთვიური ქირა (G)').fill('3000');
-  await page.waitForTimeout(150);
-  assert.equal(await page.locator('.error-box').count(), 0);
+  await pickMission(page, 'გენერალური საკონსულო ნიუ-იორკ');
+  await next(page);
+  await page.getByTestId('position').selectOption('A2-R1');
+  assert.equal(await page.getByTestId('head').isChecked(), true);
+  await next(page);
+  await page.getByTestId('rent').fill('3000');
+  await next(page);
   assert.match(await val(page, '[data-testid="S"]'), /^\d+\.\d{2}$/);
   assert.deepEqual(errors, []);
   await page.close();
 });
 
-test('მობილური 375px: ჰორიზონტალური გადახვევა არ არის', async () => {
-  const { page } = await openPage({ width: 375, height: 800 });
+test('დამატებითი ხარჯები: დაზღვევის ლიმიტი, ბარგი, მაკლერი, მოწყობა', async () => {
+  const { page } = await openPage();
+  await pickMission(page, 'Vienna'); await next(page);
+  await page.getByTestId('position').selectOption('A2-R5');
+  await page.getByLabel('თქვენი ასაკი').fill('40');
+  await next(page);
+  await page.getByTestId('rent').fill('1500');
+  for (const k of ['insurance', 'baggage', 'broker', 'settlement']) await page.getByTestId(`ex-${k}`).check();
+  assert.match(await page.locator('.ex').first().innerText(), /1 663\.00 EUR/);
+  await page.getByLabel('ფაქტიური ხარჯი (არასავალდებულო)').fill('600');
+  await page.getByLabel('მაკლერის საკომისიო').fill('300');
+  await page.getByLabel('დღიური ნორმა').fill('60');
+  await next(page);
+  const ot = await page.locator('.onetime').innerText();
+  assert.match(ot, /600\.00 EUR/);
+  assert.match(ot, /150\.00 EUR/);
+  assert.match(ot, /3 600\.00 EUR/);
+  assert.match(ot, /დაზღვევის წლიური ლიმიტი/);
+  await page.close();
+});
+
+test('XSS: ტექსტი HTML-ად არ სრულდება', async () => {
+  const { page } = await openPage();
+  await page.evaluate(() => { window.__xss = 0; });
+  await page.getByTestId('mission').fill('<img src=x onerror="window.__xss=1">');
+  await page.waitForTimeout(100);
+  assert.equal(await page.locator('#app img').count(), 0);
+  assert.equal(await page.evaluate(() => window.__xss), 0);
+  await page.close();
+});
+
+test('ონლაინ: ბაზრის ბარათი, ქირის ჩიპი, რბოლისგან დაცვა', async () => {
+  const { page, seen, errors } = await openOnline({ delays: { 'AT-VIENNA': 700 } });
+  await pickMission(page, 'Vienna');
+  await page.locator('.market-load').waitFor();
+  await pickMission(page, 'Ljubljana');
+  await page.waitForTimeout(1200);
+  assert.equal(await val(page, '[data-testid="market-rent"]'), '1000.00', 'ლიუბლიანა, არა ვენა');
+  assert.match(await page.locator('.mcard').innerText(), /ნიუ-იორკი = 100/);
+  await pickMission(page, 'Vienna');
+  await page.waitForTimeout(900);
+  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'd-step1-online.png'), fullPage: true });
+  await next(page);
+  await page.getByTestId('position').selectOption('A2-R5');
+  await page.getByTestId('add-family').click(); await page.getByTestId('add-family').click();
+  await page.locator('.fam-row').nth(1).locator('select').selectOption('child');
+  await next(page);
+  await page.getByTestId('use-market-rent').click();
+  assert.equal(await page.getByTestId('rent').inputValue(), '3000.00', '3 საძინებელი (2 ოჯახის წევრი), ვენა ×1.5');
+  for (const q of seen) assert.match(q, /^\?location=[A-Z0-9-]+&currency=(EUR|USD)$/);
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
+test('შედარება: EUR + USD ბარათები გვერდიგვერდ, Numbeo-ს ქირით; მობილურზე გვერდი არ იშლება', async () => {
+  const { page, errors } = await openOnline({ delays: { 'US-WASHINGTON': 300 } });
   await vienna(page);
-  await page.locator('#adv > summary').click();
+  await page.getByTestId('compare-open').click();
+  await page.locator('.ccard').first().waitFor();
+  await pickMission(page, 'ვაშინგტონ საელჩო', 'compare-add');
+  await page.waitForTimeout(800);
+  const cards = page.locator('.ccard');
+  assert.equal(await cards.count(), 2);
+  assert.equal(await cards.nth(0).getByTestId('compare-S').getAttribute('data-value'), '4985.16');
+  assert.match(await cards.nth(1).innerText(), /USD/);
+  assert.match(await cards.nth(1).getByTestId('compare-S').getAttribute('data-value'), /^\d+\.\d{2}$/);
+  assert.match(await cards.nth(1).innerText(), /Numbeo-ს საშუალო/);
+  assert.deepEqual(errors, []);
+  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'd-compare.png') });
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.waitForTimeout(100);
   const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  assert.ok(over <= 0, `scrollWidth overflow ${over}px`);
-  if (SHOTS) { await page.screenshot({ path: path.join(SHOTS, 'mobile-top.png') }); await page.screenshot({ path: path.join(SHOTS, 'mobile.png'), fullPage: true }); }
+  assert.ok(over <= 0, `page overflow ${over}px`);
+  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'm-compare.png') });
+  await page.close();
+});
+
+test('მობილური 375px: ყველა საფეხური, ჰორიზონტალური გადახვევის გარეშე', async () => {
+  const { page } = await openPage({ width: 375, height: 800 });
+  const shots = async (n) => {
+    const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    assert.ok(over <= 0, `${n}: overflow ${over}px`);
+    if (SHOTS) await page.screenshot({ path: path.join(SHOTS, `m-${n}.png`), fullPage: true });
+  };
+  await vienna(page, { shots });
+  await shots('step4');
   await page.close();
 });
 

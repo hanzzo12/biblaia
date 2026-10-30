@@ -18,7 +18,7 @@ export function skeleton(rows = 4) {
 }
 
 /** 4 სტრიქონი + ინდექსი + წყარო. md = null → იტვირთება; მონაცემის გარეშე → ერთი ნაცრისფერი ხაზი. */
-export function marketList(md, beds, { loading = false, source = true } = {}) {
+export function marketList(md, beds, { loading = false, source = true, compact = false } = {}) {
   if (loading) return h('div', { class: 'market-load', 'aria-busy': 'true' }, h('span', { class: 'sr-only' }, 'ფასები იტვირთება'), skeleton());
   if (!md || !WITH_DATA.has(md.status)) return h('p', { class: 'muted small', 'data-testid': 'market-unavailable' }, 'ფასები ამჟამად მიუწვდომელია');
   const cur = md.currency;
@@ -29,11 +29,11 @@ export function marketList(md, beds, { loading = false, source = true } = {}) {
   const rest = r.inexpensiveMeal?.average != null || r.midRangeForTwo?.average != null
     ? `${money(r.inexpensiveMeal?.average, cur)} / ${money(r.midRangeForTwo?.average, cur)}` : '—';
   return h('div', { class: 'mlist' },
-    row(`ქირა ცენტრში (${beds} საძინებელი)`, money(rent, cur), rent, 'market-rent'),
-    row('კომუნალური (85 მ²) + ინტერნეტი', util, u.basic85m2?.average),
-    row('სურსათი (ძირითადი კალათა)', money(g.basketItemsSum, cur), g.basketItemsSum),
-    row('რესტორანი (ბიუჯეტური / საშუალო 2 პირზე)', rest, r.inexpensiveMeal?.average),
-    md.indices?.costOfLiving != null ? h('p', { class: 'mindex' }, `ცხოვრების ღირებულების ინდექსი: ${md.indices.costOfLiving} (ნიუ-იორკი = 100)`) : null,
+    row(compact ? `ქირა, ${beds} საძ.` : `ქირა ცენტრში (${beds} საძინებელი)`, money(rent, cur), rent, compact ? null : 'market-rent'),
+    row(compact ? 'კომუნალური + ინტ.' : 'კომუნალური (85 მ²) + ინტერნეტი', util, u.basic85m2?.average),
+    row(compact ? 'სურსათი' : 'სურსათი (ძირითადი კალათა)', money(g.basketItemsSum, cur), g.basketItemsSum),
+    row(compact ? 'რესტორანი' : 'რესტორანი (ბიუჯეტური / საშუალო 2 პირზე)', rest, r.inexpensiveMeal?.average),
+    md.indices?.costOfLiving != null ? h('p', { class: 'mindex' }, compact ? `ინდექსი: ${md.indices.costOfLiving} (ნიუ-იორკი = 100)` : `ცხოვრების ღირებულების ინდექსი: ${md.indices.costOfLiving} (ნიუ-იორკი = 100)`) : null,
     source && md.provider ? h('p', { class: 'msource' },
       md.provider.sourceUrl ? h('a', { href: md.provider.sourceUrl, rel: 'noopener noreferrer', target: '_blank' }, md.provider.attribution_ka || 'წყარო: Numbeo.com') : (md.provider.attribution_ka || ''),
       md.fetchedAt ? ` · ${String(md.fetchedAt).slice(0, 10)}` : '') : null);

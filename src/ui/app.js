@@ -251,7 +251,7 @@ export function startApp({ data, meta, online, client }) {
     const bagCap = lim?.oneTimeReimbursements?.baggage?.cap?.value;
     const curSel = h('select', { 'aria-label': 'ნორმის ვალუტა', class: 'cur-sel' }, ['EUR', 'USD'].map((c) => h('option', { value: c, selected: (st.dailyCur || cur) === c }, c)));
     curSel.addEventListener('change', () => { st.dailyCur = curSel.value; });
-    return [...title('ქირა, სწავლა, ხარჯები'),
+    return [...title('ქირა, სწავლა, ხარჯები', 'თვიური თანხები. თუ ქირა ჯერ არ იცით — დატოვეთ ცარიელი.'),
       rent.el,
       kids.length ? h('h3', null, 'სკოლა / ბაღი') : null,
       kids.map((f, i) => moneyField(`სკოლა/ბაღი — თვიური გადასახადი (შვილი ${i + 1}${parseAge(f.ageRaw) != null ? ', ' + parseAge(f.ageRaw) + ' წ.' : ''})`, () => st.edu[f.id] ?? '', (v) => { st.edu[f.id] = v; }, { cur, testid: 'edu' }).el),

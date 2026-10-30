@@ -64,9 +64,9 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
       h('p', { class: 'c-s', 'data-testid': 'compare-S', 'data-value': S?.value ?? '' }, c.loading && !own.value ? '…' : val(S)),
       h('div', { class: 'crow' }, h('span', null, 'ქირის ანაზღაურება'), h('strong', null, rent == null ? '—' : val(mm.F))),
       h('div', { class: 'crow' }, h('span', null, 'დარჩება ქირის შემდეგ'), h('strong', { 'data-value': r?.remainder?.value?.value ?? '' }, rent == null ? '—' : val(r?.remainder?.value))),
-      h('div', { class: 'crow rent-in' }, h('label', { for: rid }, own.value != null ? 'ქირა (თქვენი)' : numbeo ? 'ქირა: Numbeo-ს საშუალო' : 'ქირა'),
+      h('div', { class: 'rent-in' }, h('label', { for: rid }, own.value != null ? 'ქირა (თქვენი)' : numbeo ? 'ქირა: Numbeo-ს საშუალო' : 'ქირა (შეიყვანეთ)'),
         h('span', { class: 'with-cur' }, rentInp, h('span', { class: 'cur' }, cur))),
-      h('div', { class: 'cmarket' }, marketList(c.md, beds(), { loading: c.loading, source: false })));
+      h('div', { class: 'cmarket' }, marketList(c.md, beds(), { loading: c.loading, source: false, compact: true })));
   }
 
   function render() {
