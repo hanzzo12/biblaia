@@ -104,14 +104,14 @@ export function mountLocation(root, store, { onPlaceChange }) {
     citySel.disabled = !store.ui.countryId;
     replace(citySel, h('option', { value: '' }, store.ui.countryId ? L.choose : 'ჯერ აირჩიეთ ქვეყანა'),
       cities.map((l) => h('option', { value: l.id, selected: l.id === store.ui.locationId }, l.name_ka + (l.region ? ` (${l.region})` : ''))));
-    cityNote.textContent = cities.length === 1 && store.ui.locationId ? `ქალაქი: ${cities[0].name_ka} — ავტომატურად არჩეული (ქვეყანაში ერთი ქალაქია).`
-      : cities.length > 1 && !store.ui.locationId ? 'ქვეყანაში რამდენიმე ქალაქია — აირჩიეთ ქალაქი.' : '';
+    cityNote.textContent = cities.length === 1 && store.ui.locationId ? 'ავტომატურად არჩეული'
+      : cities.length > 1 && !store.ui.locationId ? 'აირჩიეთ ქალაქი' : '';
     const missions = store.ui.locationId ? core.listMissions(data, { locationId: store.ui.locationId }) : [];
     if (autoPick && missions.length === 1 && !store.scenario.missionId) store.scenario.missionId = missions[0].id;
     missionSel.disabled = !store.ui.locationId || !missions.length;
     replace(missionSel, h('option', { value: '' }, !store.ui.locationId ? 'ჯერ აირჩიეთ ქალაქი' : missions.length ? L.choose : 'ამ ქალაქში დანართებში დაწესებულება არ არის'),
       missions.map((m) => h('option', { value: m.id, selected: m.id === store.scenario.missionId }, m.name_ka)));
-    missionNote.textContent = missions.length === 1 && store.scenario.missionId ? 'ქალაქში ერთი დაწესებულებაა — ავტომატურად არჩეული.' : '';
+    missionNote.textContent = missions.length === 1 && store.scenario.missionId ? 'ავტომატურად არჩეული' : '';
   }
 
   function renderInfo() {
@@ -123,16 +123,9 @@ export function mountLocation(root, store, { onPlaceChange }) {
     const k = m.coefficient;
     const basisKa = { 'city-row': 'ქალაქის სტრიქონი', 'country-row': 'ქვეყნის სტრიქონი', none: '—' }[k.basis] || k.basis;
     replace(info,
-      h('dl', { class: 'kv' },
-        h('dt', null, 'ტიპი'), h('dd', null, m.type_ka),
-        h('dt', null, 'დაფინანსების ვალუტა'), h('dd', { 'data-testid': 'funding-currency' }, m.fundingCurrency ?? 'დაუდგენელი'),
-        h('dt', null, 'K'), h('dd', null, k.k ?? 'დაუდგენელი'),
-        h('dt', null, 'E'), h('dd', null, k.ePercent != null ? k.ePercent + '%' : 'დაუდგენელი'),
-        h('dt', null, 'წყარო'), h('dd', null, `დანართი №${m.annex}, სტრ. ${m.rowNo}${m.page ? `, გვ. ${m.page}` : ''}` +
-          (k.annex4Row ? `; K/E — დანართი №4, სტრ. ${k.annex4Row} (${basisKa})` : ''))),
-      k.status !== 'available' ? h('p', { class: 'warn', role: 'note' }, k.note_ka || 'ნორმატიული მონაცემი არ არის — ოფიციალური თანხა დაუდგენელია.') : null,
-      m.locationBasis && m.locationBasis !== 'source-explicit'
-        ? h('p', { class: 'hint' }, `ქალაქი (${m.location_ka}) დადგენილია ${m.locationBasis === 'inferred-capital' ? 'დედაქალაქის' : 'ორგანიზაციის ადგილსამყოფლის'} მიხედვით; წყაროში ქალაქი პირდაპირ არ წერია.`) : null);
+      h('p', { class: 'mi-line' }, h('strong', null, m.type_ka), ` · დაფინანსება ${m.fundingCurrency ?? '—'} · K ${k.k ?? '—'} · ბინის წილი E ${k.ePercent != null ? k.ePercent + '%' : '—'}`),
+      h('p', { class: 'hint' }, `წყარო: დანართი №${m.annex}, სტრ. ${m.rowNo}` + (k.annex4Row ? `; K/E — დანართი №4, სტრ. ${k.annex4Row} (${basisKa})` : '')),
+      k.status !== 'available' ? h('p', { class: 'warn', role: 'note' }, k.note_ka || 'ნორმატიული მონაცემი არ არის — ოფიციალური თანხა დაუდგენელია.') : null);
   }
 
   const lab = (sel, text) => h('label', { for: sel.id }, text);

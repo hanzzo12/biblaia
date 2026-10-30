@@ -255,3 +255,12 @@ input[type=file] { max-width: 100%; font: inherit; font-size: .82rem; }
 .grid3 > *, details, fieldset, .list-editor, .card { min-width: 0; }
 input, select { min-width: 0; max-width: 100%; }
 @media screen { details:not([open]) > :not(summary) { display: none; } }
+.kcard .badge { align-self: flex-start; }
+.mi-line { margin: 2px 0; }
+.mission-info .hint { font-size: .78rem; }
+.rent-block { margin-bottom: 8px; }
+.edu { margin-top: 8px; }
+.radios .radio { flex-wrap: wrap; }
+.radios .radio label { flex: 0 0 auto; max-width: calc(100% - 30px); }
+.radios .radio .hint { flex-basis: 100%; margin: 0 0 0 28px; }
+@media (min-width: 640px) { .radios .radio .hint { flex-basis: auto; margin: 0; } }

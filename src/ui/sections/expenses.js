@@ -74,7 +74,7 @@ export function mountExpenses(root, advRoot, store) {
     const dates = sc.period.mode === 'dates';
     const children = sc.family.filter((m) => m.role === 'child' || m.role === 'stepchild' || m.role === 'other');
     replace(box,
-      h('fieldset', { class: 'group' }, h('legend', null, 'ბინის ქირა'),
+      h('div', { class: 'rent-block' },
         F.money(store, 'rent.amount', L.rent, { unit: '', positive: false, hint: 'ცარიელი = უცნობი; 0 = ქირა არ არის. შეიყვანეთ დაფინანსების ვალუტაში.', onChange: () => {
           store.ui.rentLocationId = store.ui.locationId;
           if (sc.rent.basis === 'market-scenario') { sc.rent.basis = 'planned'; sc.rent.marketRef = null; render(); document.getElementById(store.ids['rent.amount'])?.focus(); }
@@ -90,7 +90,7 @@ export function mountExpenses(root, advRoot, store) {
           listEditor('rent.changes', { itemLabel: 'ცვლილება', addLabel: '+ ქირის ცვლილება', make: () => ({ from: null, amount: null }),
             fields: (p) => [F.date(store, `${p}.from`, 'თარიღიდან'), F.money(store, `${p}.amount`, 'ახალი ქირა', { unit: '' })] })) : null),
 
-      h('fieldset', { class: 'group' }, h('legend', null, 'განათლება (თითო ბავშვზე)'),
+      h('fieldset', { class: 'group edu' }, h('legend', null, 'განათლება (თითო ბავშვზე)'),
         children.length ? null : h('p', { class: 'hint' }, 'ჯერ დაამატეთ შვილი/გერი სექციაში 3.'),
         listEditor('education', { itemLabel: 'განათლება', addLabel: '+ ბავშვის განათლების ხარჯი',
           make: () => ({ memberId: children[0]?.id ?? null, tuition: null, registration: null, transport: null, meals: null, holidayExtraContract: null, freeStateLanguageSchoolAvailable: false, paidSchoolLanguageSameAsState: false, schoolYear: null, ministerDecision34: false }),
