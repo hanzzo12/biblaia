@@ -3,7 +3,7 @@
 import { R, ZERO, add, sub, mul, div, min, max, sum, isZero, gt, toFixed2, toExactString, toDecimalString } from './rational.js';
 import { parseDecimalInput } from './decimal.js';
 import { isValidDate, compareDates, addDays, addMonths, monthKey, monthEnd, segmentPeriod, ageOn, withinOpen, overlapDays, daysInclusive, daysInMonthOf } from './calendar.js';
-import { getIndex } from './lookup.js';
+import { getIndex, dailyRateForMission } from './lookup.js';
 import { emptyScenario, validateScenario, SCENARIO_SCHEMA_VERSION } from './scenario.js';
 import { DEPENDENT_STATUSES, EXTRA_RULES, EXTRA_CATEGORIES, SETTLEMENT_EXCLUSIONS, ROLES } from './enums.js';
 import {
@@ -597,7 +597,20 @@ export function calculate(scenarioIn, data) {
       return comp(id, 'one-time-allowance', label, null, cur, 'undetermined', 'ნორმის ვალუტა მითითებული არ არის.', rules, iu);
     }
     if (!dr || rate == null) {
-      return comp(id, 'one-time-allowance', label, null, cur, 'undetermined', '№211 დადგენილების სადღეღამისო ნორმა მოწოდებულ წყაროებში არ არის; შეიყვანეთ ნორმა წყაროთი და თარიღით (P-9).', rules, iu);
+      // normative daily rate (Decree №211 Annex 1): city row first, else country row
+      const nr = mission ? dailyRateForMission(data, mission.id) : null;
+      if (!nr) {
+        return comp(id, 'one-time-allowance', label, null, cur, 'undetermined', 'ამ დაწესებულებისთვის №211 დადგენილების სადღეღამისო ნორმა ნორმატიულ მონაცემებში არ მოიძებნა; შეიძლება შეიყვანოთ ხელით, წყაროთი და თარიღით (P-9).', rules, iu);
+      }
+      const amountN = settlementAmount(nr.amount, n, param('SETTLEMENT-DSA-MULTIPLIER') ?? '60', param('SETTLEMENT-FAMILY-PCT') ?? '10');
+      const iuN = { ...iu, dailyRateId: nr.id, dailyRate: nr.amount, dailyRateCurrency: nr.currency, dailyRateBasis: nr.basis, edition: nr.edition ?? null };
+      const where = nr.basis === 'city' ? 'ქალაქის სტრიქონი' : 'ქვეყნის სტრიქონი';
+      if (cur && nr.currency !== cur) {
+        ctx.warn('SETTLE_NORM_CURRENCY', `სადღეღამისო ნორმა ${nr.currency}-შია, დაწესებულების დაფინანსება — ${cur}-ში. პირველადი მოწყობა ნაჩვენებია ნორმის ვალუტაში; არ გადაიყვანება და ${cur}-ის ჯამებს არ ემატება.`, rules, 'settlement');
+        if (s.fx) ctx.info('SETTLE_FX_IGNORED', 'ნორმატიული ნორმისას კურსი არ გამოიყენება — თანხა ნორმის ვალუტაში ჩანს.', rules, 'settlement.fx');
+      }
+      return comp(id, 'one-time-allowance', label, amountN, nr.currency, 'calculated',
+        `№211 დადგენილების დანართი №1 (${where}): ${nr.amount} ${nr.currency} × 60 × (1 + 10% × ${n}) (პ.7).`, rules, iuN);
     }
     ctx.assume('SETTLE_RATE_MANUAL', 'სადღეღამისო ნორმა ხელით არის შეყვანილი — შედეგი დაუდასტურებელია და დადასტურებულ ჯამში არ შედის (P-9).', rules, 'OQ-04');
     const amountR = settlementAmount(rate, n, param('SETTLEMENT-DSA-MULTIPLIER') ?? '60', param('SETTLEMENT-FAMILY-PCT') ?? '10');
@@ -779,7 +792,7 @@ export function calculate(scenarioIn, data) {
   // ---------------------------------------------------------------- totals & completeness
   const oneTimeItems = [settlement, broker, baggage.reimbursable, ...travel, ...extras];
   const reimbItems = [...oneTimeItems, ...perPerson.filter((p) => p.entered).map((p) => p.reimbursable)];
-  const entered = reimbItems.filter((c) => c.status !== 'not_applicable' && !(c === settlement && !sc.settlement.dailyRate && !sc.settlement.exclusion9));
+  const entered = reimbItems.filter((c) => c.status !== 'not_applicable' && !(c === settlement && c.status === 'undetermined' && !sc.settlement.dailyRate && !sc.settlement.exclusion9));
   const inCur = (c) => c.currency === cur;
   const sumOf = (cs) => (cs.length ? sum(cs.map(rat)) : ZERO);
   const confirmed = entered.filter((c) => c.status === 'calculated' && inCur(c));

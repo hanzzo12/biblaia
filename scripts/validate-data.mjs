@@ -268,6 +268,29 @@ for (const n of data.normalizations) {
 }
 check(data.dailyRates.length > 0 || data.dataGaps.some((g) => (g.affects || []).includes('dailyRates')), 'dailyRates empty without a dataGaps entry');
 
+// ---------------------------------------------------------------- daily rates (Decree №211 Annex 1)
+const drKeys = new Set();
+for (const r of data.dailyRates) {
+  const w = `dailyRates ${r.id}`;
+  if (ref(countries, r.countryId, `${w}.countryId`) && r.locationId !== null) {
+    if (ref(locations, r.locationId, `${w}.locationId`)) check(locations.get(r.locationId).countryId === r.countryId, `${w}: location in another country`);
+  }
+  check(r.locationId === null || isStr(r.locationId), `${w}: locationId must be null (whole country / other cities) or a location id`);
+  posDec(r.amount, `${w}.amount`);
+  check(/^[A-Z]{3}$/.test(r.currency || ''), `${w}: currency must be an ISO 4217 code`);
+  ref(src, r.sourceRef, `${w}.sourceRef`);
+  check(isStr(r.edition), `${w}: edition required`);
+  check(r.row !== undefined && r.row !== null && r.row !== '', `${w}: row required`);
+  const key = `${r.countryId}|${r.locationId ?? '*'}`;
+  check(!drKeys.has(key), `${w}: duplicate daily rate for ${key}`);
+  drKeys.add(key);
+}
+if (data.dailyRates.length) {
+  const missing = data.missions.filter((m) => !data.dailyRates.some((r) => r.locationId === m.locationId || (r.countryId === m.countryId && r.locationId === null)));
+  if (missing.length) warnings.push(`dailyRates: no rate (city or country row) for ${missing.length} mission(s): ${missing.map((m) => m.id).join(', ')}`);
+  check(!data.dataGaps.some((g) => g.id === 'GAP-DAILY-RATES'), 'dataGaps.GAP-DAILY-RATES must be removed once dailyRates are filled');
+}
+
 // ---------------------------------------------------------------- known corrections (legacy audit)
 const mission = (id) => missions.get(id);
 const kOf = (id) => kcoef.get(mission(id)?.costCoefficientId)?.k;

@@ -1,5 +1,7 @@
 {
-  // Cloudflare Workers Static Assets + /api/market. შემოწმებულია wrangler 4.155.0-ით (deploy --dry-run).
+  // Cloudflare **Workers** კონფიგურაცია (CLI გზა, დანართი). Pages-ის Git გზას ეს ფაილი არ სჭირდება — იხ. docs/deploy-pages.md.
+  // ფაილს განზრახ არ ჰქვია wrangler.jsonc: Pages-ის build/`wrangler pages dev` მას Pages-ის კონფიგად წაიკითხავდა.
+  // გამოყენება: npx wrangler deploy --config wrangler.worker.jsonc (npm run deploy). შემოწმებულია wrangler 4.155.0-ით.
   // აქ მხოლოდ არასაიდუმლო პარამეტრებია. APIFY_TOKEN → `npx wrangler secret put APIFY_TOKEN` (ლოკალურად — .dev.vars).
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "rotation-calculator",

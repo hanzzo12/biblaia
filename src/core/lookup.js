@@ -125,3 +125,21 @@ function suggestHead(mode, e) {
 export function getParameter(data, id) {
   return idx(data).params.get(id)?.value ?? null;
 }
+
+/**
+ * Normative daily rate (Government Decree №211, Annex 1) for a mission: the row for the
+ * mission's city first, else the country-wide row (locationId null). Currency is as given in
+ * the source and may differ from the mission's funding currency. Returns null when absent.
+ * @returns {{ id: string, amount: string, currency: string, basis: 'city'|'country', countryId: string, locationId: string|null, edition: string|null, sourceRef: string|null, row: any } | null}
+ */
+export function dailyRateForMission(data, missionId) {
+  const m = idx(data).missions.get(missionId);
+  if (!m) return null;
+  const rows = data.dailyRates || [];
+  const city = rows.find((r) => r.locationId && r.locationId === m.locationId);
+  const country = rows.find((r) => r.countryId === m.countryId && (r.locationId === null || r.locationId === undefined));
+  const r = city || country;
+  if (!r) return null;
+  return { id: r.id, amount: r.amount, currency: r.currency, basis: city ? 'city' : 'country', countryId: r.countryId, locationId: r.locationId ?? null,
+    edition: r.edition ?? null, sourceRef: r.sourceRef ?? null, row: r.row ?? null };
+}
