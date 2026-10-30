@@ -128,7 +128,7 @@ details > summary { cursor: pointer; font-weight: 600; color: var(--primary); pa
 .elig .hint { display: none; }
 .elig-yes { color: var(--ok); } .elig-no { color: var(--err); } .elig-unknown { color: var(--warn); }
 .cards > .card, .list-editor > .card { background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; margin: 0 0 10px; box-shadow: none; }
-.list-editor > .card > legend { float: left; width: 100%; margin-bottom: 8px; }
+.list-editor > .card > legend { padding: 0 6px; font-size: .85rem; color: var(--muted); }
 
 /* market */
 .market { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
