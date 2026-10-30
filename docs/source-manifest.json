@@ -8,9 +8,19 @@
     "suppliedEditionChecked": true,
     "publicMatsnePageChecked": false,
     "fullConsolidatedTextChecked": false,
-    "summary": "შემოწმებულია მხოლოდ მოწოდებული გაერთიანებული სამუშაო ასლი (შედგენილია 2026-10-28). matsne.gov.ge ამ სესიიდან მიუწვდომელი იყო (DNS/ქსელის ნებართვა: getaddrinfo ENOTFOUND, 2026-10-29). ბოლო რედაქციის სრული გადამოწმება არ შესრულებულა და დასრულებულად არ ითვლება.",
+    "summary": "შემოწმებულია მხოლოდ მოწოდებული გაერთიანებული სამუშაო ასლი (შედგენილია 2026-10-28). matsne.gov.ge ამ სესიიდან მიუწვდომელი იყო (DNS/ქსელის ნებართვა: getaddrinfo ENOTFOUND, 2026-10-29). ბოლო რედაქციის სრული გადამოწმება არ შესრულებულა და დასრულებულად არ ითვლება. 2026-10-30: მეორე მცდელობა — matsne აბრუნებს „Access Denied“ გვერდს (WAF), WebFetch-ის DNS კვლავ ვერ ხსნის ჰოსტს. №01-82-ის რედაქციის, პ.3-ის, დანართ №2-ის სტრ.3-ისა და დანართ №4-ის (ავსტრია, ირანი, ვაშინგტონი, ნიუ-იორკი) შედარება მაცნესთან ვერ შესრულდა — არაფერი დაემთხვა ან განსხვავდა, რადგან მაცნეს ტექსტი არ მიგვიღია. მოწოდებული მონაცემები უცვლელია.",
     "taskStatement": "დავალების (docs/task.md §2) თანახმად, 2026-10-28-ს მაცნეს საჯარო გვერდზე ჩანდა კონსოლიდაციის თარიღი 13/08/2026, სრული კონსოლიდირებული ტექსტი ავტორიზაციას მოითხოვდა, საჯარო ტექსტი პირველადი რედაქცია იყო. ეს ცნობა დავალებიდან არის და ჩვენ მიერ დამოუკიდებლად არ გადამოწმებულა.",
-    "latestAmendmentCitationInSuppliedCopy": "№01-317 of 13.08.2026 published 14.08.2026 (პუნქტები 20, 20², დანართი №2)"
+    "latestAmendmentCitationInSuppliedCopy": "№01-317 of 13.08.2026 published 14.08.2026 (პუნქტები 20, 20², დანართი №2)",
+    "matsneComparison": {
+      "date": "2026-10-30",
+      "performed": false,
+      "pointsPlanned": [
+        "პ.3 H 3100 EUR / 3495 USD",
+        "დანართი №2 სტრ.3 (75%, ადმ. მენეჯერი 20²)",
+        "დანართი №4: ავსტრია 2.06/21, ირანი 1.89/24, აშშ ვაშინგტონი 2.185/28, აშშ ნიუ-იორკი 2.65/32 (მოწოდებული PDF)"
+      ],
+      "result": "not accessible"
+    }
   },
   "suppliedFiles": [
     {
@@ -1043,13 +1053,21 @@
       "referencedBy": "ბრძანება №01-82 პ.7 (გვ.4)",
       "neededFor": "პირველადი მოწყობის დახმარება (R-SETTLE-001)",
       "url": "https://www.matsne.gov.ge/ka/document/view/3649787",
-      "accessAttempt": {
-        "date": "2026-10-29",
-        "tool": "WebFetch",
-        "result": "getaddrinfo ENOTFOUND www.matsne.gov.ge — ჰოსტი სესიის ქსელის ნებართვებში არ არის"
-      },
       "status": "not-obtained",
-      "consequence": "სადღეღამისო ნორმა, მისი ვალუტა და მოქმედი რედაქცია უცნობია; აპი ითხოვს ხელით შეყვანას წყაროს/თარიღის/ვალუტის მითითებით და შედეგს „დაუდასტურებლად“ ნიშნავს. sources/extracted/decree211-annex1.raw.txt არ შექმნილა."
+      "consequence": "სადღეღამისო ნორმა, მისი ვალუტა და მოქმედი რედაქცია უცნობია; აპი ითხოვს ხელით შეყვანას წყაროს/თარიღის/ვალუტის მითითებით და შედეგს „დაუდასტურებლად“ ნიშნავს. sources/extracted/decree211-annex1.raw.txt არ შექმნილა.",
+      "accessAttempts": [
+        {
+          "date": "2026-10-29",
+          "tool": "WebFetch",
+          "result": "getaddrinfo ENOTFOUND www.matsne.gov.ge — ჰოსტი სესიის ქსელის ნებართვებში არ არის"
+        },
+        {
+          "date": "2026-10-30T19:55:35Z",
+          "tool": "curl (HTTPS, session proxy)",
+          "result": "HTTP 200, 840 bytes, matsne 'Access Denied' page ('Oops! Something went wrong… Ref ID: 17955672397413422244') — bot-protection/WAF response, no document content. A retry with a browser user agent or cookies was not done: the session's permission policy blocks it as bot-check circumvention. WebFetch at the same time: getaddrinfo ENOTFOUND.",
+          "ref": "17955672397413422244"
+        }
+      ]
     },
     {
       "id": "SRC-MFA-01-74-2019",
@@ -1080,12 +1098,20 @@
       "id": "SRC-MATSNE-01-82",
       "title": "ბრძანება №01-82 მაცნეზე",
       "url": "https://matsne.gov.ge/ka/document/view/4135171",
-      "accessAttempt": {
-        "date": "2026-10-29",
-        "tool": "WebFetch",
-        "result": "getaddrinfo ENOTFOUND matsne.gov.ge — ჰოსტი სესიის ქსელის ნებართვებში არ არის"
-      },
-      "status": "not-checked"
+      "status": "not-checked",
+      "accessAttempts": [
+        {
+          "date": "2026-10-29",
+          "tool": "WebFetch",
+          "result": "getaddrinfo ENOTFOUND matsne.gov.ge — ჰოსტი სესიის ქსელის ნებართვებში არ არის"
+        },
+        {
+          "date": "2026-10-30T19:55:35Z",
+          "tool": "curl (HTTPS, session proxy)",
+          "result": "HTTP 200, 840 bytes, matsne 'Access Denied' page ('Oops! Something went wrong… Ref ID: 17955672397413422244') — bot-protection/WAF response, no document content. A retry with a browser user agent or cookies was not done: the session's permission policy blocks it as bot-check circumvention. WebFetch at the same time: getaddrinfo ENOTFOUND.",
+          "ref": "same response (840-byte Access Denied page)"
+        }
+      ]
     }
   ]
 }
