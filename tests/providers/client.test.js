@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createMarketClient, createLatestOnly, suggestBedrooms, MARKET_STATUS_LABELS_KA, MARKET_CATEGORY_LABELS_KA, DATA_STATUS, validateMarketData, createEmptyMarketData } from '../../src/providers/index.js';
 import { normalizeApify } from '../../src/providers/apify-numbeo-adapter.js';
-import { SYNTHETIC_NAMES, nestedPrices, rankingsRows } from './fixtures/apify-synthetic.js';
+import { SYNTHETIC_NAMES, flatPrices as nestedPrices, rankingsRows } from './fixtures/apify-synthetic.js';
 
 const good = (loc = 'AT-VIENNA', currency = 'EUR') => normalizeApify({ locationId: loc, currency, entry: SYNTHETIC_NAMES.locations['AT-VIENNA'], prices: { status: 'ok', items: nestedPrices({ currency }) }, rankings: { status: 'ok', items: rankingsRows() }, fetchedAt: '2026-10-30T10:00:00Z' });
 const resp = (b, status = 200) => new Response(typeof b === 'string' ? b : JSON.stringify(b), { status });

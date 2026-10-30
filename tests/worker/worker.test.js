@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import worker, { createWorker, cacheKey, RANKINGS_KEY } from '../../worker/index.js';
 import { validateMarketData } from '../../src/providers/market-contract.js';
-import { SYNTHETIC_NAMES, nestedPrices, rankingsRows, mockApify, FAKE_TOKEN } from '../providers/fixtures/apify-synthetic.js';
+import { SYNTHETIC_NAMES, flatPrices as nestedPrices, rankingsRows, mockApify, FAKE_TOKEN } from '../providers/fixtures/apify-synthetic.js';
 
 const req = (p, init) => new Request(`https://calc.example${p}`, init);
 const body = async (r) => JSON.parse(await r.text());

@@ -1,497 +1,659 @@
 {
  "_meta": {
   "schemaVersion": 2,
-  "status": "unverified",
-  "description": "შიდა ლოკაციის ID → Numbeo-ს ქალაქის სახელი (Apify actor-ის `cities` შესასვლელისთვის). ნაგულისხმევად აღებულია ჩვენი `name_en`; აშშ-ის ქალაქები და რამდენიმე გამონაკლისი — Numbeo-ს ცნობილი დაწერილობით. ყველა ჩანაწერი verified:false, სანამ რეალური Apify გაშვება არ დაადასტურებს (გაშვების შედეგი ამოწმებს დაბრუნებულ ქალაქს და შეუსაბამობისას აბრუნებს wrong_city). ID არ გამოიგონება — მხოლოდ სახელები.",
-  "verifiedAt": null
+  "status": "partially-verified",
+  "description": "შიდა ლოკაციის ID → Numbeo-ს ქალაქის სახელი (Apify actor-ის `cities` და rankings-ის დამთხვევისთვის). 76 სახელი დადასტურდა Numbeo-ს რეალური rankings სიით (2026-10-30, 547 ქალაქი); 5 ქალაქი სიაში არ არის (verified:false). numbeoCountry გამოიყენება rankings-ის ქვეყნის შემოწმებისთვის.",
+  "verifiedAt": "2026-10-30"
  },
  "locations": {
   "AT-VIENNA": {
    "numbeoCity": "Vienna",
    "countryCode": "AT",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Austria",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "BE-BRUSSELS": {
    "numbeoCity": "Brussels",
    "countryCode": "BE",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Belgium",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "BG-SOFIA": {
    "numbeoCity": "Sofia",
    "countryCode": "BG",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Bulgaria",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "DE-BERLIN": {
    "numbeoCity": "Berlin",
    "countryCode": "DE",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Germany",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "DE-FRANKFURT": {
-   "numbeoCity": "Frankfurt am Main",
+   "numbeoCity": "Frankfurt",
    "countryCode": "DE",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Germany",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "DE-STUTTGART": {
    "numbeoCity": "Stuttgart",
    "countryCode": "DE",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Germany",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "DK-COPENHAGEN": {
    "numbeoCity": "Copenhagen",
    "countryCode": "DK",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Denmark",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "GB-LONDON": {
    "numbeoCity": "London",
    "countryCode": "GB",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "United Kingdom",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "FR-PARIS": {
    "numbeoCity": "Paris",
    "countryCode": "FR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "France",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "FR-STRASBOURG": {
    "numbeoCity": "Strasbourg",
    "countryCode": "FR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "France",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "FR-LYON": {
    "numbeoCity": "Lyon",
    "countryCode": "FR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "France",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "ES-MADRID": {
    "numbeoCity": "Madrid",
    "countryCode": "ES",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Spain",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "ES-BARCELONA": {
    "numbeoCity": "Barcelona",
    "countryCode": "ES",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Spain",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "EE-TALLINN": {
    "numbeoCity": "Tallinn",
    "countryCode": "EE",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Estonia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "TR-ANKARA": {
    "numbeoCity": "Ankara",
    "countryCode": "TR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Turkey",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "TR-ISTANBUL": {
    "numbeoCity": "Istanbul",
    "countryCode": "TR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Turkey",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "TR-TRABZON": {
    "numbeoCity": "Trabzon",
    "countryCode": "TR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": false,
+   "numbeoCountry": null,
+   "devNote": "Numbeo-ს rankings სიაში (2026-10-30, 547 ქალაქი) არ არის — ინდექსები იქნება not_found; city_prices შეიძლება მაინც მუშაობდეს."
   },
   "IE-DUBLIN": {
    "numbeoCity": "Dublin",
    "countryCode": "IE",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Ireland",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "IT-ROME": {
    "numbeoCity": "Rome",
    "countryCode": "IT",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Italy",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "IT-MILAN": {
    "numbeoCity": "Milan",
    "countryCode": "IT",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Italy",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "IT-BARI": {
    "numbeoCity": "Bari",
    "countryCode": "IT",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Italy",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "VA-VATICAN-CITY": {
    "numbeoCity": "Rome",
    "countryCode": "IT",
    "matchStatus": "nearby-explained",
    "note": "ვატიკანისთვის Numbeo-ში ცალკე ქალაქი არ არის — ნაჩვენებია რომის მონაცემი (ახლომდებარე ქალაქი).",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Italy",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "CY-NICOSIA": {
    "numbeoCity": "Nicosia",
    "countryCode": "CY",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Cyprus",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "LV-RIGA": {
    "numbeoCity": "Riga",
    "countryCode": "LV",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Latvia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "LT-VILNIUS": {
    "numbeoCity": "Vilnius",
    "countryCode": "LT",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Lithuania",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "MD-CHISINAU": {
-   "numbeoCity": "Chișinău",
+   "numbeoCity": "Chisinau",
    "countryCode": "MD",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Moldova",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "NL-THE-HAGUE": {
    "numbeoCity": "The Hague (Den Haag)",
    "countryCode": "NL",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Netherlands",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "NO-OSLO": {
    "numbeoCity": "Oslo",
    "countryCode": "NO",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Norway",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "PL-WARSAW": {
    "numbeoCity": "Warsaw",
    "countryCode": "PL",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Poland",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "PL-KRAKOW": {
-   "numbeoCity": "Kraków",
+   "numbeoCity": "Krakow (Cracow)",
    "countryCode": "PL",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Poland",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "PT-LISBON": {
    "numbeoCity": "Lisbon",
    "countryCode": "PT",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Portugal",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "RO-BUCHAREST": {
    "numbeoCity": "Bucharest",
    "countryCode": "RO",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Romania",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "GR-ATHENS": {
    "numbeoCity": "Athens",
    "countryCode": "GR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Greece",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "GR-THESSALONIKI": {
    "numbeoCity": "Thessaloniki",
    "countryCode": "GR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Greece",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "SK-BRATISLAVA": {
    "numbeoCity": "Bratislava",
    "countryCode": "SK",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Slovakia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "SI-LJUBLJANA": {
    "numbeoCity": "Ljubljana",
    "countryCode": "SI",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Slovenia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "HU-BUDAPEST": {
    "numbeoCity": "Budapest",
    "countryCode": "HU",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Hungary",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "SE-STOCKHOLM": {
    "numbeoCity": "Stockholm",
    "countryCode": "SE",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Sweden",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "CH-BERN": {
    "numbeoCity": "Bern",
    "countryCode": "CH",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Switzerland",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "CH-GENEVA": {
    "numbeoCity": "Geneva",
    "countryCode": "CH",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Switzerland",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "CZ-PRAGUE": {
    "numbeoCity": "Prague",
    "countryCode": "CZ",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Czech Republic",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "FI-HELSINKI": {
    "numbeoCity": "Helsinki",
    "countryCode": "FI",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Finland",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "HR-ZAGREB": {
    "numbeoCity": "Zagreb",
    "countryCode": "HR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Croatia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "RS-BELGRADE": {
    "numbeoCity": "Belgrade",
    "countryCode": "RS",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Serbia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "AU-CANBERRA": {
    "numbeoCity": "Canberra",
    "countryCode": "AU",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Australia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "AR-BUENOS-AIRES": {
    "numbeoCity": "Buenos Aires",
    "countryCode": "AR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Argentina",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "AZ-BAKU": {
    "numbeoCity": "Baku",
    "countryCode": "AZ",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Azerbaijan",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "AZ-GANJA": {
    "numbeoCity": "Ganja",
    "countryCode": "AZ",
    "matchStatus": "exact",
-   "verified": false
+   "verified": false,
+   "numbeoCountry": null,
+   "devNote": "Numbeo-ს rankings სიაში (2026-10-30, 547 ქალაქი) არ არის — ინდექსები იქნება not_found; city_prices შეიძლება მაინც მუშაობდეს."
   },
   "US-WASHINGTON": {
    "numbeoCity": "Washington, DC",
    "countryCode": "US",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "United States",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "US-NEW-YORK": {
    "numbeoCity": "New York, NY",
    "countryCode": "US",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "United States",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "US-SAN-FRANCISCO": {
    "numbeoCity": "San Francisco, CA",
    "countryCode": "US",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "United States",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "BY-MINSK": {
    "numbeoCity": "Minsk",
    "countryCode": "BY",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Belarus",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "BR-BRASILIA": {
-   "numbeoCity": "Brasília",
+   "numbeoCity": "Brasilia",
    "countryCode": "BR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Brazil",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "EG-CAIRO": {
    "numbeoCity": "Cairo",
    "countryCode": "EG",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Egypt",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "TM-ASHGABAT": {
    "numbeoCity": "Ashgabat",
    "countryCode": "TM",
    "matchStatus": "exact",
-   "verified": false
+   "verified": false,
+   "numbeoCountry": null,
+   "devNote": "Numbeo-ს rankings სიაში (2026-10-30, 547 ქალაქი) არ არის — ინდექსები იქნება not_found; city_prices შეიძლება მაინც მუშაობდეს."
   },
   "JP-TOKYO": {
    "numbeoCity": "Tokyo",
    "countryCode": "JP",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Japan",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "JO-AMMAN": {
    "numbeoCity": "Amman",
    "countryCode": "JO",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Jordan",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "IL-TEL-AVIV": {
    "numbeoCity": "Tel Aviv-Yafo",
    "countryCode": "IL",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Israel",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "IN-NEW-DELHI": {
-   "numbeoCity": "New Delhi",
+   "numbeoCity": "Delhi",
    "countryCode": "IN",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "India",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "ID-JAKARTA": {
    "numbeoCity": "Jakarta",
    "countryCode": "ID",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Indonesia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "IR-TEHRAN": {
    "numbeoCity": "Tehran",
    "countryCode": "IR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Iran",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "QA-DOHA": {
    "numbeoCity": "Doha",
    "countryCode": "QA",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Qatar",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "CA-OTTAWA": {
    "numbeoCity": "Ottawa",
    "countryCode": "CA",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Canada",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "KR-SEOUL": {
    "numbeoCity": "Seoul",
    "countryCode": "KR",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "South Korea",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "MY-KUALA-LUMPUR": {
    "numbeoCity": "Kuala Lumpur",
    "countryCode": "MY",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Malaysia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "MX-MEXICO-CITY": {
    "numbeoCity": "Mexico City",
    "countryCode": "MX",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Mexico",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "RU-MOSCOW": {
    "numbeoCity": "Moscow",
    "countryCode": "RU",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Russia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "ZA-PRETORIA": {
    "numbeoCity": "Pretoria",
    "countryCode": "ZA",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "South Africa",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "AM-YEREVAN": {
    "numbeoCity": "Yerevan",
    "countryCode": "AM",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Armenia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "SA-RIYADH": {
    "numbeoCity": "Riyadh",
    "countryCode": "SA",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Saudi Arabia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "UZ-TASHKENT": {
    "numbeoCity": "Tashkent",
    "countryCode": "UZ",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Uzbekistan",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "UA-KYIV": {
-   "numbeoCity": "Kyiv (Kiev)",
+   "numbeoCity": "Kiev (Kyiv)",
    "countryCode": "UA",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Ukraine",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "UA-ODESA": {
-   "numbeoCity": "Odesa",
+   "numbeoCity": "Odessa (Odesa)",
    "countryCode": "UA",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Ukraine",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "UA-DONETSK": {
    "numbeoCity": "Donetsk",
    "countryCode": "UA",
    "matchStatus": "exact",
-   "verified": false
+   "verified": false,
+   "numbeoCountry": null,
+   "devNote": "Numbeo-ს rankings სიაში (2026-10-30, 547 ქალაქი) არ არის — ინდექსები იქნება not_found; city_prices შეიძლება მაინც მუშაობდეს."
   },
   "KW-KUWAIT-CITY": {
    "numbeoCity": "Kuwait City",
    "countryCode": "KW",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Kuwait",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "KZ-ASTANA": {
-   "numbeoCity": "Astana",
+   "numbeoCity": "Astana (Nur-Sultan)",
    "countryCode": "KZ",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Kazakhstan",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "CN-BEIJING": {
    "numbeoCity": "Beijing",
    "countryCode": "CN",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "China",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "CU-HAVANA": {
    "numbeoCity": "Havana",
    "countryCode": "CU",
    "matchStatus": "exact",
-   "verified": false
+   "verified": false,
+   "numbeoCountry": null,
+   "devNote": "Numbeo-ს rankings სიაში (2026-10-30, 547 ქალაქი) არ არის — ინდექსები იქნება not_found; city_prices შეიძლება მაინც მუშაობდეს."
   },
   "ET-ADDIS-ABABA": {
    "numbeoCity": "Addis Ababa",
    "countryCode": "ET",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Ethiopia",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "AE-ABU-DHABI": {
    "numbeoCity": "Abu Dhabi",
    "countryCode": "AE",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "United Arab Emirates",
+   "verifiedBy": "rankings 2026-10-30"
   },
   "VN-HANOI": {
    "numbeoCity": "Hanoi",
    "countryCode": "VN",
    "matchStatus": "exact",
-   "verified": false
+   "verified": true,
+   "numbeoCountry": "Vietnam",
+   "verifiedBy": "rankings 2026-10-30"
   }
  }
 }

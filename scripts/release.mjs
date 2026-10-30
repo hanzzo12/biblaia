@@ -36,9 +36,9 @@ const bad = entries.filter((e) => /(^|\/)(\.dev\.vars|\.env)$/.test(e) || /(^|\/
 if (bad.length) throw new Error('არქივში აკრძალული ფაილებია: ' + bad.join(', '));
 if (!entries.includes('rotation-calculator/dist/web/index.html')) throw new Error('არქივს აკლია dist/web/index.html');
 const content = sh('unzip', ['-p', zipPath], { maxBuffer: 256 * 1024 * 1024 });
-if (/apify_api_[A-Za-z0-9]{20,}/.test(content)) throw new Error('არქივში ნაპოვნია Apify ტოკენის მსგავსი სტრიქონი');
+if (new RegExp(['apify', '_api_'].join('') + '[A-Za-z0-9]{20,}').test(content)) throw new Error('არქივში ნაპოვნია Apify ტოკენის მსგავსი სტრიქონი');
 const html = await readFile(r('release/rotation-calculator.html'), 'utf8');
-if (/apify_api_[A-Za-z0-9]{20,}/.test(html)) throw new Error('HTML-ში ნაპოვნია ტოკენის მსგავსი სტრიქონი');
+if (new RegExp(['apify', '_api_'].join('') + '[A-Za-z0-9]{20,}').test(html)) throw new Error('HTML-ში ნაპოვნია ტოკენის მსგავსი სტრიქონი');
 
 const kb = async (p) => ((await stat(p)).size / 1024).toFixed(0);
 console.log(`✓ release/rotation-calculator-cloudflare.zip (${await kb(zipPath)} KB, commit ${head})`);

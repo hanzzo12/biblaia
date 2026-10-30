@@ -9,12 +9,13 @@
  *  - `APIFY_TOKEN` მხოლოდ Secret-ში; იგზავნება `Authorization: Bearer`-ით; არასოდეს URL-ში, ლოგში ან პასუხში.
  *  - ქეში: Workers KV `MARKET_CACHE` → (არარსებობისას) Cache API → მეხსიერება. TTL `MARKET_CACHE_TTL_DAYS` (30).
  *    შეცდომა არ ქეშირდება; upstream-ის ჩავარდნისას ბრუნდება ვადაგასული ასლი (`stale`) `MARKET_STALE_MAX_DAYS`-ის ფარგლებში.
- *    rankings (ინდექსები ყველა ქალაქისთვის) ქეშირდება ცალკე, ერთი გამოძახებით.
+ *    rankings (ინდექსები ყველა ქალაქისთვის, maxCities: 0) ქეშირდება ცალკე, ერთი გამოძახებით (≈ $2.745);
+ *    `MARKET_RANKINGS_ENABLED=false` — ინდექსები გამორთულია (კრედიტის დაზოგვა), indices.status = "disabled".
  *  - მხოლოდ location/currency პარამეტრები; უცნობი → 400. CORS სათაურები არ ემატება. Rate limit — IP-ზე (IP არ ილოგება).
  */
 
 import { MARKET_SCHEMA_VERSION, createEmptyMarketData, validateMarketData, ERROR_STATUSES, DEFAULT_ALLOWED_CURRENCIES } from '../src/providers/market-contract.js';
-import { fetchApifyMarket, runActor, GENERIC_PROVIDER, DEFAULT_TIMEOUT_MS } from '../src/providers/apify-numbeo-adapter.js';
+import { fetchApifyMarket, runActor, GENERIC_PROVIDER, DEFAULT_TIMEOUT_MS, RANKINGS_INPUT } from '../src/providers/apify-numbeo-adapter.js';
 import realNames from '../src/providers/numbeo-city-names.json' with { type: 'json' };
 import normative from '../src/data/normative-data.json' with { type: 'json' };
 
@@ -116,6 +117,7 @@ export function createWorker(deps = {}) {
       staleMax: intVar(env.MARKET_STALE_MAX_DAYS, 365, 3650) * DAY,
       timeoutMs: intVar(env.MARKET_UPSTREAM_TIMEOUT_MS, DEFAULT_TIMEOUT_MS, 290000) || DEFAULT_TIMEOUT_MS,
       allowed: allowed.length ? allowed : ['EUR', 'USD'],
+      rankingsEnabled: String(env.MARKET_RANKINGS_ENABLED ?? 'true').trim().toLowerCase() !== 'false',
     };
   }
   /** @param {Record<string, unknown>} o */
@@ -131,9 +133,10 @@ export function createWorker(deps = {}) {
   /** rankings — 30 დღიანი ქეშით, ყველა ქალაქისთვის ერთი გაშვება. @param {any} env @param {CacheStore} store @param {ReturnType<typeof config>} cfg */
   function getRankings(env, store, cfg) {
     return async () => {
+      if (!cfg.rankingsEnabled) return { status: 'disabled' };
       const c = await store.get(RANKINGS_KEY);
       if (c && now() < c.expiresAt) return { status: 'ok', items: c.items };
-      const r = await coalesce(RANKINGS_KEY, () => runActor({ input: { mode: 'rankings' }, token: env.APIFY_TOKEN.trim(), fetchImpl: deps.fetchImpl || fetch, timeoutMs: cfg.timeoutMs }));
+      const r = await coalesce(RANKINGS_KEY, () => runActor({ input: RANKINGS_INPUT, token: env.APIFY_TOKEN.trim(), fetchImpl: deps.fetchImpl || fetch, timeoutMs: cfg.timeoutMs }));
       if (r.status === 'ok' && 'items' in r) {
         await store.put(RANKINGS_KEY, { storedAt: now(), expiresAt: now() + cfg.ttl * 1000, items: r.items }, cfg.ttl + cfg.staleMax);
         return r;
@@ -222,7 +225,7 @@ export function createWorker(deps = {}) {
       schemaVersion: MARKET_SCHEMA_VERSION, status, provider: cfg.provider, tokenConfigured: cfg.tokenConfigured,
       cacheBackend: storeFor(env).name, cacheTtlDays: cfg.ttl / DAY, staleMaxDays: cfg.staleMax / DAY,
       mappedLocations: mapped, mappingVerified: names._meta?.status === 'verified',
-      rateLimiter: Boolean(env.MARKET_RATE_LIMITER), allowedCurrencies: cfg.allowed,
+      rateLimiter: Boolean(env.MARKET_RATE_LIMITER), allowedCurrencies: cfg.allowed, rankingsEnabled: cfg.rankingsEnabled,
     });
   }
 

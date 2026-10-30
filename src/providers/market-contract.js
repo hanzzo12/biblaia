@@ -344,7 +344,10 @@ export function createEmptyMarketData(locationId, status, extra = {}) {
  * ბლოკების სტატუსებიდან ზედა დონის სტატუსი.
  * @param {string[]} blockStatuses
  */
-export function overallStatus(blockStatuses) {
+export function overallStatus(allStatuses) {
+  // გამორთული ბლოკი (მაგ. ინდექსები MARKET_RANKINGS_ENABLED=false) სხვების სისრულეზე გავლენას არ ახდენს.
+  const blockStatuses = allStatuses.filter((s) => s !== 'disabled');
+  if (blockStatuses.length === 0) return 'disabled';
   const withVal = blockStatuses.filter((s) => STATUSES_WITH_VALUE.includes(s));
   if (withVal.length === 0) {
     const err = blockStatuses.find((s) => ERROR_STATUSES.includes(s));

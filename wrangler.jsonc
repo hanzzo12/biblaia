@@ -21,7 +21,9 @@
     "MARKET_STALE_MAX_DAYS": "365",
     // Apify-ის სინქრონული გაშვების ლოდინი (მწმ); განმეორებითი ცდა არ არის.
     "MARKET_UPSTREAM_TIMEOUT_MS": "90000",
-    "MARKET_ALLOWED_CURRENCIES": "EUR,USD"
+    "MARKET_ALLOWED_CURRENCIES": "EUR,USD",
+    // "false" — ინდექსები (rankings, ≈ $2.745 ერთ გაშვებაზე / 30 დღე) გამორთულია; ფასები რჩება.
+    "MARKET_RANKINGS_ENABLED": "true"
   },
   // Workers KV ქეში. შექმნა: `npx wrangler kv namespace create MARKET_CACHE` → დაბეჭდილი id ჩასვით ქვემოთ.
   // KV-ის გარეშე (id არ არის) Worker იყენებს Cache API-ს/მეხსიერებას — ამისთვის ეს ბლოკი წაშალეთ.

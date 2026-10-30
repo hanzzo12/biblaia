@@ -6,9 +6,11 @@
  *  Authorization: Bearer <APIFY_TOKEN>   ← ტოკენი არასოდეს URL-ში, ლოგში, პასუხში ან შეცდომის ტექსტში.
  *  body: { mode: "city_prices", cities: ["Vienna"], currency: "EUR" }  |  { mode: "rankings" }
  *
- * ⚠️ actor-ის გამოსავლის სქემა დაუდასტურებელია (api.apify.com/apify.com ამ გარემოდან დაბლოკილია). საჯარო აღწერით
- * city_prices → სტრიქონები Category / Item / Price / Currency; rankings → Rank / City / Country / Cost of Living /
- * Rent Index / Groceries / Restaurants … ამიტომ:
+ * რეალური გაშვებით დადასტურებული (2026-10-30): city_prices → ბრტყელი სტრიქონები
+ * { city, country, category, item, price, currency, range: "12.00-26.00" | "1,800.00-3,000.00" | "", url, scrapedAt };
+ * rankings ({ mode, maxCities: 0 }) → { rank, city, country, costOfLivingIndex, rentIndex, costOfLivingPlusRentIndex,
+ * groceriesIndex, restaurantPriceIndex, localPurchasingPowerIndex, url }. `comparison` რეჟიმი არ მუშაობს — არ გამოიყენება.
+ * მდგრადობისთვის მაინც:
  *  - გასაღებები ნორმალიზდება (lowercase, მხოლოდ a–z0–9): "Cost of Living" = "costOfLiving" = "cost_of_living";
  *  - მიიღება ორივე ფორმა: (ა) [{ city, country, currency, prices:[{ category, item, average|price|avgPrice, lowest|low, highest|high }] }]
  *    და (ბ) ბრტყელი [{ city, country, category, item, price|average, currency }];
@@ -25,6 +27,8 @@ export const APIFY_ACTOR_ID = 'automation-lab~numbeo-scraper';
 export const APIFY_SYNC_URL = `https://api.apify.com/v2/acts/${APIFY_ACTOR_ID}/run-sync-get-dataset-items`;
 export const ATTRIBUTION_KA = 'წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით)';
 export const DEFAULT_TIMEOUT_MS = 90000;
+/** maxCities: 0 = ყველა ქალაქი (ნაგულისხმევი 50 — ამიტომ ვენა ადრე არ ჩანდა). ~547 ქალაქი, ≈ $2.745 ერთ გაშვებაზე. */
+export const RANKINGS_INPUT = Object.freeze({ mode: 'rankings', maxCities: 0 });
 
 /** @param {string} providerCity */
 export function providerRef(providerCity) {
@@ -37,17 +41,23 @@ export function providerRef(providerCity) {
 }
 export const GENERIC_PROVIDER = Object.freeze({ id: 'numbeo-apify', name: 'Numbeo', via: 'Apify automation-lab/numbeo-scraper', sourceUrl: 'https://www.numbeo.com/cost-of-living/', attribution_ka: ATTRIBUTION_KA });
 
-/** Numbeo-ს ერთეულები: ჯერ ზუსტი დამთხვევა (ძველი და ახალი დაწერილობა), შემდეგ მხოლოდ მითითებული პრეფიქსები. */
+/**
+ * Numbeo-ს ერთეულები. ჯერ ზუსტი დამთხვევა — მიმდინარე სახელები (რეალური გაშვება, ვენა, 2026-10-30), შემდეგ ძველი
+ * დაწერილობა; ბოლოს მხოლოდ მითითებული პრეფიქსები. შედარება ასო-ციფრულია (ჰარები/პუნქტუაცია/„m²“ ≠ შეცდომა).
+ */
 export const ITEM_DEFS = Object.freeze({
-  centre_1br: { exact: ['Apartment (1 bedroom) in City Centre', '1 Bedroom Apartment in City Centre'], prefix: [] },
-  outside_1br: { exact: ['Apartment (1 bedroom) Outside of Centre', '1 Bedroom Apartment Outside of City Centre'], prefix: [] },
-  centre_3br: { exact: ['Apartment (3 bedrooms) in City Centre', '3 Bedroom Apartment in City Centre'], prefix: [] },
-  outside_3br: { exact: ['Apartment (3 bedrooms) Outside of Centre', '3 Bedroom Apartment Outside of City Centre'], prefix: [] },
-  basic85m2: { exact: ['Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment'], prefix: ['Basic (Electricity', 'Basic Utilities for 85'] },
-  internet: { exact: ['Internet (60 Mbps or More, Unlimited Data, Cable/ADSL)'], prefix: ['Internet (', 'Broadband Internet'] },
-  inexpensiveMeal: { exact: ['Meal, Inexpensive Restaurant', 'Meal at an Inexpensive Restaurant'], prefix: [] },
-  midRangeForTwo: { exact: ['Meal for 2 People, Mid-range Restaurant, Three-course', 'Meal for Two at a Mid-Range Restaurant (Three Courses, Without Drinks)'], prefix: [] },
+  centre_1br: { exact: ['1 Bedroom Apartment in City Centre', 'Apartment (1 bedroom) in City Centre'], prefix: [] },
+  outside_1br: { exact: ['1 Bedroom Apartment Outside of City Centre', 'Apartment (1 bedroom) Outside of Centre'], prefix: [] },
+  centre_3br: { exact: ['3 Bedroom Apartment in City Centre', 'Apartment (3 bedrooms) in City Centre'], prefix: [] },
+  outside_3br: { exact: ['3 Bedroom Apartment Outside of City Centre', 'Apartment (3 bedrooms) Outside of Centre'], prefix: [] },
+  basic85m2: { exact: ['Basic Utilities for 85 m2 Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic (Electricity, Heating, Cooling, Water, Garbage) for 85m2 Apartment'], prefix: ['Basic Utilities for 85', 'Basic (Electricity'] },
+  internet: { exact: ['Broadband Internet (Unlimited Data, 60 Mbps or Higher)', 'Internet (60 Mbps or More, Unlimited Data, Cable/ADSL)'], prefix: ['Broadband Internet', 'Internet ('] },
+  inexpensiveMeal: { exact: ['Meal at an Inexpensive Restaurant', 'Meal, Inexpensive Restaurant'], prefix: [] },
+  midRangeForTwo: { exact: ['Meal for Two at a Mid-Range Restaurant (Three Courses, Without Drinks)', 'Meal for 2 People, Mid-range Restaurant, Three-course'], prefix: [] },
 });
+/** სურსათის კალათიდან გამორიცხული (ალკოჰოლი, თამბაქო) — ზუსტი სახელები + საკვანძო სიტყვები. */
+export const GROCERY_EXCLUDED_NAMES = Object.freeze(['Bottle of Wine (Mid-Range)', 'Domestic Beer (0.5 Liter Bottle)', 'Imported Beer (0.33 Liter Bottle)', 'Cigarettes (Pack of 20, Marlboro)']);
+const EXCLUDED_RE = /\b(wine|beer|cigarette|cigarettes|tobacco|vodka|whisky|whiskey|spirits)\b/i;
 const GROCERY_CATEGORIES = new Set(['markets', 'groceries', 'supermarket', 'supermarkets']);
 
 /* ---------------------------------------------------------------- helpers */
@@ -68,6 +78,8 @@ function pick(o, names) {
 /** @param {unknown} s */
 const normText = (s) => (typeof s === 'string' ? s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()
   .replace(/\s+/g, ' ').replace(/[,\s]*\(?rent per month\)?$/, '').trim() : '');
+/** ასო-ციფრული გასაღები ერთეულის სახელისთვის. @param {unknown} s */
+const itemKey = (s) => normText(s).replace(/[^a-z0-9]/g, '');
 /** @param {unknown} s */
 const normCity = (s) => normText(s).replace(/\s*\([^)]*\)/g, '').replace(/\s*,\s*/g, ',').trim();
 
@@ -139,28 +151,28 @@ export function selectItems(rows) {
   /** @type {Record<string, {average:string, low:string|null, high:string|null}|null>} */
   const out = {};
   for (const [key, def] of Object.entries(ITEM_DEFS)) {
-    const exact = new Set(def.exact.map(normText));
-    let row = rows.find((r) => exact.has(normText(r.item)));
-    if (!row && def.prefix.length) {
-      const pre = def.prefix.map(normText);
-      row = rows.find((r) => pre.some((p) => normText(r.item).startsWith(p)));
-    }
+    let row = null;
+    for (const name of def.exact) { row = rows.find((r) => itemKey(r.item) === itemKey(name)); if (row) break; }
+    if (!row) for (const pre of def.prefix) { row = rows.find((r) => itemKey(r.item).startsWith(itemKey(pre))); if (row) break; }
     out[key] = row ? toPrice(row) : null;
   }
-  const market = rows.filter((r) => GROCERY_CATEGORIES.has(nk(r.category)));
+  const excludedKeys = new Set(GROCERY_EXCLUDED_NAMES.map(itemKey));
+  const market = rows.filter((r) => GROCERY_CATEGORIES.has(nk(r.category)) && !excludedKeys.has(itemKey(r.item)) && !EXCLUDED_RE.test(String(r.item)));
   const vals = market.map((r) => toDecimalString(r.average));
   const counted = /** @type {string[]} */ (vals.filter((v) => v !== null));
   return { items: out, basket: { sum: sumDecimalStrings(counted), counted: counted.length, missing: vals.length - counted.length } };
 }
 
 /**
- * rankings სტრიქონიდან ინდექსები.
- * @param {unknown[]} items @param {string} providerCity
+ * rankings სტრიქონიდან ინდექსები: ქალაქის ზუსტი Numbeo სახელი (+ ქვეყანა, თუ ცნობილია).
+ * @param {unknown[]} items @param {string} providerCity @param {string|null} [country]
  */
-export function findRanking(items, providerCity) {
+export function findRanking(items, providerCity, country = null) {
   for (const it of items) {
     const o = normKeys(it);
-    if (!cityMatches(pick(o, ['city', 'cityname', 'name']), providerCity)) continue;
+    if (normText(pick(o, ['city', 'cityname', 'name'])) !== normText(providerCity)) continue;
+    const rc = pick(o, ['country', 'countryname']);
+    if (country && typeof rc === 'string' && normText(rc) !== normText(country)) continue;
     const d = (/** @type {string[]} */ names) => toDecimalString(pick(o, names));
     const periodRaw = pick(o, ['period', 'year', 'title']);
     const pm = typeof periodRaw === 'string' || typeof periodRaw === 'number' ? /(\d{4})/.exec(String(periodRaw)) : null;
@@ -235,7 +247,7 @@ function blockStatus(status, have, total, complete = have === total) {
  */
 export function normalizeApify(p) {
   const { entry, currency } = p;
-  const warnings = new Set(['scraped_source_terms', 'output_schema_unverified', 'source_date_unknown']);
+  const warnings = new Set(['scraped_source_terms', 'source_date_unknown']);
   if (!entry.verified) warnings.add('city_name_unverified');
   if (entry.matchStatus === 'nearby-explained') warnings.add('nearby_city');
   if (p.prices.paymentRequired) warnings.add('payment_required');
@@ -262,7 +274,8 @@ export function normalizeApify(p) {
     }
   }
   let rStatus = p.rankings.status;
-  const rank = rStatus === 'ok' ? findRanking(p.rankings.items || [], entry.numbeoCity) : null;
+  const rank = rStatus === 'ok' ? findRanking(p.rankings.items || [], entry.numbeoCity, entry.numbeoCountry ?? null) : null;
+  const idxOn = rStatus !== 'disabled';
   if (rStatus === 'ok' && !rank) rStatus = 'not_found';
   const ix = rank || { costOfLiving: null, rent: null, groceries: null, restaurants: null, costOfLivingPlusRent: null, period: null };
 
@@ -272,7 +285,7 @@ export function normalizeApify(p) {
   const errOf = (/** @type {string} */ a, /** @type {string} */ b) => (a !== 'ok' && a !== 'not_found' ? a : b !== 'ok' && b !== 'not_found' ? b : 'not_found');
 
   const rent = {
-    status: rentHave + (ix.rent ? 1 : 0) === 0 ? errOf(pStatus, rStatus) : blockStatus('ok', rentHave + (ix.rent ? 1 : 0), 5),
+    status: rentHave + (ix.rent ? 1 : 0) === 0 ? errOf(pStatus, rStatus) : blockStatus('ok', rentHave + (ix.rent ? 1 : 0), idxOn ? 5 : 4),
     items: rentItems, rentIndex: ix.rent,
   };
   const uHave = [it.basic85m2, it.internet].filter(Boolean).length;
@@ -281,12 +294,12 @@ export function normalizeApify(p) {
   if (b.missing > 0) warnings.add('basket_incomplete');
   const gHave = (b.sum ? 1 : 0) + (ix.groceries ? 1 : 0);
   const groceries = {
-    status: gHave === 0 ? errOf(pStatus, rStatus) : blockStatus('ok', gHave, 2, gHave === 2 && b.missing === 0),
+    status: gHave === 0 ? errOf(pStatus, rStatus) : blockStatus('ok', gHave, idxOn ? 2 : 1, gHave === (idxOn ? 2 : 1) && b.missing === 0),
     basketItemsSum: b.sum, itemsCounted: b.counted, itemsMissing: b.missing, groceriesIndex: ix.groceries,
   };
   const mHave = [it.inexpensiveMeal, it.midRangeForTwo].filter(Boolean).length + (ix.restaurants ? 1 : 0);
   const restaurants = {
-    status: mHave === 0 ? errOf(pStatus, rStatus) : blockStatus('ok', mHave, 3),
+    status: mHave === 0 ? errOf(pStatus, rStatus) : blockStatus('ok', mHave, idxOn ? 3 : 2),
     inexpensiveMeal: it.inexpensiveMeal ?? null, midRangeForTwo: it.midRangeForTwo ?? null, restaurantIndex: ix.restaurants,
   };
   const iHave = [ix.costOfLiving, ix.rent, ix.groceries, ix.restaurants, ix.costOfLivingPlusRent].filter(Boolean).length;
@@ -331,7 +344,7 @@ export async function fetchApifyMarket(p) {
   if (typeof p.token !== 'string' || p.token.trim() === '') return nc('no_token');
   if (!entry || typeof entry.numbeoCity !== 'string' || !entry.numbeoCity.trim()) return nc('unmapped');
   const token = p.token.trim();
-  const getRankings = p.getRankings || (() => runActor({ input: { mode: 'rankings' }, token, fetchImpl: p.fetchImpl, timeoutMs: p.timeoutMs }));
+  const getRankings = p.getRankings || (() => runActor({ input: RANKINGS_INPUT, token, fetchImpl: p.fetchImpl, timeoutMs: p.timeoutMs }));
   const [prices, rankings] = await Promise.all([
     runActor({ input: { mode: 'city_prices', cities: [entry.numbeoCity], currency: p.currency }, token, fetchImpl: p.fetchImpl, timeoutMs: p.timeoutMs }),
     getRankings(),

@@ -5,16 +5,19 @@ import { fetchApifyMarket, extractPriceRows, selectItems, findRanking, cityMatch
 import { validateMarketData, sumDecimalStrings, toDecimalString } from '../../src/providers/market-contract.js';
 import names from '../../src/providers/numbeo-city-names.json' with { type: 'json' };
 import normative from '../../src/data/normative-data.json' with { type: 'json' };
-import { SYNTHETIC_NAMES, nestedPrices, flatPrices, rankingsRows, mockApify, FAKE_TOKEN } from './fixtures/apify-synthetic.js';
+import { SYNTHETIC_NAMES, flatPrices, nestedLegacyPrices, rankingsRows, mockApify, FAKE_TOKEN } from './fixtures/apify-synthetic.js';
+const nestedPrices = flatPrices;
 
 const NOW = () => Date.parse('2026-10-30T10:00:00Z');
 const run = (fetchImpl, extra = {}) => fetchApifyMarket({ locationId: 'AT-VIENNA', currency: 'EUR', names: SYNTHETIC_NAMES, token: FAKE_TOKEN, fetchImpl, timeoutMs: 50, now: NOW, ...extra });
 const valid = (d) => assert.ok(validateMarketData(d).ok, validateMarketData(d).errors.join('\n'));
 
-test('city-name map covers every normative location, nothing marked verified, Vatican is nearby-explained', () => {
+test('city-name map: every location; 76 verified against rankings; 5 not in rankings', () => {
   const ids = normative.locations.map((l) => l.id).sort();
   assert.deepEqual(Object.keys(names.locations).sort(), ids);
-  assert.ok(Object.values(names.locations).every((e) => e.verified === false));
+  const unv = Object.entries(names.locations).filter(([, e]) => !e.verified).map(([id]) => id).sort();
+  assert.deepEqual(unv, ['AZ-GANJA', 'CU-HAVANA', 'TM-ASHGABAT', 'TR-TRABZON', 'UA-DONETSK']);
+  for (const [id, n] of [['UA-KYIV', 'Kiev (Kyiv)'], ['IN-NEW-DELHI', 'Delhi'], ['DE-FRANKFURT', 'Frankfurt'], ['KZ-ASTANA', 'Astana (Nur-Sultan)']]) assert.equal(names.locations[id].numbeoCity, n);
   assert.equal(names.locations['VA-VATICAN-CITY'].matchStatus, 'nearby-explained');
   assert.equal(names.locations['US-WASHINGTON'].numbeoCity, 'Washington, DC');
 });
@@ -30,10 +33,10 @@ test('request: POST to sync endpoint, token only in Authorization header, inputs
   }
   const prices = f.calls.find((c) => c.input.mode === 'city_prices');
   assert.deepEqual(prices.input, { mode: 'city_prices', cities: ['Vienna'], currency: 'EUR' });
-  assert.deepEqual(f.calls.find((c) => c.input.mode === 'rankings').input, { mode: 'rankings' });
+  assert.deepEqual(f.calls.find((c) => c.input.mode === 'rankings').input, { mode: 'rankings', maxCities: 0 });
 });
 
-for (const [shape, prices, rk] of [['nested', nestedPrices(), rankingsRows('camel')], ['flat', flatPrices(), rankingsRows('title')]]) {
+for (const [shape, prices, rk] of [['real flat', flatPrices(), rankingsRows()]]) {
   test(`success (${shape} shape) → full MarketData v2`, async () => {
     const { data } = await run(mockApify({ city_prices: prices, rankings: rk }));
     valid(data);
@@ -43,8 +46,10 @@ for (const [shape, prices, rk] of [['nested', nestedPrices(), rankingsRows('came
     assert.equal(data.rent.rentIndex, '30.2');
     assert.equal(data.utilities.basic85m2.average, '210.5');
     assert.equal(data.utilities.internet.average, '35');
-    assert.equal(data.groceries.basketItemsSum, '6.7');
+    assert.equal(data.groceries.basketItemsSum, '6.7', 'wine, beers, cigarettes excluded');
     assert.deepEqual([data.groceries.itemsCounted, data.groceries.itemsMissing], [3, 0]);
+    assert.deepEqual(data.rent.items.centre_3br, { average: '2500', low: '1900', high: '3500' }, 'thousands commas in range');
+    assert.deepEqual(data.rent.items.outside_3br, { average: '1700', low: null, high: null }, 'empty range → null');
     assert.equal(data.groceries.groceriesIndex, '58.9');
     assert.equal(data.restaurants.inexpensiveMeal.average, '15');
     assert.equal(data.restaurants.midRangeForTwo.average, '80');
@@ -53,12 +58,13 @@ for (const [shape, prices, rk] of [['nested', nestedPrices(), rankingsRows('came
     assert.equal(data.sourceUpdatedAt, null);
     assert.equal(data.provider.attribution_ka, 'წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით)');
     const codes = data.warnings.map((w) => w.code);
-    for (const c of ['scraped_source_terms', 'output_schema_unverified', 'index_is_not_money', 'range_is_not_confidence_interval']) assert.ok(codes.includes(c), c);
+    for (const c of ['scraped_source_terms', 'index_is_not_money', 'range_is_not_confidence_interval']) assert.ok(codes.includes(c), c);
+    assert.equal(data.indices.costOfLiving, '65.4', 'country check picks Vienna, Austria');
   });
 }
 
 test('missing items → null (never 0); missing basket item not counted; partial status', async () => {
-  const prices = nestedPrices({ drop: ['Apartment (3 bedrooms) Outside of Centre', 'Internet (60 Mbps or More, Unlimited Data, Cable/ADSL)'], override: { 'Eggs (regular) (12)': 0 } });
+  const prices = flatPrices({ drop: ['3 Bedroom Apartment Outside of City Centre', 'Broadband Internet (Unlimited Data, 60 Mbps or Higher)'], override: { 'Eggs (12, Large Size)': 0 } });
   const { data } = await run(mockApify({ city_prices: prices, rankings: rankingsRows() }));
   valid(data);
   assert.equal(data.rent.items.outside_3br, null);
@@ -70,6 +76,20 @@ test('missing items → null (never 0); missing basket item not counted; partial
   assert.equal(data.groceries.status, 'partial');
   assert.equal(data.status, 'partial');
   assert.ok(data.warnings.some((w) => w.code === 'basket_incomplete'));
+});
+
+test('legacy (nested, old names) shape still parsed', async () => {
+  const { data } = await run(mockApify({ city_prices: nestedLegacyPrices(), rankings: rankingsRows() }));
+  valid(data);
+  assert.equal(data.rent.items.centre_1br.average, '1000');
+  assert.equal(data.utilities.basic85m2.average, '200');
+  assert.equal(data.restaurants.inexpensiveMeal.average, '12');
+});
+
+test('basic85m2 matches regardless of spacing / m² spelling', () => {
+  for (const n of ['Basic Utilities for 85 m2 Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic Utilities for 85m2 Apartment (Electricity, Heating, Cooling, Water, Garbage)', 'Basic Utilities for 85 m² Apartment (Electricity, Heating, Cooling, Water, Garbage)']) {
+    assert.equal(selectItems(extractPriceRows([{ city: 'Vienna', category: 'Utilities (Monthly)', item: n, price: 100, currency: 'EUR', range: '' }])).items.basic85m2.average, '100', n);
+  }
 });
 
 test('exact item names win over prefixes; new Numbeo spellings accepted', () => {
@@ -148,6 +168,14 @@ test('nearby-explained mapping keeps note and warning', async () => {
   assert.equal(data.indices.status, 'not_found', 'Rome not in rankings fixture');
 });
 
+test('city missing from rankings (Trabzon): prices shown, indices not_found', async () => {
+  const { data } = await run(mockApify({ city_prices: flatPrices({ city: 'Trabzon', country: 'Turkey' }), rankings: rankingsRows() }), { locationId: 'TR-TRABZON' });
+  valid(data);
+  assert.equal(data.indices.status, 'not_found');
+  assert.equal(data.rent.items.centre_1br.average, '1234.56');
+  assert.ok(data.warnings.some((w) => w.code === 'city_name_unverified'));
+});
+
 test('decimal helpers: exact sums, strings with separators, no zeros', () => {
   assert.equal(sumDecimalStrings(['0.1', '0.2']), '0.3');
   assert.equal(sumDecimalStrings([]), null);
@@ -155,7 +183,9 @@ test('decimal helpers: exact sums, strings with separators, no zeros', () => {
   assert.equal(toDecimalString('€ 12.30'), '12.3');
   assert.equal(toDecimalString('0'), null);
   assert.equal(toDecimalString('n/a'), null);
-  assert.equal(findRanking([{ City: 'Vienna, Austria', 'Cost of Living': 'abc' }], 'Vienna').costOfLiving, null);
+  assert.equal(findRanking([{ City: 'Vienna', 'Cost of Living': 'abc' }], 'Vienna').costOfLiving, null);
+  assert.equal(findRanking(rankingsRows(), 'Vienna', 'United States').costOfLiving, '99');
+  assert.equal(findRanking(rankingsRows(), 'Vienna, Austria'), null, 'exact Numbeo name only');
 });
 
 test('normalizeApify output never contains the token', () => {
