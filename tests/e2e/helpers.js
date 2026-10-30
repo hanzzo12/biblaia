@@ -148,21 +148,31 @@ export async function openServed(browser, origin, { viewport } = {}) {
   return { context, page, blockedRequests, consoleErrors, close: () => context.close() };
 }
 
-/** Synthetic MarketData body (contract src/providers/market-contract.js). SYNTHETIC values only. */
-export function marketBody(loc, { currency = 'EUR', rentStatus = 'fresh', indexStatus = 'fresh', average = '1700', city = 'Synthetic', resolvedLoc = null, noRent = false, noIndex = false } = {}) {
-  const withValue = ['fresh', 'cached', 'stale', 'manual', 'partial'];
-  const rentItem = { metric: 'centre_1br', bedrooms: 1, area: 'centre', average: withValue.includes(rentStatus) ? average : null, low: null, high: null, dataPoints: withValue.includes(rentStatus) ? 20 : null, status: rentStatus, origin: 'provider', sourceUpdatedAt: '2026-09', fetchedAt: '2026-10-29T10:00:00Z' };
-  const hasIdx = withValue.includes(indexStatus);
-  return {
-    schemaVersion: 1, requestedLocationId: loc,
-    resolvedLocation: { city, countryCode: (resolvedLoc || loc).slice(0, 2), providerCityId: '900001', matchStatus: 'exact', ...(resolvedLoc ? { locationId: resolvedLoc } : {}) },
-    provider: { id: 'synthetic', name: 'Synthetic test provider', sourceUrl: 'https://example.org/', attribution: 'synthetic' },
-    currency,
-    rent: noRent ? { status: 'not_found', items: {} } : { status: rentStatus, items: { centre_1br: rentItem } },
-    indices: noIndex
-      ? { costOfLivingExcludingRent: null, rentIndex: null, costOfLivingPlusRent: null, baseline: null, status: 'not_found', origin: 'provider', sourceUpdatedAt: null, fetchedAt: null }
-      : { costOfLivingExcludingRent: hasIdx ? '61.2' : null, rentIndex: hasIdx ? '30.4' : null, costOfLivingPlusRent: hasIdx ? '47.0' : null, baseline: hasIdx ? { label: 'New York City', value: '100' } : null, status: indexStatus, origin: 'provider', sourceUpdatedAt: hasIdx ? '2026-09' : null, fetchedAt: hasIdx ? '2026-10-29T10:00:00Z' : null },
-    cache: { state: rentStatus === 'cached' ? 'hit' : rentStatus === 'stale' ? 'stale' : 'miss', expiresAt: null },
-    warnings: [{ code: 'synthetic_test_data' }],
+/**
+ * Synthetic MarketData v2 body (docs/contracts.md §8). SYNTHETIC values only — never real prices.
+ * opts.status: top-level/category status; opts.missing: list of item paths to set to null (e.g. 'rent.centre_3br', 'utilities.internet').
+ */
+export function marketBodyV2(loc, { currency = 'EUR', status = 'fresh', centre1 = '1700', missing = [] } = {}) {
+  const withData = ['fresh', 'cached', 'stale', 'partial'].includes(status);
+  const p = (a) => (withData ? { average: a, low: null, high: null } : null);
+  const d = (x) => (withData ? x : null);
+  const b = {
+    schemaVersion: 2, requestedLocationId: loc,
+    resolvedLocation: { city: 'Synthetic', countryCode: loc.slice(0, 2), providerCity: 'Synthetic', matchStatus: withData ? 'exact' : 'none' },
+    provider: { id: 'numbeo-apify', name: 'Numbeo', via: 'Apify automation-lab/numbeo-scraper', sourceUrl: 'https://www.numbeo.com/cost-of-living/', attribution_ka: 'წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით)' },
+    currency, status,
+    rent: { status, items: { centre_1br: p(centre1), outside_1br: p('1300.00'), centre_3br: p('3100.00'), outside_3br: p('2300.00') }, rentIndex: d('40.1') },
+    utilities: { status, basic85m2: p('250.00'), internet: p('35.00') },
+    groceries: { status, basketItemsSum: d('61.40'), itemsCounted: withData ? 20 : 0, itemsMissing: 0, groceriesIndex: d('55.0') },
+    restaurants: { status, inexpensiveMeal: p('15.00'), midRangeForTwo: p('70.00'), restaurantIndex: d('60.2') },
+    indices: { costOfLiving: d('65.3'), rent: d('40.1'), groceries: d('55.0'), restaurants: d('60.2'), costOfLivingPlusRent: d('53.0'), baseline: 'ნიუ-იორკი = 100', status, period: withData ? '2026' : null },
+    fetchedAt: '2026-10-29T10:00:00Z', sourceUpdatedAt: withData ? '2026-09' : null,
+    cache: { state: status === 'cached' ? 'hit' : status === 'stale' ? 'stale' : 'miss', expiresAt: ['cached', 'stale'].includes(status) ? '2026-11-28T10:00:00Z' : null },
+    warnings: [{ code: 'synthetic_test_data', message_ka: 'სინთეზური სატესტო მონაცემი' }],
   };
+  for (const m of missing) {
+    const [cat, key] = m.split('.');
+    if (cat === 'rent') b.rent.items[key] = null; else b[cat][key] = null;
+  }
+  return b;
 }
