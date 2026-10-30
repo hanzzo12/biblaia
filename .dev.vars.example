@@ -1,3 +1,4 @@
-# ლოკალური საიდუმლოებები `npx wrangler dev`-ისთვის. დააკოპირეთ: cp .dev.vars.example .dev.vars
-# .dev.vars არასოდეს ატვირთოთ git-ში (ის .gitignore-შია). ცარიელი მნიშვნელობა = "პროვაიდერი არ არის კონფიგურირებული".
+# ლოკალური საიდუმლოებები `npx wrangler dev`-ისთვის: cp .dev.vars.example .dev.vars
+# საჯარო (Eurostat) რეჟიმს საიდუმლო არ სჭირდება — ფაილი შეიძლება საერთოდ არ შექმნათ.
+# NUMBEO_API_KEY მხოლოდ არჩევითი, ლიცენზირებული Numbeo რეჟიმისთვისაა (MARKET_PROVIDER=numbeo). .dev.vars არასოდეს ატვირთოთ git-ში.
 NUMBEO_API_KEY=""

@@ -1,6 +1,6 @@
 {
   // Cloudflare Workers Static Assets + /api/market. შემოწმებულია wrangler 4.155.0-ით (deploy --dry-run).
-  // აქ მხოლოდ არასაიდუმლო პარამეტრებია. NUMBEO_API_KEY → `npx wrangler secret put NUMBEO_API_KEY` (ან ლოკალურად .dev.vars).
+  // აქ მხოლოდ არასაიდუმლო პარამეტრებია. საჯარო (Eurostat) რეჟიმს საიდუმლო არ სჭირდება.
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "rotation-calculator",
   "main": "worker/index.js",
@@ -14,14 +14,16 @@
     "run_worker_first": ["/api/*"]
   },
   "vars": {
-    "MARKET_PROVIDER": "numbeo",
-    // 0 = სერვერული ქეში გამორთულია. 86400 (24 სთ) ჩართეთ მხოლოდ Numbeo-ს წერილობითი დადასტურების შემდეგ.
-    "MARKET_CACHE_TTL_SECONDS": "0",
-    // ვადაგასული ქეშის გამოყენების ზღვარი upstream შეცდომისას (წამი). მოქმედებს მხოლოდ TTL > 0-ისას.
-    "MARKET_STALE_MAX_SECONDS": "0",
+    // საჯარო ვერსია (ADR-002): Eurostat-ის ოფიციალური კოეფიციენტები, გასაღები არ სჭირდება.
+    // "numbeo" — მხოლოდ Numbeo-ს ლიცენზიით + `wrangler secret put NUMBEO_API_KEY` (იხ. docs/deploy.md, დანართი ა).
+    "MARKET_PROVIDER": "eurostat",
+    // Eurostat-ის ლიცენზია ქეშირებას უშვებს: 24 სთ. Numbeo-ს რეჟიმში დააყენეთ "0" ლიცენზიის დადასტურებამდე.
+    "MARKET_CACHE_TTL_SECONDS": "86400",
+    // ვადაგასული ასლის ჩვენება upstream შეცდომისას (წამი; 7 დღე). მოქმედებს მხოლოდ TTL > 0-ისას.
+    "MARKET_STALE_MAX_SECONDS": "604800",
     "MARKET_UPSTREAM_TIMEOUT_MS": "8000",
     "MARKET_ALLOWED_CURRENCIES": "EUR,USD",
-    // "true" მხოლოდ ლიცენზიის დადასტურების შემდეგ (ქრება გაფრთხილება license_unconfirmed).
+    // მხოლოდ Numbeo-ს რეჟიმისთვის: "true" ლიცენზიის დადასტურების შემდეგ.
     "MARKET_LICENSE_CONFIRMED": "false"
   },
   "ratelimits": [
@@ -29,7 +31,7 @@
     { "name": "MARKET_RATE_LIMITER", "namespace_id": "4201", "simple": { "limit": 60, "period": 60 } }
   ],
   "observability": { "enabled": true },
-  // საკუთარი დომენი + Access-ის დაყენების შემდეგ შეგიძლიათ დააყენოთ false.
+  // საჯარო გვერდი: workers.dev ან საკუთარი დომენი. Access საჭირო არ არის (ADR-002).
   "workers_dev": true,
   "preview_urls": false
 }
