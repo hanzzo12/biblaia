@@ -50,8 +50,11 @@ test('dist/: no external CDN scripts/styles/fonts/images (hyperlinks <a href> ar
 test('.dev.vars is git-ignored and .dev.vars.example holds no real value', () => {
   const gi = fs.readFileSync(path.join(ROOT, '.gitignore'), 'utf8');
   assert.match(gi, /^\.dev\.vars\b/m);
-  const tracked = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8' }).split('\n');
-  assert.ok(!tracked.some((t) => /(^|\/)\.dev\.vars$/.test(t)), '.dev.vars is tracked by git');
+  // გამოშვების არქივიდან გახსნილ ასლში git რეპოზიტორია არ არის — მაშინ git-ის ნაწილი გამოიტოვება.
+  if (fs.existsSync(path.join(ROOT, '.git'))) {
+    const tracked = execFileSync('git', ['ls-files'], { cwd: ROOT, encoding: 'utf8' }).split('\n');
+    assert.ok(!tracked.some((t) => /(^|\/)\.dev\.vars$/.test(t)), '.dev.vars is tracked by git');
+  }
   const ex = path.join(ROOT, '.dev.vars.example');
   if (fs.existsSync(ex)) for (const re of SECRET_RES) assert.doesNotMatch(fs.readFileSync(ex, 'utf8'), re);
 });
