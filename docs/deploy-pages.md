@@ -1,4 +1,30 @@
-# როგორ ავტვირთო საიტი — Cloudflare Pages + GitHub (ბრძანებების გარეშე)
+# როგორ ავტვირთო საიტი — Cloudflare + GitHub (ბრძანებების გარეშე)
+
+## ✅ Cloudflare-ის ახალი მენიუ (2026-10-31): „Set up your application“ — Worker პროექტი
+
+Cloudflare-ში **Workers & Pages → Create → Import a repository (GitHub)** ახლა ქმნის **Worker** პროექტს. ჩვენი პროექტი ამისთვის მზადაა (`wrangler.jsonc`). შეავსეთ ასე:
+
+| ველი | რა ჩაწეროთ |
+| --- | --- |
+| რეპოზიტორია | `hanzzo12/biblaia` (ძირითადი ფილიალი უკვე `ccr-733af0f1-rqqflu`-ია — ცალკე არჩევა არ სჭირდება) |
+| **Project name** | `rotation-calculator` (**ზუსტად ასე** — უნდა ემთხვეოდეს `wrangler.jsonc`-ის `name`-ს) |
+| **Build command** | `npm run build` |
+| **Deploy command** | `npx wrangler deploy` (დატოვეთ როგორც არის) |
+| **Preview command** | არ ეხებით; ქვემოთ **Enable Preview builds** — გამორთეთ |
+| **Advanced settings → Path** | `/` (დატოვეთ) |
+| **Advanced settings → API token** | **Create new token** (დატოვეთ — ავტომატურად შეიქმნება) |
+| **Advanced settings → Variable name / value** | `NODE_VERSION` = `22` (სურვილისამებრ; `.node-version` ფაილიც არის). **აქ Apify ტოკენი არ ჩაწეროთ** — ეს აწყობის დროის ცვლადებია |
+
+→ **Deploy**. დაელოდეთ რამდენიმე წუთს, სანამ ჟურნალი (build log) დასრულდება. **KV ქეში ავტომატურად შეიქმნება** პირველ განთავსებაზე — ხელით არაფერი გჭირდებათ.
+
+**შემდეგ ტოკენი (ერთხელ):** Worker → **Settings** → **Variables and Secrets** → **Add** → Type: **Secret** → Name: `APIFY_TOKEN` → Value: თქვენი ახალი Apify ტოკენი → **Deploy/Save**. Secret ახალ განთავსებებზეც შენარჩუნდება.
+
+**შემოწმება:** `https://rotation-calculator.<თქვენი-subdomain>.workers.dev/` და `/api/market/health` (`"tokenConfigured": true`, `"cacheBackend": "kv"`).
+
+---
+
+## ძველი გზა: Cloudflare Pages (თუ თქვენს პანელში ჯერ კიდევ ჩანს „Pages → Connect to Git“)
+
 
 ეს არის **ძირითადი, უმარტივესი გზა**. ყველაფერი კეთდება ბრაუზერში, Cloudflare-ის პანელში (dashboard). ტერმინალი და ბრძანებები არ გჭირდებათ.
 Cloudflare-ის დოკუმენტაციით გადამოწმებულია 2026-10-30. პანელში ღილაკების სახელები ინგლისურად წერია — ქვემოთ ზუსტად ისეა, როგორც ეკრანზე ჩანს.
