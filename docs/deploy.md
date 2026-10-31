@@ -1,6 +1,6 @@
 # განთავსება Cloudflare Workers-ზე ბრძანების ხაზით (CLI) — დანართი
 
-> **ძირითადი, უმარტივესი გზა ახლა არის Cloudflare Pages + GitHub, ბრძანებების გარეშე: [deploy-pages.md](deploy-pages.md).** ეს ფაილი დეველოპერებისთვისაა. Workers-ის კონფიგურაცია არის `wrangler.worker.jsonc` (არა `wrangler.jsonc`, რათა Pages-ის build-მა ის არ წაიკითხოს); npm სკრიპტები მას `--config`-ით იყენებს.
+> **ძირითადი, უმარტივესი გზა ახლა არის Cloudflare Pages + GitHub, ბრძანებების გარეშე: [deploy-pages.md](deploy-pages.md).** ეს ფაილი დეველოპერებისთვისაა. Workers-ის კონფიგურაცია არის `wrangler.jsonc` (არა `wrangler.jsonc`, რათა Pages-ის build-მა ის არ წაიკითხოს); npm სკრიპტები მას `--config`-ით იყენებს.
 
 შემოწმებულია 2026-10-30: Node 22, wrangler 4.155.0 — `npm test`, `npm run build`, `wrangler deploy --dry-run`. რეალურ Cloudflare ანგარიშზე განთავსება და Apify-ის რეალური გაშვება ამ გარემოდან **არ შესრულებულა** (ქსელი დაბლოკილია).
 
@@ -39,7 +39,7 @@ npx wrangler login
 npx wrangler kv namespace create MARKET_CACHE
 ```
 
-ბრძანება დაბეჭდავს `id`-ს. ჩასვით `wrangler.worker.jsonc`-ში `"id": "REPLACE_WITH_KV_NAMESPACE_ID"`-ის ნაცვლად. (KV-ის გარეშე: წაშალეთ `kv_namespaces` ბლოკი — Worker გამოიყენებს Cache API-ს, რომელიც მხოლოდ ერთ მონაცემთა ცენტრშია.)
+ბრძანება დაბეჭდავს `id`-ს. ჩასვით `wrangler.jsonc`-ში `"id": "REPLACE_WITH_KV_NAMESPACE_ID"`-ის ნაცვლად. (KV-ის გარეშე: წაშალეთ `kv_namespaces` ბლოკი — Worker გამოიყენებს Cache API-ს, რომელიც მხოლოდ ერთ მონაცემთა ცენტრშია.)
 
 ## 5. ტოკენი და განთავსება
 
@@ -51,7 +51,7 @@ npm run deploy                          # → https://rotation-calculator.<subdo
 
 შემოწმება: `https://…/api/market/health` → `"status":"configured"`, `"cacheBackend":"kv"`. პირველი მოთხოვნა ქალაქზე შეიძლება 30–90 წამი გაგრძელდეს (Apify-ის გაშვება); შემდეგ 30 დღე ქეშიდან.
 
-## 6. პარამეტრები (`wrangler.worker.jsonc` → `vars`)
+## 6. პარამეტრები (`wrangler.jsonc` → `vars`)
 
 | ცვლადი | ნაგულისხმევი | აზრი |
 | --- | --- | --- |

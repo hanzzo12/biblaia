@@ -15,10 +15,10 @@
     "test:golden": "python3 -I tests/independent/compute_golden.py",
     "test:e2e": "node --test --test-concurrency=1 \"tests/e2e/**/*.test.js\"",
     "test:all": "npm run validate:data && npm run build && npm test && npm run test:e2e",
-    "dev": "npm run build && wrangler dev --config wrangler.worker.jsonc",
+    "dev": "npm run build && wrangler dev --config wrangler.jsonc",
     "pages:dev": "npm run build && wrangler pages dev dist/web --kv MARKET_CACHE",
-    "deploy:dry": "npm run build && wrangler deploy --config wrangler.worker.jsonc --dry-run --outdir .wrangler-dry",
-    "deploy": "npm run build && wrangler deploy --config wrangler.worker.jsonc",
+    "deploy:dry": "npm run build && wrangler deploy --config wrangler.jsonc --dry-run --outdir .wrangler-dry",
+    "deploy": "npm run build && wrangler deploy --config wrangler.jsonc",
     "release": "node scripts/release.mjs",
     "pretest": "node scripts/build.mjs",
     "pretest:e2e": "node scripts/build.mjs"

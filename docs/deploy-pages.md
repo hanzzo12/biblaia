@@ -97,5 +97,5 @@ Cloudflare-ის დოკუმენტაციით გადამოწ�
 ## დანართი — ბრძანების ხაზის (CLI) გზები დეველოპერებისთვის
 
 - **ლოკალური შემოწმება Pages-ის რეჟიმში:** `.dev.vars.example` → `.dev.vars` (ჩაწერეთ `APIFY_TOKEN`), შემდეგ `npm run pages:dev` → http://localhost:8788 (Functions საქაღალდე `functions/` ავტომატურად აიტვირთება; KV ლოკალურად ემულირდება).
-- **Cloudflare Workers (CLI) გზა:** `docs/deploy.md` (`wrangler.worker.jsonc`, `npm run deploy`).
+- **Cloudflare Workers (CLI) გზა:** `docs/deploy.md` (`wrangler.jsonc`, `npm run deploy`).
 - ტექნიკური დეტალები: `functions/api/market/index.js`, `functions/api/market/health.js`, `functions/api/[[path]].js` — თხელი შეფუთვები `worker/market-worker.js`-ზე (იგივე ლოგიკა ორივე გზაზე).

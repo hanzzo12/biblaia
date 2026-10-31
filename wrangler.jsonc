@@ -1,7 +1,7 @@
 {
   // Cloudflare **Workers** კონფიგურაცია (CLI გზა, დანართი). Pages-ის Git გზას ეს ფაილი არ სჭირდება — იხ. docs/deploy-pages.md.
   // ფაილს განზრახ არ ჰქვია wrangler.jsonc: Pages-ის build/`wrangler pages dev` მას Pages-ის კონფიგად წაიკითხავდა.
-  // გამოყენება: npx wrangler deploy --config wrangler.worker.jsonc (npm run deploy). შემოწმებულია wrangler 4.155.0-ით.
+  // გამოყენება: npx wrangler deploy --config wrangler.jsonc (npm run deploy). შემოწმებულია wrangler 4.155.0-ით.
   // აქ მხოლოდ არასაიდუმლო პარამეტრებია. APIFY_TOKEN → `npx wrangler secret put APIFY_TOKEN` (ლოკალურად — .dev.vars).
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "rotation-calculator",
@@ -27,10 +27,10 @@
     // "false" — ინდექსები (rankings, ≈ $2.745 ერთ გაშვებაზე / 30 დღე) გამორთულია; ფასები რჩება.
     "MARKET_RANKINGS_ENABLED": "true"
   },
-  // Workers KV ქეში. შექმნა: `npx wrangler kv namespace create MARKET_CACHE` → დაბეჭდილი id ჩასვით ქვემოთ.
+  // Workers KV ქეში: id არ არის მითითებული — `wrangler deploy` (4.x) პირველ განთავსებაზე KV-ს ავტომატურად ქმნის და მიაბამს.
   // KV-ის გარეშე (id არ არის) Worker იყენებს Cache API-ს/მეხსიერებას — ამისთვის ეს ბლოკი წაშალეთ.
   "kv_namespaces": [
-    { "binding": "MARKET_CACHE", "id": "REPLACE_WITH_KV_NAMESPACE_ID" }
+    { "binding": "MARKET_CACHE" }
   ],
   "ratelimits": [
     // მიახლოებითი ლიმიტი თითო IP-ზე და Cloudflare ლოკაციაზე; period მხოლოდ 10 ან 60.

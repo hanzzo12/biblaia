@@ -47,10 +47,14 @@ test('static-only deploy (no Functions): client maps HTML 404 to not_configured'
   assert.equal((await c.get('AT-VIENNA', 'EUR')).status, 'not_configured');
 });
 
-test('Pages build config: .node-version = 22; no root wrangler.jsonc (Workers config lives in wrangler.worker.jsonc)', () => {
+test('build config: .node-version = 22; root wrangler.jsonc is a Workers config (Pages ignores it), KV auto-provisioned', () => {
   assert.equal(readFileSync(`${ROOT}.node-version`, 'utf8').trim(), '22');
-  assert.ok(!existsSync(`${ROOT}wrangler.jsonc`) && !existsSync(`${ROOT}wrangler.toml`) && !existsSync(`${ROOT}wrangler.json`));
-  assert.ok(existsSync(`${ROOT}wrangler.worker.jsonc`));
+  assert.ok(existsSync(`${ROOT}wrangler.jsonc`) && !existsSync(`${ROOT}wrangler.toml`) && !existsSync(`${ROOT}wrangler.json`));
+  const cfg = readFileSync(`${ROOT}wrangler.jsonc`, 'utf8');
+  assert.doesNotMatch(cfg, /pages_build_output_dir/, 'Pages must ignore the Workers config');
+  assert.match(cfg, /"main":\s*"worker\/index\.js"/);
+  assert.match(cfg, /\{\s*"binding":\s*"MARKET_CACHE"\s*\}/, 'KV without id → wrangler deploy provisions it');
+  assert.doesNotMatch(cfg, /REPLACE_WITH_KV_NAMESPACE_ID/);
   const pkg = JSON.parse(readFileSync(`${ROOT}package.json`, 'utf8'));
-  assert.match(pkg.scripts.deploy, /--config wrangler\.worker\.jsonc/);
+  assert.match(pkg.scripts.deploy, /wrangler deploy/);
 });

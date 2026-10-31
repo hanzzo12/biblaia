@@ -121,7 +121,7 @@
 
 # რაუნდი 2: 4-ნაბიჯიანი UI
 
-თარიღი: 2026-10-31. შემოწმდა `b34555b` (UI რაუნდი 2) და `daeec6c` (Cloudflare Pages Functions, `wrangler.worker.jsonc`), UI-ის ინჟინრის შედარების label-ის მიმდინარე ცვლილებით.
+თარიღი: 2026-10-31. შემოწმდა `b34555b` (UI რაუნდი 2) და `daeec6c` (Cloudflare Pages Functions, `wrangler.jsonc`), UI-ის ინჟინრის შედარების label-ის მიმდინარე ცვლილებით.
 
 ## შედეგები
 
@@ -157,7 +157,7 @@
 
 ## რა ვერ შემოწმდა
 
-- **Cloudflare Pages-ზე რეალური განთავსება** (`functions/api/…`) და Workers-ის ვარიანტი (`wrangler.worker.jsonc`) არ შესრულებულა. Functions შემოწმდა მხოლოდ ლოკალური unit ტესტებით (`tests/worker`) და HTTP-ით მიწოდებულ `dist/web`-ზე სინთეზური `/api/market`-ით.
+- **Cloudflare Pages-ზე რეალური განთავსება** (`functions/api/…`) და Workers-ის ვარიანტი (`wrangler.jsonc`) არ შესრულებულა. Functions შემოწმდა მხოლოდ ლოკალური unit ტესტებით (`tests/worker`) და HTTP-ით მიწოდებულ `dist/web`-ზე სინთეზური `/api/market`-ით.
 - **Apify/Numbeo live:** `api.apify.com` sandbox-ში დაბლოკილია, ტოკენი არ წამიკითხავს. actor-ის რეალური სქემა დაუდასტურებელია.
 - **მთავრობის №211 დადგენილების დღიური ნორმები** კვლავ აკლია: matsne ბოტების მოთხოვნებს ბლოკავს. პირველადი მოწყობა მხოლოდ ხელით შეყვანილი ნორმით ითვლება.
 - **ეკრანის წამკითხველი, axe-core და კლავიატურით სრული გავლა** არ შემოწმებულა.
