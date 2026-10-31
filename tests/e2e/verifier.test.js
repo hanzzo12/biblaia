@@ -41,15 +41,18 @@ after(async () => { await browser?.close(); await server?.close(); });
 // ---------------------------------------------------------------- wizard driver
 const dv = (page, sel) => page.locator(sel).first().getAttribute('data-value');
 const cardVal = (page, id) => dv(page, `[data-testid="${id}"] [data-value]`);
+const remainder = (page) => dv(page, '[data-testid="hero-remainder"]');
+const RESULT_SEL = '[data-testid="S"], [data-testid="hero-remainder"], .rcard [data-value]';
 
 async function stepMission(page, query = 'Vienna') {
   await page.getByTestId('mission').fill(query);
   await page.getByTestId('mission').press('Enter');
   await page.getByTestId('next').click();
 }
-/** step 2: Annex 2 position, head off, family [{role, age}] */
-async function stepPosition(page, { entry = 'A2-R5', family = [['spouse', '38'], ['child', '8']] } = {}) {
-  await page.getByTestId('position').selectOption(entry);
+/** step 2: Annex 2 position card (radio), head off, family [{role, age}], optional own age */
+async function stepPosition(page, { entry = 'A2-R5', family = [['spouse', '38'], ['child', '8']], age = null } = {}) {
+  await page.getByTestId(`pos-${entry}`).check({ force: true });
+  if (age != null) await page.getByLabel('თქვენი ასაკი', { exact: true }).fill(age);
   if (await page.getByTestId('head').isChecked()) await page.getByTestId('head').uncheck();
   for (const [role, age] of family) {
     await page.getByTestId('add-family').click();
@@ -63,7 +66,7 @@ async function stepCosts(page, { rent = '1500', edu = '1000' } = {}) {
   if (rent !== null) await page.getByTestId('rent').fill(rent);
   if (edu !== null && await page.getByTestId('edu').count()) await page.getByTestId('edu').first().fill(edu);
   await page.getByTestId('next').click();
-  await page.getByTestId('S').waitFor();
+  await page.getByTestId('hero-remainder').waitFor();
 }
 /** Golden T-MON-VIE-01/02: Vienna, Annex 2 counsellor 65%, spouse + child, non-head, G 1500, school 1000 */
 async function viennaGolden(page) {
@@ -82,7 +85,7 @@ test('offline file://: golden Vienna S/F/edu/remainder, no external requests, no
     assert.equal(await dv(h.page, '[data-testid="S"]'), '4985.16');
     assert.equal(await cardVal(h.page, 'F'), '1246.86');
     assert.equal(await cardVal(h.page, 'edu'), '938.00');
-    assert.equal(await cardVal(h.page, 'remainder'), '3423.16');
+    assert.equal(await remainder(h.page), '3423.16', 'hero shows the remainder first');
     assert.deepEqual(h.blockedRequests, [], 'no external request attempted');
     assert.deepEqual(h.unexpectedConsoleErrors(), []);
     assert.deepEqual(h.pageErrors, []);
@@ -229,6 +232,7 @@ test('comparison: ≤5 cards, EUR/USD never summed, each card S = calculate() fo
       const text = await card.innerText();
       assert.ok(text.includes(cur), `${id} shows ${cur}`);
       assert.match(text, cur === 'EUR' ? /დარჩება ქირისა და სწავლის შემდეგ/ : /დარჩება ქირის შემდეგ/, `${id} remainder label`);
+      assert.equal(await card.getByTestId('edu-not-applied').count(), cur === 'EUR' ? 0 : 1, `${id} edu-not-applied note`);
       sValues.push(Number(r.monthly.S.exact.includes('/') ? eval(r.monthly.S.exact) : r.monthly.S.exact)); // eslint-disable-line no-eval
     }
     assert.equal(await dv(s.page, '[data-col="M-A5-R1"] [data-testid="compare-S"]'), '4985.16', 'Vienna card = golden');
@@ -256,7 +260,7 @@ test('XSS in family age and rent fields is harmless and shown as text', async ()
     assert.equal(await h.page.getByTestId('rent').getAttribute('aria-invalid'), 'true', 'rent payload rejected as a number');
     await h.page.locator('[data-testid="rent"]').fill('1500');
     await h.page.getByTestId('next').click();
-    await h.page.getByTestId('S').waitFor();
+    await h.page.getByTestId('hero-remainder').waitFor();
     await h.page.emulateMedia({ media: 'print' });
     assert.equal(await h.page.evaluate(() => window.__xss), 0, 'payload executed');
     assert.equal(await h.page.locator('img[src="x"], svg[onload]').count(), 0, 'no injected elements');
@@ -268,11 +272,11 @@ test('print values equal screen values; PDF text contains the golden amounts', a
   const h = await openOffline();
   try {
     await viennaGolden(h.page);
-    const grab = () => h.page.$$eval('[data-testid="S"], .rcard [data-value]', (els) => els.map((e) => e.getAttribute('data-value')));
+    const grab = () => h.page.$$eval(RESULT_SEL, (els) => els.map((e) => e.getAttribute('data-value')));
     const screen = await grab();
     await h.page.emulateMedia({ media: 'print' });
     assert.deepEqual(await grab(), screen);
-    const visible = await h.page.$$eval('[data-testid="S"], .rcard [data-value]', (els) => els.filter((e) => e.offsetParent !== null || e.getClientRects().length).map((e) => e.getAttribute('data-value')));
+    const visible = await h.page.$$eval(RESULT_SEL, (els) => els.filter((e) => e.offsetParent !== null || e.getClientRects().length).map((e) => e.getAttribute('data-value')));
     for (const v of ['4985.16', '1246.86', '938.00', '3423.16']) assert.ok(visible.includes(v), `${v} visible in print`);
     const pdf = path.join(TMP, `verifier-print-${process.pid}.pdf`);
     await h.page.pdf({ path: pdf, format: 'A4' });
@@ -315,7 +319,7 @@ test('offline (file://) and served (http) give identical results', async () => {
   const s = await openServed(browser, server.origin);
   try {
     await viennaGolden(h.page); await viennaGolden(s.page);
-    const grab = (p) => p.$$eval('[data-testid="S"], .rcard [data-value]', (els) => els.map((e) => e.getAttribute('data-value')));
+    const grab = (p) => p.$$eval(RESULT_SEL, (els) => els.map((e) => e.getAttribute('data-value')));
     assert.deepEqual(await grab(s.page), await grab(h.page));
   } finally { await h.close(); await s.close(); }
 });
