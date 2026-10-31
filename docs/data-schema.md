@@ -79,8 +79,8 @@ src/data/normative-data.json                      (აპის ერთად�
 | `insuranceCaps[]` | `id`, `annex` (7/8), `rowNo`, `rawLabel`, `currency`, `bands` — ზუსტად 12 გასაღები `0-18, 19-24, 25-29, 30-34, 35-39, 40-44, 45-49, 50-54, 55-59, 60-64, 65-69, 70+` (წყაროში „00-18“ და „70-ზევით“) |
 | `insuranceBandRule` | ასაკობრივი ჯგუფების წაკითხვის წესი (სრული წლები) |
 | `baggageCaps[]` | `id`, `annex` (9/10), `rowNo`, `rawLabel`, `currency`, `amount` |
-| `dailyRates[]` | ცარიელი — №211 დადგენილების №1 დანართი არ მოგვეწოდა |
-| `dataGaps[]` | `GAP-DAILY-RATES`, `GAP-K-VATICAN`, `GAP-OPERATIONAL-STATUS` |
+| `dailyRates[]` | №211 დადგენილების დანართი №1, სვეტი 3 (63 ქვეყანა): `id` (`DSA-<ISO2>`), `countryId`, `locationId` (null — ქვეყნის სტრიქონი; ქალაქის სტრიქონები დანართში არ არის), `amount`, `currency` (ISO; შეიძლება ≠ დაფინანსების ვალუტა), `currencyRaw`, `rawLabel`, `sourceRef` (`SRC-DECREE211-A1`), `row`, `page`, `edition`, `column` ("3"), `otherColumns` (4, 5 — მხოლოდ ცნობისთვის), `notes`. ნედლი: `sources/extracted/decree211-annex1.raw.json` (197 სტრიქონი; `scripts/extract-decree211.py`). |
+| `dataGaps[]` | `GAP-DAILY-RATE-NO-ROW` (წმინდა საყდარი), `GAP-K-VATICAN`, `GAP-OPERATIONAL-STATUS` |
 | `removedEntries[]` | დან. №5 სტრ. 40 და დან. №7 სტრ. 40 — არჩევადი არ არის |
 | `normalizations[]` | `id`, `annex`, `rowNo`, `field`, `raw`, `normalized`, `reason` (16 ჩანაწერი) |
 

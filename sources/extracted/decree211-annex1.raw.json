@@ -1,0 +1,3983 @@
+{
+ "source": "Government of Georgia Decree №211 of 2017-04-25, Annex №1 (სადღეღამისო ნორმები)",
+ "file": "sources/original/decree211-matsne-3649787-28.pdf",
+ "sha256": "7eb2073e7d318f9c2102e6d1627b5ba849e43bb5bb83a85b3fd82d4563a9d91d",
+ "edition": {
+  "matsneDocumentId": "3649787",
+  "consolidationLabel": "28 (from the file name)",
+  "pdfCreationDate": "2026-07-16 (PDF metadata, PD4ML 'Preview')",
+  "effectiveDate": null,
+  "note": "Consolidated preview downloaded from matsne by the user; the effective date of the printed text is not stated and is not inferred."
+ },
+ "amendmentCitationsOnAnnex": [
+  {
+   "year": "2020",
+   "date_ka": "10 თებერვლის",
+   "number": "91",
+   "published": "12.02.2020"
+  },
+  {
+   "year": "2022",
+   "date_ka": "28 სექტემბრის",
+   "number": "470",
+   "published": "28.09.2022"
+  }
+ ],
+ "columns": {
+  "country": "1 ქვეყნის დასახელება",
+  "currency": "2 უცხოური ვალუტის დასახელება",
+  "c3_shortTrip": "3 მოკლევადიანი მივლინებისას",
+  "c4_staffInHostState": "4 საზღვარგარეთ საქ. დაწესებულების მოსამსახურეთათვის მოკლევადიანი მივლინებისას იმ სახელმწიფოს შიგნით, სადაც მდებარეობს ეს დაწესებულება",
+  "c5_accommodation": "5 საცხოვრებელი ფართობის დაქირავების ხარჯების ანაზღაურების სადღეღამისო ნორმა"
+ },
+ "extractedWith": "pdfplumber 0.11.10: words + grid lines; page-break rows joined; cross-checked with decree211.layout.txt; pages rendered (pypdfium2) and inspected",
+ "counts": {
+  "rows": 197,
+  "layoutMismatches": 0
+ },
+ "rows": [
+  {
+   "row": 1,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ავსტრალიის თანამეგობრობა",
+    "currency": "ავსტრალიური დოლარი",
+    "c3_shortTrip": "80",
+    "c4_staffInHostState": "50",
+    "c5_accommodation": "210"
+   },
+   "flags": [],
+   "bandY": [
+    301.6,
+    349.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 2,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ავსტრიის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    349.6,
+    378.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 3,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ავღანეთის ისლამური რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    378.1,
+    419.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 4,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "აზერბაიჯანის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    419.4,
+    467.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 5,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ალბანეთის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    467.4,
+    495.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 6,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ალჟირის სახალხო დემოკრატიული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    495.9,
+    549.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 7,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ამერიკის შეერთებული შტატები",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "75",
+    "c4_staffInHostState": "50",
+    "c5_accommodation": "240"
+   },
+   "flags": [],
+   "bandY": [
+    549.9,
+    609.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 8,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ანგოლის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    609.9,
+    638.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 9,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ანდორის სამთავრო",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    638.4,
+    666.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 10,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ანტიგუა და ბარბუდა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    666.9,
+    695.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 11,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "არაბთა გაერთიანებული საამიროები",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    695.4,
+    736.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 12,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "არგენტინის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    736.6,
+    765.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 13,
+   "page": 8,
+   "pages": [
+    8
+   ],
+   "cells": {
+    "country": "ახალი ზელანდია",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    765.1,
+    793.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 14,
+   "page": 8,
+   "pages": [
+    8,
+    9
+   ],
+   "cells": {
+    "country": "ბანგლადეშის სახალხო რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [
+    "split-by-page-break"
+   ],
+   "bandY": [
+    793.6,
+    821.5
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 15,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბარბადოსი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    31.6,
+    60.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 16,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბაჰრეინის სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    60.1,
+    88.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 17,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბაჰამის თანამეგობრობა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    88.6,
+    117.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 18,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბელარუსის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    117.1,
+    165.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 19,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბელგიის სამეფო",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    165.1,
+    193.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 20,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბელიზი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    193.6,
+    222.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 21,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბენინი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    222.1,
+    250.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 22,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბერმუდის კუნძულები",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    250.6,
+    279.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 23,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბოლივიის მრავალეროვნული სახელმწიფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    279.1,
+    333.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 24,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბოსნია და ჰერცოგოვინა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    333.1,
+    361.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 25,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბოტსვანის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    361.6,
+    390.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 26,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბრაზილიის ფედერაციული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    390.1,
+    431.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 27,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბრუნეი დარუსალამი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    431.4,
+    459.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 28,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბულგარეთის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    459.9,
+    488.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 29,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "ბურკინა-ფასო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    488.4,
+    516.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 30,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "გაბონი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    516.9,
+    545.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 31,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "გაიანას კოოპერატიული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    545.4,
+    586.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 32,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "გამბია",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    586.6,
+    615.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 33,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "განა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    615.1,
+    643.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 34,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "გერმანიის ფედერაციული რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "65",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    643.6,
+    684.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 35,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "გვატემალის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    684.9,
+    713.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 36,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "გვინეა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    713.4,
+    741.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 37,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "გვინეა-ბისაუ",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    741.9,
+    770.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 38,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "გიბრალტარი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    770.4,
+    798.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 39,
+   "page": 9,
+   "pages": [
+    9
+   ],
+   "cells": {
+    "country": "გრენადა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    798.9,
+    821.5
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 40,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "დანიის სამეფო",
+    "currency": "დანიური კრონა",
+    "c3_shortTrip": "465",
+    "c4_staffInHostState": "325",
+    "c5_accommodation": "1318"
+   },
+   "flags": [],
+   "bandY": [
+    15.9,
+    44.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 41,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "დიდი ბრიტანეთისა და ჩრდილოეთ ირლანდიის გაერთიანებული სამეფო",
+    "currency": "ინგლისური გირვანქა სტერლინგი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "38",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    44.4,
+    98.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 42,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "დომინიკის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    98.4,
+    126.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 43,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "დომინიკის თანამეგობრობა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    126.9,
+    155.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 44,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ეგვიპტის არაბთა რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    155.4,
+    196.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 45,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ეთიოპიის ფედერაციული დემოკრატიული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    196.6,
+    250.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 46,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ეკვადორის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    250.6,
+    279.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 47,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ეკვატორიული გვინეა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    279.1,
+    307.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 48,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ერაყის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    307.6,
+    336.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 49,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ესპანეთის სამეფო",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    336.1,
+    364.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 50,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ესტონეთის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    364.6,
+    412.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 51,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ვანუატუს რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    412.6,
+    441.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 52,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ვენესუელა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    441.1,
+    469.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 53,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ვიეტნამის სოციალისტური რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    469.6,
+    510.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 54,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ზამბიის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    510.9,
+    539.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 55,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ზიმბაბვეს რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    539.4,
+    567.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 56,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "თურქეთის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    567.9,
+    596.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 57,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "თურქმენეთი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    596.4,
+    624.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 58,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "იამაიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    624.9,
+    653.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 59,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "იაპონია",
+    "currency": "იაპონური იენა",
+    "c3_shortTrip": "9100",
+    "c4_staffInHostState": "5685",
+    "c5_accommodation": "27300"
+   },
+   "flags": [],
+   "bandY": [
+    653.4,
+    681.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 60,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "იემენის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    681.9,
+    710.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 61,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ინდოეთის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    710.4,
+    738.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 62,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "ინდონეზიის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    738.9,
+    767.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 63,
+   "page": 10,
+   "pages": [
+    10
+   ],
+   "cells": {
+    "country": "იორდანიის ჰაშიმიტური სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    767.4,
+    808.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 64,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "ირანის ისლამური რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    0.0,
+    44.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 65,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "ირლანდია",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    44.4,
+    72.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 66,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "ისლანდიის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    72.9,
+    101.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 67,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "ისრაელის სახელმწიფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    101.4,
+    129.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 68,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "იტალიის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    129.9,
+    158.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 69,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "სერბეთის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    158.4,
+    218.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 70,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კაბო-ვერდე",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    218.4,
+    246.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 71,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კაიმანის კუნძულები",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    246.9,
+    275.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 72,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კამბოჯის სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    275.4,
+    303.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 73,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კანადა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    303.9,
+    332.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 74,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კატარის სახელმწიფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    332.4,
+    360.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 75,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კენიის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    360.9,
+    389.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 76,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კვიპროსის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    389.4,
+    417.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 77,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კირიბატის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    417.9,
+    446.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 78,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კოლუმბიის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    446.4,
+    474.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 79,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კომორის კუნძულები",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    474.9,
+    503.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 80,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კონგო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    503.4,
+    531.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 81,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კონგოს დემოკრატიული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    531.9,
+    573.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 82,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კორეის სახალხო დემოკრატიული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    573.1,
+    627.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 83,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კოსტა-რიკის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    627.1,
+    655.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 84,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კოტ-დიუვარი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    655.6,
+    684.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 85,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "კუბის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    684.1,
+    712.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 86,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "ლაოსის სახალხო დემოკრატიული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    712.6,
+    766.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 87,
+   "page": 11,
+   "pages": [
+    11
+   ],
+   "cells": {
+    "country": "ლატვიის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    766.6,
+    814.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 88,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "ლესოტოს სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    0.0,
+    31.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 89,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "ლიბანის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    31.6,
+    60.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 90,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "ლიბერია",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    60.1,
+    88.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 91,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "ლიბია",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    88.6,
+    117.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 92,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "ლიეტუვას რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    117.1,
+    145.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 93,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "ლიხტენშტაინის სამთავრო",
+    "currency": "შვეიცარული ფრანკი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "37",
+    "c5_accommodation": "138"
+   },
+   "flags": [],
+   "bandY": [
+    145.6,
+    186.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 94,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "ლუქსემბურგის დიდი საჰერცოგო",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    186.9,
+    228.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 95,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მადაგასკარის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    228.1,
+    256.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 96,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მავრიკის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    256.6,
+    285.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 97,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მავრიტანიის ისლამური რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    285.1,
+    326.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 98,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მაკაო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    326.4,
+    354.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 99,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "ჩრდილოეთ მაკედონიის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    354.9,
+    396.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 100,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მალავის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    396.1,
+    424.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 101,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მალაიზია",
+    "currency": "მალაიზიური რინგიტი",
+    "c3_shortTrip": "160",
+    "c4_staffInHostState": "100",
+    "c5_accommodation": "420"
+   },
+   "flags": [],
+   "bandY": [
+    424.6,
+    465.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 102,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მალდივების რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    465.9,
+    494.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 103,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მალი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    494.4,
+    522.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 104,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მალტის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    522.9,
+    551.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 105,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მარშალის კუნძულების რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    551.4,
+    592.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 106,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მაროკოს სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    592.6,
+    621.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 107,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მექსიკის შეერთებული შტატები",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    621.1,
+    662.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 108,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მიანმა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    662.4,
+    690.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 109,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მიკრონეზიის ფედერაციული შტატები",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    690.9,
+    732.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 110,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მოზამბიკის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    732.1,
+    760.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 111,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მოლდოვას რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    760.6,
+    789.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 112,
+   "page": 12,
+   "pages": [
+    12
+   ],
+   "cells": {
+    "country": "მონაკოს სამთავრო",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    789.1,
+    821.5
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 113,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "მონტენეგრო",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    6.1,
+    34.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 114,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "მონღოლეთი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    34.6,
+    63.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 115,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "ნამიბიის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    63.1,
+    91.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 116,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "ნეპალის ფედერაციული დემოკრატიული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    91.6,
+    145.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 117,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "ნიგერი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    145.6,
+    174.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 118,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "ნიგერია",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    174.1,
+    202.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 119,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "ნიდერლანდების სამეფო",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    202.6,
+    231.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 120,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "ნიკარაგუა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    231.1,
+    259.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 121,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "ნორვეგიის სამეფო",
+    "currency": "ნორვეგიული კრონა",
+    "c3_shortTrip": "680",
+    "c4_staffInHostState": "400",
+    "c5_accommodation": "1800"
+   },
+   "flags": [],
+   "bandY": [
+    259.6,
+    300.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 122,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "ომანის სასულთნო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    300.9,
+    329.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 123,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "პაკისტანის ისლამური რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    329.4,
+    370.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 124,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "პალაუს რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    370.6,
+    399.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 125,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "პანამის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    399.1,
+    427.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 126,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "პაპუა ახალი გვინეის დამოუკიდებელი სახელმწიფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    427.6,
+    481.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 127,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "პარაგვაის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    481.6,
+    510.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 128,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "პერუს რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    510.1,
+    538.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 129,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "პოლონეთის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    538.6,
+    567.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 130,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "პორტუგალიის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    567.1,
+    608.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 131,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "პუერტო-რიკო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    608.4,
+    636.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 132,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "რუანდის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    636.9,
+    665.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 133,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "რუმინეთი",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    665.4,
+    693.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 134,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "რუსეთის ფედერაცია",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    693.9,
+    722.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 135,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "საბერძნეთის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    722.4,
+    750.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 136,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "სალვადორის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    750.9,
+    779.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 137,
+   "page": 13,
+   "pages": [
+    13
+   ],
+   "cells": {
+    "country": "სამოის დამოუკიდებელი სახელმწიფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    779.4,
+    821.5
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 138,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სამხრეთ აფრიკის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "29",
+    "c5_accommodation": "60"
+   },
+   "flags": [],
+   "bandY": [
+    9.1,
+    50.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 139,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "კორეის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    50.4,
+    78.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 140,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სან-მარინოს რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    78.9,
+    107.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 141,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სან-ტომე და პრინსიპის დემოკრატიული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    107.4,
+    161.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 142,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "საუდის არაბეთის სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    161.4,
+    189.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 143,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "საფრანგეთის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "65",
+    "c4_staffInHostState": "44",
+    "c5_accommodation": "176"
+   },
+   "flags": [],
+   "bandY": [
+    189.9,
+    218.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 144,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "საფრანგეთის ზღვისიქითა ტერიტორიები",
+    "currency": "ევრო",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    218.4,
+    259.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 145,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სეიშელის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    259.6,
+    288.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 146,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სენეგალი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    288.1,
+    316.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 147,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სენტ-ლუსია",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    316.6,
+    345.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 148,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "ესვატინის სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    345.1,
+    373.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 149,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სიერა-ლეონე",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    373.6,
+    402.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 150,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სინგაპურის რესპუბლიკა",
+    "currency": "სინგაპურული დოლარი",
+    "c3_shortTrip": "100",
+    "c4_staffInHostState": "65",
+    "c5_accommodation": "327"
+   },
+   "flags": [],
+   "bandY": [
+    402.1,
+    443.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 151,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სირია",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    443.4,
+    471.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 152,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სლოვაკეთის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    471.9,
+    500.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 153,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სლოვენიის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    500.4,
+    528.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 154,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სოლომონის კუნძულები",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    528.9,
+    557.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 155,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სომალის ფედერაციული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    557.4,
+    598.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 156,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სომხეთის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    598.6,
+    627.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 157,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სუდანის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    627.1,
+    655.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 158,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "სურინამის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    655.6,
+    684.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 159,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "ტაივანი",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    684.1,
+    712.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 160,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "ტაილანდის სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "60",
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    712.6,
+    741.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 161,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "ტანზანიის გაერთიანებული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    741.1,
+    782.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 162,
+   "page": 14,
+   "pages": [
+    14
+   ],
+   "cells": {
+    "country": "ტაჯიკეთის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    782.4,
+    810.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 163,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ტოგო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    0.0,
+    31.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 164,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ტონგის სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    31.6,
+    60.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 165,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ტრინიდადი და ტობაგოს რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    60.1,
+    101.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 166,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ტუნისის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    101.4,
+    129.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 167,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "უგანდის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    129.9,
+    158.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 168,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "უზბეკეთის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    158.4,
+    186.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 169,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "უკრაინა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    186.9,
+    215.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 170,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "უნგრეთი",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    215.4,
+    243.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 171,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ურუგვაის აღმოსავლური რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    243.9,
+    285.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 172,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ფილიპინების რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "flags": [],
+   "bandY": [
+    285.1,
+    313.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 173,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ფინეთის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "75",
+    "c4_staffInHostState": "45",
+    "c5_accommodation": "200"
+   },
+   "flags": [],
+   "bandY": [
+    313.6,
+    342.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 174,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ფიჯის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    342.1,
+    370.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 175,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ქუვეითის სახელმწიფო",
+    "currency": "ქუვეითური დინარი",
+    "c3_shortTrip": "15",
+    "c4_staffInHostState": "9",
+    "c5_accommodation": "45"
+   },
+   "flags": [],
+   "bandY": [
+    370.6,
+    411.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 176,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ყაზახეთის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    411.9,
+    440.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 177,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ყირგიზეთის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    440.4,
+    468.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 178,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "შვეიცარიის კონფედერაცია",
+    "currency": "შვეიცარული ფრანკი",
+    "c3_shortTrip": "74",
+    "c4_staffInHostState": "46",
+    "c5_accommodation": "220"
+   },
+   "flags": [],
+   "bandY": [
+    468.9,
+    510.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 179,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "შვედეთის სამეფო",
+    "currency": "შვედური კრონა",
+    "c3_shortTrip": "680",
+    "c4_staffInHostState": "400",
+    "c5_accommodation": "1816"
+   },
+   "flags": [],
+   "bandY": [
+    510.1,
+    538.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 180,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "შრი-ლანკის დემოკრატიული სოციალისტური რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    538.6,
+    605.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 181,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ჩადის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    605.4,
+    633.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 182,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ჩეხეთის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    633.9,
+    662.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 183,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ჩილეს რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "flags": [],
+   "bandY": [
+    662.4,
+    690.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 184,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ჩინეთის სახალხო რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "flags": [],
+   "bandY": [
+    690.9,
+    732.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 185,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ცენტრალური აფრიკის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    732.1,
+    773.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 186,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ხორვატიის რესპუბლიკა",
+    "currency": "ევრო",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "flags": [],
+   "bandY": [
+    773.4,
+    801.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 187,
+   "page": 15,
+   "pages": [
+    15
+   ],
+   "cells": {
+    "country": "ჰაიტის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    801.9,
+    821.5
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 188,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "ჰონდურასის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    18.9,
+    47.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 189,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "ბჰუტანის სამეფო",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    47.4,
+    75.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 190,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "ბურუნდის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    75.9,
+    104.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 191,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "კამერუნის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    104.4,
+    132.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 192,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "ჯიბუტის რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    132.9,
+    161.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 193,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "ერითრეა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    161.4,
+    189.9
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 194,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "ნაურუს რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    189.9,
+    218.4
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 195,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "სენტ-ვინსენტი და გრენადინები",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    218.4,
+    259.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 196,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "ტიმორ ლესტეს დემოკრატიული რესპუბლიკა",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    259.6,
+    313.6
+   ],
+   "layoutCrossCheck": "match-in-order"
+  },
+  {
+   "row": 197,
+   "page": 16,
+   "pages": [
+    16
+   ],
+   "cells": {
+    "country": "ტუვალუ",
+    "currency": "აშშ დოლარი",
+    "c3_shortTrip": "45",
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "flags": [],
+   "bandY": [
+    313.6,
+    342.1
+   ],
+   "layoutCrossCheck": "match-in-order"
+  }
+ ]
+}

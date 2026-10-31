@@ -150,6 +150,19 @@
    "sha256": "7ccfcaaa100f06b870d5037238c8e99bfebb750a7cfc9348767fc9a09dcf8717",
    "latestAmendmentNoted": "№01-374 of 2023-07-28",
    "verification": "supplied-working-copy-only"
+  },
+  {
+   "id": "SRC-DECREE211-A1",
+   "title": "საქართველოს მთავრობის 2017 წლის 25 აპრილის №211 დადგენილება, დანართი №1 — სადღეღამისო ნორმები",
+   "annex": null,
+   "pages": [
+    8,
+    16
+   ],
+   "file": "sources/original/decree211-matsne-3649787-28.pdf",
+   "sha256": "7eb2073e7d318f9c2102e6d1627b5ba849e43bb5bb83a85b3fd82d4563a9d91d",
+   "latestAmendmentNoted": "Annex 1: №470 of 2022-09-28 (also №91 of 2020-02-10)",
+   "verification": "user-supplied matsne consolidated preview (doc 3649787, '28'); effective date not stated"
   }
  ],
  "baseAmounts": [
@@ -7298,15 +7311,1214 @@
    "notes": null
   }
  ],
- "dailyRates": [],
+ "dailyRates": [
+  {
+   "id": "DSA-AT",
+   "countryId": "AT",
+   "locationId": null,
+   "amount": "60",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ავსტრიის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 2,
+   "page": 8,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-AU",
+   "countryId": "AU",
+   "locationId": null,
+   "amount": "80",
+   "currency": "AUD",
+   "currencyRaw": "ავსტრალიური დოლარი",
+   "rawLabel": "ავსტრალიის თანამეგობრობა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 1,
+   "page": 8,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "50",
+    "c5_accommodation": "210"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-AR",
+   "countryId": "AR",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "არგენტინის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 12,
+   "page": 8,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-AZ",
+   "countryId": "AZ",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "აზერბაიჯანის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 4,
+   "page": 8,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-US",
+   "countryId": "US",
+   "locationId": null,
+   "amount": "75",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ამერიკის შეერთებული შტატები",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 7,
+   "page": 8,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "50",
+    "c5_accommodation": "240"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-BY",
+   "countryId": "BY",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ბელარუსის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 18,
+   "page": 9,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-BE",
+   "countryId": "BE",
+   "locationId": null,
+   "amount": "60",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ბელგიის სამეფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 19,
+   "page": 9,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-BR",
+   "countryId": "BR",
+   "locationId": null,
+   "amount": "60",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ბრაზილიის ფედერაციული რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 26,
+   "page": 9,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-BG",
+   "countryId": "BG",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ბულგარეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 28,
+   "page": 9,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-DE",
+   "countryId": "DE",
+   "locationId": null,
+   "amount": "65",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "გერმანიის ფედერაციული რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 34,
+   "page": 9,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-DK",
+   "countryId": "DK",
+   "locationId": null,
+   "amount": "465",
+   "currency": "DKK",
+   "currencyRaw": "დანიური კრონა",
+   "rawLabel": "დანიის სამეფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 40,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "325",
+    "c5_accommodation": "1318"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-GB",
+   "countryId": "GB",
+   "locationId": null,
+   "amount": "60",
+   "currency": "GBP",
+   "currencyRaw": "ინგლისური გირვანქა სტერლინგი",
+   "rawLabel": "დიდი ბრიტანეთისა და ჩრდილოეთ ირლანდიის გაერთიანებული სამეფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 41,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "38",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-EG",
+   "countryId": "EG",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ეგვიპტის არაბთა რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 44,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-ET",
+   "countryId": "ET",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ეთიოპიის ფედერაციული დემოკრატიული რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 45,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-ES",
+   "countryId": "ES",
+   "locationId": null,
+   "amount": "60",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ესპანეთის სამეფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 49,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-EE",
+   "countryId": "EE",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ესტონეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 50,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-TR",
+   "countryId": "TR",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "თურქეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 56,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-TM",
+   "countryId": "TM",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "თურქმენეთი",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 57,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-JP",
+   "countryId": "JP",
+   "locationId": null,
+   "amount": "9100",
+   "currency": "JPY",
+   "currencyRaw": "იაპონური იენა",
+   "rawLabel": "იაპონია",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 59,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "5685",
+    "c5_accommodation": "27300"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-JO",
+   "countryId": "JO",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "იორდანიის ჰაშიმიტური სამეფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 63,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-IR",
+   "countryId": "IR",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ირანის ისლამური რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 64,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-IL",
+   "countryId": "IL",
+   "locationId": null,
+   "amount": "60",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ისრაელის სახელმწიფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 67,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-IT",
+   "countryId": "IT",
+   "locationId": null,
+   "amount": "60",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "იტალიის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 68,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-IN",
+   "countryId": "IN",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ინდოეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 61,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-ID",
+   "countryId": "ID",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ინდონეზიის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 62,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-IE",
+   "countryId": "IE",
+   "locationId": null,
+   "amount": "60",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ირლანდია",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 65,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-CY",
+   "countryId": "CY",
+   "locationId": null,
+   "amount": "60",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "კვიპროსის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 76,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-CA",
+   "countryId": "CA",
+   "locationId": null,
+   "amount": "60",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "კანადა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 73,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-QA",
+   "countryId": "QA",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "კატარის სახელმწიფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 74,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-KR",
+   "countryId": "KR",
+   "locationId": null,
+   "amount": "60",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "კორეის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 139,
+   "page": 14,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-LV",
+   "countryId": "LV",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ლატვიის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 87,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-LT",
+   "countryId": "LT",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ლიეტუვას რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 92,
+   "page": 12,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-MY",
+   "countryId": "MY",
+   "locationId": null,
+   "amount": "160",
+   "currency": "MYR",
+   "currencyRaw": "მალაიზიური რინგიტი",
+   "rawLabel": "მალაიზია",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 101,
+   "page": 12,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "100",
+    "c5_accommodation": "420"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-MX",
+   "countryId": "MX",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "მექსიკის შეერთებული შტატები",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 107,
+   "page": 12,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-MD",
+   "countryId": "MD",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "მოლდოვას რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 111,
+   "page": 12,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-NL",
+   "countryId": "NL",
+   "locationId": null,
+   "amount": "60",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ნიდერლანდების სამეფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 119,
+   "page": 13,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-NO",
+   "countryId": "NO",
+   "locationId": null,
+   "amount": "680",
+   "currency": "NOK",
+   "currencyRaw": "ნორვეგიული კრონა",
+   "rawLabel": "ნორვეგიის სამეფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 121,
+   "page": 13,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "400",
+    "c5_accommodation": "1800"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-PL",
+   "countryId": "PL",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "პოლონეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 129,
+   "page": 13,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-PT",
+   "countryId": "PT",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "პორტუგალიის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 130,
+   "page": 13,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-RU",
+   "countryId": "RU",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "რუსეთის ფედერაცია",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 134,
+   "page": 13,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-RO",
+   "countryId": "RO",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "რუმინეთი",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 133,
+   "page": 13,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-GR",
+   "countryId": "GR",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "საბერძნეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 135,
+   "page": 13,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "140"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-ZA",
+   "countryId": "ZA",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "სამხრეთ აფრიკის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 138,
+   "page": 14,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "29",
+    "c5_accommodation": "60"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only. Columns 4/5 printed as 29 / 60 (unusual, kept as printed)."
+  },
+  {
+   "id": "DSA-SA",
+   "countryId": "SA",
+   "locationId": null,
+   "amount": "60",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "საუდის არაბეთის სამეფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 142,
+   "page": 14,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "40",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-FR",
+   "countryId": "FR",
+   "locationId": null,
+   "amount": "65",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "საფრანგეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 143,
+   "page": 14,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "44",
+    "c5_accommodation": "176"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-SK",
+   "countryId": "SK",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "სლოვაკეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 152,
+   "page": 14,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-SI",
+   "countryId": "SI",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "სლოვენიის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 153,
+   "page": 14,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-AM",
+   "countryId": "AM",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "სომხეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 156,
+   "page": 14,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-UZ",
+   "countryId": "UZ",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "უზბეკეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 168,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-UA",
+   "countryId": "UA",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "უკრაინა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 169,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-HU",
+   "countryId": "HU",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "უნგრეთი",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 170,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-FI",
+   "countryId": "FI",
+   "locationId": null,
+   "amount": "75",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ფინეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 173,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "45",
+    "c5_accommodation": "200"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-KW",
+   "countryId": "KW",
+   "locationId": null,
+   "amount": "15",
+   "currency": "KWD",
+   "currencyRaw": "ქუვეითური დინარი",
+   "rawLabel": "ქუვეითის სახელმწიფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 175,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "9",
+    "c5_accommodation": "45"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-KZ",
+   "countryId": "KZ",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ყაზახეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 176,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-SE",
+   "countryId": "SE",
+   "locationId": null,
+   "amount": "680",
+   "currency": "SEK",
+   "currencyRaw": "შვედური კრონა",
+   "rawLabel": "შვედეთის სამეფო",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 179,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "400",
+    "c5_accommodation": "1816"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-CH",
+   "countryId": "CH",
+   "locationId": null,
+   "amount": "74",
+   "currency": "CHF",
+   "currencyRaw": "შვეიცარული ფრანკი",
+   "rawLabel": "შვეიცარიის კონფედერაცია",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 178,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "46",
+    "c5_accommodation": "220"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-CZ",
+   "countryId": "CZ",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ჩეხეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 182,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-CN",
+   "countryId": "CN",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ჩინეთის სახალხო რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 184,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-CU",
+   "countryId": "CU",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "კუბის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 85,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-RS",
+   "countryId": "RS",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "სერბეთის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 69,
+   "page": 11,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "120"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-AE",
+   "countryId": "AE",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "არაბთა გაერთიანებული საამიროები",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 11,
+   "page": 8,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "150"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-VN",
+   "countryId": "VN",
+   "locationId": null,
+   "amount": "45",
+   "currency": "USD",
+   "currencyRaw": "აშშ დოლარი",
+   "rawLabel": "ვიეტნამის სოციალისტური რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 53,
+   "page": 10,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "100"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  },
+  {
+   "id": "DSA-HR",
+   "countryId": "HR",
+   "locationId": null,
+   "amount": "45",
+   "currency": "EUR",
+   "currencyRaw": "ევრო",
+   "rawLabel": "ხორვატიის რესპუბლიკა",
+   "sourceRef": "SRC-DECREE211-A1",
+   "row": 186,
+   "page": 15,
+   "edition": "matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+   "column": "3",
+   "otherColumns": {
+    "c4_staffInHostState": "30",
+    "c5_accommodation": "180"
+   },
+   "notes": "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+  }
+ ],
+ "dailyRateRule": "Order №01-82 pt 7: 60 × the Decree №211 Annex 1 daily rate for short-term trips abroad 'in foreign currency' = column 3, in the column-2 currency (may differ from the mission's funding currency; never converted). Annex 1 has country rows only (no city rows).",
  "dataGaps": [
   {
-   "id": "GAP-DAILY-RATES",
+   "id": "GAP-DAILY-RATE-NO-ROW",
    "affects": [
     "dailyRates",
-    "Order pt 7 settlement allowance"
+    "M-A5-R37"
    ],
-   "note": "Government Decree №211 (2017-04-25) Annex 1 daily rates are not in the supplied sources. dailyRates is empty; the settlement allowance must be shown as undetermined unless a verified rate is entered."
+   "note": "Decree №211 Annex 1 has no row for: VA (Holy See). Settlement stays undetermined unless a rate is entered manually; Italy's row is not borrowed."
   },
   {
    "id": "GAP-K-VATICAN",

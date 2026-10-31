@@ -343,9 +343,10 @@ export const ruleCatalog = Object.freeze({
  },
  "R-SETTLE-RATE": {
   "title_ka": "სადღეღამისო ნორმის წყარო",
-  "source": null,
+  "source": "მომხმარებლის ატვირთული მაცნეს კონსოლიდირებული preview (დოკ. 3649787, „28“, PDF შექმნილია 2026-07-16; SHA-256 `7eb2073e…9d91d`); დანართის ციტატები: №91 (10.02.2020), №470 (28.09.2022). ამოქმედების თარიღი უცნობია",
   "status": [
-   "technical-policy"
+   "direct-quote",
+   "interpretation"
   ]
  },
  "R-SETTLE-EXCL": {

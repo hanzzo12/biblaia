@@ -117,7 +117,8 @@ for (const s of data.sourceReferences) {
   check(isStr(s.title) && isStr(s.file), `sourceReferences ${s.id}: title/file required`);
   check(Array.isArray(s.pages) && s.pages.length === 2 && s.pages[0] <= s.pages[1], `sourceReferences ${s.id}: pages [from,to]`);
   check(/^[0-9a-f]{64}$/.test(s.sha256 || ''), `sourceReferences ${s.id}: sha256`);
-  if (pdfSha && s.file === 'sources/original/rotation_sources.pdf') check(s.sha256 === pdfSha, `sourceReferences ${s.id}: sha256 does not match the PDF`);
+  const fp = join(ROOT, s.file);
+  if (existsSync(fp)) check(s.sha256 === (s.file === 'sources/original/rotation_sources.pdf' ? pdfSha : createHash('sha256').update(readFileSync(fp)).digest('hex')), `sourceReferences ${s.id}: sha256 does not match ${s.file}`);
 }
 
 // ---------------------------------------------------------------- base amounts / parameters

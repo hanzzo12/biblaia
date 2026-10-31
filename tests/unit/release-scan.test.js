@@ -66,7 +66,7 @@ test('release zip(s), if present: no .dev.vars / secrets inside', (t) => {
     const names = execFileSync('unzip', ['-Z1', z], { encoding: 'utf8' }).split('\n').filter(Boolean);
     for (const n of names) for (const re of FORBIDDEN_NAMES) assert.doesNotMatch(n, re, `${path.basename(z)} contains ${n}`);
     for (const n of names.filter((x) => !x.endsWith('/'))) {
-      const buf = execFileSync('unzip', ['-p', z, n], { maxBuffer: 64 * 1024 * 1024 }).toString('latin1');
+      const buf = execFileSync('unzip', ['-p', z, n.replace(/\[/g, '[[]')], { maxBuffer: 64 * 1024 * 1024 }).toString('latin1');
       for (const re of SECRET_RES) assert.doesNotMatch(buf, re, `${path.basename(z)}:${n} matches ${re}`);
     }
   }

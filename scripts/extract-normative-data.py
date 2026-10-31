@@ -22,6 +22,15 @@ from decimal import Decimal
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW = os.path.join(ROOT, "sources", "extracted")
 PDF_REL = "sources/original/rotation_sources.pdf"
+D211_REL = "sources/original/decree211-matsne-3649787-28.pdf"
+D211_RAW = os.path.join(ROOT, "sources", "extracted", "decree211-annex1.raw.json")
+# Decree №211 Annex 1, column 2 (currency name as printed) → ISO 4217
+CURRENCY_ISO = {
+    "ევრო": "EUR", "აშშ დოლარი": "USD", "ავსტრალიური დოლარი": "AUD", "დანიური კრონა": "DKK",
+    "იაპონური იენა": "JPY", "ინგლისური გირვანქა სტერლინგი": "GBP", "მალაიზიური რინგიტი": "MYR",
+    "ნორვეგიული კრონა": "NOK", "სინგაპურული დოლარი": "SGD", "ქუვეითური დინარი": "KWD",
+    "შვედური კრონა": "SEK", "შვეიცარული ფრანკი": "CHF",
+}
 OUT = os.path.join(ROOT, "src", "data", "normative-data.json")
 BANDS = ["0-18", "19-24", "25-29", "30-34", "35-39", "40-44", "45-49",
          "50-54", "55-59", "60-64", "65-69", "70+"]
@@ -505,6 +514,10 @@ def main():
                 latestAmendmentNoted=am,
                 verification="supplied-working-copy-only")
            for (i, t, a, p, am) in SOURCE_REFS]
+    src.append(dict(id="SRC-DECREE211-A1", title="საქართველოს მთავრობის 2017 წლის 25 აპრილის №211 დადგენილება, დანართი №1 — სადღეღამისო ნორმები",
+                    annex=None, pages=[8, 16], file=D211_REL, sha256=sha256(os.path.join(ROOT, D211_REL)),
+                    latestAmendmentNoted="Annex 1: №470 of 2022-09-28 (also №91 of 2020-02-10)",
+                    verification="user-supplied matsne consolidated preview (doc 3649787, '28'); effective date not stated"))
 
     # ---- positions
     def positions(annex, pos, notes):
@@ -666,12 +679,40 @@ def main():
         for c in coll:
             assert cnt.get(c["id"]) == 1, ("cap row not used exactly once", c["id"], cnt.get(c["id"]))
 
-    countries = [dict(id=c, iso2=c, name_ka=ka, name_en=en, officialName_ka=off) for (c, ka, en, off) in COUNTRIES]
     locations = []
     for (lid, cc, ka, en, alt, region) in LOCATIONS:
         d = dict(id=lid, countryId=cc, name_ka=ka, name_en=en, altNames=alt, region=region)
         d.update(LOCATION_EXTRA.get(lid, {}))
         locations.append(d)
+
+    countries = [dict(id=c, iso2=c, name_ka=ka, name_en=en, officialName_ka=off) for (c, ka, en, off) in COUNTRIES]
+    # ---- daily rates (Decree №211 Annex 1, column 3 "მოკლევადიანი მივლინებისას", column-2 currency)
+    with open(D211_RAW, encoding="utf-8") as f:
+        d211 = json.load(f)
+    assert d211["sha256"] == sha256(os.path.join(ROOT, D211_REL)), "Decree 211 PDF hash changed - rerun extract-decree211.py"
+    by_name = {}
+    for r in d211["rows"]:
+        by_name.setdefault(r["cells"]["country"], []).append(r)
+    daily = []
+    for c in countries:
+        hits = by_name.get(c["officialName_ka"], [])
+        if not hits:
+            continue
+        assert len(hits) == 1, ("duplicate Annex 1 row", c["id"])
+        r = hits[0]
+        cur_name = r["cells"]["currency"]
+        assert cur_name in CURRENCY_ISO, ("unknown currency", cur_name)
+        note = "Column 3 (short-term trip abroad) per Order №01-82 pt 7; columns 4 and 5 kept for reference only."
+        if r["cells"]["country"] == "სამხრეთ აფრიკის რესპუბლიკა":
+            note += " Columns 4/5 printed as 29 / 60 (unusual, kept as printed)."
+        daily.append(dict(
+            id="DSA-%s" % c["id"], countryId=c["id"], locationId=None, amount=dec(r["cells"]["c3_shortTrip"]),
+            currency=CURRENCY_ISO[cur_name], currencyRaw=cur_name, rawLabel=r["cells"]["country"],
+            sourceRef="SRC-DECREE211-A1", row=r["row"], page=r["page"],
+            edition="matsne 3649787, consolidated preview '28' (PDF created 2026-07-16); Annex 1 amendments printed: №91 (2020-02-10), №470 (2022-09-28); effective date not stated",
+            column="3", otherColumns=dict(c4_staffInHostState=r["cells"]["c4_staffInHostState"], c5_accommodation=r["cells"]["c5_accommodation"]),
+            notes=note))
+    no_rate = sorted({m["countryId"] for m in missions} - {x["countryId"] for x in daily})
 
     data = dict(
         schemaVersion=1,
@@ -697,10 +738,11 @@ def main():
         insuranceCaps=ins,
         insuranceBandRule="Age bands as printed: 00-18, 19-24, …, 65-69, 70-ზევით. Band keys use completed years of age ('0-18' = 0..18, '70+' = 70 and older).",
         baggageCaps=bag,
-        dailyRates=[],
+        dailyRates=daily,
+        dailyRateRule="Order №01-82 pt 7: 60 × the Decree №211 Annex 1 daily rate for short-term trips abroad 'in foreign currency' = column 3, in the column-2 currency (may differ from the mission's funding currency; never converted). Annex 1 has country rows only (no city rows).",
         dataGaps=[
-            dict(id="GAP-DAILY-RATES", affects=["dailyRates", "Order pt 7 settlement allowance"],
-                 note="Government Decree №211 (2017-04-25) Annex 1 daily rates are not in the supplied sources. dailyRates is empty; the settlement allowance must be shown as undetermined unless a verified rate is entered."),
+            dict(id="GAP-DAILY-RATE-NO-ROW", affects=["dailyRates"] + [m["id"] for m in missions if m["countryId"] in no_rate],
+                 note="Decree №211 Annex 1 has no row for: %s (Holy See). Settlement stays undetermined unless a rate is entered manually; Italy's row is not borrowed." % ", ".join(no_rate)),
             dict(id="GAP-K-VATICAN", affects=["M-A5-R37"],
                  note="Annex 4 has no row for the Holy See/Vatican; K and E are undetermined for the Embassy to the Holy See."),
             dict(id="GAP-OPERATIONAL-STATUS", affects=["missions"],
