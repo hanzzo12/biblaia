@@ -323,3 +323,94 @@ test('offline (file://) and served (http) give identical results', async () => {
     assert.deepEqual(await grab(s.page), await grab(h.page));
   } finally { await h.close(); await s.close(); }
 });
+
+// ---------------------------------------------------------------- round 3: texts, PDF, settlement, insurance
+const FOOTER = 'საინფორმაციო გაანგარიშება — არ წარმოადგენს ოფიციალურ ფინანსურ დოკუმენტს.';
+const pdfPages = (file) => Number(/Pages:\s+(\d+)/.exec(execFileSync('pdfinfo', [file], { encoding: 'utf8' }))?.[1]);
+const pdfText = (file) => execFileSync('pdftotext', ['-layout', file, '-'], { encoding: 'utf8' });
+
+test('texts: exact footer, no "ბრძანება №01-82" subtitle, family heading', async () => {
+  const h = await openOffline();
+  try {
+    assert.equal((await h.page.locator('footer').innerText()).trim(), FOOTER);
+    assert.doesNotMatch(await h.page.locator('header').innerText(), /ბრძანება\s*№\s*01-82/);
+    await stepMission(h.page);
+    assert.match(await h.page.locator('#app').innerText(), /ოჯახის წევრები, რომლებიც თან მიგყვებათ/);
+  } finally { await h.close(); }
+});
+
+test('PDF download: 1 page, text contains the remainder; print emulation = 1 page', async () => {
+  const h = await openOffline();
+  try {
+    await viennaGolden(h.page);
+    const [dl] = await Promise.all([h.page.waitForEvent('download'), h.page.getByTestId('pdf-download').click()]);
+    const file = path.join(TMP, `verifier-dl-${process.pid}.pdf`);
+    await dl.saveAs(file);
+    assert.equal(fs.readFileSync(file).subarray(0, 5).toString(), '%PDF-');
+    assert.equal(pdfPages(file), 1, 'downloaded PDF must be one page');
+    const flat = pdfText(file).replace(/\s/g, '');
+    assert.ok(flat.includes('3423.16'), 'downloaded PDF contains the remainder 3423.16');
+    assert.ok(flat.includes('4985.16'), 'downloaded PDF contains S 4985.16');
+    await h.page.emulateMedia({ media: 'print' });
+    const printed = path.join(TMP, `verifier-print1-${process.pid}.pdf`);
+    await h.page.pdf({ path: printed, format: 'A4', preferCSSPageSize: true });
+    assert.equal(pdfPages(printed), 1, 'browser print must fit on one page');
+    assert.ok(pdfText(printed).replace(/\s/g, '').includes('3423.16'));
+    for (const f of [file, printed]) fs.rmSync(f, { force: true });
+  } finally { await h.close(); }
+});
+
+async function settlementLine(page, query, family) {
+  await stepMission(page, query);
+  await stepPosition(page, { family });
+  await page.getByTestId('rent').fill('1500');
+  await page.getByTestId('ex-settlement').check();
+  const auto = page.getByTestId('settlement-auto');
+  const text = (await auto.count()) ? await auto.innerText() : null;
+  await page.getByTestId('next').click();
+  await page.getByTestId('hero-remainder').waitFor();
+  const ot = await page.locator('.olist').first().innerText().catch(() => '');
+  const raws = await page.$$eval('.olist [data-value]', (els) => els.map((e) => e.getAttribute('data-value')));
+  return { text, ot, raws };
+}
+
+test('settlement (pt 7 + Decree 211): Vienna 4320.00 EUR; Canberra 5760 AUD not converted; Holy See undetermined', async () => {
+  const fam = [['spouse', '38'], ['child', '8']];
+  let h = await openOffline();
+  try {
+    const v = await settlementLine(h.page, 'Vienna', fam);
+    assert.match(v.text, /60(\.00)?\s*EUR/, 'Vienna daily rate 60 EUR shown');
+    assert.ok(v.raws.includes('4320.00'), `Vienna settlement 4320.00 in ${JSON.stringify(v.raws)}`); // 60 x 60 x 1.2
+  } finally { await h.close(); }
+  h = await openOffline();
+  try {
+    const c = await settlementLine(h.page, 'Canberra', fam);
+    assert.match(c.text, /80(\.00)?\s*AUD/, 'Canberra daily rate 80 AUD');
+    assert.ok(c.raws.includes('5760.00') || /5\s?760(\.00)?\s*AUD/.test(c.ot), `5760 AUD shown: ${c.ot}`); // 80 x 60 x 1.2
+    assert.doesNotMatch(c.ot, /5\s?760(\.00)?\s*USD/, 'AUD amount not relabelled/converted to USD');
+  } finally { await h.close(); }
+  h = await openOffline();
+  try {
+    await stepMission(h.page, 'ვატიკან');
+    await stepPosition(h.page, { family: fam });
+    await h.page.getByTestId('ex-settlement').check();
+    assert.equal(await h.page.getByTestId('settlement-auto').count(), 0, 'no automatic rate for the Holy See');
+  } finally { await h.close(); }
+});
+
+test('insurance rows per person with golden annual caps (Vienna: you 40 -> 1663, spouse 38 -> 1504, child 8 -> 864)', async () => {
+  const h = await openOffline();
+  try {
+    await stepMission(h.page);
+    await stepPosition(h.page, { age: '40' });
+    await h.page.getByTestId('ex-insurance').check();
+    const rows = h.page.locator('.ins-row');
+    assert.deepEqual(await rows.evaluateAll((els) => els.map((e) => e.getAttribute('data-person'))), ['EMP', 'F1', 'F2']);
+    const cap = async (p) => (await h.page.locator(`.ins-row[data-person="${p}"]`).innerText()).replace(/\s/g, '');
+    assert.match(await cap('EMP'), /1663\.00EUR/);
+    assert.match(await cap('F1'), /1504\.00EUR/);
+    assert.match(await cap('F2'), /864\.00EUR/);
+    assert.equal(await h.page.locator('.ins-row input').count(), 3, 'a policy input per person');
+    assert.match((await h.page.locator('.ins-total').innerText()).replace(/\s/g, ''), /4031\.00EUR/); // 1663 + 1504 + 864
+  } finally { await h.close(); }
+});
