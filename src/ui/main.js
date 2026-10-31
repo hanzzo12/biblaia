@@ -1,4 +1,5 @@
 // esbuild-ის შესასვლელი წერტილი (scripts/build.mjs). ნორმატიული მონაცემები ჩაშენდება build-ისას.
+import './polyfill.js';
 import data from '../data/normative-data.json';
 import { createMarketClient } from '../providers/index.js';
 import { startApp } from './app.js';

@@ -23,7 +23,7 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
   printBtn.addEventListener('click', () => { document.body.classList.add('print-compare'); window.print(); });
   window.addEventListener('afterprint', () => document.body.classList.remove('print-compare'));
   const panel = h('div', { class: 'cpanel', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'cmp-title' },
-    h('div', { class: 'chead' }, h('h2', { id: 'cmp-title', tabindex: '-1' }, 'შედარება'), h('div', { class: 'chead-actions no-print' }, pdfBtn, printBtn, closeBtn)),
+    h('div', { class: 'chead' }, h('h2', { id: 'cmp-title', tabindex: '-1' }, 'შედარება'), h('div', { class: 'chead-actions no-print' }, pdfBtn, printBtn), closeBtn),
     h('p', { class: 'muted small' }, 'თქვენი თანამდებობითა და ოჯახით. ქირა — Numbeo-ს საშუალო ცენტრში (შეგიძლიათ შეცვალოთ). ვალუტები არ კონვერტირდება.'),
     addBox, grid);
   root.append(panel);

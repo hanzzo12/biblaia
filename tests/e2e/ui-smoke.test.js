@@ -6,6 +6,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
+import { execFileSync } from 'node:child_process';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
@@ -28,6 +29,13 @@ async function openPage(viewport = { width: 1280, height: 900 }) {
   return { page, external, errors };
 }
 
+function pdfInfo(file) {
+  try {
+    const pages = Number(/Pages:\s+(\d+)/.exec(execFileSync('pdfinfo', [file], { encoding: 'utf8' }))?.[1]);
+    const text = execFileSync('pdftotext', ['-layout', file, '-'], { encoding: 'utf8' });
+    return { pages, text };
+  } catch { return null; } // poppler-utils არ არის — შემოწმება გამოტოვდება
+}
 const val = (page, sel) => page.locator(sel).first().getAttribute('data-value');
 const next = (page) => page.getByTestId('next').click();
 
@@ -43,7 +51,7 @@ async function vienna(page, { rent = '1500', shots = null } = {}) {
   await pickMission(page, 'Vienna');
   if (shots) await shots('step1');
   await next(page);
-  await page.getByTestId('position').selectOption('A2-R5');
+  await page.getByTestId('pos-A2-R5').check();
   assert.equal(await page.getByTestId('head').isChecked(), false);
   await page.getByTestId('add-family').click();
   await page.getByTestId('add-family').click();
@@ -58,7 +66,7 @@ async function vienna(page, { rent = '1500', shots = null } = {}) {
   await page.getByTestId('edu').first().fill('1000');
   if (shots) await shots('step3');
   await next(page);
-  await page.getByTestId('S').waitFor();
+  await page.getByTestId('hero-remainder').waitFor();
 }
 
 /** სინთეზური MarketData v2 (contracts §8) — რეალური ფასი არ არის. */
@@ -103,9 +111,9 @@ test('ოფლაინ file://: ვენის სცენარი ოთ�
   const { page, external, errors } = await openPage();
   const shots = SHOTS ? (n) => page.screenshot({ path: path.join(SHOTS, `d-${n}.png`), fullPage: true }) : null;
   await vienna(page, { shots });
+  assert.equal(await val(page, '[data-testid="hero-remainder"]'), '3423.16');
   assert.equal(await val(page, '[data-testid="S"]'), '4985.16');
   assert.equal(await val(page, '[data-testid="edu"] .rc-value'), '938.00');
-  assert.equal(await val(page, '[data-testid="remainder"] .rc-value'), '3423.16');
   assert.equal(await val(page, '[data-testid="F"] .rc-value'), '1246.86');
   await page.getByTestId('how').click();
   assert.equal(await val(page, 'tr[data-component="D"] td'), '4732.03');
@@ -114,18 +122,28 @@ test('ოფლაინ file://: ვენის სცენარი ოთ�
   const text = await page.locator('body').innerText();
   for (const b of BANNED) assert.ok(!text.includes(b), `აკრძალული ტერმინი: ${b}`);
   assert.ok(!/R-[A-Z]+-/.test(await page.locator('#app').innerText()), 'წესების ID მთავარ ხედზე არ ჩანს');
-  if (SHOTS) {
-    await shots('step4');
-    await page.emulateMedia({ media: 'print' });
-    await page.pdf({ path: path.join(SHOTS, 'print.pdf'), format: 'A4' });
-  }
+  if (SHOTS) await shots('step4');
+  // PDF ჩამოტვირთვა: ერთი გვერდი, ტექსტი (არა სურათი)
+  const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('pdf-download').click()]);
+  const pdfFile = await dl.path();
+  assert.match(readFileSync(pdfFile, 'latin1').slice(0, 8), /^%PDF-/);
+  const info = pdfInfo(pdfFile);
+  if (info) { assert.equal(info.pages, 1); assert.match(info.text, /3 423\.16 EUR/); assert.match(info.text, /დარჩენილი თანხა/); }
+  if (SHOTS) await dl.saveAs(path.join(SHOTS, 'result.pdf'));
+  // ბეჭდვა: ერთი A4 გვერდი
+  await page.emulateMedia({ media: 'print' });
+  const printPath = path.join(SHOTS || path.join(root, '.shots'), 'print.pdf');
+  await page.pdf({ path: printPath, format: 'A4', preferCSSPageSize: true });
+  const pinfo = pdfInfo(printPath);
+  if (pinfo) assert.equal(pinfo.pages, 1, 'print = 1 page');
   await page.close();
 });
 
 test('ქირის გარეშე: თანხა ქირის გარეშე და შენიშვნა; არასწორი თანხა', async () => {
   const { page } = await openPage();
   await vienna(page, { rent: null });
-  assert.match(await page.locator('.hero').innerText(), /ქირის გარეშე/);
+  assert.match(await page.locator('.hero').innerText(), /მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს/);
+  assert.match(await page.getByTestId('S-card').innerText(), /ქირის გარეშე/);
   assert.match(await val(page, '[data-testid="S"]'), /^\d+\.\d{2}$/);
   await page.locator('.pill').nth(2).click();
   const rent = page.getByTestId('rent');
@@ -142,7 +160,7 @@ test('ელჩი → ხელმძღვანელი ავტომა�
   const { page, errors } = await openPage();
   await pickMission(page, 'გენერალური საკონსულო ნიუ-იორკ');
   await next(page);
-  await page.getByTestId('position').selectOption('A2-R1');
+  await page.getByTestId('pos-A2-R1').check();
   assert.equal(await page.getByTestId('head').isChecked(), true);
   await next(page);
   await page.getByTestId('rent').fill('3000');
@@ -155,21 +173,23 @@ test('ელჩი → ხელმძღვანელი ავტომა�
 test('დამატებითი ხარჯები: დაზღვევის ლიმიტი, ბარგი, მაკლერი, მოწყობა', async () => {
   const { page } = await openPage();
   await pickMission(page, 'Vienna'); await next(page);
-  await page.getByTestId('position').selectOption('A2-R5');
+  await page.getByTestId('pos-A2-R5').check();
   await page.getByLabel('თქვენი ასაკი').fill('40');
   await next(page);
   await page.getByTestId('rent').fill('1500');
   for (const k of ['insurance', 'baggage', 'broker', 'settlement']) await page.getByTestId(`ex-${k}`).check();
-  assert.match(await page.locator('.ex').first().innerText(), /1 663\.00 EUR/);
+  assert.match(await page.locator('.ins').innerText(), /წლიური ლიმიტი: 1 663\.00 EUR/);
+  await page.locator('[data-person="EMP"] input').fill('1000');
   await page.getByLabel('ფაქტიური ხარჯი (არასავალდებულო)').fill('600');
   await page.getByLabel('მაკლერის საკომისიო').fill('300');
-  await page.getByLabel('დღიური ნორმა').fill('60');
+  assert.match(await page.getByTestId('settlement-auto').innerText(), /№211.*= 3 600\.00 EUR/);
   await next(page);
   const ot = await page.locator('.onetime').innerText();
   assert.match(ot, /600\.00 EUR/);
   assert.match(ot, /150\.00 EUR/);
   assert.match(ot, /3 600\.00 EUR/);
-  assert.match(ot, /დაზღვევის წლიური ლიმიტი/);
+  assert.match(ot, /წლიური ლიმიტი/);
+  assert.match(ot, /ანაზღაურდება: 1 000\.00 EUR/);
   await page.close();
 });
 
@@ -195,7 +215,7 @@ test('ონლაინ: ბაზრის ბარათი, ქირის
   await page.waitForTimeout(900);
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'd-step1-online.png'), fullPage: true });
   await next(page);
-  await page.getByTestId('position').selectOption('A2-R5');
+  await page.getByTestId('pos-A2-R5').check();
   await page.getByTestId('add-family').click(); await page.getByTestId('add-family').click();
   await page.locator('.fam-row').nth(1).locator('select').selectOption('child');
   await next(page);
@@ -216,6 +236,10 @@ test('შედარება: EUR + USD ბარათები გვერ�
   const cards = page.locator('.ccard');
   assert.equal(await cards.count(), 2);
   assert.equal(await cards.nth(0).getByTestId('compare-S').getAttribute('data-value'), '4985.16');
+  const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('compare-pdf').click()]);
+  const cinfo = pdfInfo(await dl.path());
+  if (cinfo) { assert.equal(cinfo.pages, 1); assert.match(cinfo.text, /ვაშინგტონი/); assert.match(cinfo.text, /3 423\.16 EUR/); }
+  if (SHOTS) await dl.saveAs(path.join(SHOTS, 'compare.pdf'));
   assert.match(await cards.nth(1).innerText(), /USD/);
   assert.match(await cards.nth(1).getByTestId('compare-S').getAttribute('data-value'), /^\d+\.\d{2}$/);
   assert.match(await cards.nth(1).innerText(), /Numbeo-ს საშუალო, ცენტრი, 3 საძინებელი/);

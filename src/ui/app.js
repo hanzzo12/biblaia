@@ -236,22 +236,26 @@ export function startApp({ data, meta, online, client }) {
       const id = uid('f');
       const cb = h('input', { id, type: 'checkbox', checked: st.ex[key], 'data-testid': `ex-${key}` });
       const box = h('div', { class: 'ex-body', hidden: !st.ex[key] }, ...inner);
-      cb.addEventListener('change', () => { st.ex[key] = cb.checked; box.hidden = !cb.checked; if (cb.checked) box.querySelector('input')?.focus(); });
-      return h('div', { class: 'ex' + (st.ex[key] ? ' on' : '') }, h('div', { class: 'ex-head' }, cb, h('label', { for: id }, label)), box);
+      const wrap = h('div', { class: 'ex' + (st.ex[key] ? ' on' : '') }, h('div', { class: 'ex-head' }, cb, h('label', { for: id }, label)), box);
+      cb.addEventListener('change', () => { st.ex[key] = cb.checked; box.hidden = !cb.checked; wrap.classList.toggle('on', cb.checked); if (cb.checked) box.querySelector('input')?.focus(); });
+      return wrap;
     };
     const lim = calc(scenario({ rent: null }));
     const bagCap = lim?.oneTimeReimbursements?.baggage?.cap?.value;
     const persons = (lim?.insurance?.perPerson || []);
-    const capSum = persons.every((p) => p.annualCap?.value != null) && persons.length ? (persons.reduce((a, p) => a + Math.round(Number(p.annualCap.value) * 100), 0) / 100).toFixed(2) : null;
+    const known = persons.filter((p) => p.annualCap?.value != null);
+    const capSum = known.length ? (known.reduce((a, p) => a + Math.round(Number(p.annualCap.value) * 100), 0) / 100).toFixed(2) : null;
+    const unknownNames = persons.filter((p) => p.annualCap?.value == null).map((p) => personName(p.personId));
     const insBox = h('div', { class: 'ins' },
       h('p', { class: 'small muted' }, 'წლიური ლიმიტი — მაქსიმუმი, რამდენიც ანაზღაურდება პოლისის ფასიდან წელიწადში (არა თვიური და არა გასაცემი თანხა).'),
       persons.map((p) => {
         const nm = personName(p.personId);
-        const f = moneyField(`${nm} — პოლისის ფასი წელიწადში (არასავალდებულო)`, () => st.policy[p.personId] ?? '', (x) => { st.policy[p.personId] = x; }, { cur, placeholder: '' });
+        const f = moneyField('პოლისის ფასი წელიწადში (თუ იცით)', () => st.policy[p.personId] ?? '', (x) => { st.policy[p.personId] = x; }, { cur, placeholder: '' });
         return h('div', { class: 'ins-row', 'data-person': p.personId },
           h('div', { class: 'ins-cap' }, h('span', null, nm), h('strong', null, p.annualCap?.value != null ? `წლიური ლიმიტი: ${core.formatAmount(p.annualCap.value)} ${cur}` : 'ლიმიტი: მიუთითეთ ასაკი')), f.el);
       }),
-      h('p', { class: 'ins-total' }, 'ოჯახის ჯამური წლიური ლიმიტი: ', h('strong', null, capSum ? `${core.formatAmount(capSum)} ${cur}` : '—')));
+      h('p', { class: 'ins-total' }, 'ოჯახის ჯამური წლიური ლიმიტი: ', h('strong', null, capSum ? `${core.formatAmount(capSum)} ${cur}` : '—'),
+        unknownNames.length ? h('span', { class: 'small muted block' }, `ასაკი არ არის მითითებული: ${unknownNames.join(', ')}`) : null));
     const setl = lim?.oneTimeAllowances?.settlement;
     const iu = setl?.inputsUsed || {};
     const auto = !st.dailyOverride && setl?.value != null && iu.dailyRateId;
@@ -296,8 +300,10 @@ export function startApp({ data, meta, online, client }) {
   function alertLine(text) { const p = h('p', { class: 'need', role: 'alert' }, text); body.append(p); }
   function personName(id) {
     if (id === 'EMP') return 'თქვენ';
-    const i = st.family.findIndex((f) => f.id === id);
-    return i < 0 ? id : `${ROLE_KA[st.family[i].role]} ${i + 1}`;
+    const f = st.family.find((x) => x.id === id);
+    if (!f) return id;
+    const same = st.family.filter((x) => x.role === f.role);
+    return same.length > 1 ? `${ROLE_KA[f.role]} ${same.indexOf(f) + 1}` : ROLE_KA[f.role];
   }
 
   render();

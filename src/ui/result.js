@@ -37,7 +37,7 @@ export function resultModel({ r, st, sc, mission, data, personName }) {
   const sum = (xs) => { const ok = xs.filter((x) => x != null); return ok.length === xs.length && ok.length ? (ok.reduce((a, b) => a + Math.round(Number(b) * 100), 0) / 100).toFixed(2) : null; };
   return {
     cur, noRent, hasEdu, undetermined, why, m, ed, ot, ins,
-    insCapTotal: sum(ins.map((p) => p.cap)), insReimbTotal: ins.some((p) => p.entered) ? sum(ins.filter((p) => p.entered).map((p) => p.reimb)) : null,
+    insCapTotal: sum(ins.map((p) => p.cap).filter((x) => x != null).length ? ins.map((p) => p.cap).filter((x) => x != null) : [null]), insReimbTotal: ins.some((p) => p.entered) ? sum(ins.filter((p) => p.entered).map((p) => p.reimb)) : null,
     hero: noRent ? null : v(r?.remainder?.value),
     S: noRent ? v(m.DminusT) : v(m.S),
     rows: [['H', 'საბაზისო თანხა', m.H, true], ['A', 'თანამდებობის პროცენტი', m.A, false, '%'], ['K', 'ქვეყნის კოეფიციენტი', m.K], ['C', 'ოჯახის წევრები (დანამატით)', m.C],

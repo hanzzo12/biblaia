@@ -82,7 +82,7 @@ export async function comparePdf(cards) {
   p.text('როტაციის კალკულატორი — ქალაქების შედარება', X, 44, { size: 16, bold: true, color: ACCENT });
   p.text(today(), W - X, 44, { size: 9, color: MUTED, align: 'right' });
   p.text('თქვენი თანამდებობითა და ოჯახით. ვალუტები არ კონვერტირდება და არ იკრიბება.', X, 62, { size: 8.5, color: MUTED });
-  const labW = 150; const n = Math.max(cards.length, 1); const colW = (CW - labW) / n;
+  const labW = 175; const n = Math.max(cards.length, 1); const colW = (CW - labW) / n;
   let y = 84;
   // სათაურები
   cards.forEach((c, i) => {
@@ -101,8 +101,7 @@ export async function comparePdf(cards) {
     ['ცხოვრების ღირ. ინდექსი (ნიუ-იორკი = 100)', (c) => c.index ?? '—'],
   ];
   for (const [label, get, strong, note] of rows) {
-    p.para(label, X, y, labW - 8, { size: 8.5, color: MUTED, lineHeight: 10 });
-    let maxH = 12;
+    let maxH = Math.max(12, p.para(label, X, y, labW - 10, { size: 8.5, color: MUTED, lineHeight: 10 }) - y);
     cards.forEach((c, i) => {
       const cx = X + labW + i * colW;
       const yy = p.para(String(get(c) ?? '—'), cx + 10, y, colW - 16, { size: strong ? 11 : 9, bold: !!strong, color: strong && label.startsWith('დარჩება') ? ACCENT : INK, lineHeight: strong ? 13 : 11 });
