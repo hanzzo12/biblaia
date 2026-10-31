@@ -180,3 +180,4 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
 .crow strong { white-space: nowrap; text-align: right; }
 .rent-in { display: flex; flex-direction: column; gap: 4px; padding: 8px 0; border-top: 1px solid var(--line); }
 .rent-in label { color: var(--muted); font-weight: 400; font-size: .85rem; }
+.c-note { margin: -4px 0 4px; text-align: right; }

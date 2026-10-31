@@ -49,7 +49,9 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
     const numbeo = rentFor(c.md, beds());
     const rent = own.value ?? (c.md?.currency === cur ? numbeo : null);
     const curNow = getMissionId() ? core.resolveMission(data, getMissionId())?.fundingCurrency : cur;
-    const r = calc(scenario({ missionId: c.missionId, rent, extras: false, keepEdu: curNow === cur }));
+    const eduOk = curNow === cur;
+    const hasEdu = (scenario({}).education || []).length > 0;
+    const r = calc(scenario({ missionId: c.missionId, rent, extras: false, keepEdu: eduOk }));
     const mm = r?.monthly || {};
     const S = rent == null ? mm.DminusT : mm.S;
     const rid = uid('f');
@@ -63,8 +65,9 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
       h('p', { class: 'c-s-l' }, rent == null ? 'თვიური თანხა (ქირის გარეშე)' : 'თვიური თანხა'),
       h('p', { class: 'c-s', 'data-testid': 'compare-S', 'data-value': S?.value ?? '' }, c.loading && !own.value ? '…' : val(S)),
       h('div', { class: 'crow' }, h('span', null, 'ქირის ანაზღაურება'), h('strong', null, rent == null ? '—' : val(mm.F))),
-      h('div', { class: 'crow' }, h('span', null, 'დარჩება ქირის შემდეგ'), h('strong', { 'data-value': r?.remainder?.value?.value ?? '' }, rent == null ? '—' : val(r?.remainder?.value))),
-      h('div', { class: 'rent-in' }, h('label', { for: rid }, own.value != null ? 'ქირა (თქვენი)' : numbeo ? 'ქირა: Numbeo-ს საშუალო' : 'ქირა (შეიყვანეთ)'),
+      h('div', { class: 'crow' }, h('span', null, hasEdu && eduOk ? 'დარჩება ქირისა და სწავლის შემდეგ' : 'დარჩება ქირის შემდეგ'), h('strong', { 'data-value': r?.remainder?.value?.value ?? '', 'data-testid': 'compare-remainder' }, rent == null ? '—' : val(r?.remainder?.value))),
+      hasEdu && !eduOk ? h('p', { class: 'tiny muted c-note', 'data-testid': 'edu-not-applied' }, 'სწავლა არ ითვლება (სხვა ვალუტა)') : null,
+      h('div', { class: 'rent-in' }, h('label', { for: rid }, own.value != null ? `ქირა (თქვენი, ${beds()} საძინებელი)` : numbeo ? `ქირა: Numbeo-ს საშუალო, ცენტრი, ${beds()} საძინებელი` : `ქირა, ${beds()} საძინებელი (შეიყვანეთ)`),
         h('span', { class: 'with-cur' }, rentInp, h('span', { class: 'cur' }, cur))),
       h('div', { class: 'cmarket' }, marketList(c.md, beds(), { loading: c.loading, source: false, compact: true })));
   }

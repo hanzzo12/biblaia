@@ -218,7 +218,11 @@ test('შედარება: EUR + USD ბარათები გვერ�
   assert.equal(await cards.nth(0).getByTestId('compare-S').getAttribute('data-value'), '4985.16');
   assert.match(await cards.nth(1).innerText(), /USD/);
   assert.match(await cards.nth(1).getByTestId('compare-S').getAttribute('data-value'), /^\d+\.\d{2}$/);
-  assert.match(await cards.nth(1).innerText(), /Numbeo-ს საშუალო/);
+  assert.match(await cards.nth(1).innerText(), /Numbeo-ს საშუალო, ცენტრი, 3 საძინებელი/);
+  assert.match(await cards.nth(0).innerText(), /დარჩება ქირისა და სწავლის შემდეგ/);
+  assert.equal(await cards.nth(0).getByTestId('compare-remainder').getAttribute('data-value'), '3423.16');
+  assert.match(await cards.nth(1).innerText(), /დარჩება ქირის შემდეგ/);
+  assert.equal(await cards.nth(1).getByTestId('edu-not-applied').count(), 1);
   assert.deepEqual(errors, []);
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'd-compare.png') });
   await page.setViewportSize({ width: 375, height: 800 });
