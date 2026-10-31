@@ -10,6 +10,18 @@ import { mountCompare } from './compare.js';
 
 const STEPS = ['მისია', 'თანამდებობა და ოჯახი', 'ქირა, სწავლა, ხარჯები', 'შედეგი'];
 const ROLE_KA = { spouse: 'მეუღლე', child: 'შვილი', guardianship: 'მეურვეობის ქვეშ მყოფი' };
+/** დანართი №2-ის სტრიქონების მოკლე სახელები (სრული ტექსტი — title/აღწერაში) */
+const SHORT_POS = {
+  1: ['ელჩი / მუდმივი წარმომადგენელი'],
+  2: ['გენერალური კონსული / საკონსულოს ხელმძღვანელი'],
+  3: ['დესპანი / მუდმ. წარმომადგენლის მოადგილე', 'ადმინისტრაციული მენეჯერი (სხვა მისიების ფუნქციით)'],
+  4: ['უფროსი მრჩეველი / კონსული'],
+  5: ['მრჩეველი / ადმინისტრაციული მენეჯერი / ვიცე-კონსული'],
+  6: ['პირველი / მეორე მდივანი'],
+  7: ['მესამე მდივანი / ატაშე / უსაფრთხოების ოფიცერი'],
+  8: ['რეფერენტი'],
+  9: ['მძღოლი'],
+};
 
 /** "1500,5" → "1500.5"; ცარიელი → null; შეცდომა → { error } */
 export function parseMoney(raw) {
@@ -166,10 +178,14 @@ export function startApp({ data, meta, online, client }) {
           body.querySelector('[data-need]')?.setAttribute('hidden', '');
         });
         const lvl = hi === lo ? 3 : Math.round(((Number(e.percent) - lo) / (hi - lo)) * 4);
+        const short = SHORT_POS[e.rowNo] || [e.positions_ka?.join(' / ') || e.title_ka];
+        const did = id + '-d';
+        inp.setAttribute('aria-describedby', did);
         return h('div', { class: 'pos' }, inp,
-          h('label', { for: id },
-            h('span', { class: 'pos-names' }, (e.positions_ka?.length ? e.positions_ka : [e.title_ka]).map((t) => h('span', { class: 'pos-name' }, t))),
-            h('span', { class: `pos-pct l${lvl}` }, `${e.percent}%`)));
+          h('label', { for: id, title: e.title_ka },
+            h('span', { class: 'pos-names' }, short.map((t) => h('span', { class: 'pos-name' }, t))),
+            h('span', { class: `pos-pct l${lvl}` }, `${e.percent}%`)),
+          h('span', { id: did, class: 'sr-only' }, e.title_ka));
       }));
     const ageId = uid('f');
     const age = h('input', { id: ageId, type: 'text', inputmode: 'numeric', class: 'short', value: st.ageRaw, placeholder: 'მაგ. 40', 'aria-describedby': ageId + '-h' });

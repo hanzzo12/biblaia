@@ -224,3 +224,11 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
 .chead-actions { order: 3; }
 @media (max-width: 600px) { .chead-actions { order: 3; flex-basis: 100%; justify-content: flex-start; } }
 @media print { .chead .x { display: none !important; } }
+.poslist { display: grid; grid-template-columns: 1fr; gap: 8px; }
+@media (min-width: 720px) { .poslist { grid-template-columns: 1fr 1fr; } }
+.pos label { padding: 9px 12px; min-height: 52px; height: 100%; }
+.pos:nth-child(even) label { background: #fff; }
+.pos-name { font-size: .9rem; }
+.pos-name:first-child { font-weight: 600; }
+.pos-name + .pos-name { font-size: .8rem; }
+.pos-pct { min-width: 52px; padding: 4px 8px; font-size: .88rem; }
