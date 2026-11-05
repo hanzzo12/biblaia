@@ -258,6 +258,80 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
 .mrow { flex-wrap: wrap; }
 .mrow-v { white-space: normal; margin-left: auto; }
 .hero-v .per { font-size: 1rem; font-weight: 400; opacity: .85; white-space: nowrap; }
+.mrow.long .mrow-l { flex: 1 1 60%; font-size: .85em; }
+.chain { margin: -4px 0 16px; padding: 12px 16px; border-radius: 16px; background: var(--soft); border: 1px solid var(--line); }
+.chain-list { list-style: none; margin: 0; padding: 0; }
+.chain-row { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: .9rem; }
+.chain-row:last-child { border-bottom: 0; }
+.chain-sign { color: var(--muted); font-weight: 700; text-align: center; }
+.chain-v { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.chain-row.strong .chain-l { font-weight: 700; }
+.chain-row.strong .chain-v { color: var(--accent); font-size: 1.1rem; font-weight: 700; }
+.chain-v.neg, .chain-row.strong .chain-v.neg { color: var(--err); }
+.rent-card .rb { list-style: none; padding: 0; margin: 6px 0 0; font-size: .82rem; }
+.rent-card .rb li { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; border-top: 1px solid var(--line); color: var(--muted); }
+.rent-card .rb li span:last-child { white-space: nowrap; color: var(--ink); font-weight: 600; }
+.rent-card .rb li.strong span { color: var(--ink); font-weight: 700; }
+.inp-wrap, .pk-wrap { position: relative; display: block; flex: 1 1 auto; min-width: 0; }
+.inp-wrap input, .pk-wrap input { padding-right: 42px; }
+.clear-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); font-size: 1.3rem; line-height: 1; cursor: pointer; }
+.clear-btn:hover { background: var(--line); color: var(--ink); }
+.pk-wrap .pk-clear { top: 24px; }
+/* tabs */
+.tabs { display: inline-flex; gap: 4px; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 4px; margin-top: 14px; }
+.tab { font: inherit; font-weight: 600; font-size: .92rem; border: 0; background: transparent; color: var(--muted); padding: 8px 18px; border-radius: 999px; cursor: pointer; }
+.tab[aria-selected=true] { background: var(--accent); color: #fff; }
+body.tab-cities [data-open-compare] { visibility: hidden; }
+.cities-card { padding: 24px 24px 18px; }
+.cities-h { margin: 0 0 12px; font-size: 1.3rem; }
+.ctl { display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: flex-end; margin-bottom: 10px; }
+.ctl .field { margin: 0; min-width: 240px; }
+.ctl-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chk { display: inline-flex; gap: 8px; align-items: center; }
+.chk input, .ctable input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+.ctable { border-collapse: collapse; width: 100%; min-width: 860px; font-size: .86rem; }
+.ctable th, .ctable td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.ctable thead th { position: sticky; top: 0; background: var(--soft); font-size: .78rem; color: var(--muted); }
+.ctable tbody th { font-weight: 600; }
+.ctable .num { text-align: right; font-variant-numeric: tabular-nums; }
+.ctable td.strong { font-weight: 700; color: var(--accent); }
+.ctable tr.sel { background: var(--accent-soft); }
+.ctable .src .mbadge { margin: 0; }
+/* compare round 5 */
+.ctools { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: flex-start; }
+.ctools .cadd { flex: 1 1 320px; margin: 12px 0; }
+.csort { flex: 0 1 300px; margin: 12px 0; }
+.csort .field { margin: 0; }
+.ccard header { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 8px; align-items: start; }
+.grip { cursor: grab; color: var(--muted); font-size: 1.2rem; line-height: 1.6; touch-action: none; user-select: none; padding: 0 2px; }
+.cur-tag { font-size: .72rem; font-weight: 700; background: var(--line); color: var(--muted); border-radius: 6px; padding: 2px 6px; margin-top: 4px; }
+.csum { background: var(--accent-soft); border-radius: 12px; padding: 8px 12px; margin: 10px 0 8px; min-height: 196px; }
+.csum .c-s-l { margin: 4px 0 0; font-size: .8rem; color: var(--muted); }
+.csum .c-s { margin: 0; font-size: 1.45rem; }
+.csum .c-s2 { margin: 0; font-size: 1.25rem; }
+.csum .c-note, .csum .c-note2 { margin: 0; min-height: 2.2em; text-align: left; }
+.cdet { border-top: 2px solid var(--line); padding-top: 4px; }
+.cmove { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; }
+.mv { font: inherit; width: 44px; height: 36px; border-radius: 10px; border: 1px solid var(--line); background: #fff; cursor: pointer; font-size: 1.05rem; }
+.mv[disabled] { opacity: .35; cursor: default; }
+.ccard.dragging { opacity: .5; }
+.ccard.drop { outline: 3px dashed var(--accent); outline-offset: 2px; }
+.cgrid { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
+.csum { display: flex; flex-direction: column; min-height: 0; }
+.csum .c-s-l { min-height: 2.6em; display: flex; align-items: flex-end; }
+.csum .c-note { min-height: 1.4em; }
+.csum .c-note2 { min-height: 4.2em; }
+.ccard .rent-in .with-cur { max-width: none; }
+.tab { white-space: nowrap; }
+@media (max-width: 480px) { .tabs { display: flex; width: 100%; } .tab { flex: 1; padding: 8px 8px; font-size: .84rem; } }
+.cchain { list-style: none; margin: 4px 0 6px; padding: 6px 8px; background: var(--soft); border-radius: 10px; font-size: .78rem; }
+.cchain li { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 6px; padding: 2px 0; align-items: baseline; }
+.cchain .cc-s { color: var(--muted); font-weight: 700; }
+.cchain .cc-l { color: var(--muted); }
+.cchain .cc-v { font-weight: 600; white-space: nowrap; text-align: right; }
+.cchain li.strong .cc-l, .cchain li.strong .cc-v { color: var(--ink); font-weight: 700; }
+.cchain .cc-v.neg { color: var(--err); }
 
 @media print {
   @page { size: A4 portrait; margin: 10mm 12mm; }
@@ -298,12 +372,35 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
   .mres .mrow { padding: 1pt 0; font-size: 8pt; }
   .mres .msource, .mres .mindex { margin: 1pt 0 0; font-size: 7pt; }
   .formula, .details .small, .details .tiny { margin: 2pt 0; font-size: 7pt; }
+  .chain { margin: 0 0 4pt; padding: 3pt 8pt; background: none; border: 1px solid #999; }
+  .chain-row { padding: 1pt 0; font-size: 8pt; }
+  .chain-row.strong .chain-v { font-size: 9pt; }
+  .chain p { margin: 1pt 0 0; font-size: 6.5pt; }
+  [data-testid="S-card"] { display: none !important; }
+  .rcards { grid-template-columns: repeat(2, 1fr); }
+  .rent-card .rb { font-size: 7pt; margin-top: 2pt; }
+  .rent-card .rb li { padding: 0; }
+  .mres .mrow.long .mrow-l { font-size: 7pt; }
+  /* ქალაქების ცხრილის ბეჭდვა — ლანდშაფტი, სათაური მეორდება */
+  body.print-cities #app, body.print-cities .overlay { display: none !important; }
+  body.print-cities #cities { display: block !important; page: land; border: 0; padding: 0; }
+  body.print-cities .ctl, body.print-cities .ctable td.cb, body.print-cities .ctable th:first-child { display: none !important; }
+  body.print-cities .table-scroll { overflow: visible; border: 0; }
+  body.print-cities .ctable { min-width: 0; font-size: 7.5pt; }
+  body.print-cities .ctable th, body.print-cities .ctable td { padding: 2pt 4pt; }
+  body.print-cities thead { display: table-header-group; }
+  body:not(.print-cities) #cities { display: none !important; }
   /* შედარების ბეჭდვა — ლანდშაფტი, ერთი გვერდი */
   body.print-compare .wrap { display: none !important; }
+  body.print-compare #cities { display: none !important; }
   body:not(.print-compare) .overlay { display: none !important; }
   body.print-compare .overlay { position: static; background: none; padding: 0; overflow: visible; display: block !important; }
   body.print-compare .cpanel { page: land; background: #fff; padding: 0; min-height: 0; border-radius: 0; }
-  body.print-compare .cgrid { display: grid !important; grid-auto-flow: row !important; grid-template-columns: repeat(5, 1fr) !important; overflow: visible !important; gap: 4pt; }
+  body.print-compare .cgrid { display: grid !important; grid-auto-flow: row !important; grid-template-columns: repeat(6, 1fr) !important; overflow: visible !important; gap: 4pt; }
+  body.print-compare .ccard:nth-child(6n + 1) { break-before: page; }
+  body.print-compare .ccard:first-child { break-before: auto; }
+  body.print-compare .cmove, body.print-compare .grip, body.print-compare .clear-btn { display: none !important; }
+  body.print-compare .csum { min-height: 0; }
   body.print-compare .ccard { border: 1px solid #999; padding: 5pt; font-size: 8pt; box-shadow: none; }
   body.print-compare .c-s { font-size: 12pt; }
   body.print-compare .rent-in input { border: 0; padding: 0; min-height: 0; }
@@ -315,10 +412,15 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
 <div class="wrap">
   <header class="head">
     <h1>როტაციის კალკულატორი</h1>
+    <div class="tabs no-print" role="tablist" aria-label="განყოფილებები">
+      <button type="button" role="tab" id="tab-calc" aria-controls="app" aria-selected="true" class="tab" data-testid="calc-tab">კალკულატორი</button>
+      <button type="button" role="tab" id="tab-cities" aria-controls="cities" aria-selected="false" tabindex="-1" class="tab" data-testid="cities-tab">ქალაქების სიძვირე</button>
+    </div>
     <button type="button" class="link-btn no-print" data-open-compare>ქალაქების შედარება</button>
   </header>
   <noscript><p>კალკულატორს სჭირდება JavaScript.</p></noscript>
-  <main id="app"></main>
+  <main id="app" role="tabpanel" aria-labelledby="tab-calc"></main>
+  <section id="cities" class="card cities-card" role="tabpanel" aria-labelledby="tab-cities" hidden><h2 class="cities-h">ქალაქების სიძვირე</h2><div id="cities-body"></div></section>
   <footer class="foot">საინფორმაციო გაანგარიშება — არ წარმოადგენს ოფიციალურ ფინანსურ დოკუმენტს.</footer>
 </div>
 <div id="compare" class="overlay" hidden></div>
@@ -9128,7 +9230,9 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     SYNTHETIC_TEST_DATA: "synthetic_test_data",
     SNAPSHOT_COPY: "snapshot_copy",
     REFERENCE_FX: "reference_fx",
-    CAPITAL_FALLBACK: "capital_fallback"
+    CAPITAL_FALLBACK: "capital_fallback",
+    IMPLAUSIBLE_VALUE: "implausible_value",
+    BUDGET_ESTIMATED: "budget_estimated"
   });
   var ALL_WARNING_CODES = new Set(Object.values(WARNING_CODE));
   var DEFAULT_ALLOWED_CURRENCIES = Object.freeze(["EUR", "USD"]);
@@ -9262,7 +9366,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       if (!(typeof cur === "string" && /^[A-Z]{3}$/.test(cur))) e.push("currency: invalid");
       else if (options.allowedCurrencies && !options.allowedCurrencies.includes(cur)) e.push("currency: not_allowed");
     }
-    let money2 = false;
+    let money3 = false;
     let any = false;
     const r = obj.rent;
     if (!isPlainObject(r)) e.push("rent: not_object");
@@ -9274,7 +9378,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
         keys(r.items, Object.keys(RENT_METRICS), [], "rent.items.", e);
         for (const k of Object.keys(RENT_METRICS)) if (k in r.items && checkPrice(r.items[k], `rent.items.${k}`, e)) {
           v2 = true;
-          money2 = true;
+          money3 = true;
         }
       }
       if (checkDec(r.rentIndex, "rent.rentIndex", e)) v2 = true;
@@ -9286,7 +9390,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     else {
       keys(u, ["status", "basic85m2", "internet"], ["fallback"], "utilities.", e);
       const v2 = [checkPrice(u.basic85m2, "utilities.basic85m2", e), checkPrice(u.internet, "utilities.internet", e)].some(Boolean);
-      money2 || (money2 = v2);
+      money3 || (money3 = v2);
       any || (any = v2);
       checkStatus(u.status, v2, "utilities", e);
     }
@@ -9298,7 +9402,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       for (const f of ["itemsCounted", "itemsMissing"]) if (!(Number.isSafeInteger(g[f]) && g[f] >= 0)) e.push(`groceries.${f}: not_non_negative_integer`);
       if (sum2 !== g.itemsCounted > 0) e.push("groceries.basketItemsSum: inconsistent_with_itemsCounted");
       const v2 = sum2 || checkDec(g.groceriesIndex, "groceries.groceriesIndex", e);
-      money2 || (money2 = sum2);
+      money3 || (money3 = sum2);
       any || (any = v2);
       checkStatus(g.status, v2, "groceries", e);
     }
@@ -9308,7 +9412,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       keys(rs, ["status", "inexpensiveMeal", "midRangeForTwo", "restaurantIndex"], ["fallback"], "restaurants.", e);
       const m = [checkPrice(rs.inexpensiveMeal, "restaurants.inexpensiveMeal", e), checkPrice(rs.midRangeForTwo, "restaurants.midRangeForTwo", e)].some(Boolean);
       const v2 = checkDec(rs.restaurantIndex, "restaurants.restaurantIndex", e) || m;
-      money2 || (money2 = m);
+      money3 || (money3 = m);
       any || (any = v2);
       checkStatus(rs.status, v2, "restaurants", e);
     }
@@ -9326,12 +9430,15 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       const b = obj.budget;
       if (!isPlainObject(b)) e.push("budget: not_object");
       else {
-        keys(b, ["status", "single", "family4", "sourceUpdatedAt", "source"], ["fallback"], "budget.", e);
+        keys(b, ["status", "single", "family4", "sourceUpdatedAt", "source"], ["fallback", "basis", "estimated"], "budget.", e);
+        if ("basis" in b && b.basis !== "numbeo" && b.basis !== "estimated-from-index") e.push("budget.basis: invalid");
+        if ("estimated" in b && typeof b.estimated !== "boolean") e.push("budget.estimated: not_boolean");
+        if (b.estimated === true && b.basis !== "estimated-from-index") e.push("budget.estimated: requires_basis_estimated");
         const v2 = [checkPrice(b.single, "budget.single", e), checkPrice(b.family4, "budget.family4", e)].some(Boolean);
         checkStatus(b.status, v2, "budget", e);
         if (b.sourceUpdatedAt !== null && !isPartialDate(b.sourceUpdatedAt)) e.push("budget.sourceUpdatedAt: not_partial_date_or_null");
         if (b.source !== "snapshot" && b.source !== "apify") e.push("budget.source: invalid");
-        money2 || (money2 = v2);
+        money3 || (money3 = v2);
         any || (any = v2);
       }
     }
@@ -9345,7 +9452,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     }
     checkStatus(obj.status, any, "$", e);
     if (match === "none" && any) e.push("resolvedLocation.matchStatus: none_but_values_present");
-    if (money2 && cur === null) e.push("currency: required_when_money_present");
+    if (money3 && cur === null) e.push("currency: required_when_money_present");
     if (obj.fetchedAt !== null && !isIsoDateTime(obj.fetchedAt)) e.push("fetchedAt: not_iso_datetime_or_null");
     if (obj.sourceUpdatedAt !== null && !isPartialDate(obj.sourceUpdatedAt)) e.push("sourceUpdatedAt: not_partial_date_or_null");
     if (any && obj.status !== "manual" && obj.fetchedAt === null) e.push("fetchedAt: required_when_values_present");
@@ -9426,10 +9533,10 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     if (!r) return null;
     const [p, q] = r;
     const [ui, uf = ""] = usdDec.split(".");
-    const num = BigInt(ui + uf) * q * 100n;
+    const num2 = BigInt(ui + uf) * q * 100n;
     const den = 10n ** BigInt(uf.length) * p;
-    let n = num / den;
-    if (num % den * 2n >= den) n += 1n;
+    let n = num2 / den;
+    if (num2 % den * 2n >= den) n += 1n;
     if (n === 0n) return null;
     return `${n / 100n}.${(n % 100n).toString().padStart(2, "0")}`;
   }
@@ -9452,11 +9559,11 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     const c = Object.prototype.hasOwnProperty.call(snapshot.cities, locationId) ? snapshot.cities[locationId] : null;
     if (!c || typeof c !== "object") return null;
     if (currency !== "USD" && currency !== "EUR") return null;
-    const fx = snapshot.usdPerEur || {};
-    const rate = currency === "EUR" ? parseRate(fx.exact) || parseRate(fx.value) : null;
-    const rateShown = toDecimalString(fx.value);
+    const fx2 = snapshot.usdPerEur || {};
+    const rate = currency === "EUR" ? parseRate(fx2.exact) || parseRate(fx2.value) : null;
+    const rateShown = toDecimalString(fx2.value);
     if (currency === "EUR" && (!rate || !rateShown)) return null;
-    const money2 = (v2) => {
+    const money3 = (v2) => {
       const d = toDecimalString(v2);
       return d === null ? null : currency === "USD" ? d : usdToEur(
         d,
@@ -9466,10 +9573,10 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     };
     const price = (p) => {
       if (!p || typeof p !== "object") return null;
-      const average = money2(p.average);
+      const average = money3(p.average);
       if (average === null) return null;
-      let low = money2(p.low);
-      let high = money2(p.high);
+      let low = money3(p.low);
+      let high = money3(p.high);
       if (low && compareDecimalStrings(low, average) > 0 || high && compareDecimalStrings(average, high) > 0) {
         low = null;
         high = null;
@@ -9488,7 +9595,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     utilities.status = st(!!(utilities.basic85m2 || utilities.internet));
     const g0 = blockHasValue(c.groceries) ? c.groceries : {};
     const counted = Number.isSafeInteger(g0.itemsCounted) && g0.itemsCounted >= 0 ? g0.itemsCounted : 0;
-    const sum2 = counted > 0 ? money2(g0.basketItemsSum) : null;
+    const sum2 = counted > 0 ? money3(g0.basketItemsSum) : null;
     const groceries = {
       status: "not_found",
       basketItemsSum: sum2,
@@ -9511,7 +9618,10 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     const budget = { status: "not_found", single: price(b0.single), family4: price(b0.family4), sourceUpdatedAt, source: (
       /** @type {'snapshot'} */
       "snapshot"
-    ) };
+    ), basis: (
+      /** @type {'numbeo'} */
+      "numbeo"
+    ), estimated: false };
     budget.status = st(!!(budget.single || budget.family4));
     const blocks = [rent.status, utilities.status, groceries.status, restaurants.status, indices.status, budget.status];
     if (blocks.every((s) => s === "not_found")) return null;
@@ -9601,6 +9711,122 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       warnings
     };
     return validateMarketData(md).ok ? md : null;
+  }
+
+  // src/providers/budget.js
+  var BUDGET_ESTIMATE_MESSAGE_KA = "≈ შეფასებულია Numbeo-ს ინდექსით: ნიუ-იორკის ხარჯი × ინდექსი / 100";
+  function rat(d) {
+    const [i, f = ""] = d.split(".");
+    return [BigInt(i + f), 10n ** BigInt(f.length)];
+  }
+  var cmp = (a, b) => {
+    const x = a[0] * b[1];
+    const y = b[0] * a[1];
+    return x < y ? -1 : x > y ? 1 : 0;
+  };
+  function round2(r) {
+    const [num0, den] = r;
+    const num2 = num0 * 100n;
+    let n = num2 / den;
+    if (num2 % den * 2n >= den) n += 1n;
+    return n === 0n ? null : `${n / 100n}.${(n % 100n).toString().padStart(2, "0")}`;
+  }
+  var refCache = /* @__PURE__ */ new WeakMap();
+  function nycBudgetReference(userSnapshot) {
+    if (!userSnapshot || !userSnapshot.cities) return null;
+    if (refCache.has(userSnapshot)) return refCache.get(userSnapshot);
+    const nyc = userSnapshot.cities["US-NEW-YORK"];
+    const out = { single: null, family4: null, basis: "median-implied", n: { single: 0, family4: 0 } };
+    for (
+      const kind of
+      /** @type {const} */
+      ["single", "family4"]
+    ) {
+      const own = toDecimalString(nyc?.budget?.[kind]?.average);
+      if (own) {
+        out[kind] = rat(own);
+        out.basis = "nyc-entry";
+        out.n[kind] = 1;
+        continue;
+      }
+      const implied = [];
+      for (const c of Object.values(userSnapshot.cities)) {
+        const b = toDecimalString(
+          /** @type {any} */
+          c?.budget?.[kind]?.average
+        );
+        const i = toDecimalString(
+          /** @type {any} */
+          c?.indices?.costOfLiving
+        );
+        if (!b || !i) continue;
+        const [bn, bd] = rat(b);
+        const [in_, id] = rat(i);
+        implied.push([bn * 100n * id, bd * in_]);
+      }
+      if (!implied.length) continue;
+      implied.sort(cmp);
+      const m = implied.length;
+      out[kind] = m % 2 ? implied[(m - 1) / 2] : (() => {
+        const a = implied[m / 2 - 1];
+        const b2 = implied[m / 2];
+        return (
+          /** @type {[bigint, bigint]} */
+          [a[0] * b2[1] + b2[0] * a[1], 2n * a[1] * b2[1]]
+        );
+      })();
+      out.n[kind] = m;
+    }
+    refCache.set(userSnapshot, out);
+    return out;
+  }
+  function estimateBudget(userSnapshot, indexDec, currency) {
+    const ref = nycBudgetReference(userSnapshot);
+    const idx2 = toDecimalString(indexDec);
+    if (!ref || !idx2) return null;
+    const rate = currency === "EUR" ? parseRate(userSnapshot.usdPerEur?.exact) || parseRate(userSnapshot.usdPerEur?.value) : null;
+    if (currency === "EUR" && !rate) return null;
+    const [in_, id] = rat(idx2);
+    const one = (r) => {
+      if (!r) return null;
+      let num2 = r[0] * in_;
+      let den = r[1] * id * 100n;
+      if (rate) {
+        num2 *= rate[1];
+        den *= rate[0];
+      }
+      const average = round2([num2, den]);
+      return average ? { average, low: null, high: null } : null;
+    };
+    const single = one(ref.single);
+    const family4 = one(ref.family4);
+    return single || family4 ? { single, family4 } : null;
+  }
+  function applyEstimatedBudget(md, userSnapshot) {
+    if (!md) return md;
+    const b = md.budget;
+    const real = b && STATUSES_WITH_VALUE.includes(b.status) && (b.single || b.family4);
+    if (real && !b.fallback && b.basis !== "estimated-from-index") {
+      if (!b.basis) return { ...md, budget: { ...b, basis: "numbeo", estimated: false } };
+      return md;
+    }
+    if (md.resolvedLocation?.matchStatus === "capital-fallback" && real) return md;
+    const ix = md.indices;
+    if (!ix || !STATUSES_WITH_VALUE.includes(ix.status) || !ix.costOfLiving || !md.currency) return md;
+    const est = estimateBudget(userSnapshot, ix.costOfLiving, md.currency);
+    if (!est) return md;
+    const out = structuredClone(md);
+    out.budget = {
+      status: ix.status === "partial" ? "cached" : ix.status,
+      ...est,
+      sourceUpdatedAt: null,
+      source: "snapshot",
+      basis: "estimated-from-index",
+      estimated: true,
+      ...ix.fallback ? { fallback: true } : {}
+    };
+    if (!out.warnings.some((w) => w.code === "budget_estimated")) out.warnings.push({ code: "budget_estimated", message_ka: BUDGET_ESTIMATE_MESSAGE_KA });
+    return out;
   }
 
   // src/providers/capitals.json
@@ -10025,7 +10251,115 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     });
     const capInfo = capitalFor(locationId, opts.capitals);
     const capital = capInfo ? { ...capInfo, md: composeMarketData({ locationId: capInfo.locationId, ...layer(capInfo.locationId) }) } : null;
-    return composeMarketData({ locationId, ...layer(locationId), capital });
+    return applyEstimatedBudget(composeMarketData({ locationId, ...layer(locationId), capital }), snapshot);
+  }
+
+  // src/providers/summary.js
+  var SUMMARY_SCHEMA_VERSION = 1;
+  var SUMMARY_SOURCES = Object.freeze(["kv", "apify-snapshot", "user-snapshot", "capital"]);
+  function missionLocations(data) {
+    const countries = Object.fromEntries((data.countries || []).map((c) => [c.id, c.name_ka]));
+    const currency = {};
+    for (const m of data.missions || []) if (m.locationId && m.fundingCurrency && !currency[m.locationId]) currency[m.locationId] = m.fundingCurrency;
+    return (data.locations || []).filter((l) => currency[l.id]).map((l) => ({
+      locationId: l.id,
+      city_ka: l.name_ka,
+      country_ka: countries[l.countryId] ?? null,
+      currency: currency[l.id]
+    }));
+  }
+  var indicesOf = (md) => {
+    const i = md && md.indices;
+    if (!i || !(i.costOfLivingPlusRent || i.costOfLiving || i.rent)) return null;
+    return { costOfLivingPlusRent: i.costOfLivingPlusRent ?? null, costOfLiving: i.costOfLiving ?? null, rent: i.rent ?? null };
+  };
+  var rentOf = (md) => {
+    const v2 = md?.rent?.items?.centre_1br?.average;
+    return isPositiveDecimalString(v2) ? v2 : null;
+  };
+  function buildSummaryRow(loc, layersFor, opts = {}) {
+    const pick = (ls, get) => {
+      for (const l of ls) {
+        const v2 = get(l.md);
+        if (v2) return { v: v2, l };
+      }
+      return null;
+    };
+    const own = layersFor(loc.locationId);
+    let rent = pick(own, rentOf);
+    let idx2 = pick(own, indicesOf);
+    let fallbackFrom;
+    const cap = capitalFor(loc.locationId);
+    let rentFromCap = false;
+    let idxFromCap = false;
+    if (cap && (!rent || !idx2)) {
+      const capLayers = layersFor(cap.locationId);
+      if (!rent) {
+        rent = pick(capLayers, rentOf);
+        rentFromCap = !!rent;
+      }
+      if (!idx2) {
+        idx2 = pick(capLayers, indicesOf);
+        idxFromCap = !!idx2;
+      }
+      if (rentFromCap || idxFromCap) fallbackFrom = { locationId: cap.locationId, city_ka: cap.city_ka };
+    }
+    const budgetOf = (md) => {
+      const b = md?.budget;
+      return b && (b.single || b.family4) ? b : null;
+    };
+    const ownBudget = pick(own, budgetOf);
+    let budget = null;
+    if (ownBudget) budget = { single: ownBudget.v.single?.average ?? null, family4: ownBudget.v.family4?.average ?? null, basis: "numbeo", fromCapital: false };
+    else if (idx2 && idx2.v.costOfLiving && opts.estimate && loc.currency) {
+      const est = opts.estimate(
+        idx2.v.costOfLiving,
+        /** @type {'EUR'|'USD'} */
+        loc.currency
+      );
+      if (est) budget = { single: est.single?.average ?? null, family4: est.family4?.average ?? null, basis: "estimated-from-index", fromCapital: idxFromCap };
+    }
+    const main = rent || idx2;
+    const fromCap = rent ? rentFromCap : idxFromCap;
+    return {
+      locationId: loc.locationId,
+      city_ka: loc.city_ka,
+      country_ka: loc.country_ka,
+      currency: loc.currency,
+      indices: idx2 ? idx2.v : { costOfLivingPlusRent: null, costOfLiving: null, rent: null },
+      rentCentre1br: rent ? rent.v : null,
+      source: main ? fromCap ? "capital" : main.l.src : null,
+      sourceDate: main ? main.l.date : null,
+      budget,
+      ...fallbackFrom ? { fallbackFrom } : {}
+    };
+  }
+  var day = (v2) => typeof v2 === "string" && /^\d{4}-\d{2}-\d{2}/.test(v2) ? v2.slice(0, 10) : null;
+  function snapshotLayers(userSnapshot, apifySnapshot, locationId, currency) {
+    const out = [];
+    const a = apifySnapshot ? apifySnapshotEntryToMarketData(apifySnapshot, locationId, currency) : null;
+    if (a) out.push({ src: "apify-snapshot", md: a, date: day(apifySnapshot.source?.fetchedAt) });
+    const u = userSnapshot ? snapshotEntryToMarketData(userSnapshot, locationId, currency) : null;
+    if (u) out.push({ src: "user-snapshot", md: u, date: day(userSnapshot.source?.retrievedAt) });
+    return out;
+  }
+  function marketSummaryFromSnapshots(userSnapshot, apifySnapshot, data) {
+    const locs = missionLocations(data);
+    const curOf = Object.fromEntries(locs.map((l) => [l.locationId, l.currency]));
+    return {
+      schemaVersion: SUMMARY_SCHEMA_VERSION,
+      generatedAt: null,
+      rows: locs.map((loc) => buildSummaryRow(loc, (id) => snapshotLayers(userSnapshot, apifySnapshot, id, curOf[loc.locationId] || loc.currency), { estimate: (i, c) => estimateBudget(userSnapshot, i, c) }))
+    };
+  }
+  function validateMarketSummary(s) {
+    const o = (
+      /** @type {any} */
+      s
+    );
+    if (!o || o.schemaVersion !== SUMMARY_SCHEMA_VERSION || !Array.isArray(o.rows) || o.rows.length > 500) return false;
+    const dec = (v2) => v2 === null || isPositiveDecimalString(v2);
+    return o.rows.every((r) => r && typeof r.locationId === "string" && typeof r.city_ka === "string" && (r.currency === null || r.currency === "EUR" || r.currency === "USD") && r.indices && dec(r.indices.costOfLivingPlusRent) && dec(r.indices.costOfLiving) && dec(r.indices.rent) && dec(r.rentCentre1br) && (r.source === null || SUMMARY_SOURCES.includes(r.source)) && (r.sourceDate === null || /^\d{4}-\d{2}-\d{2}$/.test(r.sourceDate)) && (r.budget == null || dec(r.budget.single) && dec(r.budget.family4) && ["numbeo", "estimated-from-index"].includes(r.budget.basis)));
   }
 
   // src/providers/index.js
@@ -10092,7 +10426,9 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     synthetic_test_data: "სინთეზური სატესტო მონაცემი — რეალური ფასი არ არის.",
     snapshot_copy: "შენახული მონაცემი (ასლი) — არა მიმდინარე ფასი.",
     reference_fx: "≈ თანხა გადაყვანილია USD-დან EUR-ში Numbeo-ს კურსით — საორიენტაციოდ.",
-    capital_fallback: "ქალაქის მონაცემი არ მოიძებნა — ნაჩვენებია დედაქალაქის მონაცემი."
+    capital_fallback: "ქალაქის მონაცემი არ მოიძებნა — ნაჩვენებია დედაქალაქის მონაცემი.",
+    budget_estimated: "≈ შეფასებულია Numbeo-ს ინდექსით: ნიუ-იორკის ხარჯი × ინდექსი / 100",
+    implausible_value: "წყაროს მნიშვნელობა დაუჯერებელია (მაგ. სხვა ვალუტა ან სხვა ქალაქი) — უარყოფილია."
   });
   var ERROR_MESSAGES_KA = Object.freeze({
     missing: "სავალდებულო ველი აკლია.",
@@ -10173,7 +10509,29 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
         if (o.signal) o.signal.removeEventListener("abort", onAbort);
       }
     }
-    return { get, schemaVersion: MARKET_SCHEMA_VERSION };
+    async function summary(o = {}) {
+      if (!fetchImpl) return null;
+      const ac = new AbortController();
+      const timer = setTimeout(() => ac.abort(), Math.min(timeoutMs, 3e4));
+      const onAbort = () => ac.abort();
+      if (o.signal) {
+        if (o.signal.aborted) ac.abort();
+        else o.signal.addEventListener("abort", onAbort, { once: true });
+      }
+      try {
+        const base = endpoint.split("?")[0].replace(/\/$/, "");
+        const res = await fetchImpl(`${base}/summary?v=${SUMMARY_SCHEMA_VERSION}`, { method: "GET", headers: { Accept: "application/json" }, credentials: "same-origin", cache: "no-store", signal: ac.signal });
+        if (!res.ok) return null;
+        const body = JSON.parse(await res.text());
+        return validateMarketSummary(body) ? body : null;
+      } catch {
+        return null;
+      } finally {
+        clearTimeout(timer);
+        if (o.signal) o.signal.removeEventListener("abort", onAbort);
+      }
+    }
+    return { get, summary, schemaVersion: MARKET_SCHEMA_VERSION };
   }
 
   // src/data/market-snapshot.json
@@ -16297,10 +16655,14 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       note_ka: "Numbeo.com-ის მონაცემი Apify actor-ის რეალური გაშვებიდან; თანხები მისიის დაფინანსების ვალუტაში. Krakow და Donetsk actor-მა ვერ იპოვა (ფასები — მომხმარებლის ასლიდან/დედაქალაქიდან)."
     },
     stats: {
-      withPrices: 77,
-      indicesOnly: 1,
+      withPrices: 75,
+      indicesOnly: 3,
       none: [
         "UA-DONETSK:USD"
+      ],
+      rejected: [
+        "UA-ODESA:wrong_city",
+        "KZ-ASTANA:invalid_response"
       ]
     },
     cities: {
@@ -21378,63 +21740,31 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
         currency: "USD",
         numbeoCity: "Odessa (Odesa)",
         rent: {
-          status: "fresh",
+          status: "partial",
           items: {
-            centre_1br: {
-              average: "1465.33",
-              low: "1140",
-              high: "2056"
-            },
-            outside_1br: {
-              average: "963.67",
-              low: "891",
-              high: "1000"
-            },
-            centre_3br: {
-              average: "2176.67",
-              low: "1890",
-              high: "2400"
-            },
-            outside_3br: {
-              average: "1829.5",
-              low: "1659",
-              high: "2000"
-            }
+            centre_1br: null,
+            outside_1br: null,
+            centre_3br: null,
+            outside_3br: null
           },
           rentIndex: "6.8"
         },
         utilities: {
-          status: "fresh",
-          basic85m2: {
-            average: "450",
-            low: null,
-            high: null
-          },
-          internet: {
-            average: "100",
-            low: null,
-            high: null
-          }
+          status: "wrong_city",
+          basic85m2: null,
+          internet: null
         },
         groceries: {
-          status: "fresh",
-          basketItemsSum: "99.99",
-          itemsCounted: 15,
+          status: "partial",
+          basketItemsSum: null,
+          itemsCounted: 0,
           itemsMissing: 0,
           groceriesIndex: "31"
         },
         restaurants: {
-          status: "fresh",
-          inexpensiveMeal: {
-            average: "40",
-            low: "35",
-            high: "45"
-          },
-          midRangeForTwo: {
-            average: "72",
-            low: "70",
-            high: "80"
-          },
+          status: "partial",
+          inexpensiveMeal: null,
+          midRangeForTwo: null,
           restaurantIndex: "28.4"
         },
         indices: {
@@ -21524,63 +21854,31 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
         currency: "USD",
         numbeoCity: "Astana (Nur-Sultan)",
         rent: {
-          status: "fresh",
+          status: "partial",
           items: {
-            centre_1br: {
-              average: "257586.25",
-              low: "220000",
-              high: "350000"
-            },
-            outside_1br: {
-              average: "179666.67",
-              low: "156000",
-              high: "200000"
-            },
-            centre_3br: {
-              average: "512727.27",
-              low: "350000",
-              high: "850000"
-            },
-            outside_3br: {
-              average: "346833.33",
-              low: "270000",
-              high: "500000"
-            }
+            centre_1br: null,
+            outside_1br: null,
+            centre_3br: null,
+            outside_3br: null
           },
           rentIndex: "12.6"
         },
         utilities: {
-          status: "fresh",
-          basic85m2: {
-            average: "30461.11",
-            low: "25000",
-            high: "49583.33"
-          },
-          internet: {
-            average: "7832",
-            low: "5500",
-            high: "10000"
-          }
+          status: "invalid_response",
+          basic85m2: null,
+          internet: null
         },
         groceries: {
-          status: "fresh",
-          basketItemsSum: "21327.4",
-          itemsCounted: 15,
+          status: "partial",
+          basketItemsSum: null,
+          itemsCounted: 0,
           itemsMissing: 0,
           groceriesIndex: "34.8"
         },
         restaurants: {
-          status: "fresh",
-          inexpensiveMeal: {
-            average: "4739.69",
-            low: "4000",
-            high: "6000"
-          },
-          midRangeForTwo: {
-            average: "17006.5",
-            low: "13000",
-            high: "25000"
-          },
+          status: "partial",
+          inexpensiveMeal: null,
+          midRangeForTwo: null,
           restaurantIndex: "31"
         },
         indices: {
@@ -21962,7 +22260,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
   };
 
   // src/ui/dom.js
-  var ATTR_OK = /^(class|id|for|type|name|label|placeholder|role|tabindex|title|lang|min|max|step|inputmode|autocomplete|rows|maxlength|colspan|scope|accept|href|rel|target|datetime|spellcheck|form|size|pattern)$|^(aria|data)-[a-z-]+$/;
+  var ATTR_OK = /^(class|id|for|type|name|label|draggable|placeholder|role|tabindex|title|lang|min|max|step|inputmode|autocomplete|rows|maxlength|colspan|scope|accept|href|rel|target|datetime|spellcheck|form|size|pattern)$|^(aria|data)-[a-z-]+$/;
   var PROP_BOOL = /* @__PURE__ */ new Set(["checked", "disabled", "hidden", "open", "selected", "required", "multiple", "readonly"]);
   function safeUrl(u) {
     if (typeof u !== "string" || u.length > 2048) return null;
@@ -22026,6 +22324,17 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
   }
   var seq = 0;
   var uid = (p = "id") => `${p}-${++seq}`;
+  function clearButton(inp) {
+    const b = h("button", { type: "button", class: "clear-btn", "aria-label": "გასუფთავება", title: "გასუფთავება" }, "×");
+    b.addEventListener("click", () => {
+      inp.value = "";
+      inp.dispatchEvent(new Event("input", { bubbles: true }));
+      inp.dispatchEvent(new Event("change", { bubbles: true }));
+      inp.focus();
+    });
+    b.hidden = !inp.value;
+    return b;
+  }
 
   // src/core/rational.js
   var ZERO_N = 0n;
@@ -22035,7 +22344,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     while (b) [a, b] = [b, a % b];
     return a;
   }
-  function rat(n, d = 1n) {
+  function rat2(n, d = 1n) {
     n = BigInt(n);
     d = BigInt(d);
     if (d === 0n) throw new RangeError("rational: division by zero");
@@ -22046,8 +22355,8 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     const g = gcd(n, d) || 1n;
     return Object.freeze({ n: n / g, d: d / g });
   }
-  var ZERO = rat(0);
-  var ONE = rat(1);
+  var ZERO = rat2(0);
+  var ONE = rat2(1);
   function isRational(x) {
     return !!x && typeof x === "object" && typeof x.n === "bigint" && typeof x.d === "bigint";
   }
@@ -22056,46 +22365,47 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     if (isRational(s)) return s;
     if (typeof s === "number") {
       if (!Number.isInteger(s)) throw new TypeError("rational: non-integer number, use a decimal string");
-      return rat(BigInt(s));
+      return rat2(BigInt(s));
     }
-    if (typeof s === "bigint") return rat(s);
+    if (typeof s === "bigint") return rat2(s);
     const m = DEC_RE.exec(String(s).trim());
     if (!m) throw new TypeError(`rational: not a decimal string: ${JSON.stringify(s)}`);
     const frac = m[3] || "";
     const n = BigInt(m[2] + frac) * (m[1] ? -1n : 1n);
-    return rat(n, 10n ** BigInt(frac.length));
+    return rat2(n, 10n ** BigInt(frac.length));
   }
   var R = (x) => isRational(x) ? x : fromDecimal(x);
   var add = (a, b) => {
     a = R(a);
     b = R(b);
-    return rat(a.n * b.d + b.n * a.d, a.d * b.d);
+    return rat2(a.n * b.d + b.n * a.d, a.d * b.d);
   };
   var sub = (a, b) => {
     a = R(a);
     b = R(b);
-    return rat(a.n * b.d - b.n * a.d, a.d * b.d);
+    return rat2(a.n * b.d - b.n * a.d, a.d * b.d);
   };
   var mul = (a, b) => {
     a = R(a);
     b = R(b);
-    return rat(a.n * b.n, a.d * b.d);
+    return rat2(a.n * b.n, a.d * b.d);
   };
   var div = (a, b) => {
     a = R(a);
     b = R(b);
     if (b.n === ZERO_N) throw new RangeError("rational: division by zero");
-    return rat(a.n * b.d, a.d * b.n);
+    return rat2(a.n * b.d, a.d * b.n);
   };
-  var cmp = (a, b) => {
+  var cmp2 = (a, b) => {
     a = R(a);
     b = R(b);
     const x = a.n * b.d - b.n * a.d;
     return x < 0n ? -1 : x > 0n ? 1 : 0;
   };
-  var le = (a, b) => cmp(a, b) <= 0;
-  var gt = (a, b) => cmp(a, b) > 0;
-  var ge = (a, b) => cmp(a, b) >= 0;
+  var eq = (a, b) => cmp2(a, b) === 0;
+  var le = (a, b) => cmp2(a, b) <= 0;
+  var gt = (a, b) => cmp2(a, b) > 0;
+  var ge = (a, b) => cmp2(a, b) >= 0;
   var min = (a, b) => le(a, b) ? R(a) : R(b);
   var max = (a, b) => ge(a, b) ? R(a) : R(b);
   var isZero = (a) => R(a).n === 0n;
@@ -22106,9 +22416,9 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     const scale = 10n ** BigInt(places);
     const negative = a.n < 0n;
     const absN = negative ? -a.n : a.n;
-    const num = absN * scale;
-    let q = num / a.d;
-    const r = num % a.d;
+    const num2 = absN * scale;
+    let q = num2 / a.d;
+    const r = num2 % a.d;
     if (r * 2n >= a.d) q += 1n;
     let s = q.toString();
     if (places > 0) {
@@ -22121,6 +22431,11 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
   function toExactString(a) {
     a = R(a);
     return a.d === 1n ? a.n.toString() : `${a.n}/${a.d}`;
+  }
+  function fromExactString(s) {
+    const m = /^(-?\d+)(?:\/(\d+))?$/.exec(String(s));
+    if (!m) throw new TypeError(`rational: bad exact string ${s}`);
+    return rat2(BigInt(m[1]), BigInt(m[2] || "1"));
   }
   function toDecimalString2(a) {
     a = R(a);
@@ -22158,7 +22473,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     if (!/^\d+([.,]\d+)?$/.test(s)) return fail("არასწორი რიცხვი. მაგალითი: 1500 ან 1500,50.");
     const normalized = s.replace(",", ".");
     const [ip, fp = ""] = normalized.split(".");
-    const value = rat(BigInt(ip + fp), 10n ** BigInt(fp.length));
+    const value = rat2(BigInt(ip + fp), 10n ** BigInt(fp.length));
     if (value.n > MAX_INPUT * value.d) return fail("მნიშვნელობა აღემატება 10 000 000-ს.");
     return { ok: true, value, error_ka: null, normalized: normalized.replace(/^0+(?=\d)/, "") };
   }
@@ -22168,10 +22483,10 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
   function formatAmount(x, opts = {}) {
     if (x === null || x === void 0) return "—";
     const s = toFixed(R(x), opts.places ?? 2);
-    const neg = s.startsWith("-");
-    const [ip, fp] = (neg ? s.slice(1) : s).split(".");
+    const neg2 = s.startsWith("-");
+    const [ip, fp] = (neg2 ? s.slice(1) : s).split(".");
     const grouped = ip.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    return (neg ? "−" : "") + grouped + (fp !== void 0 ? `.${fp}` : "");
+    return (neg2 ? "−" : "") + grouped + (fp !== void 0 ? `.${fp}` : "");
   }
 
   // src/core/calendar.js
@@ -22883,7 +23198,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     T = R(T);
     G = R(G);
     if (isZero(G)) return { F: ZERO, case: "zero", ruleIds: ["R-RENT-F-ZERO"] };
-    const c = cmp(G, T);
+    const c = cmp2(G, T);
     if (c < 0) return { F: T, case: "below", ruleIds: ["R-RENT-F-BELOW"] };
     if (c === 0) return { F: T, case: "equal", ruleIds: ["R-RENT-F-EQUAL"] };
     if (head == null) return { F: null, case: "needs-head", ruleIds: ["R-HEAD-RENT"] };
@@ -23034,7 +23349,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     if (v2 === null && status !== "not_applicable") status = "undetermined";
     return { id, category, label_ka, value: v2, exact, currency: kind === "raw" ? null : currency, status, reason_ka: reason_ka || "", ruleIds, inputsUsed };
   }
-  var rat2 = (c) => c && c.exact != null ? fromExact(c.exact) : null;
+  var rat3 = (c) => c && c.exact != null ? fromExact(c.exact) : null;
   function fromExact(s) {
     const m = /^(-?\d+)\/(\d+)$/.exec(s);
     return m ? div(m[1], m[2]) : R(s);
@@ -23475,12 +23790,12 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       });
     });
     if (eduEntries.length) ctx.assume("EDU_PER_CHILD", "განათლების ზღვარი L გამოიყენება თითო ბავშვზე; ოჯახზე ერთიანი ზღვრის ვარიანტი ჩანს ცალკე (alternativePooled), P-4.", ["R-EDU-LIMIT"], "OQ-02");
-    const eduReimbs = perChild.map((c) => rat2(c.reimbursement));
+    const eduReimbs = perChild.map((c) => rat3(c.reimbursement));
     const eduTotalR = perChild.length ? eduReimbs.some((r) => r == null) ? null : sum(eduReimbs) : ZERO;
     const eduExpenses = perChild.map((c) => c.expense == null ? null : fromExact(c.expense));
     const eduExpenseR = perChild.length ? eduExpenses.some((r) => r == null) ? null : sum(eduExpenses) : ZERO;
     const eduStatus = perChild.reduce((s, c) => worst(s, c.reimbursement.status), "calculated");
-    const pooledKids = perChild.filter((c) => c.eligible === true && rat2(c.P) != null && c.reimbursement.status !== "undetermined" && !c.ruleIds.includes("R-EDU-FREESTATE"));
+    const pooledKids = perChild.filter((c) => c.eligible === true && rat3(c.P) != null && c.reimbursement.status !== "undetermined" && !c.ruleIds.includes("R-EDU-FREESTATE"));
     const education = {
       perChild,
       total: comp("education.total", "reimbursement", "განათლების ანაზღაურება სულ (თვეში)", eduTotalR, cur, perChild.length ? eduStatus : "calculated", perChild.length ? "თითო ბავშვის ანაზღაურების ჯამი." : "განათლების ხარჯი არ არის შეყვანილი.", ["R-EDU-LIMIT", "R-EDU-EXCESS"]),
@@ -23490,14 +23805,14 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
         "education.alternativePooled",
         "reimbursement",
         "ალტერნატივა: ერთი ზღვარი ოჯახზე",
-        educationReimbursement(sum(pooledKids.map((c) => rat2(c.P))), L, excessPct).reimbursement,
+        educationReimbursement(sum(pooledKids.map((c) => rat3(c.P))), L, excessPct).reimbursement,
         cur,
         "scenario",
         "min(ΣP, L) + 80% × max(ΣP − L, 0) — თუ ზღვარი ოჯახზეა (OQ-02); დადასტურებულ ჯამში არ შედის.",
         ["R-EDU-LIMIT", "R-EDU-EXCESS"]
       ) : null
     };
-    const sForRemainder = rat2(fm.S);
+    const sForRemainder = rat3(fm.S);
     const remR = sForRemainder != null && G0 != null && eduTotalR != null && eduExpenseR != null ? sub(add(sForRemainder, eduTotalR), add(G0, eduExpenseR)) : null;
     const remainder = {
       value: comp(
@@ -23747,12 +24062,12 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       ctx.assume("SETTLE_RATE_MANUAL", "სადღეღამისო ნორმა ხელით არის შეყვანილი — შედეგი დაუდასტურებელია და დადასტურებულ ჯამში არ შედის (P-9).", rules, "OQ-04");
       const amountR = settlementAmount(rate, n, param("SETTLEMENT-DSA-MULTIPLIER") ?? "60", param("SETTLEMENT-FAMILY-PCT") ?? "10");
       if (dr.currency && cur && dr.currency !== cur) {
-        const fx2 = s.fx ? amt(s.fx.rate) : null;
-        if (fx2 == null) {
+        const fx3 = s.fx ? amt(s.fx.rate) : null;
+        if (fx3 == null) {
           ctx.warn("SETTLE_OTHER_CURRENCY", `ნორმა ${dr.currency}-შია, დაწესებულება — ${cur}-ში; კურსის გარეშე ვალუტები არ იკრიბება.`, rules, "settlement.fx");
           return comp(id, "one-time-allowance", label, amountR, dr.currency, "unconfirmed", `ნორმა × 60 × (1 + 10% × ${n}) — ${dr.currency}-ში (მისიის ვალუტაში არ არის გადაყვანილი).`, rules, iu);
         }
-        return comp(id, "one-time-allowance", label, mul(amountR, fx2), cur, "unconfirmed", `ნორმა × 60 × (1 + 10% × ${n}) × კურსი ${s.fx.rate} (${s.fx.date ?? "?"}, ${s.fx.source ?? "?"})`, rules, iu);
+        return comp(id, "one-time-allowance", label, mul(amountR, fx3), cur, "unconfirmed", `ნორმა × 60 × (1 + 10% × ${n}) × კურსი ${s.fx.rate} (${s.fx.date ?? "?"}, ${s.fx.source ?? "?"})`, rules, iu);
       }
       return comp(id, "one-time-allowance", label, amountR, dr.currency, "unconfirmed", `ნორმა × 60 × (1 + 10% × ${n}); მხარდაჭერის მიმღები და მეურვეობის/მზრუნველობის ქვეშ მყოფი არ ითვლება.`, rules, iu);
     }
@@ -23922,7 +24237,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       const limitEnd = addDays(addMonths(rt.from, 1), -1);
       if (compareDates(rt.to, limitEnd) > 0) ctx.warn("RETAIN_LIMIT", "პ.19: შენარჩუნება — არაუმეტეს ერთი თვისა (მინისტრის გადაწყვეტილებით).", ["R-RETAIN-019"], "retention19.to");
       const to = compareDates(rt.to, limitEnd) > 0 ? limitEnd : rt.to;
-      const S = rat2(fm.S);
+      const S = rat3(fm.S);
       let v3 = null;
       if (S != null) v3 = segmentPeriod(rt.from, to).reduce((acc, sg) => add(acc, prorate(S, sg.days, sg.daysInMonth)), ZERO);
       if (!rt.decisionRef) ctx.warn("RETAIN_DECISION", "პ.19: საჭიროა მინისტრის გადაწყვეტილების რეკვიზიტი.", ["R-RETAIN-019"], "retention19.decisionRef");
@@ -23942,14 +24257,14 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       "vacationMonth",
       "one-time-allowance",
       "შვებულების ერთთვიანი თანხა (პ.12ა)",
-      rat2(fm.S),
+      rat3(fm.S),
       cur,
       fm.S.status === "undetermined" ? "undetermined" : "scenario",
       "წელიწადში ერთხელ, სრული თვის S; წლიურ ჯამში ავტომატურად არ ემატება; რომელი თვის S — OQ-15.",
       ["R-VAC-MONTH"]
     );
     const usdRate = param("FX-FORECAST-GEL-PER-USD") ?? "2.8", eurRate = param("FX-FORECAST-GEL-PER-EUR") ?? "3.2";
-    const fx = {
+    const fx2 = {
       forecast: {
         USD: usdRate,
         EUR: eurRate,
@@ -23960,7 +24275,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
           "fx.S_GEL",
           "parameter",
           "S ლარში — საილუსტრაციო (საპროგნოზო კურსით)",
-          rat2(fm.S) == null || !cur ? null : mul(rat2(fm.S), cur === "EUR" ? eurRate : usdRate),
+          rat3(fm.S) == null || !cur ? null : mul(rat3(fm.S), cur === "EUR" ? eurRate : usdRate),
           "GEL",
           fm.S.status === "undetermined" ? "undetermined" : "scenario",
           "მხოლოდ საპროგნოზო; დაფინანსება — დაფინანსების დღის კურსით (R-FX-FUNDING).",
@@ -23972,7 +24287,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     const reimbItems = [...oneTimeItems, ...perPerson.filter((p) => p.entered).map((p) => p.reimbursable)];
     const entered = reimbItems.filter((c) => c.status !== "not_applicable" && !(c === settlement && c.status === "undetermined" && !sc.settlement.dailyRate && !sc.settlement.exclusion9));
     const inCur = (c) => c.currency === cur;
-    const sumOf = (cs) => cs.length ? sum(cs.map(rat2)) : ZERO;
+    const sumOf = (cs) => cs.length ? sum(cs.map(rat3)) : ZERO;
     const confirmed = entered.filter((c) => c.status === "calculated" && inCur(c));
     const pending = entered.filter((c) => (c.status === "scenario" || c.status === "unconfirmed") && inCur(c));
     const totals = {
@@ -24003,7 +24318,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     };
     const essential = [datesMode ? periodTotal : fm.S, remainder.value, ...entered, retention19];
     let completeness = "complete";
-    if (rat2(fm.D) == null && !(datesMode && periodSegments.some((s) => s.fullMonth.D.value != null))) completeness = "incomplete";
+    if (rat3(fm.D) == null && !(datesMode && periodSegments.some((s) => s.fullMonth.D.value != null))) completeness = "incomplete";
     else if (ctx.missingInputs.length || essential.some((c) => c && (c.status === "undetermined" || c.status === "unconfirmed"))) completeness = "partial";
     if (ctx.errors.length && completeness === "complete") completeness = "partial";
     const inputsUsed = {
@@ -24045,7 +24360,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       oneTimeReimbursements: { broker, baggage, travel, extras },
       annualCaps: { insurance: annualCaps },
       advances,
-      fx,
+      fx: fx2,
       totals,
       warnings: ctx.warnings,
       errors: ctx.errors,
@@ -24698,7 +25013,9 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     };
     const pick = (x) => {
       input.value = x.label;
+      cleared = false;
       close();
+      syncClear();
       o.onPick(x.m.id);
     };
     const open = () => {
@@ -24752,12 +25069,30 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     });
     input.addEventListener("blur", () => setTimeout(() => {
       close();
-      if (cur && !input.value) input.value = cur.label;
+      if (cur && !input.value && !cleared) input.value = cur.label;
+      syncClear();
     }, 150));
-    return h("div", { class: "field picker" }, h("label", { for: id }, o.label), h("div", { class: "pk-wrap" }, input, list), live);
+    let cleared = false;
+    const clear = h("button", { type: "button", class: "clear-btn pk-clear", "aria-label": "გასუფთავება", title: "გასუფთავება", "data-testid": "picker-clear" }, "×");
+    const syncClear = () => {
+      clear.hidden = !input.value;
+    };
+    clear.addEventListener("mousedown", (e) => e.preventDefault());
+    clear.addEventListener("click", () => {
+      cleared = true;
+      input.value = "";
+      syncClear();
+      if (o.onClear) o.onClear();
+      input.focus();
+      open();
+    });
+    input.addEventListener("input", syncClear);
+    syncClear();
+    return h("div", { class: "field picker" }, h("label", { for: id }, o.label), h("div", { class: "pk-wrap" }, input, clear, list), live);
   }
 
   // src/ui/market.js
+  var GROCERIES_LABEL = "სურსათი — 15 ძირითადი პროდუქტის ერთეულის ფასი ჯამში (1 ლ რძე, 1 კგ ბრინჯი, 12 კვერცხი…), არა თვიური ან კვირის ხარჯი";
   var WITH_DATA = /* @__PURE__ */ new Set(["fresh", "cached", "stale", "partial"]);
   var suggestBedrooms2 = (n) => typeof suggestBedrooms === "function" ? suggestBedrooms(n) : n >= 2 ? 3 : 1;
   var money = (x, cur) => x == null ? "—" : `${formatAmount(x)} ${cur ?? ""}`.trim();
@@ -24769,24 +25104,30 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
   };
   var warn = (md, code) => (md?.warnings || []).find((w) => w.code === code) || null;
   var rentFor = (md, beds) => hasData(md) ? avg(md.rent?.items?.[`centre_${beds}br`]) : null;
-  function minus(a, ...bs) {
-    if (a == null || bs.some((b) => b == null)) return null;
-    const c = (x) => Math.round(Number(x) * 100);
-    const v2 = bs.reduce((acc, b) => acc - c(b), c(a));
-    return (v2 / 100).toFixed(2);
-  }
-  function livingRemainder(remainder, md, familyCount) {
-    if (remainder == null || !hasData(md)) return { value: null, note: null };
+  function livingDeduction(md, familyCount) {
+    if (!hasData(md)) return { deduction: null, label: null, note: null };
     const b = md.budget;
     const alone = familyCount === 0;
     const budget = b ? avg(alone ? b.single : b.family4) : null;
     if (budget != null) {
-      return { value: minus(remainder, budget), note: alone ? "გამოკლებულია ერთი პირის თვიური ხარჯი ქირის გარეშე (Numbeo)" : "გამოკლებულია ოთხსულიანი ოჯახის შეფასება — თვიური ხარჯი ქირის გარეშე (Numbeo)" };
+      const est = b.estimated === true || b.basis === "estimated-from-index" || (md.warnings || []).some((w) => w.code === "budget_estimated");
+      const who = alone ? "ერთი პირის" : "ოთხსულიანი ოჯახის";
+      return {
+        deduction: R(budget),
+        estimated: est,
+        label: `საორიენტაციო საცხოვრებელი ხარჯი — ${who} (Numbeo, ქირის და სწავლის გარეშე: კომუნალური, კვება, ტრანსპორტი)${est ? " · ≈ ინდექსით შეფასებული" : ""}`,
+        note: `გამოკლებულია ${who} თვიური ხარჯი ქირის გარეშე (Numbeo${est ? ", ≈ ინდექსით შეფასებული" : ""})`
+      };
     }
     const u = avg(md.utilities?.basic85m2);
     const i = avg(md.utilities?.internet);
-    if (u == null && i == null) return { value: null, note: null };
-    return { value: minus(remainder, u ?? "0", i ?? "0"), note: "გამოკლებულია კომუნალური (85 მ²) და ინტერნეტი" };
+    if (u == null && i == null) return { deduction: null, label: null, note: null };
+    return { deduction: add(R(u ?? "0"), R(i ?? "0")), label: "კომუნალური (85 მ²) + ინტერნეტი (Numbeo)", note: "გამოკლებულია კომუნალური (85 მ²) და ინტერნეტი" };
+  }
+  function livingRemainder(remainder, md, familyCount) {
+    const d = livingDeduction(md, familyCount);
+    if (remainder == null || !d.deduction) return { value: null, note: d.note, deduction: d.deduction ? toFixed2(d.deduction) : null, label: d.label };
+    return { value: toFixed2(sub(R(remainder), d.deduction)), note: d.note, deduction: toFixed2(d.deduction), label: d.label, estimated: !!d.estimated };
   }
   function marketRows(md, beds, { compact = false, familyCount = 0 } = {}) {
     if (!hasData(md)) return null;
@@ -24800,10 +25141,11 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     const rows = [];
     rows.push(compact ? { label: `ქირა, ${beds} საძ. (ცენტრი)`, value: money(c, cur), raw: c } : { label: `ქირა, ${beds} საძინებელი`, value: `ცენტრი ${money(c, cur)} · გარეუბანი ${money(o, cur)}`, raw: c, testid: "market-rent" });
     rows.push({ label: compact ? "კომუნალური + ინტ." : "კომუნალური (85 მ²) + ინტერნეტი", value: avg(u.basic85m2) != null || avg(u.internet) != null ? `${money(avg(u.basic85m2), cur)} + ${money(avg(u.internet), cur)}` : "—", raw: avg(u.basic85m2) });
-    rows.push({ label: compact ? "სურსათი" : "სურსათი (ძირითადი კალათა)", value: money(g.basketItemsSum, cur), raw: g.basketItemsSum });
+    rows.push({ label: GROCERIES_LABEL, value: money(g.basketItemsSum, cur), raw: g.basketItemsSum, long: true });
     rows.push({ label: compact ? "რესტორანი" : "რესტორანი (ბიუჯეტური / საშუალო 2 პირზე)", value: avg(r.inexpensiveMeal) != null || avg(r.midRangeForTwo) != null ? `${money(avg(r.inexpensiveMeal), cur)} / ${money(avg(r.midRangeForTwo), cur)}` : "—", raw: avg(r.inexpensiveMeal) });
     if (b && (avg(b.single) != null || avg(b.family4) != null)) {
-      rows.push({ label: compact ? "თვიური ხარჯი (1 / 4 პირი)" : "თვიური ხარჯი ქირის გარეშე (1 პირი / ოჯახი 4)", value: `${money(avg(b.single), cur)} / ${money(avg(b.family4), cur)}`, raw: avg(familyCount === 0 ? b.single : b.family4), testid: compact ? null : "market-budget" });
+      const est = b.estimated || b.basis === "estimated-from-index";
+      rows.push({ label: (compact ? "თვიური ხარჯი (1 / 4 პირი)" : "თვიური ხარჯი ქირის გარეშე (1 პირი / ოჯახი 4)") + (est ? " ≈ ინდექსით" : ""), value: `${money(avg(b.single), cur)} / ${money(avg(b.family4), cur)}`, raw: avg(familyCount === 0 ? b.single : b.family4), testid: compact ? null : "market-budget" });
     }
     return rows;
   }
@@ -24816,12 +25158,14 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     if (cap || md.resolvedLocation?.matchStatus === "capital-fallback") {
       out.push({ kind: "line", text: cap?.message_ka || `ქალაქის მონაცემი არ მოიძებნა — ნაჩვენებია დედაქალაქის (${md.resolvedLocation?.city ?? "—"}) მონაცემი` });
     }
-    const fx = warn(md, "reference_fx");
-    if (fx) out.push({ kind: "tiny", text: fx.message_ka || "≈ გადაყვანილია USD-დან Numbeo-ს კურსით (საორიენტაციოდ)" });
+    const be = warn(md, "budget_estimated");
+    if (be) out.push({ kind: "tiny", text: be.message_ka || "≈ შეფასებულია Numbeo-ს ინდექსით" });
+    const fx2 = warn(md, "reference_fx");
+    if (fx2) out.push({ kind: "tiny", text: fx2.message_ka || "≈ გადაყვანილია USD-დან Numbeo-ს კურსით (საორიენტაციოდ)" });
     return out;
   }
   function row(x) {
-    return h("div", { class: "mrow" }, h("span", { class: "mrow-l" }, x.label), h("span", { class: "mrow-v", "data-value": x.raw ?? "", "data-testid": x.testid ?? null }, x.value));
+    return h("div", { class: "mrow" + (x.long ? " long" : "") }, h("span", { class: "mrow-l" }, x.label), h("span", { class: "mrow-v", "data-value": x.raw ?? "", "data-testid": x.testid ?? null }, x.value));
   }
   function skeleton(rows = 4) {
     return h("div", { class: "mlist", "aria-hidden": "true" }, Array.from({ length: rows }, () => h("div", { class: "mrow" }, h("span", { class: "sk" }), h("span", { class: "sk sk-s" }))));
@@ -24901,6 +25245,84 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
     };
   }
 
+  // src/ui/chain.js
+  var ex = (c) => {
+    if (c == null) return null;
+    if (typeof c === "object") {
+      if (c.exact) return /^-?\d+(\/\d+)?$/.test(c.exact) ? fromExactString(c.exact) : R(c.exact);
+      return c.value != null ? R(c.value) : null;
+    }
+    return R(c);
+  };
+  var fx = (x) => x == null ? null : toFixed2(x);
+  function computeChain(r, md, familyCount, { hasEdu = false } = {}) {
+    const m = r?.monthly || {};
+    const ed = r?.education || {};
+    const S = ex(m.S), G = ex(m.G), T = ex(m.T), F = ex(m.F);
+    const eduE = hasEdu ? ex(ed.expense) : ZERO;
+    const eduR = hasEdu ? ex(ed.total) : ZERO;
+    const eduPersonal = eduE != null && eduR != null ? sub(eduE, eduR) : null;
+    const remainder = ex(r?.remainder?.value);
+    const check = S != null && G != null && eduE != null && eduR != null ? add(sub(sub(S, G), eduE), eduR) : null;
+    const matches2 = remainder != null && check != null && eq(remainder, check);
+    if (remainder != null && check != null && !matches2) console.warn("chain mismatch", toFixed2(check), toFixed2(remainder));
+    const living = livingRemainder(remainder, md, familyCount);
+    return {
+      S: fx(S),
+      G: fx(G),
+      eduPersonal: fx(eduPersonal),
+      eduExpense: fx(eduE),
+      eduReimb: fx(eduR),
+      hasEdu,
+      remainder: fx(remainder),
+      matches: matches2,
+      living,
+      rent: { G: fx(G), T: fx(T), FminusT: F != null && T != null ? fx(sub(F, T)) : null, F: fx(F), extra: fx(ex(m.uncoveredRent)), surplus: fx(ex(m.rentSurplus)) }
+    };
+  }
+  var money2 = (x, cur) => x == null ? "—" : `${formatAmount(x)} ${cur}`;
+  var neg = (x) => x != null && String(x).startsWith("-") ? " neg" : "";
+  function chainRows(c) {
+    const rows = [
+      { sign: "", label: "ყოველთვიური სამივლინებო თანხა", value: c.S },
+      { sign: "−", label: "ბინის ქირა (სრული)", short: "ქირა", value: c.G }
+    ];
+    if (c.hasEdu) {
+      rows.push({ sign: "−", label: "სწავლის გადასახადი (სრული)", short: "სწავლის გადასახადი", value: c.eduExpense });
+      rows.push({ sign: "+", label: "სწავლის ანაზღაურება", short: "სწავლის ანაზღაურება", value: c.eduReimb });
+    }
+    rows.push({ sign: "=", label: "დარჩენილი თანხა ქირისა და სწავლის შემდეგ", short: "ქირისა და სწავლის შემდეგ", value: c.remainder, strong: true, testid: "chain-remainder" });
+    rows.push({ sign: "−", label: c.living.label ?? "საორიენტაციო საცხოვრებელი ხარჯი (Numbeo, ქირის და სწავლის გარეშე)", short: `საცხოვრებელი ხარჯი (Numbeo${c.living.estimated ? ", ≈ ინდექსით" : ""})`, value: c.living.deduction });
+    rows.push({ sign: "=", label: "დარჩენილი თანხა ქირის, სწავლისა და საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)", short: "საბოლოოდ (საორიენტაციო)", value: c.living.value, strong: true, testid: "remainder-living" });
+    return rows;
+  }
+  var CHAIN_NOTE = "Numbeo-ს შეფასება ქირასა და სწავლას არ შეიცავს — ქირა ზემოთ ერთხელ აკლდება.";
+  function renderChain(c, cur, { loading = false } = {}) {
+    return h(
+      "section",
+      { class: "chain", "data-testid": "chain", "aria-label": "როგორ მივიღეთ დარჩენილი თანხა" },
+      h("ol", { class: "chain-list" }, chainRows(c).map((x) => h(
+        "li",
+        { class: "chain-row" + (x.strong ? " strong" : "") },
+        h("span", { class: "chain-sign", "aria-hidden": "true" }, x.sign),
+        h("span", { class: "chain-l" }, x.label),
+        h("span", { class: "chain-v" + neg(x.value), "data-value": x.value ?? "", "data-testid": x.testid ?? null }, x.value == null && loading ? "…" : money2(x.value, cur))
+      ))),
+      h("p", { class: "tiny muted" }, c.living.note ? `${c.living.note}. ${CHAIN_NOTE}` : loading ? "ფასები იტვირთება…" : "საცხოვრებელი ხარჯის შეფასება ამ ქალაქისთვის მიუწვდომელია.")
+    );
+  }
+  function rentBreakdownRows(c) {
+    const r = c.rent;
+    const rows = [
+      { label: "ბინის ძირითადი წილი (T)", value: r.T },
+      { label: "სამსახურის დამატებითი ანაზღაურება", value: r.FminusT },
+      { label: "სულ ანაზღაურება (F)", value: r.F, strong: true }
+    ];
+    if (r.surplus != null && Number(r.surplus) > 0) rows.push({ label: "ანაზღაურება აღემატება ქირას (F − G)", value: r.surplus });
+    else rows.push({ label: "თქვენ ამატებთ", value: r.extra, strong: true });
+    return rows;
+  }
+
   // src/ui/result.js
   var v = (c) => c && typeof c === "object" ? c.value ?? null : c ?? null;
   var fmt = (c, cur) => {
@@ -24953,7 +25375,8 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       return ok.length === xs.length && ok.length ? (ok.reduce((a, b) => a + Math.round(Number(b) * 100), 0) / 100).toFixed(2) : null;
     };
     const heroVal = noRent ? null : v(r?.remainder?.value);
-    const living = livingRemainder(heroVal, md, st.family.length);
+    const chain = computeChain(r, md, st.family.length, { hasEdu });
+    const living = chain.living;
     return {
       cur,
       noRent,
@@ -24969,6 +25392,10 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       beds,
       familyCount: st.family.length,
       living,
+      chain,
+      chainRows: chainRows(chain),
+      chainNote: CHAIN_NOTE,
+      rentRows: rentBreakdownRows(chain),
       city: mission?.location_ka ?? "",
       marketRows: marketRows(md, beds, { familyCount: st.family.length }),
       marketNotes: marketNotes(md),
@@ -24988,7 +25415,7 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
         ["G", "ქირა", m.G, true],
         ["F", "ქირის ანაზღაურება", m.F, true],
         ["S", "ყოველთვიური თანხა (D − T + F)", m.S, true]
-      ].map(([k, label, c, money2, suf]) => ({ k, label, raw: v(c), text: v(c) == null ? "—" : money2 ? fmt(c, cur) : `${v(c)}${suf ?? ""}` })),
+      ].map(([k, label, c, money3, suf]) => ({ k, label, raw: v(c), text: v(c) == null ? "—" : money3 ? fmt(c, cur) : `${v(c)}${suf ?? ""}` })),
       inputs: [
         ["დაწესებულება", mission ? `${mission.location_ka} — ${mission.shortName}` : "—"],
         ["თანამდებობა", pos ? `${pos.positions_ka?.join(" / ") ?? pos.title_ka} (${pos.percent}%)` : "—"],
@@ -25045,23 +25472,24 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
         M.noRent || M.hero == null ? h("p", { class: "hero-msg", "data-testid": "hero-remainder", "data-value": "" }, M.noRent ? "მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს" : M.missing || "თანხა ვერ დადგინდა") : h("p", { class: "hero-v" }, h("span", { "data-testid": "hero-remainder", "data-value": M.hero ?? "" }, M.hero == null ? "—" : `${formatAmount(M.hero)} ${cur}`), h("span", { class: "per" }, " / თვე")),
         h("p", { class: "hero-n" }, M.noRent ? "" : "სხვა ხარჯები (კვება, კომუნალური…) არ აკლდება.")
       ),
-      M.noRent ? null : h(
-        "div",
-        { class: "hero2" },
-        h("span", { class: "hero2-l" }, "დარჩენილი თანხა საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)"),
-        h(
-          "span",
-          { class: "hero2-v" + (M.living.value?.startsWith("-") ? " neg" : ""), "data-testid": "remainder-living", "data-value": M.living.value ?? "" },
-          M.living.value == null ? M.mdLoading ? "…" : "—" : `${formatAmount(M.living.value)} ${cur}`
-        ),
-        h("p", { class: "hero2-n" }, M.living.note ?? (M.hero == null ? "გამოჩნდება, როცა ზემოთ მოცემული თანხა დადგინდება" : M.mdLoading ? "ფასები იტვირთება…" : "ფასები ამჟამად მიუწვდომელია"))
-      ),
+      M.noRent || M.hero == null ? null : renderChain(M.chain, cur, { loading: M.mdLoading }),
       M.why ? h("p", { class: "muted small" }, M.why) : null,
       h(
         "div",
         { class: "rcards" },
         card(M.noRent ? "ყოველთვიური სამივლინებო თანხა (ქირის გარეშე)" : "ყოველთვიური სამივლინებო თანხა", M.S == null ? "—" : `${formatAmount(M.S)} ${cur}`, M.S, M.noRent ? "ქირის ანაზღაურება არ შედის" : "ქირის ანაზღაურების ჩათვლით", "S-card", true),
-        card("ქირის ანაზღაურება", M.noRent ? "—" : fmt(m.F, cur), M.noRent ? null : v(m.F), M.noRent ? "ქირა არ არის მითითებული" : `თქვენი წილი ქირაში: ${fmt(m.uncoveredRent, cur)}`, "F"),
+        M.noRent ? card("ქირის ანაზღაურება", "—", null, "ქირა არ არის მითითებული", "F") : h(
+          "div",
+          { class: "rcard rent-card", "data-testid": "rent-breakdown" },
+          h("span", { class: "rc-label" }, "ბინის ქირა თვეში"),
+          h("span", { class: "rc-value", "data-value": M.chain.rent.G ?? "" }, fmt(M.chain.rent.G, cur)),
+          h("ul", { class: "rb" }, M.rentRows.map((x) => h(
+            "li",
+            { class: x.strong ? "strong" : null },
+            h("span", null, x.label),
+            h("span", { "data-value": x.value ?? "", "data-testid": x.label.startsWith("სულ") ? "F-value" : null }, fmt(x.value, cur))
+          )))
+        ),
         card("სწავლის ანაზღაურება", M.hasEdu ? fmt(ed.total, cur) : "—", M.hasEdu ? v(ed.total) : null, M.hasEdu ? `თქვენი წილი: ${fmt(ed.personal, cur)}` : "სწავლის ხარჯი არ არის მითითებული", "edu")
       ),
       h("span", { hidden: true, "data-testid": "S", "data-value": M.S ?? "" }),
@@ -25105,13 +25533,25 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
   var isGeorgian = (cp) => cp >= 4256 && cp <= 4351 || cp >= 7312 && cp <= 7359 || cp >= 11520 && cp <= 11567;
   var SUBST = { 8470: "N", 8776: "~", 8201: " ", 160: " ", 8239: " " };
   var enc = new TextEncoder();
-  var PdfPage = class {
+  var PdfPage = class _PdfPage {
     /** @param {{ geo:any, geoBold:any, lat:any, latBold:any }} fonts @param {number} w @param {number} h */
-    constructor(fonts, w, h2) {
+    constructor(fonts, w, h2, root = null) {
       this.w = w;
       this.h = h2;
       this.ops = [];
-      this.fonts = [fonts.geo, fonts.lat, fonts.geoBold, fonts.latBold].map((f, i) => ({ f, key: `F${i + 1}`, used: /* @__PURE__ */ new Map() }));
+      if (root) {
+        this.fonts = root.fonts;
+        this.root = root;
+        root.pages.push(this);
+      } else {
+        this.fonts = [fonts.geo, fonts.lat, fonts.geoBold, fonts.latBold].map((f, i) => ({ f, key: `F${i + 1}`, used: /* @__PURE__ */ new Map() }));
+        this.root = this;
+        this.pages = [this];
+      }
+    }
+    /** ახალი გვერდი იმავე ზომით და საერთო ფონტებით */
+    addPage() {
+      return new _PdfPage(null, this.w, this.h, this.root);
     }
     /** სიმბოლოების დაყოფა ფონტების მიხედვით */
     runs(text, bold) {
@@ -25213,9 +25653,10 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
       const ref = (n) => `${n} 0 R`;
       const catalog = add2(null);
       const pages = add2(null);
-      const page = add2(null);
+      const pageList = this.root.pages;
+      const pageIds = pageList.map(() => add2(null));
       const fontRefs = [];
-      for (const F of this.fonts) {
+      for (const F of this.root.fonts) {
         if (!F.used.size) continue;
         const f = F.f;
         const s = 1e3 / f.upem;
@@ -25238,11 +25679,13 @@ endbfchar
         const t0 = add2(`<< /Type /Font /Subtype /Type0 /BaseFont /${f.name} /Encoding /Identity-H /DescendantFonts [${ref(cid)}] /ToUnicode ${ref(tu)} >>`);
         fontRefs.push(`/${F.key} ${ref(t0)}`);
       }
-      const content = add2({ stream: enc.encode(this.ops.join("\n")), dict: "" });
+      pageList.forEach((pg, i) => {
+        const content = add2({ stream: enc.encode(pg.ops.join("\n")), dict: "" });
+        objs[pageIds[i] - 1] = `<< /Type /Page /Parent ${ref(pages)} /MediaBox [0 0 ${pg.w} ${pg.h}] /Resources << /Font << ${fontRefs.join(" ")} >> >> /Contents ${ref(content)} >>`;
+      });
       const info = add2(`<< /Title <${utf16hexStr(title)}> /Producer (rotation-calculator) >>`);
       objs[catalog - 1] = `<< /Type /Catalog /Pages ${ref(pages)} /Lang (ka) >>`;
-      objs[pages - 1] = `<< /Type /Pages /Kids [${ref(page)}] /Count 1 >>`;
-      objs[page - 1] = `<< /Type /Page /Parent ${ref(pages)} /MediaBox [0 0 ${this.w} ${this.h}] /Resources << /Font << ${fontRefs.join(" ")} >> >> /Contents ${ref(content)} >>`;
+      objs[pages - 1] = `<< /Type /Pages /Kids [${pageIds.map(ref).join(" ")}] /Count ${pageList.length} >>`;
       const chunks = [enc.encode("%PDF-1.7\n%âãÏÓ\n")];
       let pos = chunks[0].length;
       const offsets = [];
@@ -25453,27 +25896,32 @@ ${pos}
     p.text("დარჩენილი თანხა ქირისა და სწავლის შემდეგ (თვეში)", X + 16, y + 20, { size: 10, color: WHITE });
     p.text(M.noRent ? "მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს" : M.hero == null ? "—" : `${formatAmount(M.hero)} ${M.cur}`, X + 16, y + 48, { size: M.noRent ? 13 : 24, bold: true, color: WHITE });
     y += 72;
-    if (!M.noRent) {
-      p.rect(X, y, CW, 26, [238, 242, 255], 8);
-      p.text("დარჩენილი თანხა საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)", X + 12, y + 11, { size: 8.5 });
-      p.text(M.living.value == null ? "—" : `${formatAmount(M.living.value)} ${M.cur}`, W - X - 12, y + 16, { size: 12, bold: true, color: ACCENT, align: "right" });
-      if (M.living.note) p.text(M.living.note, X + 12, y + 21.5, { size: 6.5, color: MUTED });
-      y += 34;
+    if (!M.noRent && M.hero != null) {
+      for (const r of M.chainRows) {
+        p.text(r.sign, X + 4, y, { size: 9, color: MUTED, bold: true });
+        p.text(r.label, X + 18, y, { size: r.strong ? 9 : 8.5, bold: !!r.strong });
+        p.text(r.value == null ? "—" : `${formatAmount(r.value)} ${M.cur}`, W - X, y, { size: r.strong ? 9.5 : 8.5, bold: true, align: "right", color: r.strong ? ACCENT : INK });
+        y += 4;
+        p.line(X, y, W - X, y);
+        y += 9.5;
+      }
+      p.text(M.living.note ? `${M.living.note}. ${M.chainNote}` : M.chainNote, X, y, { size: 7, color: MUTED });
+      y += 14;
     }
     const cards = [
       [M.noRent ? "სამივლინებო თანხა (ქირის გარეშე)" : "ყოველთვიური სამივლინებო თანხა", M.S == null ? "—" : `${formatAmount(M.S)} ${M.cur}`, M.noRent ? "ქირის ანაზღაურება არ შედის" : "ქირის ანაზღაურების ჩათვლით"],
-      ["ქირის ანაზღაურება", M.noRent ? "—" : fmtC(M.m.F, M.cur), M.noRent ? "" : `თქვენი წილი: ${fmtC(M.m.uncoveredRent, M.cur)}`],
+      ["ქირის ანაზღაურება (F)", M.noRent ? "—" : fmtC(M.m.F, M.cur), M.noRent ? "" : `ქირა ${fmtC(M.chain.rent.G, M.cur)} · T ${fmtC(M.chain.rent.T, M.cur)} · თქვენ ამატებთ ${fmtC(M.chain.rent.extra, M.cur)}`],
       ["სწავლის ანაზღაურება", M.hasEdu ? fmtC(M.ed.total, M.cur) : "—", M.hasEdu ? `თქვენი წილი: ${fmtC(M.ed.personal, M.cur)}` : ""]
     ];
     const cw = (CW - 16) / 3;
     cards.forEach(([l, val, sub2], i) => {
       const cx = X + i * (cw + 8);
-      p.rect(cx, y, cw, 62, SOFT, 8);
+      p.rect(cx, y, cw, 70, SOFT, 8);
       p.para(l, cx + 10, y + 15, cw - 20, { size: 8.5, color: MUTED, lineHeight: 10.5 });
       p.text(val, cx + 10, y + 44, { size: 13, bold: true });
-      if (sub2) p.text(sub2, cx + 10, y + 56, { size: 7.5, color: MUTED });
+      if (sub2) p.para(sub2, cx + 10, y + 55, cw - 20, { size: 6.8, color: MUTED, lineHeight: 8 });
     });
-    y += 78;
+    y += 84;
     const list = (title, items) => {
       if (!items.length) return;
       p.text(title, X, y, { size: 10.5, bold: true });
@@ -25537,72 +25985,126 @@ ${pos}
     const x = c && typeof c === "object" ? c.value : c;
     return x == null ? "—" : `${formatAmount(x)} ${cur}`;
   }
+  var COMPARE_PER_PAGE = 6;
   async function comparePdf(cards) {
     const fonts = await loadPdfFonts();
-    const W = 841.89, H = 595.28, X = 36, CW = W - 2 * X;
-    const p = new PdfPage(fonts, W, H);
-    p.text("როტაციის კალკულატორი — ქალაქების შედარება", X, 44, { size: 16, bold: true, color: ACCENT });
-    p.text(today(), W - X, 44, { size: 9, color: MUTED, align: "right" });
-    p.text("თქვენი თანამდებობითა და ოჯახით. ვალუტები არ კონვერტირდება და არ იკრიბება.", X, 62, { size: 8.5, color: MUTED });
-    const labW = 175;
-    const n = Math.max(cards.length, 1);
-    const colW = (CW - labW) / n;
-    let y = 84;
-    cards.forEach((c, i) => {
-      const cx = X + labW + i * colW;
-      p.rect(cx + 3, y - 4, colW - 6, 40, SOFT, 6);
-      p.text(c.city, cx + 10, y + 10, { size: 11, bold: true });
-      p.para(`${c.name} · ${c.cur}`, cx + 10, y + 24, colW - 20, { size: 7.5, color: MUTED, lineHeight: 9 });
-    });
-    y += 50;
+    const W = 841.89, H = 595.28, X = 30, CW = W - 2 * X;
+    let p = null;
+    const chunks = [];
+    for (let i = 0; i < Math.max(cards.length, 1); i += COMPARE_PER_PAGE) chunks.push(cards.slice(i, i + COMPARE_PER_PAGE));
     const rows = [
       ["დარჩება ქირისა და სწავლის შემდეგ", (c) => c.remainder, true, (c) => c.remNote],
       ["დარჩება საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)", (c) => c.living, true, (c) => c.livingNote],
-      ["ყოველთვიური სამივლინებო თანხა", (c) => c.S, true],
-      ["ქირის ანაზღაურება", (c) => c.F],
+      ["ყოველთვიური სამივლინებო თანხა", (c) => c.S],
       ["ქირა", (c) => c.rent, false, (c) => c.rentLabel],
-      ...(cards[0]?.market || []).map((_, k) => [cards[0].market[k][0], (c) => c.market?.[k]?.[1] ?? "—"]),
-      ["ცხოვრების ღირ. ინდექსი (ნიუ-იორკი = 100)", (c) => c.index ?? "—"]
+      ["რამდენს ანაზღაურებს (F)", (c) => c.F],
+      ["თქვენ ამატებთ ქირაში", (c) => c.extra],
+      ...(cards.find((c) => (c.market || []).length > 1)?.market || cards[0]?.market || []).map((m, k) => [m[0], (c) => c.market?.[k]?.[1] ?? "—"]),
+      ["ცხოვრება + ქირა ინდექსი (ნიუ-იორკი = 100)", (c) => c.index ?? "—"]
     ];
-    for (const [label, get, strong2, note] of rows) {
-      let maxH = Math.max(12, p.para(label, X, y, labW - 10, { size: 8.5, color: MUTED, lineHeight: 10 }) - y);
-      cards.forEach((c, i) => {
+    chunks.forEach((chunk, pi) => {
+      p = p ? p.addPage() : new PdfPage(fonts, W, H);
+      p.text("როტაციის კალკულატორი — ქალაქების შედარება", X, 38, { size: 15, bold: true, color: ACCENT });
+      p.text(`${today()} · გვერდი ${pi + 1}/${chunks.length}`, W - X, 38, { size: 8.5, color: MUTED, align: "right" });
+      p.text("თქვენი თანამდებობითა და ოჯახით. ვალუტები არ კონვერტირდება და არ იკრიბება.", X, 54, { size: 8, color: MUTED });
+      const labW = 140;
+      const colW = (CW - labW) / COMPARE_PER_PAGE;
+      let y = 72;
+      chunk.forEach((c, i) => {
         const cx = X + labW + i * colW;
-        const yy = p.para(String(get(c) ?? "—"), cx + 10, y, colW - 16, { size: strong2 ? 11 : 9, bold: !!strong2, color: strong2 && label.startsWith("დარჩება") ? ACCENT : INK, lineHeight: strong2 ? 13 : 11 });
-        let h2 = yy - y;
-        const nt = note ? note(c) : null;
-        if (nt) h2 = p.para(nt, cx + 10, yy - 2, colW - 16, { size: 7, color: MUTED, lineHeight: 8.5 }) - y;
-        maxH = Math.max(maxH, h2);
+        p.rect(cx + 2, y - 4, colW - 4, 36, SOFT, 6);
+        p.text(c.city, cx + 8, y + 9, { size: 10, bold: true });
+        p.para(`${c.name} · ${c.cur}`, cx + 8, y + 21, colW - 14, { size: 6.8, color: MUTED, lineHeight: 8 });
       });
-      y += maxH + 3;
-      p.line(X, y - 6, W - X, y - 6);
-      y += 4;
+      y += 44;
+      for (const [label, get, strong2, note] of rows) {
+        let maxH = Math.max(11, p.para(label, X, y, labW - 10, { size: 7.8, color: MUTED, lineHeight: 9.2 }) - y);
+        chunk.forEach((c, i) => {
+          const cx = X + labW + i * colW;
+          const val = String(get(c) ?? "—");
+          const yy = p.para(val, cx + 8, y, colW - 12, { size: strong2 ? 10 : 8.2, bold: !!strong2, color: strong2 ? val.startsWith("-") || val.startsWith("−") ? [220, 38, 38] : ACCENT : INK, lineHeight: strong2 ? 12 : 9.8 });
+          let h2 = yy - y;
+          const nt = note ? note(c) : null;
+          if (nt) h2 = p.para(nt, cx + 8, yy - 1.5, colW - 12, { size: 6.3, color: MUTED, lineHeight: 7.5 }) - y;
+          maxH = Math.max(maxH, h2);
+        });
+        y += maxH + 2;
+        p.line(X, y - 5, W - X, y - 5);
+        y += 3;
+      }
+      const nts = [...new Set(chunk.flatMap((c) => c.notes || []))];
+      nts.slice(0, 4).forEach((t, k) => p.text(t, X, H - 74 + k * 9, { size: 6.8, color: MUTED }));
+      const src = chunk.find((c) => c.source)?.source;
+      if (src) p.text(src, X, H - 34, { size: 7, color: MUTED });
+      p.text(DISCLAIMER, X, H - 22, { size: 7.5, color: MUTED });
+    });
+    return p.root.toBytes("როტაციის კალკულატორი — შედარება");
+  }
+  function fit(p, t, w, size, bold) {
+    if (p.width(t, size, bold) <= w) return t;
+    let s = t;
+    while (s.length > 1 && p.width(s + "…", size, bold) > w) s = s.slice(0, -1);
+    return s.trimEnd() + "…";
+  }
+  async function citiesPdf(rows, { sortLabel = "" } = {}) {
+    const fonts = await loadPdfFonts();
+    const W = 841.89, H = 595.28, X = 30;
+    const cols = [["ქალაქი", 104], ["ქვეყანა", 118], ["ცხოვრება + ქირა", 72], ["ცხოვრება", 56], ["ქირა (ინდ.)", 58], ["ქირა ცენტრში, 1 საძ.", 92], ["ვალუტა", 44], ["K", 52], ["წყარო / თარიღი", 186]];
+    const per = 30;
+    const n = Math.max(1, Math.ceil(rows.length / per));
+    let p = null;
+    for (let pi = 0; pi < n; pi++) {
+      p = p ? p.addPage() : new PdfPage(fonts, W, H);
+      p.text("ქალაქების სიძვირე", X, 36, { size: 15, bold: true, color: ACCENT });
+      p.text(`${today()} · გვერდი ${pi + 1}/${n}`, W - X, 36, { size: 8.5, color: MUTED, align: "right" });
+      p.text(`ინდექსები: Numbeo, ნიუ-იორკი = 100. ${sortLabel}`, X, 51, { size: 7.5, color: MUTED });
+      let y = 70;
+      let x = X;
+      p.rect(X, y - 11, W - 2 * X, 16, SOFT, 3);
+      for (const [t, w] of cols) {
+        p.text(t, x + 3, y, { size: 7.5, bold: true });
+        x += w;
+      }
+      y += 15;
+      for (const r of rows.slice(pi * per, pi * per + per)) {
+        x = X;
+        r.cells.forEach((v2, k) => {
+          p.text(fit(p, String(v2 ?? "—"), cols[k][1] - 6, 7.8, k === 0), x + 3, y, { size: 7.8, bold: k === 0 });
+          x += cols[k][1];
+        });
+        y += 4;
+        p.line(X, y, W - X, y);
+        y += 11;
+      }
+      p.text("წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით / შენახული ასლები). " + DISCLAIMER, X, H - 20, { size: 7, color: MUTED });
     }
-    const nts = [...new Set(cards.flatMap((c) => c.notes || []))];
-    nts.slice(0, 4).forEach((t, k) => p.text(t, X, H - 92 + k * 9.5, { size: 7, color: MUTED }));
-    const src = cards.find((c) => c.source)?.source;
-    if (src) p.text(src, X, H - 44, { size: 7.5, color: MUTED });
-    p.text(DISCLAIMER, X, H - 28, { size: 8, color: MUTED });
-    return p.toBytes("როტაციის კალკულატორი — შედარება");
+    return p.root.toBytes("ქალაქების სიძვირე");
   }
 
   // src/ui/compare.js
-  var MAX = 5;
-  function mountCompare(root, { data, service, scenario, calc, beds, parseMoney: parseMoney2, getMissionId, getRentRaw }) {
+  var SORTS = [["mine", "ჩემი თანმიმდევრობა"], ["asc", "იაფიდან ძვირისკენ"], ["desc", "ძვირიდან იაფისკენ"]];
+  var costIndex = (md) => {
+    if (!md || !WITH_DATA.has(md.status)) return null;
+    const x = md.indices?.costOfLivingPlusRent ?? md.indices?.costOfLiving ?? null;
+    return x == null ? null : Number(x);
+  };
+  function mountCompare(root, { data, service, scenario, calc, beds, parseMoney: parseMoney2, usdPerEur = null, getMissionId, getRentRaw }) {
+    const rate = usdPerEur ? /^\d+(\/\d+)?$/.test(usdPerEur) ? fromExactString(usdPerEur) : R(usdPerEur) : null;
+    const convertFor = (from, to) => !rate || from === to ? null : from === "EUR" && to === "USD" ? (x) => toFixed2(mul(R(x), rate)) : from === "USD" && to === "EUR" ? (x) => toFixed2(div(R(x), rate)) : null;
     const cols = [];
+    let sort = "mine";
     let lastFocus = null;
+    let dragId = null;
     const grid = h("div", { class: "cgrid", "data-testid": "compare-grid" });
     const addBox = h("div", { class: "cadd" });
+    const sortBox = h("div", { class: "csort" });
     const closeBtn = h("button", { type: "button", class: "x big", "aria-label": "შედარების დახურვა" }, "×");
     const pdfBtn = h("button", { type: "button", class: "btn small", "data-testid": "compare-pdf" }, "PDF ჩამოტვირთვა");
     const printBtn = h("button", { type: "button", class: "btn ghost small", "data-testid": "compare-print" }, "ბეჭდვა");
     pdfBtn.addEventListener("click", async () => {
       pdfBtn.disabled = true;
       try {
-        downloadBytes(await comparePdf(cols.map((c) => {
-          const M = colModel(c);
-          return { city: M.city, name: M.name, cur: M.cur, remainder: M.remainder, remNote: M.remNote, living: M.livingText, livingNote: M.living.note, notes: M.notes, S: M.Stext, F: M.F, rent: M.rentText, rentLabel: M.rentLabel, market: M.market, index: M.index, source: M.source };
-        })), `rotacia-shedareba-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.pdf`);
+        downloadBytes(await comparePdf(ordered().map((c) => pdfCol(colModel(c)))), `rotacia-shedareba-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.pdf`);
       } catch (e) {
         console.error(e);
       } finally {
@@ -25619,7 +26121,7 @@ ${pos}
       { class: "cpanel", role: "dialog", "aria-modal": "true", "aria-labelledby": "cmp-title" },
       h("div", { class: "chead" }, h("h2", { id: "cmp-title", tabindex: "-1" }, "შედარება"), h("div", { class: "chead-actions no-print" }, pdfBtn, printBtn), closeBtn),
       h("p", { class: "muted small" }, "თქვენი თანამდებობითა და ოჯახით. ქირა — Numbeo-ს საშუალო ცენტრში (შეგიძლიათ შეცვალოთ). ვალუტები არ კონვერტირდება."),
-      addBox,
+      h("div", { class: "ctools no-print" }, addBox, sortBox),
       grid
     );
     root.append(panel);
@@ -25642,7 +26144,7 @@ ${pos}
       panel.querySelector("h2")?.focus();
     }
     function add2(id, rentRaw = "") {
-      if (!id || cols.length >= MAX || cols.some((c2) => c2.missionId === id)) return;
+      if (!id || cols.some((c2) => c2.missionId === id)) return;
       const c = { missionId: id, rentRaw, md: null, loading: service.online, token: 0 };
       cols.push(c);
       const m = resolveMission(data, id);
@@ -25654,6 +26156,31 @@ ${pos}
         render();
       });
     }
+    function ordered() {
+      if (sort === "mine") return cols.slice();
+      const k = (c) => costIndex(c.md);
+      return cols.slice().sort((a, b) => {
+        const x = k(a), y = k(b);
+        if (x == null && y == null) return 0;
+        if (x == null) return 1;
+        if (y == null) return -1;
+        return sort === "asc" ? x - y : y - x;
+      });
+    }
+    function setOrder(list) {
+      cols.splice(0, cols.length, ...list);
+      sort = "mine";
+      render();
+    }
+    function move(id, dir) {
+      const list = ordered();
+      const i = list.findIndex((c) => c.missionId === id);
+      const j = i + dir;
+      if (i < 0 || j < 0 || j >= list.length) return;
+      [list[i], list[j]] = [list[j], list[i]];
+      setOrder(list);
+      grid.querySelector(`[data-col="${id}"] [data-testid="compare-move-${dir < 0 ? "left" : "right"}"]:not([disabled])`)?.focus() ?? grid.querySelector(`[data-col="${id}"] .x`)?.focus();
+    }
     function colModel(c) {
       const m = resolveMission(data, c.missionId);
       const cur = m.fundingCurrency;
@@ -25661,18 +26188,21 @@ ${pos}
       const numbeo = c.md?.currency === cur ? rentFor(c.md, beds()) : null;
       const rent = own.value ?? numbeo;
       const curNow = getMissionId() ? resolveMission(data, getMissionId())?.fundingCurrency : cur;
-      const eduOk = curNow === cur;
-      const hasEdu = (scenario({}).education || []).length > 0;
-      const r = calc(scenario({ missionId: c.missionId, rent, extras: false, keepEdu: eduOk }));
+      const base = scenario({});
+      const hasEdu = (base.education || []).length > 0;
+      const conv = curNow !== cur ? convertFor(curNow, cur) : null;
+      const eduOk = curNow === cur || !!conv;
+      const eduConverted = hasEdu && !!conv;
+      const r = calc(scenario({ missionId: c.missionId, rent, extras: false, keepEdu: eduOk, eduConvert: conv }));
+      const fam = base.family.length;
+      const chain = computeChain(r, c.md, fam, { hasEdu: hasEdu && eduOk });
       const mm = r?.monthly || {};
       const S = rent == null ? mm.DminusT : mm.S;
-      const val = (x) => x?.value == null ? "—" : `${formatAmount(x.value)} ${cur}`;
-      const md = c.md && WITH_DATA.has(c.md.status) ? c.md : null;
-      const money2 = (x) => x == null ? "—" : `${formatAmount(x)} ${cur}`;
-      const remRaw = rent == null ? null : r?.remainder?.value?.value ?? null;
-      const living = livingRemainder(remRaw, c.md, scenario({}).family.length);
-      const rows = marketRows(c.md, beds(), { compact: true, familyCount: scenario({}).family.length });
+      const money3 = (x) => x == null ? "—" : `${formatAmount(x)} ${cur}`;
+      const rows = marketRows(c.md, beds(), { compact: true, familyCount: fam });
+      const pending = c.loading && !own.value;
       return {
+        c,
         m,
         cur,
         own,
@@ -25680,28 +26210,47 @@ ${pos}
         rent,
         eduOk,
         hasEdu,
+        chain,
         S,
-        mm,
-        r,
-        living,
-        livingText: living.value == null ? c.loading ? "…" : "—" : `${formatAmount(living.value)} ${cur}`,
         city: m.location_ka,
         name: shortName(m),
-        remainder: rent == null ? "—" : val(r?.remainder?.value),
-        remainderRaw: rent == null ? null : r?.remainder?.value?.value ?? null,
+        remainder: rent == null ? "—" : money3(chain.remainder),
+        remainderRaw: rent == null ? null : chain.remainder,
         remLabel: hasEdu && eduOk ? "დარჩება ქირისა და სწავლის შემდეგ" : "დარჩება ქირის შემდეგ",
-        remNote: hasEdu && !eduOk ? "სწავლა არ ითვლება (სხვა ვალუტა)" : rent == null ? "მიუთითეთ ქირა" : null,
-        Stext: c.loading && !own.value ? "…" : val(S),
-        F: rent == null ? "—" : val(mm.F),
-        rentLabel: own.value != null ? `თქვენი, ${beds()} საძინებელი` : numbeo ? `Numbeo-ს საშუალო, ცენტრი, ${beds()} საძინებელი` : `${beds()} საძინებელი`,
-        rentText: money2(rent),
-        market: rows ? rows.slice(1).map((x) => [x.label, x.value]) : [["ფასები", md ? "—" : "მიუწვდომელია"]],
+        remNote: rent == null ? pending ? "ფასები იტვირთება…" : "მიუთითეთ ქირა" : eduConverted ? "≈ სწავლის გადასახადი გადაყვანილია Numbeo-ს კურსით" : hasEdu && !eduOk ? "სწავლა არ ითვლება (კურსი უცნობია)" : null,
+        C: r?.monthly?.C?.value ?? null,
+        livingRaw: rent == null ? null : chain.living.value,
+        livingText: rent == null || chain.living.value == null ? pending ? "…" : "—" : money3(chain.living.value),
+        Stext: pending ? "…" : S?.value == null ? "—" : money3(S.value),
+        F: rent == null ? "—" : money3(chain.rent.F),
+        extra: rent == null ? "—" : chain.rent.surplus != null && Number(chain.rent.surplus) > 0 ? `0 (ზედმეტი ${money3(chain.rent.surplus)})` : money3(chain.rent.extra),
+        rentLabel: own.value != null ? `თქვენი, ${beds()} საძინებელი` : numbeo ? `Numbeo, ცენტრი, ${beds()} საძინებელი` : `${beds()} საძინებელი`,
+        rentText: money3(rent),
+        market: rows ? rows.slice(1).map((x) => [x.label === GROCERIES_LABEL ? "სურსათი — 15 პროდუქტის ერთეულის ფასი ჯამში (არა თვიური ხარჯი)" : x.label, x.value]) : [["ფასები", c.md ? "—" : "მიუწვდომელია"]],
         notes: marketNotes(c.md).map((n) => n.text),
-        index: md?.indices?.costOfLiving ?? null,
-        source: md?.provider?.attribution_ka ?? null
+        index: c.md?.indices?.costOfLivingPlusRent ?? c.md?.indices?.costOfLiving ?? null,
+        source: WITH_DATA.has(c.md?.status) ? c.md?.provider?.attribution_ka ?? null : null
       };
     }
-    function cardFor(c, i) {
+    const pdfCol = (M) => ({
+      city: M.city,
+      name: M.name,
+      cur: M.cur,
+      remainder: M.remainder,
+      remNote: M.remNote,
+      living: M.livingText,
+      livingNote: M.chain.living.note,
+      notes: M.notes,
+      S: M.Stext,
+      F: M.F,
+      extra: M.extra,
+      rent: M.rentText,
+      rentLabel: M.rentLabel,
+      market: M.market,
+      index: M.index,
+      source: M.source
+    });
+    function cardFor(c, i, n) {
       const M = colModel(c);
       const rid = uid("f");
       const rentInp = h("input", { id: rid, type: "text", inputmode: "decimal", value: c.rentRaw, placeholder: M.numbeo ? formatAmount(M.numbeo) : "0.00", "data-testid": "compare-rent" });
@@ -25712,33 +26261,113 @@ ${pos}
       });
       const del = h("button", { type: "button", class: "x", "aria-label": `ამოღება: ${M.city}` }, "×");
       del.addEventListener("click", () => {
-        cols.splice(i, 1);
+        cols.splice(cols.indexOf(c), 1);
         render();
         (grid.querySelector(".x") || addBox.querySelector("input"))?.focus();
       });
-      return h(
+      const left = h("button", { type: "button", class: "mv", disabled: i === 0, "aria-label": `${M.city} — მარცხნივ გადატანა`, title: "მარცხნივ", "data-testid": "compare-move-left" }, "←");
+      const right = h("button", { type: "button", class: "mv", disabled: i === n - 1, "aria-label": `${M.city} — მარჯვნივ გადატანა`, title: "მარჯვნივ", "data-testid": "compare-move-right" }, "→");
+      left.addEventListener("click", () => move(c.missionId, -1));
+      right.addEventListener("click", () => move(c.missionId, 1));
+      const card2 = h(
         "article",
-        { class: "ccard", "data-col": c.missionId },
-        h("header", null, h("div", null, h("h3", null, M.city), h("p", { class: "small muted" }, `${M.name} · ${M.cur}`)), del),
-        h("p", { class: "c-s-l" }, M.remLabel),
-        h("p", { class: "c-s", "data-testid": "compare-remainder", "data-value": M.remainderRaw ?? "" }, M.remainder),
-        M.remNote ? h("p", { class: "tiny muted c-note", "data-testid": M.hasEdu && !M.eduOk ? "edu-not-applied" : null }, M.remNote) : null,
-        h("p", { class: "c-s-l" }, "დარჩება საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)"),
-        h("p", { class: "c-s2" + (M.living.value?.startsWith("-") ? " neg" : ""), "data-testid": "compare-remainder-living", "data-value": M.living.value ?? "" }, M.livingText),
-        M.living.note ? h("p", { class: "tiny muted" }, M.living.note) : null,
-        h("div", { class: "crow" }, h("span", null, M.rent == null ? "თვიური თანხა (ქირის გარეშე)" : "თვიური სამივლინებო თანხა"), h("strong", { "data-testid": "compare-S", "data-value": M.S?.value ?? "" }, M.Stext)),
-        h("div", { class: "crow" }, h("span", null, "ქირის ანაზღაურება"), h("strong", null, M.F)),
+        { class: "ccard", "data-col": c.missionId, "data-c": M.C ?? "", draggable: "true" },
+        h(
+          "header",
+          null,
+          h("span", { class: "grip", "aria-hidden": "true", title: "გადაათრიეთ თანმიმდევრობის შესაცვლელად" }, "⠿"),
+          h("div", { class: "ch-t" }, h("h3", null, M.city), h("p", { class: "small muted" }, M.name)),
+          h("span", { class: "cur-tag" }, M.cur),
+          del
+        ),
         h(
           "div",
-          { class: "rent-in" },
-          h("label", { for: rid }, `ქირა (${M.rentLabel})`),
-          h("span", { class: "with-cur" }, rentInp, h("span", { class: "cur" }, M.cur))
+          { class: "csum" },
+          h("p", { class: "c-s-l" }, M.remLabel),
+          h("p", { class: "c-s" + (String(M.remainderRaw ?? "").startsWith("-") ? " neg" : ""), "data-testid": "compare-remainder", "data-value": M.remainderRaw ?? "" }, M.remainder),
+          h("p", { class: "tiny muted c-note", "data-testid": M.remNote?.startsWith("≈") ? "edu-converted" : null }, M.remNote ?? " "),
+          h("p", { class: "c-s-l" }, "დარჩება საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)"),
+          h("p", { class: "c-s2" + (String(M.livingRaw ?? "").startsWith("-") ? " neg" : ""), "data-testid": "compare-remainder-living", "data-value": M.livingRaw ?? "" }, M.livingText),
+          h("p", { class: "tiny muted c-note2" }, M.chain.living.note ?? " ")
         ),
-        h("div", { class: "cmarket" }, marketList(c.md, beds(), { loading: c.loading, source: false, compact: true }))
+        h(
+          "div",
+          { class: "cdet" },
+          h("div", { class: "crow" }, h("span", null, M.rent == null ? "თვიური თანხა (ქირის გარეშე)" : "თვიური სამივლინებო თანხა"), h("strong", { "data-testid": "compare-S", "data-value": M.S?.value ?? "" }, M.Stext)),
+          M.rent == null ? null : h("ol", { class: "cchain", "data-testid": "compare-chain", "aria-label": "როგორ მივიღეთ" }, chainRows(M.chain).slice(1).map((x) => h(
+            "li",
+            { class: x.strong ? "strong" : null },
+            h("span", { class: "cc-s", "aria-hidden": "true" }, x.sign),
+            h("span", { class: "cc-l" }, x.short ?? x.label),
+            h("span", { class: "cc-v" + (String(x.value ?? "").startsWith("-") ? " neg" : "") }, x.value == null ? "—" : `${formatAmount(x.value)} ${M.cur}`)
+          ))),
+          h(
+            "div",
+            { class: "rent-in" },
+            h("label", { for: rid }, `ქირა (${M.rentLabel})`),
+            h("span", { class: "with-cur" }, h("span", { class: "inp-wrap" }, rentInp, clearButton(rentInp)), h("span", { class: "cur" }, M.cur))
+          ),
+          h("div", { class: "crow" }, h("span", null, "რამდენს ანაზღაურებს (F)"), h("strong", null, M.F)),
+          h("div", { class: "crow" }, h("span", null, "თქვენ ამატებთ ქირაში"), h("strong", null, M.extra)),
+          h("div", { class: "cmarket" }, marketList(c.md, beds(), { loading: c.loading, source: false, compact: true, familyCount: scenario({}).family.length }))
+        ),
+        h("div", { class: "cmove no-print" }, left, right)
       );
+      card2.addEventListener("dragstart", (e) => {
+        dragId = c.missionId;
+        card2.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+        try {
+          e.dataTransfer.setData("text/plain", c.missionId);
+        } catch {
+        }
+      });
+      card2.addEventListener("dragend", () => {
+        dragId = null;
+        card2.classList.remove("dragging");
+      });
+      card2.addEventListener("dragover", (e) => {
+        if (dragId && dragId !== c.missionId) {
+          e.preventDefault();
+          card2.classList.add("drop");
+        }
+      });
+      card2.addEventListener("dragleave", () => card2.classList.remove("drop"));
+      card2.addEventListener("drop", (e) => {
+        e.preventDefault();
+        card2.classList.remove("drop");
+        dropOn(dragId, c.missionId);
+      });
+      const grip = card2.querySelector(".grip");
+      grip.addEventListener("touchstart", (e) => {
+        dragId = c.missionId;
+        card2.classList.add("dragging");
+        e.preventDefault();
+      }, { passive: false });
+      grip.addEventListener("touchmove", (e) => {
+        e.preventDefault();
+      }, { passive: false });
+      grip.addEventListener("touchend", (e) => {
+        card2.classList.remove("dragging");
+        const t = e.changedTouches[0];
+        const target = document.elementFromPoint(t.clientX, t.clientY)?.closest("[data-col]");
+        if (target) dropOn(dragId, target.getAttribute("data-col"));
+        dragId = null;
+      });
+      return card2;
+    }
+    function dropOn(fromId, toId) {
+      if (!fromId || fromId === toId) return;
+      const list = ordered();
+      const from = list.findIndex((x) => x.missionId === fromId);
+      const to = list.findIndex((x) => x.missionId === toId);
+      if (from < 0 || to < 0) return;
+      const [it] = list.splice(from, 1);
+      list.splice(to, 0, it);
+      setOrder(list);
     }
     function render() {
-      replace(addBox, cols.length < MAX ? missionPicker({
+      replace(addBox, missionPicker({
         data,
         label: "+ ქალაქის დამატება",
         placeholder: "ჩაწერეთ ქალაქი…",
@@ -25749,12 +26378,27 @@ ${pos}
           render();
           addBox.querySelector("input")?.focus();
         }
-      }) : h("p", { class: "muted small" }, `მაქსიმუმ ${MAX} ქალაქი.`));
-      replace(grid, cols.length ? cols.map(cardFor) : h("p", { class: "muted" }, "დაამატეთ ქალაქი შესადარებლად."));
-      const src = cols.find((c) => c.md?.provider)?.md?.provider;
+      }));
+      const sid = uid("f");
+      const sel = h("select", { id: sid, "data-testid": "compare-sort" }, SORTS.map(([v2, t]) => h("option", { value: v2, selected: v2 === sort }, t)));
+      sel.addEventListener("change", () => {
+        sort = sel.value;
+        render();
+        sortBox.querySelector("select")?.focus();
+      });
+      replace(sortBox, h(
+        "div",
+        { class: "field" },
+        h("label", { for: sid }, "დალაგება"),
+        sel,
+        h("p", { class: "tiny muted" }, "სიძვირე — Numbeo-ს „ცხოვრება + ქირა“ ინდექსით (თუ არ არის — ცხოვრების ინდექსით). გადაათრიეთ ბარათი ან გამოიყენეთ ← →.")
+      ));
+      const list = ordered();
+      replace(grid, list.length ? list.map((c, i) => cardFor(c, i, list.length)) : h("p", { class: "muted" }, "დაამატეთ ქალაქი შესადარებლად."));
+      const src = cols.find((c) => WITH_DATA.has(c.md?.status) && c.md?.provider)?.md?.provider;
       if (src) grid.append(h("p", { class: "msource wide" }, src.attribution_ka || "წყარო: Numbeo.com"));
     }
-    return { open, close };
+    return { open, close, render };
   }
 
   // src/ui/app.js
@@ -25779,7 +26423,7 @@ ${pos}
     const s = String(raw ?? "").trim();
     return /^\d{1,3}$/.test(s) && Number(s) <= 120 ? Number(s) : null;
   };
-  function startApp({ data, meta: meta2, online: online2, client: client2, offline: offline2 = null }) {
+  function startApp({ data, meta: meta2, online: online2, client: client2, offline: offline2 = null, usdPerEur = null }) {
     const service = createMarketService({ online: online2, client: client2, offline: offline2 });
     const now = /* @__PURE__ */ new Date();
     const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
@@ -25812,7 +26456,7 @@ ${pos}
     const mission = () => st.missionId ? resolveMission(data, st.missionId) : null;
     const beds = () => suggestBedrooms2(st.family.length);
     const profiles = () => positionProfiles(data);
-    function scenario({ missionId = st.missionId, rent, extras = true, keepEdu = true } = {}) {
+    function scenario({ missionId = st.missionId, rent, extras = true, keepEdu = true, eduConvert = null } = {}) {
       const sc = emptyScenario();
       sc.missionId = missionId;
       sc.position = { mode: "annex2", entryId: st.entryId };
@@ -25829,7 +26473,7 @@ ${pos}
       const g = rent !== void 0 ? rent : parseMoney(st.rentRaw).value;
       sc.rent = { amount: g, basis: rent === void 0 && st.rentFromMarket ? "market-scenario" : "actual", marketRef: rent === void 0 && st.rentFromMarket ? st.marketRef : null, changes: [] };
       if (keepEdu) {
-        sc.education = st.family.filter((f) => f.role === "child").map((f) => ({ f, v: parseMoney(st.edu[f.id]).value })).filter((x) => x.v != null).map(({ f, v: v2 }) => ({ memberId: f.id, tuition: v2, registration: null, transport: null, meals: null, holidayExtraContract: null, freeStateLanguageSchoolAvailable: false, ministerDecision34: false }));
+        sc.education = st.family.filter((f) => f.role === "child").map((f) => ({ f, v: parseMoney(st.edu[f.id]).value })).filter((x) => x.v != null).map((x) => eduConvert ? { ...x, v: eduConvert(x.v) } : x).map(({ f, v: v2 }) => ({ memberId: f.id, tuition: v2, registration: null, transport: null, meals: null, holidayExtraContract: null, freeStateLanguageSchoolAvailable: false, ministerDecision34: false }));
       }
       if (extras) {
         if (st.ex.insurance) {
@@ -25879,7 +26523,7 @@ ${pos}
     const pills = h("ol", { class: "pills", "aria-label": "საფეხურები" });
     const body = h("div", { class: "step-body" });
     const nav = h("div", { class: "nav no-print" });
-    const compare = mountCompare(document.getElementById("compare"), { data, service, scenario, calc, beds, parseMoney, getMissionId: () => st.missionId, getRentRaw: () => st.rentRaw });
+    const compare = mountCompare(document.getElementById("compare"), { data, service, scenario, calc, beds, parseMoney, usdPerEur, getMissionId: () => st.missionId, getRentRaw: () => st.rentRaw });
     app.append(pills, h("div", { class: "card main-card" }, body, nav));
     for (const b of document.querySelectorAll("[data-open-compare]")) b.addEventListener("click", () => compare.open());
     function go(step) {
@@ -25952,6 +26596,10 @@ ${pos}
         label: "საელჩო / საკონსულო / მისია",
         value: st.missionId,
         testid: "mission",
+        onClear: () => {
+          st.missionId = null;
+          fill();
+        },
         onPick: (id) => {
           st.missionId = id;
           st.dailyCur = null;
@@ -26068,18 +26716,20 @@ ${pos}
       const id = uid("f");
       const err = h("p", { class: "err", id: id + "-e" });
       const inp = h("input", { id, type: "text", inputmode: "decimal", autocomplete: "off", value: get(), placeholder: opts.placeholder ?? "0.00", "aria-describedby": id + "-e", "data-testid": opts.testid ?? null });
+      const clr = clearButton(inp);
       const check = () => {
         const r = parseMoney(inp.value);
         err.textContent = r.error ?? "";
         if (r.error) inp.setAttribute("aria-invalid", "true");
         else inp.removeAttribute("aria-invalid");
+        clr.hidden = !inp.value;
       };
       inp.addEventListener("input", () => {
         set(inp.value);
         check();
       });
-      if (get()) check();
-      return { el: h("div", { class: "field" }, h("label", { for: id }, label), h("div", { class: "with-cur" }, inp, h("span", { class: "cur" }, opts.cur ?? "")), err, opts.after ?? null), inp };
+      check();
+      return { el: h("div", { class: "field" }, h("label", { for: id }, label), h("div", { class: "with-cur" }, h("span", { class: "inp-wrap" }, inp, clr), h("span", { class: "cur" }, opts.cur ?? "")), err, opts.after ?? null), inp };
     }
     function step3() {
       const m = mission();
@@ -26247,6 +26897,190 @@ ${pos}
     } };
   }
 
+  // src/ui/cities.js
+  var SORTS2 = [["alpha", "ანბანით"], ["asc", "იაფიდან ძვირისკენ"], ["desc", "ძვირიდან იაფისკენ"]];
+  var SOURCE_KA = { kv: "Numbeo", "apify-snapshot": "Numbeo ასლი", "user-snapshot": "Numbeo ასლი", capital: "დედაქალაქის მონაცემი" };
+  var kaDate2 = (s) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(s ?? ""));
+    return m ? `${m[3]}.${m[2]}.${m[1]}` : "";
+  };
+  var num = (x) => x == null || x === "" ? null : Number(x);
+  function mountCities(root, { data, loadSummary }) {
+    let rows = null;
+    let error = false;
+    let sort = "alpha";
+    let onlySel = false;
+    const selected = /* @__PURE__ */ new Set();
+    const kByLocation = /* @__PURE__ */ new Map();
+    for (const m of listMissions(data, {})) {
+      const k = m.coefficient?.k;
+      if (k == null) continue;
+      const set = kByLocation.get(m.locationId) || /* @__PURE__ */ new Set();
+      set.add(k);
+      kByLocation.set(m.locationId, set);
+    }
+    const box = h("div", { class: "cities" });
+    root.append(box);
+    async function load() {
+      if (rows || error) return;
+      render();
+      try {
+        const sum2 = await loadSummary();
+        rows = (sum2?.rows || []).map((r) => ({
+          ...r,
+          k: kByLocation.has(r.locationId) ? [...kByLocation.get(r.locationId)].join(" / ") : "—",
+          src: r.fallbackFrom ? `დედაქალაქის მონაცემი (${r.fallbackFrom.city_ka})` : SOURCE_KA[r.source] ?? "—",
+          date: kaDate2(r.sourceDate)
+        }));
+        if (!rows.length) error = true;
+      } catch (e) {
+        console.error(e);
+        error = true;
+      }
+      render();
+    }
+    function view() {
+      let list = (rows || []).filter((r) => !onlySel || selected.has(r.locationId));
+      const key = (r) => num(r.indices?.costOfLivingPlusRent);
+      if (sort === "alpha") list = list.slice().sort((a, b) => a.city_ka.localeCompare(b.city_ka, "ka"));
+      else list = list.slice().sort((a, b) => {
+        const x = key(a), y = key(b);
+        if (x == null && y == null) return a.city_ka.localeCompare(b.city_ka, "ka");
+        if (x == null) return 1;
+        if (y == null) return -1;
+        return sort === "asc" ? x - y : y - x;
+      });
+      return list;
+    }
+    const money3 = (x, cur) => x == null ? "—" : `${formatAmount(x)} ${cur}`;
+    const cells = (r) => [
+      r.city_ka,
+      r.country_ka,
+      r.indices?.costOfLivingPlusRent ?? "—",
+      r.indices?.costOfLiving ?? "—",
+      r.indices?.rent ?? "—",
+      r.rentCentre1br == null ? "—" : formatAmount(r.rentCentre1br),
+      r.currency,
+      r.k,
+      `${r.src}${r.date ? " · " + r.date : ""}`
+    ];
+    function render() {
+      if (!rows && !error) {
+        replace(box, h("p", { class: "muted" }, "მონაცემები იტვირთება…"));
+        return;
+      }
+      if (error) {
+        replace(box, h("p", { class: "muted" }, "ფასები ამჟამად მიუწვდომელია"));
+        return;
+      }
+      const list = view();
+      const sid = uid("f");
+      const oid = uid("f");
+      const sel = h("select", { id: sid, "data-testid": "cities-sort" }, SORTS2.map(([v2, t]) => h("option", { value: v2, selected: v2 === sort }, t)));
+      sel.addEventListener("change", () => {
+        sort = sel.value;
+        render();
+        box.querySelector('[data-testid="cities-sort"]')?.focus();
+      });
+      const only = h("input", { id: oid, type: "checkbox", checked: onlySel, "data-testid": "cities-only-selected" });
+      only.addEventListener("change", () => {
+        onlySel = only.checked;
+        render();
+        box.querySelector('[data-testid="cities-only-selected"]')?.focus();
+      });
+      const allSel = list.length > 0 && list.every((r) => selected.has(r.locationId));
+      const toggleAll = h("button", { type: "button", class: "btn ghost small", "data-testid": "cities-select-all" }, allSel ? "ყველას მოხსნა" : "ყველას მონიშვნა");
+      toggleAll.addEventListener("click", () => {
+        for (const r of view()) {
+          if (allSel) selected.delete(r.locationId);
+          else selected.add(r.locationId);
+        }
+        render();
+        box.querySelector('[data-testid="cities-select-all"]')?.focus();
+      });
+      const pdf = h("button", { type: "button", class: "btn small", "data-testid": "cities-pdf" }, "PDF ჩამოტვირთვა");
+      pdf.addEventListener("click", async () => {
+        pdf.disabled = true;
+        try {
+          downloadBytes(await citiesPdf(view().map((r) => ({ cells: cells(r) })), { sortLabel: `დალაგება: ${SORTS2.find((s) => s[0] === sort)[1]}${sort !== "alpha" ? " („ცხოვრება + ქირა“ ინდექსით)" : ""}${onlySel ? " · მხოლოდ მონიშნულები" : ""}.` }), `qalaqebis-sidzvire-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.pdf`);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          pdf.disabled = false;
+        }
+      });
+      const print = h("button", { type: "button", class: "btn ghost small", "data-testid": "cities-print" }, "ბეჭდვა");
+      print.addEventListener("click", () => {
+        document.body.classList.add("print-cities");
+        window.print();
+      });
+      const heads = ["", "ქალაქი", "ქვეყანა", "ცხოვრება + ქირა", "ცხოვრება", "ქირა (ინდექსი)", "ქირა ცენტრში, 1 საძ.", "ვალუტა", "K (დან. №4)", "წყარო / თარიღი"];
+      replace(
+        box,
+        h(
+          "div",
+          { class: "ctl no-print" },
+          h(
+            "div",
+            { class: "field" },
+            h("label", { for: sid }, "დალაგება"),
+            sel,
+            h("p", { class: "tiny muted" }, "სიძვირე — Numbeo-ს „ცხოვრება + ქირა“ ინდექსით (ნიუ-იორკი = 100).")
+          ),
+          h(
+            "div",
+            { class: "ctl-row" },
+            h("span", { class: "chk" }, only, h("label", { for: oid }, "მხოლოდ მონიშნულები")),
+            toggleAll,
+            pdf,
+            print
+          ),
+          h("p", { class: "tiny muted" }, `${list.length} ქალაქი${selected.size ? ` · მონიშნულია ${selected.size}` : ""}`)
+        ),
+        h(
+          "div",
+          { class: "table-scroll", role: "region", "aria-label": "ქალაქების ცხრილი", tabindex: "0" },
+          h(
+            "table",
+            { class: "ctable", "data-testid": "cities-table" },
+            h("thead", null, h("tr", null, heads.map((t, i) => h("th", { scope: "col", class: i >= 3 && i <= 6 ? "num" : null }, t)))),
+            h("tbody", null, list.map((r) => {
+              const id = uid("f");
+              const cb = h("input", { id, type: "checkbox", checked: selected.has(r.locationId), "aria-label": `მონიშვნა: ${r.city_ka}` });
+              cb.addEventListener("change", () => {
+                if (cb.checked) selected.add(r.locationId);
+                else selected.delete(r.locationId);
+                if (onlySel) {
+                  render();
+                } else {
+                  tr.classList.toggle("sel", cb.checked);
+                }
+              });
+              const c = cells(r);
+              const tr = h(
+                "tr",
+                { class: selected.has(r.locationId) ? "sel" : null, "data-location": r.locationId },
+                h("td", { class: "cb no-print-cb" }, cb),
+                h("th", { scope: "row" }, c[0]),
+                h("td", null, c[1]),
+                h("td", { class: "num strong", "data-value": r.indices?.costOfLivingPlusRent ?? "" }, c[2]),
+                h("td", { class: "num" }, c[3]),
+                h("td", { class: "num" }, c[4]),
+                h("td", { class: "num" }, r.rentCentre1br == null ? "—" : money3(r.rentCentre1br, r.currency)),
+                h("td", null, c[6]),
+                h("td", { class: "num" }, c[7]),
+                h("td", { class: "src" }, h("span", { class: "mbadge" }, c[8]))
+              );
+              return tr;
+            }))
+          )
+        ),
+        h("p", { class: "msource" }, "წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით; ნაწილი — შენახული ასლებიდან). საორიენტაციოა; ოფიციალურ K-ს არ ცვლის.")
+      );
+    }
+    return { load };
+  }
+
   // src/ui/main.js
   var meta = {
     appVersion: true ? "1.0.0" : "dev",
@@ -26262,7 +27096,39 @@ ${pos}
   };
   function boot() {
     for (const el of document.querySelectorAll("[data-meta]")) el.textContent = meta[el.getAttribute("data-meta")] ?? "";
-    window.__rotationApp = startApp({ data: normative_data_default, meta, online, client, offline: online ? null : offline });
+    window.__rotationApp = startApp({ data: normative_data_default, meta, online, client, offline: online ? null : offline, usdPerEur: market_snapshot_default.usdPerEur?.exact ?? null });
+    const cities = mountCities(document.getElementById("cities-body"), {
+      data: normative_data_default,
+      async loadSummary() {
+        const live = online && client?.summary ? await client.summary() : null;
+        return live ?? marketSummaryFromSnapshots(market_snapshot_default, market_apify_snapshot_default, normative_data_default);
+      }
+    });
+    setupTabs(() => cities.load());
+  }
+  function setupTabs(onCities) {
+    const tabs = [document.getElementById("tab-calc"), document.getElementById("tab-cities")];
+    const panels = [document.getElementById("app"), document.getElementById("cities")];
+    const select = (i, focus = true) => {
+      tabs.forEach((t, k) => {
+        t.setAttribute("aria-selected", String(k === i));
+        t.tabIndex = k === i ? 0 : -1;
+        panels[k].hidden = k !== i;
+      });
+      document.body.classList.toggle("tab-cities", i === 1);
+      if (i === 1) onCities();
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => select(i));
+      t.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+          e.preventDefault();
+          select(i === 0 ? 1 : 0);
+        }
+      });
+    });
+    window.addEventListener("afterprint", () => document.body.classList.remove("print-cities"));
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
