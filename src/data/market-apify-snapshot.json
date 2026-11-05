@@ -1,0 +1,5673 @@
+{
+ "kind": "market-apify-snapshot",
+ "schemaVersion": 1,
+ "source": {
+  "actor": "Apify automation-lab/numbeo-scraper",
+  "fetchedAt": "2026-11-04",
+  "rankingsRows": 547,
+  "note_ka": "Numbeo.com-ის მონაცემი Apify actor-ის რეალური გაშვებიდან; თანხები მისიის დაფინანსების ვალუტაში. Krakow და Donetsk actor-მა ვერ იპოვა (ფასები — მომხმარებლის ასლიდან/დედაქალაქიდან)."
+ },
+ "stats": {
+  "withPrices": 77,
+  "indicesOnly": 1,
+  "none": [
+   "UA-DONETSK:USD"
+  ]
+ },
+ "cities": {
+  "AT-VIENNA": {
+   "currency": "EUR",
+   "numbeoCity": "Vienna",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1182.88",
+      "low": "850",
+      "high": "1600"
+     },
+     "outside_1br": {
+      "average": "845",
+      "low": "700",
+      "high": "1200"
+     },
+     "centre_3br": {
+      "average": "2294.74",
+      "low": "1800",
+      "high": "3000"
+     },
+     "outside_3br": {
+      "average": "1511.05",
+      "low": "1000",
+      "high": "2000"
+     }
+    },
+    "rentIndex": "29.8"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "275.27",
+     "low": "188.89",
+     "high": "450"
+    },
+    "internet": {
+     "average": "28.88",
+     "low": "20",
+     "high": "42"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "37.69",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "72.4"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "17",
+     "low": "12",
+     "high": "26"
+    },
+    "midRangeForTwo": {
+     "average": "80",
+     "low": "50",
+     "high": "120"
+    },
+    "restaurantIndex": "77.4"
+   },
+   "indices": {
+    "costOfLiving": "74.5",
+    "rent": "29.8",
+    "groceries": "72.4",
+    "restaurants": "77.4",
+    "costOfLivingPlusRent": "54.1",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "BE-BRUSSELS": {
+   "currency": "EUR",
+   "numbeoCity": "Brussels",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1235.88",
+      "low": "1100",
+      "high": "1500"
+     },
+     "outside_1br": {
+      "average": "1025",
+      "low": "900",
+      "high": "1200"
+     },
+     "centre_3br": {
+      "average": "2260.77",
+      "low": "1850",
+      "high": "2800"
+     },
+     "outside_3br": {
+      "average": "1818.67",
+      "low": "1400",
+      "high": "2200"
+     }
+    },
+    "rentIndex": "33.2"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "252.16",
+     "low": "150",
+     "high": "396.67"
+    },
+    "internet": {
+     "average": "46.33",
+     "low": "40",
+     "high": "60"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "40.16",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "74.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "20",
+     "low": "12",
+     "high": "39"
+    },
+    "midRangeForTwo": {
+     "average": "80",
+     "low": "60",
+     "high": "100"
+    },
+    "restaurantIndex": "78.2"
+   },
+   "indices": {
+    "costOfLiving": "71.9",
+    "rent": "33.2",
+    "groceries": "74.6",
+    "restaurants": "78.2",
+    "costOfLivingPlusRent": "54.2",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "BG-SOFIA": {
+   "currency": "EUR",
+   "numbeoCity": "Sofia",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "700.86",
+      "low": "588",
+      "high": "800"
+     },
+     "outside_1br": {
+      "average": "524.44",
+      "low": "400",
+      "high": "650"
+     },
+     "centre_3br": {
+      "average": "1364.25",
+      "low": "1050",
+      "high": "1825"
+     },
+     "outside_3br": {
+      "average": "933.78",
+      "low": "741.57",
+      "high": "1200"
+     }
+    },
+    "rentIndex": "18.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "142.16",
+     "low": "100",
+     "high": "238"
+    },
+    "internet": {
+     "average": "13.7",
+     "low": "10",
+     "high": "22"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "29.93",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "50.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "10",
+     "high": "22"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "45",
+     "high": "100"
+    },
+    "restaurantIndex": "53.4"
+   },
+   "indices": {
+    "costOfLiving": "50.3",
+    "rent": "18.7",
+    "groceries": "50.1",
+    "restaurants": "53.4",
+    "costOfLivingPlusRent": "35.9",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "DE-BERLIN": {
+   "currency": "EUR",
+   "numbeoCity": "Berlin",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1267.92",
+      "low": "950",
+      "high": "1650"
+     },
+     "outside_1br": {
+      "average": "979.5",
+      "low": "800",
+      "high": "1250"
+     },
+     "centre_3br": {
+      "average": "2381.82",
+      "low": "1800",
+      "high": "3000"
+     },
+     "outside_3br": {
+      "average": "1907.39",
+      "low": "1500",
+      "high": "2500"
+     }
+    },
+    "rentIndex": "34.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "344.35",
+     "low": "250",
+     "high": "425"
+    },
+    "internet": {
+     "average": "43",
+     "low": "35",
+     "high": "50"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "36.22",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "66.2"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "10",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "70",
+     "low": "50",
+     "high": "100"
+    },
+    "restaurantIndex": "70.8"
+   },
+   "indices": {
+    "costOfLiving": "72.5",
+    "rent": "34.6",
+    "groceries": "66.2",
+    "restaurants": "70.8",
+    "costOfLivingPlusRent": "55.2",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "DE-FRANKFURT": {
+   "currency": "EUR",
+   "numbeoCity": "Frankfurt",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1264.94",
+      "low": "1000",
+      "high": "1500"
+     },
+     "outside_1br": {
+      "average": "1002.42",
+      "low": "700",
+      "high": "1500"
+     },
+     "centre_3br": {
+      "average": "2425.83",
+      "low": "1850",
+      "high": "3500"
+     },
+     "outside_3br": {
+      "average": "1735.83",
+      "low": "1310",
+      "high": "2300"
+     }
+    },
+    "rentIndex": "33.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "346.62",
+     "low": "300",
+     "high": "488.75"
+    },
+    "internet": {
+     "average": "42.11",
+     "low": "35",
+     "high": "60"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "35.16",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "65.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "14",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "80",
+     "low": "60",
+     "high": "110"
+    },
+    "restaurantIndex": "73.3"
+   },
+   "indices": {
+    "costOfLiving": "71.5",
+    "rent": "33.7",
+    "groceries": "65.1",
+    "restaurants": "73.3",
+    "costOfLivingPlusRent": "54.3",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "DE-STUTTGART": {
+   "currency": "EUR",
+   "numbeoCity": "Stuttgart",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1129.25",
+      "low": "797",
+      "high": "1500"
+     },
+     "outside_1br": {
+      "average": "789.5",
+      "low": "612",
+      "high": "1000"
+     },
+     "centre_3br": {
+      "average": "1772.92",
+      "low": "1250",
+      "high": "2500"
+     },
+     "outside_3br": {
+      "average": "1400",
+      "low": "1220",
+      "high": "1580"
+     }
+    },
+    "rentIndex": "25.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "280.37",
+     "low": "196.15",
+     "high": "370"
+    },
+    "internet": {
+     "average": "38.22",
+     "low": "29.99",
+     "high": "50"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "36.06",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "66.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "18",
+     "low": "12.5",
+     "high": "22"
+    },
+    "midRangeForTwo": {
+     "average": "63.55",
+     "low": "55",
+     "high": "100"
+    },
+    "restaurantIndex": "71"
+   },
+   "indices": {
+    "costOfLiving": "70.1",
+    "rent": "25.4",
+    "groceries": "66.6",
+    "restaurants": "71",
+    "costOfLivingPlusRent": "49.7",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "DK-COPENHAGEN": {
+   "currency": "EUR",
+   "numbeoCity": "Copenhagen",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1848.86",
+      "low": "1338.01",
+      "high": "2140.81"
+     },
+     "outside_1br": {
+      "average": "1399.63",
+      "low": "1003.51",
+      "high": "1739.41"
+     },
+     "centre_3br": {
+      "average": "3125.11",
+      "low": "2408.42",
+      "high": "3813.33"
+     },
+     "outside_3br": {
+      "average": "2179.17",
+      "low": "1873.21",
+      "high": "2542.22"
+     }
+    },
+    "rentIndex": "44.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "162.15",
+     "low": "113.73",
+     "high": "267.6"
+    },
+    "internet": {
+     "average": "33.43",
+     "low": "26.76",
+     "high": "44.02"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "47.02",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "82"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "18.06",
+     "low": "12.04",
+     "high": "40.14"
+    },
+    "midRangeForTwo": {
+     "average": "100.35",
+     "low": "66.9",
+     "high": "200.7"
+    },
+    "restaurantIndex": "95.4"
+   },
+   "indices": {
+    "costOfLiving": "86.8",
+    "rent": "44.6",
+    "groceries": "82",
+    "restaurants": "95.4",
+    "costOfLivingPlusRent": "67.5",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "GB-LONDON": {
+   "currency": "EUR",
+   "numbeoCity": "London",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "2575.6",
+      "low": "1798.19",
+      "high": "3416.56"
+     },
+     "outside_1br": {
+      "average": "2052.29",
+      "low": "1558.43",
+      "high": "2637.34"
+     },
+     "centre_3br": {
+      "average": "4672.15",
+      "low": "3596.37",
+      "high": "6593.35"
+     },
+     "outside_3br": {
+      "average": "3450.46",
+      "low": "2637.34",
+      "high": "4795.17"
+     }
+    },
+    "rentIndex": "66.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "336.75",
+     "low": "185.27",
+     "high": "599.4"
+    },
+    "internet": {
+     "average": "36.73",
+     "low": "29.97",
+     "high": "47.95"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "35.03",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "72.4"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "23.98",
+     "low": "17.88",
+     "high": "35.96"
+    },
+    "midRangeForTwo": {
+     "average": "95.9",
+     "low": "65.93",
+     "high": "155.84"
+    },
+    "restaurantIndex": "87"
+   },
+   "indices": {
+    "costOfLiving": "88",
+    "rent": "66.9",
+    "groceries": "72.4",
+    "restaurants": "87",
+    "costOfLivingPlusRent": "78.3",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "FR-PARIS": {
+   "currency": "EUR",
+   "numbeoCity": "Paris",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1440.91",
+      "low": "1100",
+      "high": "2100"
+     },
+     "outside_1br": {
+      "average": "1148.85",
+      "low": "800",
+      "high": "1480"
+     },
+     "centre_3br": {
+      "average": "3324.48",
+      "low": "2600",
+      "high": "4120"
+     },
+     "outside_3br": {
+      "average": "2165.88",
+      "low": "2000",
+      "high": "3120"
+     }
+    },
+    "rentIndex": "40.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "217.01",
+     "low": "161",
+     "high": "318.75"
+    },
+    "internet": {
+     "average": "25.96",
+     "low": "22",
+     "high": "35"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "41.37",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "79.2"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "17",
+     "low": "12",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "70",
+     "low": "60",
+     "high": "100"
+    },
+    "restaurantIndex": "72.5"
+   },
+   "indices": {
+    "costOfLiving": "78.4",
+    "rent": "40.4",
+    "groceries": "79.2",
+    "restaurants": "72.5",
+    "costOfLivingPlusRent": "61",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "FR-STRASBOURG": {
+   "currency": "EUR",
+   "numbeoCity": "Strasbourg",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "884.83",
+      "low": "777",
+      "high": "1300"
+     },
+     "outside_1br": {
+      "average": "665.83",
+      "low": "540",
+      "high": "732"
+     },
+     "centre_3br": {
+      "average": "1693.5",
+      "low": "1510",
+      "high": "2000"
+     },
+     "outside_3br": {
+      "average": "1123",
+      "low": "900",
+      "high": "1798"
+     }
+    },
+    "rentIndex": "22.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "311.42",
+     "low": "195",
+     "high": "447.67"
+    },
+    "internet": {
+     "average": "29.25",
+     "low": "23",
+     "high": "40"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "45.23",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "84.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "10.5",
+     "high": "20"
+    },
+    "midRangeForTwo": {
+     "average": "62.5",
+     "low": "45",
+     "high": "95"
+    },
+    "restaurantIndex": "68"
+   },
+   "indices": {
+    "costOfLiving": "72.9",
+    "rent": "22.4",
+    "groceries": "84.3",
+    "restaurants": "68",
+    "costOfLivingPlusRent": "49.8",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "FR-LYON": {
+   "currency": "EUR",
+   "numbeoCity": "Lyon",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "824.08",
+      "low": "650",
+      "high": "1000"
+     },
+     "outside_1br": {
+      "average": "617.25",
+      "low": "450",
+      "high": "800"
+     },
+     "centre_3br": {
+      "average": "1691.54",
+      "low": "1250",
+      "high": "2000"
+     },
+     "outside_3br": {
+      "average": "1213.33",
+      "low": "800",
+      "high": "1900"
+     }
+    },
+    "rentIndex": "22.3"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "237.38",
+     "low": "104.62",
+     "high": "400"
+    },
+    "internet": {
+     "average": "26.17",
+     "low": "20",
+     "high": "43"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "40.69",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "79.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "14",
+     "high": "22"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "40",
+     "high": "90"
+    },
+    "restaurantIndex": "64.1"
+   },
+   "indices": {
+    "costOfLiving": "71.7",
+    "rent": "22.3",
+    "groceries": "79.6",
+    "restaurants": "64.1",
+    "costOfLivingPlusRent": "49.1",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "ES-MADRID": {
+   "currency": "EUR",
+   "numbeoCity": "Madrid",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1388.74",
+      "low": "1000",
+      "high": "2000"
+     },
+     "outside_1br": {
+      "average": "1093.04",
+      "low": "800",
+      "high": "1400"
+     },
+     "centre_3br": {
+      "average": "2562.5",
+      "low": "1900",
+      "high": "3500"
+     },
+     "outside_3br": {
+      "average": "1770.21",
+      "low": "1300",
+      "high": "2520"
+     }
+    },
+    "rentIndex": "35.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "161.45",
+     "low": "120",
+     "high": "255"
+    },
+    "internet": {
+     "average": "31.38",
+     "low": "20",
+     "high": "50"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "32.4",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "57.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "17",
+     "low": "12",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "50",
+     "high": "100"
+    },
+    "restaurantIndex": "62.2"
+   },
+   "indices": {
+    "costOfLiving": "59.1",
+    "rent": "35.6",
+    "groceries": "57.6",
+    "restaurants": "62.2",
+    "costOfLivingPlusRent": "48.4",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "ES-BARCELONA": {
+   "currency": "EUR",
+   "numbeoCity": "Barcelona",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1502.07",
+      "low": "1200",
+      "high": "1800"
+     },
+     "outside_1br": {
+      "average": "1202.91",
+      "low": "999",
+      "high": "1500"
+     },
+     "centre_3br": {
+      "average": "2422.17",
+      "low": "1600",
+      "high": "3000"
+     },
+     "outside_3br": {
+      "average": "1855.56",
+      "low": "1450",
+      "high": "2920"
+     }
+    },
+    "rentIndex": "35.5"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "161.77",
+     "low": "89.05",
+     "high": "280"
+    },
+    "internet": {
+     "average": "30.37",
+     "low": "20",
+     "high": "50"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "35.02",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "60.2"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "16",
+     "low": "12",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "40",
+     "high": "80"
+    },
+    "restaurantIndex": "62"
+   },
+   "indices": {
+    "costOfLiving": "59.9",
+    "rent": "35.5",
+    "groceries": "60.2",
+    "restaurants": "62",
+    "costOfLivingPlusRent": "48.7",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "EE-TALLINN": {
+   "currency": "EUR",
+   "numbeoCity": "Tallinn",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "718.73",
+      "low": "600",
+      "high": "800"
+     },
+     "outside_1br": {
+      "average": "514.87",
+      "low": "400",
+      "high": "600"
+     },
+     "centre_3br": {
+      "average": "1408.67",
+      "low": "1000",
+      "high": "2000"
+     },
+     "outside_3br": {
+      "average": "889.88",
+      "low": "700",
+      "high": "1050"
+     }
+    },
+    "rentIndex": "19.1"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "296.12",
+     "low": "190",
+     "high": "463.64"
+    },
+    "internet": {
+     "average": "28.45",
+     "low": "25",
+     "high": "40"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "32.81",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "58.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "10",
+     "high": "23"
+    },
+    "midRangeForTwo": {
+     "average": "80",
+     "low": "60",
+     "high": "100"
+    },
+    "restaurantIndex": "69.6"
+   },
+   "indices": {
+    "costOfLiving": "63.5",
+    "rent": "19.1",
+    "groceries": "58.6",
+    "restaurants": "69.6",
+    "costOfLivingPlusRent": "43.2",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "TR-ANKARA": {
+   "currency": "EUR",
+   "numbeoCity": "Ankara",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "669.45",
+      "low": "536.24",
+      "high": "893.73"
+     },
+     "outside_1br": {
+      "average": "503.12",
+      "low": "357.49",
+      "high": "625.61"
+     },
+     "centre_3br": {
+      "average": "1021.41",
+      "low": "804.36",
+      "high": "1429.97"
+     },
+     "outside_3br": {
+      "average": "812.24",
+      "low": "536.24",
+      "high": "1072.48"
+     }
+    },
+    "rentIndex": "15.5"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "90.65",
+     "low": "53.62",
+     "high": "143"
+    },
+    "internet": {
+     "average": "15.95",
+     "low": "12.15",
+     "high": "21.45"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "24.37",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "42.7"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "8.94",
+     "low": "6.26",
+     "high": "16.09"
+    },
+    "midRangeForTwo": {
+     "average": "39.32",
+     "low": "26.81",
+     "high": "71.5"
+    },
+    "restaurantIndex": "43.1"
+   },
+   "indices": {
+    "costOfLiving": "41.7",
+    "rent": "15.5",
+    "groceries": "42.7",
+    "restaurants": "43.1",
+    "costOfLivingPlusRent": "29.7",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "TR-ISTANBUL": {
+   "currency": "EUR",
+   "numbeoCity": "Istanbul",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "896.08",
+      "low": "714.98",
+      "high": "1251.22"
+     },
+     "outside_1br": {
+      "average": "560.73",
+      "low": "446.87",
+      "high": "804.36"
+     },
+     "centre_3br": {
+      "average": "1771.16",
+      "low": "1429.97",
+      "high": "2144.95"
+     },
+     "outside_3br": {
+      "average": "1005.45",
+      "low": "714.98",
+      "high": "1340.6"
+     }
+    },
+    "rentIndex": "22.8"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "81.79",
+     "low": "53.62",
+     "high": "130.5"
+    },
+    "internet": {
+     "average": "14.38",
+     "low": "11.62",
+     "high": "17.87"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "25.23",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "45.2"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "10.72",
+     "low": "6.26",
+     "high": "17.87"
+    },
+    "midRangeForTwo": {
+     "average": "48.26",
+     "low": "30.39",
+     "high": "71.5"
+    },
+    "restaurantIndex": "46.9"
+   },
+   "indices": {
+    "costOfLiving": "46.6",
+    "rent": "22.8",
+    "groceries": "45.2",
+    "restaurants": "46.9",
+    "costOfLivingPlusRent": "35.7",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "TR-TRABZON": {
+   "currency": "EUR",
+   "numbeoCity": "Trabzon",
+   "rent": {
+    "status": "partial",
+    "items": {
+     "centre_1br": null,
+     "outside_1br": null,
+     "centre_3br": {
+      "average": "393.24",
+      "low": null,
+      "high": null
+     },
+     "outside_3br": {
+      "average": "303.87",
+      "low": null,
+      "high": null
+     }
+    },
+    "rentIndex": null
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "78.95",
+     "low": "40.22",
+     "high": "107.25"
+    },
+    "internet": {
+     "average": "11.02",
+     "low": "9.83",
+     "high": "13.41"
+    }
+   },
+   "groceries": {
+    "status": "partial",
+    "basketItemsSum": "20.29",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": null
+   },
+   "restaurants": {
+    "status": "partial",
+    "inexpensiveMeal": {
+     "average": "7.15",
+     "low": "4.47",
+     "high": "8.94"
+    },
+    "midRangeForTwo": {
+     "average": "26.81",
+     "low": "26.81",
+     "high": "89.37"
+    },
+    "restaurantIndex": null
+   },
+   "indices": {
+    "costOfLiving": null,
+    "rent": null,
+    "groceries": null,
+    "restaurants": null,
+    "costOfLivingPlusRent": null,
+    "status": "not_found",
+    "period": null
+   }
+  },
+  "IE-DUBLIN": {
+   "currency": "EUR",
+   "numbeoCity": "Dublin",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "2185.38",
+      "low": "1850",
+      "high": "2600"
+     },
+     "outside_1br": {
+      "average": "1941.04",
+      "low": "1800",
+      "high": "2200"
+     },
+     "centre_3br": {
+      "average": "3854.44",
+      "low": "3500",
+      "high": "4500"
+     },
+     "outside_3br": {
+      "average": "3023.33",
+      "low": "2700",
+      "high": "4000"
+     }
+    },
+    "rentIndex": "58.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "253.59",
+     "low": "150",
+     "high": "425"
+    },
+    "internet": {
+     "average": "47.88",
+     "low": "35",
+     "high": "65"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "33.91",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "74.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "20",
+     "low": "15",
+     "high": "35"
+    },
+    "midRangeForTwo": {
+     "average": "90",
+     "low": "75",
+     "high": "120"
+    },
+    "restaurantIndex": "83.1"
+   },
+   "indices": {
+    "costOfLiving": "76.3",
+    "rent": "58.4",
+    "groceries": "74.3",
+    "restaurants": "83.1",
+    "costOfLivingPlusRent": "68.1",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "IT-ROME": {
+   "currency": "EUR",
+   "numbeoCity": "Rome",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1188.64",
+      "low": "900",
+      "high": "1910"
+     },
+     "outside_1br": {
+      "average": "805.73",
+      "low": "650",
+      "high": "1000"
+     },
+     "centre_3br": {
+      "average": "2375",
+      "low": "2000",
+      "high": "3000"
+     },
+     "outside_3br": {
+      "average": "1540.48",
+      "low": "1400",
+      "high": "2000"
+     }
+    },
+    "rentIndex": "30.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "183.97",
+     "low": "160",
+     "high": "250"
+    },
+    "internet": {
+     "average": "28.46",
+     "low": "21",
+     "high": "35"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "35.52",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "60"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "16",
+     "low": "12",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "50",
+     "high": "80"
+    },
+    "restaurantIndex": "58.6"
+   },
+   "indices": {
+    "costOfLiving": "60",
+    "rent": "30.7",
+    "groceries": "60",
+    "restaurants": "58.6",
+    "costOfLivingPlusRent": "46.6",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "IT-MILAN": {
+   "currency": "EUR",
+   "numbeoCity": "Milan",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1552",
+      "low": "1200",
+      "high": "2240"
+     },
+     "outside_1br": {
+      "average": "1024.19",
+      "low": "900",
+      "high": "1400"
+     },
+     "centre_3br": {
+      "average": "3090.91",
+      "low": "2400",
+      "high": "4400"
+     },
+     "outside_3br": {
+      "average": "1778.26",
+      "low": "1500",
+      "high": "2500"
+     }
+    },
+    "rentIndex": "40.5"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "222.34",
+     "low": "120",
+     "high": "326.92"
+    },
+    "internet": {
+     "average": "26.3",
+     "low": "23",
+     "high": "30"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "42.84",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "75.5"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "20",
+     "low": "15",
+     "high": "30"
+    },
+    "midRangeForTwo": {
+     "average": "80",
+     "low": "60",
+     "high": "100"
+    },
+    "restaurantIndex": "73.9"
+   },
+   "indices": {
+    "costOfLiving": "74.3",
+    "rent": "40.5",
+    "groceries": "75.5",
+    "restaurants": "73.9",
+    "costOfLivingPlusRent": "58.9",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "IT-BARI": {
+   "currency": "EUR",
+   "numbeoCity": "Bari",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "797.4",
+      "low": "758",
+      "high": "988"
+     },
+     "outside_1br": {
+      "average": "580.4",
+      "low": "500",
+      "high": "700"
+     },
+     "centre_3br": {
+      "average": "1435.71",
+      "low": "1200",
+      "high": "2000"
+     },
+     "outside_3br": {
+      "average": "990.25",
+      "low": "850",
+      "high": "1200"
+     }
+    },
+    "rentIndex": "19.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "187.92",
+     "low": "150",
+     "high": "300"
+    },
+    "internet": {
+     "average": "27.37",
+     "low": "22",
+     "high": "30"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "31.82",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "56.7"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "10",
+     "high": "20"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "40",
+     "high": "75"
+    },
+    "restaurantIndex": "56.1"
+   },
+   "indices": {
+    "costOfLiving": "56.4",
+    "rent": "19.9",
+    "groceries": "56.7",
+    "restaurants": "56.1",
+    "costOfLivingPlusRent": "39.7",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "CY-NICOSIA": {
+   "currency": "EUR",
+   "numbeoCity": "Nicosia",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "702.83",
+      "low": "550",
+      "high": "936"
+     },
+     "outside_1br": {
+      "average": "614.46",
+      "low": "550",
+      "high": "700"
+     },
+     "centre_3br": {
+      "average": "1523.85",
+      "low": "1300",
+      "high": "2030"
+     },
+     "outside_3br": {
+      "average": "1173.85",
+      "low": "1000",
+      "high": "1500"
+     }
+    },
+    "rentIndex": "21.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "185.48",
+     "low": "85",
+     "high": "360"
+    },
+    "internet": {
+     "average": "29.67",
+     "low": "25",
+     "high": "45"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "30.55",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "56.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "10.1",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "50",
+     "high": "200"
+    },
+    "restaurantIndex": "57.6"
+   },
+   "indices": {
+    "costOfLiving": "57.7",
+    "rent": "21.9",
+    "groceries": "56.3",
+    "restaurants": "57.6",
+    "costOfLivingPlusRent": "41.3",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "LV-RIGA": {
+   "currency": "EUR",
+   "numbeoCity": "Riga",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "554.5",
+      "low": "400",
+      "high": "758"
+     },
+     "outside_1br": {
+      "average": "370.31",
+      "low": "280",
+      "high": "505"
+     },
+     "centre_3br": {
+      "average": "1086.32",
+      "low": "800",
+      "high": "1900"
+     },
+     "outside_3br": {
+      "average": "701.5",
+      "low": "500",
+      "high": "1200"
+     }
+    },
+    "rentIndex": "14"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "331.76",
+     "low": "255",
+     "high": "500"
+    },
+    "internet": {
+     "average": "16.85",
+     "low": "12",
+     "high": "30"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "26.77",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "50.5"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "11",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "50",
+     "high": "90"
+    },
+    "restaurantIndex": "57.9"
+   },
+   "indices": {
+    "costOfLiving": "55.6",
+    "rent": "14",
+    "groceries": "50.5",
+    "restaurants": "57.9",
+    "costOfLivingPlusRent": "36.6",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "LT-VILNIUS": {
+   "currency": "EUR",
+   "numbeoCity": "Vilnius",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "757.56",
+      "low": "600",
+      "high": "899"
+     },
+     "outside_1br": {
+      "average": "582.35",
+      "low": "500",
+      "high": "722"
+     },
+     "centre_3br": {
+      "average": "1342.5",
+      "low": "1100",
+      "high": "2060"
+     },
+     "outside_3br": {
+      "average": "987.5",
+      "low": "750",
+      "high": "1560"
+     }
+    },
+    "rentIndex": "18.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "210.86",
+     "low": "150",
+     "high": "400"
+    },
+    "internet": {
+     "average": "18.27",
+     "low": "12",
+     "high": "30"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "25.39",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "46.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "14",
+     "low": "8",
+     "high": "18"
+    },
+    "midRangeForTwo": {
+     "average": "67.5",
+     "low": "45",
+     "high": "100"
+    },
+    "restaurantIndex": "58.7"
+   },
+   "indices": {
+    "costOfLiving": "52.7",
+    "rent": "18.9",
+    "groceries": "46.3",
+    "restaurants": "58.7",
+    "costOfLivingPlusRent": "37.3",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "MD-CHISINAU": {
+   "currency": "EUR",
+   "numbeoCity": "Chisinau",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "616.11",
+      "low": "500",
+      "high": "841.9"
+     },
+     "outside_1br": {
+      "average": "417.13",
+      "low": "346.67",
+      "high": "505"
+     },
+     "centre_3br": {
+      "average": "1139.8",
+      "low": "800",
+      "high": "1733.33"
+     },
+     "outside_3br": {
+      "average": "725.17",
+      "low": "594.28",
+      "high": "990.47"
+     }
+    },
+    "rentIndex": "14.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "210.51",
+     "low": "157.86",
+     "high": "361.52"
+    },
+    "internet": {
+     "average": "9.19",
+     "low": "7.03",
+     "high": "10.9"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "19.41",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "34"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "9.9",
+     "low": "7.43",
+     "high": "14.86"
+    },
+    "midRangeForTwo": {
+     "average": "49.52",
+     "low": "24.76",
+     "high": "74.29"
+    },
+    "restaurantIndex": "37.6"
+   },
+   "indices": {
+    "costOfLiving": "38",
+    "rent": "14.9",
+    "groceries": "34",
+    "restaurants": "37.6",
+    "costOfLivingPlusRent": "27.5",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "NL-THE-HAGUE": {
+   "currency": "EUR",
+   "numbeoCity": "The Hague (Den Haag)",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1505.38",
+      "low": "1200",
+      "high": "2000"
+     },
+     "outside_1br": {
+      "average": "1189.23",
+      "low": "900",
+      "high": "1620"
+     },
+     "centre_3br": {
+      "average": "2646.92",
+      "low": "1800",
+      "high": "3530"
+     },
+     "outside_3br": {
+      "average": "2149.17",
+      "low": "1800",
+      "high": "2670"
+     }
+    },
+    "rentIndex": "38.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "248.82",
+     "low": "180",
+     "high": "453.33"
+    },
+    "internet": {
+     "average": "49.1",
+     "low": "30",
+     "high": "75"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "34.49",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "67.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "20",
+     "low": "14",
+     "high": "30"
+    },
+    "midRangeForTwo": {
+     "average": "80",
+     "low": "60",
+     "high": "100"
+    },
+    "restaurantIndex": "83.8"
+   },
+   "indices": {
+    "costOfLiving": "74.7",
+    "rent": "38.9",
+    "groceries": "67.3",
+    "restaurants": "83.8",
+    "costOfLivingPlusRent": "58.3",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "NO-OSLO": {
+   "currency": "EUR",
+   "numbeoCity": "Oslo",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1916.69",
+      "low": "1637.69",
+      "high": "2177.16"
+     },
+     "outside_1br": {
+      "average": "1474.85",
+      "low": "1204.18",
+      "high": "1734.02"
+     },
+     "centre_3br": {
+      "average": "2940.07",
+      "low": "2408.37",
+      "high": "3371.71"
+     },
+     "outside_3br": {
+      "average": "2238.25",
+      "low": "1926.69",
+      "high": "2523.97"
+     }
+    },
+    "rentIndex": "39.1"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "384.81",
+     "low": "192.67",
+     "high": "744.4"
+    },
+    "internet": {
+     "average": "49.22",
+     "low": "28.9",
+     "high": "86.6"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "52.68",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "93.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "19.27",
+     "low": "13.71",
+     "high": "28.9"
+    },
+    "midRangeForTwo": {
+     "average": "115.6",
+     "low": "77.07",
+     "high": "173.4"
+    },
+    "restaurantIndex": "96.6"
+   },
+   "indices": {
+    "costOfLiving": "92.1",
+    "rent": "39.1",
+    "groceries": "93.1",
+    "restaurants": "96.6",
+    "costOfLivingPlusRent": "67.9",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "PL-WARSAW": {
+   "currency": "EUR",
+   "numbeoCity": "Warsaw",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1035.33",
+      "low": "906.63",
+      "high": "1359.95"
+     },
+     "outside_1br": {
+      "average": "822",
+      "low": "650.51",
+      "high": "1019.96"
+     },
+     "centre_3br": {
+      "average": "1942.58",
+      "low": "1473.28",
+      "high": "2266.58"
+     },
+     "outside_3br": {
+      "average": "1328.43",
+      "low": "915.7",
+      "high": "1813.26"
+     }
+    },
+    "rentIndex": "28.1"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "290.15",
+     "low": "171.25",
+     "high": "385.32"
+    },
+    "internet": {
+     "average": "14.29",
+     "low": "10.2",
+     "high": "20.4"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "24.58",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "46.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "10.2",
+     "low": "7.48",
+     "high": "15.87"
+    },
+    "midRangeForTwo": {
+     "average": "54.4",
+     "low": "36.27",
+     "high": "99.73"
+    },
+    "restaurantIndex": "53.7"
+   },
+   "indices": {
+    "costOfLiving": "52.7",
+    "rent": "28.1",
+    "groceries": "46.6",
+    "restaurants": "53.7",
+    "costOfLivingPlusRent": "41.5",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "PL-KRAKOW": {
+   "currency": "EUR",
+   "numbeoCity": "Krakow (Cracow)",
+   "rent": {
+    "status": "partial",
+    "items": {
+     "centre_1br": null,
+     "outside_1br": null,
+     "centre_3br": null,
+     "outside_3br": null
+    },
+    "rentIndex": "20.4"
+   },
+   "utilities": {
+    "status": "not_found",
+    "basic85m2": null,
+    "internet": null
+   },
+   "groceries": {
+    "status": "partial",
+    "basketItemsSum": null,
+    "itemsCounted": 0,
+    "itemsMissing": 0,
+    "groceriesIndex": "44.6"
+   },
+   "restaurants": {
+    "status": "partial",
+    "inexpensiveMeal": null,
+    "midRangeForTwo": null,
+    "restaurantIndex": "51.7"
+   },
+   "indices": {
+    "costOfLiving": "50.8",
+    "rent": "20.4",
+    "groceries": "44.6",
+    "restaurants": "51.7",
+    "costOfLivingPlusRent": "36.9",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "PT-LISBON": {
+   "currency": "EUR",
+   "numbeoCity": "Lisbon",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1446.43",
+      "low": "1200",
+      "high": "1850"
+     },
+     "outside_1br": {
+      "average": "1072.31",
+      "low": "900",
+      "high": "1400"
+     },
+     "centre_3br": {
+      "average": "2534.44",
+      "low": "2000",
+      "high": "3500"
+     },
+     "outside_3br": {
+      "average": "1814.26",
+      "low": "1400",
+      "high": "2300"
+     }
+    },
+    "rentIndex": "35.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "137.71",
+     "low": "86.7",
+     "high": "212.5"
+    },
+    "internet": {
+     "average": "27.95",
+     "low": "20",
+     "high": "50"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "29.47",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "50.9"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "12",
+     "high": "20"
+    },
+    "midRangeForTwo": {
+     "average": "55",
+     "low": "40",
+     "high": "75"
+    },
+    "restaurantIndex": "56"
+   },
+   "indices": {
+    "costOfLiving": "55.2",
+    "rent": "35.7",
+    "groceries": "50.9",
+    "restaurants": "56",
+    "costOfLivingPlusRent": "46.3",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "RO-BUCHAREST": {
+   "currency": "EUR",
+   "numbeoCity": "Bucharest",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "639.37",
+      "low": "467.86",
+      "high": "848"
+     },
+     "outside_1br": {
+      "average": "420.33",
+      "low": "299.43",
+      "high": "643"
+     },
+     "centre_3br": {
+      "average": "974.61",
+      "low": "748.57",
+      "high": "1310"
+     },
+     "outside_3br": {
+      "average": "638.01",
+      "low": "561.43",
+      "high": "935.71"
+     }
+    },
+    "rentIndex": "14.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "173.27",
+     "low": "112.29",
+     "high": "224.57"
+    },
+    "internet": {
+     "average": "8.2",
+     "low": "6.55",
+     "high": "11.23"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "22.94",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "41.8"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "13.1",
+     "low": "7.49",
+     "high": "22.46"
+    },
+    "midRangeForTwo": {
+     "average": "56.14",
+     "low": "33.69",
+     "high": "93.57"
+    },
+    "restaurantIndex": "51"
+   },
+   "indices": {
+    "costOfLiving": "45.3",
+    "rent": "14.6",
+    "groceries": "41.8",
+    "restaurants": "51",
+    "costOfLivingPlusRent": "31.3",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "GR-ATHENS": {
+   "currency": "EUR",
+   "numbeoCity": "Athens",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "665.34",
+      "low": "500",
+      "high": "900"
+     },
+     "outside_1br": {
+      "average": "575.16",
+      "low": "450",
+      "high": "800"
+     },
+     "centre_3br": {
+      "average": "1133.2",
+      "low": "900",
+      "high": "1600"
+     },
+     "outside_3br": {
+      "average": "1012.96",
+      "low": "750",
+      "high": "1499"
+     }
+    },
+    "rentIndex": "17.3"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "182.66",
+     "low": "123.64",
+     "high": "255"
+    },
+    "internet": {
+     "average": "26.72",
+     "low": "20",
+     "high": "38.03"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "32.79",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "55.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "12",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "40",
+     "high": "80"
+    },
+    "restaurantIndex": "60.5"
+   },
+   "indices": {
+    "costOfLiving": "56.9",
+    "rent": "17.3",
+    "groceries": "55.6",
+    "restaurants": "60.5",
+    "costOfLivingPlusRent": "38.8",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "GR-THESSALONIKI": {
+   "currency": "EUR",
+   "numbeoCity": "Thessaloniki",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "557.64",
+      "low": "500",
+      "high": "650"
+     },
+     "outside_1br": {
+      "average": "457.94",
+      "low": "400",
+      "high": "600"
+     },
+     "centre_3br": {
+      "average": "994.74",
+      "low": "800",
+      "high": "1500"
+     },
+     "outside_3br": {
+      "average": "760.69",
+      "low": "650",
+      "high": "1000"
+     }
+    },
+    "rentIndex": "14.1"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "196.95",
+     "low": "121.43",
+     "high": "300"
+    },
+    "internet": {
+     "average": "27.82",
+     "low": "25",
+     "high": "30"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "34.62",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "57.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15",
+     "low": "10",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "40",
+     "high": "80"
+    },
+    "restaurantIndex": "60.6"
+   },
+   "indices": {
+    "costOfLiving": "55.8",
+    "rent": "14.1",
+    "groceries": "57.1",
+    "restaurants": "60.6",
+    "costOfLivingPlusRent": "36.7",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "SK-BRATISLAVA": {
+   "currency": "EUR",
+   "numbeoCity": "Bratislava",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "916.47",
+      "low": "750",
+      "high": "1200"
+     },
+     "outside_1br": {
+      "average": "696.27",
+      "low": "620",
+      "high": "850"
+     },
+     "centre_3br": {
+      "average": "1719.14",
+      "low": "1250",
+      "high": "2290"
+     },
+     "outside_3br": {
+      "average": "1253.75",
+      "low": "900",
+      "high": "1510"
+     }
+    },
+    "rentIndex": "24.3"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "229.43",
+     "low": "150",
+     "high": "303.57"
+    },
+    "internet": {
+     "average": "17.07",
+     "low": "14",
+     "high": "40"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "32.09",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "56.5"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "10",
+     "low": "8",
+     "high": "15"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "35",
+     "high": "100"
+    },
+    "restaurantIndex": "52.5"
+   },
+   "indices": {
+    "costOfLiving": "56.9",
+    "rent": "24.3",
+    "groceries": "56.5",
+    "restaurants": "52.5",
+    "costOfLivingPlusRent": "42",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "SI-LJUBLJANA": {
+   "currency": "EUR",
+   "numbeoCity": "Ljubljana",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1042.5",
+      "low": "850",
+      "high": "1300"
+     },
+     "outside_1br": {
+      "average": "826.5",
+      "low": "700",
+      "high": "964"
+     },
+     "centre_3br": {
+      "average": "2076.15",
+      "low": "1500",
+      "high": "2970"
+     },
+     "outside_3br": {
+      "average": "1427.5",
+      "low": "1100",
+      "high": "2250"
+     }
+    },
+    "rentIndex": "26.5"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "254.45",
+     "low": "200",
+     "high": "377.78"
+    },
+    "internet": {
+     "average": "34.3",
+     "low": "25",
+     "high": "45"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "31.4",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "53.8"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "14",
+     "low": "9",
+     "high": "15"
+    },
+    "midRangeForTwo": {
+     "average": "60",
+     "low": "50",
+     "high": "75"
+    },
+    "restaurantIndex": "58.8"
+   },
+   "indices": {
+    "costOfLiving": "57.9",
+    "rent": "26.5",
+    "groceries": "53.8",
+    "restaurants": "58.8",
+    "costOfLivingPlusRent": "43.6",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "HU-BUDAPEST": {
+   "currency": "EUR",
+   "numbeoCity": "Budapest",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "741.88",
+      "low": "630.44",
+      "high": "890.84"
+     },
+     "outside_1br": {
+      "average": "576.77",
+      "low": "493.39",
+      "high": "685.26"
+     },
+     "centre_3br": {
+      "average": "1461.09",
+      "low": "1233.47",
+      "high": "2200"
+     },
+     "outside_3br": {
+      "average": "1096.64",
+      "low": "822.31",
+      "high": "1370.52"
+     }
+    },
+    "rentIndex": "21.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "156.03",
+     "low": "104.84",
+     "high": "209.69"
+    },
+    "internet": {
+     "average": "21.18",
+     "low": "15.62",
+     "high": "28.78"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "27.15",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "52.2"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "12.33",
+     "low": "8.22",
+     "high": "19.19"
+    },
+    "midRangeForTwo": {
+     "average": "54.82",
+     "low": "38.37",
+     "high": "82.23"
+    },
+    "restaurantIndex": "56.1"
+   },
+   "indices": {
+    "costOfLiving": "55.5",
+    "rent": "21.9",
+    "groceries": "52.2",
+    "restaurants": "56.1",
+    "costOfLivingPlusRent": "40.1",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "SE-STOCKHOLM": {
+   "currency": "EUR",
+   "numbeoCity": "Stockholm",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1447.67",
+      "low": "1003.16",
+      "high": "1823.92"
+     },
+     "outside_1br": {
+      "average": "952.19",
+      "low": "766.05",
+      "high": "1231.15"
+     },
+     "centre_3br": {
+      "average": "2411.38",
+      "low": "1823.92",
+      "high": "4103.82"
+     },
+     "outside_3br": {
+      "average": "1602.77",
+      "low": "1276.74",
+      "high": "2371.1"
+     }
+    },
+    "rentIndex": "37"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "226.83",
+     "low": "129.19",
+     "high": "392.14"
+    },
+    "internet": {
+     "average": "36.19",
+     "low": "20.88",
+     "high": "50.16"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "42.44",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "76.4"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15.96",
+     "low": "11.76",
+     "high": "25"
+    },
+    "midRangeForTwo": {
+     "average": "91.2",
+     "low": "63.84",
+     "high": "123.11"
+    },
+    "restaurantIndex": "78.6"
+   },
+   "indices": {
+    "costOfLiving": "79.1",
+    "rent": "37",
+    "groceries": "76.4",
+    "restaurants": "78.6",
+    "costOfLivingPlusRent": "59.8",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "CH-BERN": {
+   "currency": "EUR",
+   "numbeoCity": "Bern",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1915.68",
+      "low": "1306.76",
+      "high": "2613.53"
+     },
+     "outside_1br": {
+      "average": "1442.89",
+      "low": "1088.97",
+      "high": "1851.25"
+     },
+     "centre_3br": {
+      "average": "3198.85",
+      "low": "2548.19",
+      "high": "4682.57"
+     },
+     "outside_3br": {
+      "average": "2400.27",
+      "low": "1851.25",
+      "high": "3266.91"
+     }
+    },
+    "rentIndex": "44.5"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "246.53",
+     "low": "161.98",
+     "high": "381.14"
+    },
+    "internet": {
+     "average": "49.55",
+     "low": "43.5",
+     "high": "65.34"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "60.76",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "105.7"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "26.14",
+     "low": "18.51",
+     "high": "32.67"
+    },
+    "midRangeForTwo": {
+     "average": "109.99",
+     "low": "84.29",
+     "high": "211.26"
+    },
+    "restaurantIndex": "108.3"
+   },
+   "indices": {
+    "costOfLiving": "108.7",
+    "rent": "44.5",
+    "groceries": "105.7",
+    "restaurants": "108.3",
+    "costOfLivingPlusRent": "79.4",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "CH-GENEVA": {
+   "currency": "EUR",
+   "numbeoCity": "Geneva",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "2595.38",
+      "low": "2069.04",
+      "high": "3136.23"
+     },
+     "outside_1br": {
+      "average": "1968.52",
+      "low": "1633.46",
+      "high": "2373.95"
+     },
+     "centre_3br": {
+      "average": "4630.64",
+      "low": "3811.4",
+      "high": "5564.64"
+     },
+     "outside_3br": {
+      "average": "3531.61",
+      "low": "3049.12",
+      "high": "4214.31"
+     }
+    },
+    "rentIndex": "64.3"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "256.68",
+     "low": "163.35",
+     "high": "336.59"
+    },
+    "internet": {
+     "average": "51.83",
+     "low": "43.56",
+     "high": "65.34"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "62.81",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "107.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "27.22",
+     "low": "21.78",
+     "high": "32.67"
+    },
+    "midRangeForTwo": {
+     "average": "108.9",
+     "low": "65.34",
+     "high": "217.79"
+    },
+    "restaurantIndex": "114.5"
+   },
+   "indices": {
+    "costOfLiving": "111.3",
+    "rent": "64.3",
+    "groceries": "107.3",
+    "restaurants": "114.5",
+    "costOfLivingPlusRent": "89.8",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "CZ-PRAGUE": {
+   "currency": "EUR",
+   "numbeoCity": "Prague",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1072.03",
+      "low": "739.33",
+      "high": "1515.62"
+     },
+     "outside_1br": {
+      "average": "870.27",
+      "low": "698.25",
+      "high": "1108.99"
+     },
+     "centre_3br": {
+      "average": "2044.62",
+      "low": "1232.21",
+      "high": "3000"
+     },
+     "outside_3br": {
+      "average": "1380.83",
+      "low": "1026.85",
+      "high": "1848.32"
+     }
+    },
+    "rentIndex": "29.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "253.76",
+     "low": "205.37",
+     "high": "387.92"
+    },
+    "internet": {
+     "average": "19.02",
+     "low": "12.32",
+     "high": "30"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "27.94",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "52"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "10.13",
+     "low": "7.39",
+     "high": "15.61"
+    },
+    "midRangeForTwo": {
+     "average": "41.07",
+     "low": "32.86",
+     "high": "73.93"
+    },
+    "restaurantIndex": "47.1"
+   },
+   "indices": {
+    "costOfLiving": "57.3",
+    "rent": "29.4",
+    "groceries": "52",
+    "restaurants": "47.1",
+    "costOfLivingPlusRent": "44.6",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "FI-HELSINKI": {
+   "currency": "EUR",
+   "numbeoCity": "Helsinki",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1152.38",
+      "low": "900",
+      "high": "1720"
+     },
+     "outside_1br": {
+      "average": "824.9",
+      "low": "700",
+      "high": "1100"
+     },
+     "centre_3br": {
+      "average": "2028.75",
+      "low": "1710",
+      "high": "2600"
+     },
+     "outside_3br": {
+      "average": "1484.81",
+      "low": "1247",
+      "high": "2100"
+     }
+    },
+    "rentIndex": "30"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "122.49",
+     "low": "55",
+     "high": "212.5"
+    },
+    "internet": {
+     "average": "21",
+     "low": "15",
+     "high": "30"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "36.93",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "71.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "15.5",
+     "low": "13",
+     "high": "30"
+    },
+    "midRangeForTwo": {
+     "average": "100",
+     "low": "67",
+     "high": "150"
+    },
+    "restaurantIndex": "79.6"
+   },
+   "indices": {
+    "costOfLiving": "73.9",
+    "rent": "30",
+    "groceries": "71.3",
+    "restaurants": "79.6",
+    "costOfLivingPlusRent": "53.9",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "HR-ZAGREB": {
+   "currency": "EUR",
+   "numbeoCity": "Zagreb",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "788.24",
+      "low": "700",
+      "high": "1000"
+     },
+     "outside_1br": {
+      "average": "600.31",
+      "low": "550",
+      "high": "700"
+     },
+     "centre_3br": {
+      "average": "1316.67",
+      "low": "1100",
+      "high": "2000"
+     },
+     "outside_3br": {
+      "average": "935.94",
+      "low": "800",
+      "high": "1100"
+     }
+    },
+    "rentIndex": "19"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "189.75",
+     "low": "139.09",
+     "high": "300"
+    },
+    "internet": {
+     "average": "34.33",
+     "low": "20",
+     "high": "44.96"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "31.65",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "55.9"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "11",
+     "low": "10",
+     "high": "15"
+    },
+    "midRangeForTwo": {
+     "average": "56",
+     "low": "50",
+     "high": "100"
+    },
+    "restaurantIndex": "52.8"
+   },
+   "indices": {
+    "costOfLiving": "54.2",
+    "rent": "19",
+    "groceries": "55.9",
+    "restaurants": "52.8",
+    "costOfLivingPlusRent": "38.1",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "AU-CANBERRA": {
+   "currency": "USD",
+   "numbeoCity": "Canberra",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1759.03",
+      "low": "1670.84",
+      "high": "1949.32"
+     },
+     "outside_1br": {
+      "average": "1495.53",
+      "low": "1253.13",
+      "high": "1949.32"
+     },
+     "centre_3br": {
+      "average": "3089.9",
+      "low": "2241.71",
+      "high": "4718.74"
+     },
+     "outside_3br": {
+      "average": "1987.61",
+      "low": "1810.08",
+      "high": "2436.65"
+     }
+    },
+    "rentIndex": "38.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "181.92",
+     "low": "125.31",
+     "high": "208.86"
+    },
+    "internet": {
+     "average": "56.1",
+     "low": "48.04",
+     "high": "62.66"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "41.41",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "90.4"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "20.89",
+     "low": "13.92",
+     "high": "27.85"
+    },
+    "midRangeForTwo": {
+     "average": "86.67",
+     "low": "61.26",
+     "high": "125.31"
+    },
+    "restaurantIndex": "68.9"
+   },
+   "indices": {
+    "costOfLiving": "77.7",
+    "rent": "38.4",
+    "groceries": "90.4",
+    "restaurants": "68.9",
+    "costOfLivingPlusRent": "59.7",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "AR-BUENOS-AIRES": {
+   "currency": "USD",
+   "numbeoCity": "Buenos Aires",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "727.75",
+      "low": "511.39",
+      "high": "1500"
+     },
+     "outside_1br": {
+      "average": "507.52",
+      "low": "365.28",
+      "high": "850"
+     },
+     "centre_3br": {
+      "average": "1481.94",
+      "low": "1019.3",
+      "high": "2500"
+     },
+     "outside_3br": {
+      "average": "1132.86",
+      "low": "769.4",
+      "high": "1939.65"
+     }
+    },
+    "rentIndex": "19"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "197.98",
+     "low": "120",
+     "high": "283.33"
+    },
+    "internet": {
+     "average": "31.11",
+     "low": "20",
+     "high": "60"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "30.9",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "48"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "18.04",
+     "low": "10.73",
+     "high": "35"
+    },
+    "midRangeForTwo": {
+     "average": "65.54",
+     "low": "43.06",
+     "high": "120"
+    },
+    "restaurantIndex": "65.4"
+   },
+   "indices": {
+    "costOfLiving": "52.4",
+    "rent": "19",
+    "groceries": "48",
+    "restaurants": "65.4",
+    "costOfLivingPlusRent": "37.1",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "AZ-BAKU": {
+   "currency": "USD",
+   "numbeoCity": "Baku",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "555.36",
+      "low": "411.76",
+      "high": "764.71"
+     },
+     "outside_1br": {
+      "average": "315.38",
+      "low": "235.29",
+      "high": "411.76"
+     },
+     "centre_3br": {
+      "average": "1042.02",
+      "low": "588.24",
+      "high": "1235.29"
+     },
+     "outside_3br": {
+      "average": "531.67",
+      "low": "411.76",
+      "high": "705.88"
+     }
+    },
+    "rentIndex": "11.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "66.71",
+     "low": "35.29",
+     "high": "117.65"
+    },
+    "internet": {
+     "average": "15.29",
+     "low": "14.71",
+     "high": "23.53"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "20.32",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "33.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "10.59",
+     "low": "5.88",
+     "high": "12.94"
+    },
+    "midRangeForTwo": {
+     "average": "39.71",
+     "low": "29.41",
+     "high": "58.82"
+    },
+    "restaurantIndex": "37"
+   },
+   "indices": {
+    "costOfLiving": "33.5",
+    "rent": "11.6",
+    "groceries": "33.3",
+    "restaurants": "37",
+    "costOfLivingPlusRent": "23.5",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "AZ-GANJA": {
+   "currency": "USD",
+   "numbeoCity": "Ganja",
+   "rent": {
+    "status": "partial",
+    "items": {
+     "centre_1br": {
+      "average": "352.94",
+      "low": null,
+      "high": null
+     },
+     "outside_1br": {
+      "average": "176.47",
+      "low": null,
+      "high": null
+     },
+     "centre_3br": {
+      "average": "588.24",
+      "low": null,
+      "high": null
+     },
+     "outside_3br": {
+      "average": "352.94",
+      "low": null,
+      "high": null
+     }
+    },
+    "rentIndex": null
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "33.53",
+     "low": "29.41",
+     "high": "58.82"
+    },
+    "internet": {
+     "average": "14.71",
+     "low": "11.76",
+     "high": "18.82"
+    }
+   },
+   "groceries": {
+    "status": "partial",
+    "basketItemsSum": "24.98",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": null
+   },
+   "restaurants": {
+    "status": "partial",
+    "inexpensiveMeal": {
+     "average": "7.06",
+     "low": "3.24",
+     "high": "14.71"
+    },
+    "midRangeForTwo": {
+     "average": "29.41",
+     "low": "26.47",
+     "high": "38.24"
+    },
+    "restaurantIndex": null
+   },
+   "indices": {
+    "costOfLiving": null,
+    "rent": null,
+    "groceries": null,
+    "restaurants": null,
+    "costOfLivingPlusRent": null,
+    "status": "not_found",
+    "period": null
+   }
+  },
+  "US-WASHINGTON": {
+   "currency": "USD",
+   "numbeoCity": "Washington, DC",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "2726.67",
+      "low": "2500",
+      "high": "3200"
+     },
+     "outside_1br": {
+      "average": "2199.17",
+      "low": "2000",
+      "high": "2500"
+     },
+     "centre_3br": {
+      "average": "5049.17",
+      "low": "4500",
+      "high": "7000"
+     },
+     "outside_3br": {
+      "average": "4239.23",
+      "low": "3550",
+      "high": "5400"
+     }
+    },
+    "rentIndex": "68.2"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "210.83",
+     "low": "150",
+     "high": "350"
+    },
+    "internet": {
+     "average": "78.27",
+     "low": "60",
+     "high": "90"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "55.34",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "95.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "24",
+     "low": "13",
+     "high": "45"
+    },
+    "midRangeForTwo": {
+     "average": "103.1",
+     "low": "70",
+     "high": "200"
+    },
+    "restaurantIndex": "93.3"
+   },
+   "indices": {
+    "costOfLiving": "92.1",
+    "rent": "68.2",
+    "groceries": "95.6",
+    "restaurants": "93.3",
+    "costOfLivingPlusRent": "81.2",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "US-NEW-YORK": {
+   "currency": "USD",
+   "numbeoCity": "New York, NY",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "4500.41",
+      "low": "3500",
+      "high": "6500"
+     },
+     "outside_1br": {
+      "average": "3018.42",
+      "low": "2350",
+      "high": "4800"
+     },
+     "centre_3br": {
+      "average": "9569.12",
+      "low": "7000",
+      "high": "15000"
+     },
+     "outside_3br": {
+      "average": "5236.88",
+      "low": "3330",
+      "high": "7750"
+     }
+    },
+    "rentIndex": "100"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "230.9",
+     "low": "140",
+     "high": "400"
+    },
+    "internet": {
+     "average": "68.88",
+     "low": "50",
+     "high": "100"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "61.7",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "100"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "26.5",
+     "low": "15",
+     "high": "50"
+    },
+    "midRangeForTwo": {
+     "average": "117.5",
+     "low": "80",
+     "high": "200"
+    },
+    "restaurantIndex": "100"
+   },
+   "indices": {
+    "costOfLiving": "100",
+    "rent": "100",
+    "groceries": "100",
+    "restaurants": "100",
+    "costOfLivingPlusRent": "100",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "US-SAN-FRANCISCO": {
+   "currency": "USD",
+   "numbeoCity": "San Francisco, CA",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "3744.67",
+      "low": "3260",
+      "high": "4500"
+     },
+     "outside_1br": {
+      "average": "2735.88",
+      "low": "2184",
+      "high": "3200"
+     },
+     "centre_3br": {
+      "average": "6105",
+      "low": "4800",
+      "high": "8000"
+     },
+     "outside_3br": {
+      "average": "5042",
+      "low": "4000",
+      "high": "5780"
+     }
+    },
+    "rentIndex": "81.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "237.87",
+     "low": "134.21",
+     "high": "500"
+    },
+    "internet": {
+     "average": "80.54",
+     "low": "45",
+     "high": "125"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "113.91",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "102.7"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "29.3",
+     "low": "18",
+     "high": "50"
+    },
+    "midRangeForTwo": {
+     "average": "125",
+     "low": "80",
+     "high": "200"
+    },
+    "restaurantIndex": "94.3"
+   },
+   "indices": {
+    "costOfLiving": "94.9",
+    "rent": "81.4",
+    "groceries": "102.7",
+    "restaurants": "94.3",
+    "costOfLivingPlusRent": "88.7",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "BY-MINSK": {
+   "currency": "USD",
+   "numbeoCity": "Minsk",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "597.05",
+      "low": "500",
+      "high": "800"
+     },
+     "outside_1br": {
+      "average": "423.55",
+      "low": "350",
+      "high": "538.31"
+     },
+     "centre_3br": {
+      "average": "1066.11",
+      "low": "800",
+      "high": "2000"
+     },
+     "outside_3br": {
+      "average": "724.43",
+      "low": "571.95",
+      "high": "1500"
+     }
+    },
+    "rentIndex": "12.5"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "65.1",
+     "low": "49.02",
+     "high": "92.94"
+    },
+    "internet": {
+     "average": "14.32",
+     "low": "9.08",
+     "high": "16.82"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "21.49",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "35.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "10.09",
+     "low": "8.41",
+     "high": "16.82"
+    },
+    "midRangeForTwo": {
+     "average": "50.47",
+     "low": "30.28",
+     "high": "67.29"
+    },
+    "restaurantIndex": "37"
+   },
+   "indices": {
+    "costOfLiving": "34.5",
+    "rent": "12.5",
+    "groceries": "35.6",
+    "restaurants": "37",
+    "costOfLivingPlusRent": "24.5",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "BR-BRASILIA": {
+   "currency": "USD",
+   "numbeoCity": "Brasilia",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "501.37",
+      "low": "364.37",
+      "high": "675.9"
+     },
+     "outside_1br": {
+      "average": "240.48",
+      "low": "207.69",
+      "high": "364.37"
+     },
+     "centre_3br": {
+      "average": "1101.29",
+      "low": "910.91",
+      "high": "1417.38"
+     },
+     "outside_3br": {
+      "average": "569.11",
+      "low": "473.67",
+      "high": "1047.55"
+     }
+    },
+    "rentIndex": "11.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "85.98",
+     "low": "41.9",
+     "high": "182.18"
+    },
+    "internet": {
+     "average": "20.16",
+     "low": "18.04",
+     "high": "27.33"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "21.24",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "35.5"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "8.2",
+     "low": "4.55",
+     "high": "18.22"
+    },
+    "midRangeForTwo": {
+     "average": "36.44",
+     "low": "28.97",
+     "high": "65.59"
+    },
+    "restaurantIndex": "34"
+   },
+   "indices": {
+    "costOfLiving": "35.5",
+    "rent": "11.7",
+    "groceries": "35.5",
+    "restaurants": "34",
+    "costOfLivingPlusRent": "24.6",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "EG-CAIRO": {
+   "currency": "USD",
+   "numbeoCity": "Cairo",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "208.69",
+      "low": "144.69",
+      "high": "271.3"
+     },
+     "outside_1br": {
+      "average": "188.52",
+      "low": "108.52",
+      "high": "361.73"
+     },
+     "centre_3br": {
+      "average": "472.83",
+      "low": "289.38",
+      "high": "904.32"
+     },
+     "outside_3br": {
+      "average": "312.79",
+      "low": "180.86",
+      "high": "633.02"
+     }
+    },
+    "rentIndex": "5.8"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "25.27",
+     "low": "12.66",
+     "high": "46.12"
+    },
+    "internet": {
+     "average": "14.33",
+     "low": "9.04",
+     "high": "27.13"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "13.35",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "25.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "4.52",
+     "low": "2.53",
+     "high": "9.04"
+    },
+    "midRangeForTwo": {
+     "average": "27.13",
+     "low": "14.47",
+     "high": "45.22"
+    },
+    "restaurantIndex": "24.4"
+   },
+   "indices": {
+    "costOfLiving": "24.4",
+    "rent": "5.8",
+    "groceries": "25.1",
+    "restaurants": "24.4",
+    "costOfLivingPlusRent": "15.9",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "TM-ASHGABAT": {
+   "currency": "USD",
+   "numbeoCity": "Ashgabat",
+   "rent": {
+    "status": "partial",
+    "items": {
+     "centre_1br": {
+      "average": "1410.26",
+      "low": "854.7",
+      "high": "1994.3"
+     },
+     "outside_1br": {
+      "average": "997.15",
+      "low": "569.8",
+      "high": "1424.5"
+     },
+     "centre_3br": {
+      "average": "2279.2",
+      "low": "1709.4",
+      "high": "2849"
+     },
+     "outside_3br": {
+      "average": "1923.08",
+      "low": "1424.5",
+      "high": "2564.1"
+     }
+    },
+    "rentIndex": null
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "569.8",
+     "low": "569.8",
+     "high": "569.8"
+    },
+    "internet": {
+     "average": "102.56",
+     "low": "79.77",
+     "high": "142.45"
+    }
+   },
+   "groceries": {
+    "status": "partial",
+    "basketItemsSum": "68.14",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": null
+   },
+   "restaurants": {
+    "status": "partial",
+    "inexpensiveMeal": {
+     "average": "31.34",
+     "low": "14.25",
+     "high": "79.77"
+    },
+    "midRangeForTwo": {
+     "average": "85.47",
+     "low": "60",
+     "high": "341.88"
+    },
+    "restaurantIndex": null
+   },
+   "indices": {
+    "costOfLiving": null,
+    "rent": null,
+    "groceries": null,
+    "restaurants": null,
+    "costOfLivingPlusRent": null,
+    "status": "not_found",
+    "period": null
+   }
+  },
+  "JP-TOKYO": {
+   "currency": "USD",
+   "numbeoCity": "Tokyo",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1311.26",
+      "low": "945.35",
+      "high": "1859.19"
+     },
+     "outside_1br": {
+      "average": "710.65",
+      "low": "491.58",
+      "high": "1260.47"
+     },
+     "centre_3br": {
+      "average": "2643.48",
+      "low": "1871.79",
+      "high": "3466.28"
+     },
+     "outside_3br": {
+      "average": "1437.67",
+      "low": "1071.4",
+      "high": "2520.93"
+     }
+    },
+    "rentIndex": "26.1"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "149.21",
+     "low": "113.44",
+     "high": "238.09"
+    },
+    "internet": {
+     "average": "30.44",
+     "low": "25.21",
+     "high": "50.42"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "35.56",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "65"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "7.56",
+     "low": "5.04",
+     "high": "12.6"
+    },
+    "midRangeForTwo": {
+     "average": "37.81",
+     "low": "31.51",
+     "high": "75.63"
+    },
+    "restaurantIndex": "35.5"
+   },
+   "indices": {
+    "costOfLiving": "54.3",
+    "rent": "26.1",
+    "groceries": "65",
+    "restaurants": "35.5",
+    "costOfLivingPlusRent": "41.4",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "JO-AMMAN": {
+   "currency": "USD",
+   "numbeoCity": "Amman",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "515.04",
+      "low": "282.09",
+      "high": "812.41"
+     },
+     "outside_1br": {
+      "average": "273.25",
+      "low": "169.25",
+      "high": "614.95"
+     },
+     "centre_3br": {
+      "average": "771.4",
+      "low": "564.17",
+      "high": "1128.35"
+     },
+     "outside_3br": {
+      "average": "431.19",
+      "low": "352.61",
+      "high": "634.7"
+     }
+    },
+    "rentIndex": "8.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "136.96",
+     "low": "54.49",
+     "high": "282.09"
+    },
+    "internet": {
+     "average": "33.6",
+     "low": "26.8",
+     "high": "42.31"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "23.11",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "41.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "5.64",
+     "low": "4.23",
+     "high": "12.69"
+    },
+    "midRangeForTwo": {
+     "average": "67",
+     "low": "42.31",
+     "high": "91.68"
+    },
+    "restaurantIndex": "48"
+   },
+   "indices": {
+    "costOfLiving": "44.8",
+    "rent": "8.6",
+    "groceries": "41.1",
+    "restaurants": "48",
+    "costOfLivingPlusRent": "28.3",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "IL-TEL-AVIV": {
+   "currency": "USD",
+   "numbeoCity": "Tel Aviv-Yafo",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "2242.74",
+      "low": "1738.97",
+      "high": "2734.92"
+     },
+     "outside_1br": {
+      "average": "1662.1",
+      "low": "1264.7",
+      "high": "2070.95"
+     },
+     "centre_3br": {
+      "average": "3707.69",
+      "low": "3161.76",
+      "high": "5944.1"
+     },
+     "outside_3br": {
+      "average": "2790.25",
+      "low": "2213.23",
+      "high": "4489.69"
+     }
+    },
+    "rentIndex": "49.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "434.08",
+     "low": "284.56",
+     "high": "632.35"
+    },
+    "internet": {
+     "average": "34.44",
+     "low": "28.46",
+     "high": "52.49"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "54.19",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "95"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "25.29",
+     "low": "18.97",
+     "high": "37.94"
+    },
+    "midRangeForTwo": {
+     "average": "126.47",
+     "low": "79.04",
+     "high": "158.09"
+    },
+    "restaurantIndex": "107.3"
+   },
+   "indices": {
+    "costOfLiving": "103.9",
+    "rent": "49.4",
+    "groceries": "95",
+    "restaurants": "107.3",
+    "costOfLivingPlusRent": "79",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "IN-NEW-DELHI": {
+   "currency": "USD",
+   "numbeoCity": "Delhi",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "278.93",
+      "low": "158.3",
+      "high": "527.66"
+     },
+     "outside_1br": {
+      "average": "163.33",
+      "low": "105.53",
+      "high": "263.83"
+     },
+     "centre_3br": {
+      "average": "823.15",
+      "low": "422.13",
+      "high": "1582.97"
+     },
+     "outside_3br": {
+      "average": "431.18",
+      "low": "263.83",
+      "high": "685.96"
+     }
+    },
+    "rentIndex": "6.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "39.82",
+     "low": "26.38",
+     "high": "63.32"
+    },
+    "internet": {
+     "average": "6.67",
+     "low": "5.28",
+     "high": "13.72"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "12.14",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "23.9"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "3.96",
+     "low": "2.11",
+     "high": "8.44"
+    },
+    "midRangeForTwo": {
+     "average": "21.11",
+     "low": "12.66",
+     "high": "52.77"
+    },
+    "restaurantIndex": "20.7"
+   },
+   "indices": {
+    "costOfLiving": "22.1",
+    "rent": "6.9",
+    "groceries": "23.9",
+    "restaurants": "20.7",
+    "costOfLivingPlusRent": "15.1",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "ID-JAKARTA": {
+   "currency": "USD",
+   "numbeoCity": "Jakarta",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "360.23",
+      "low": "275.71",
+      "high": "551.41"
+     },
+     "outside_1br": {
+      "average": "198.76",
+      "low": "137.85",
+      "high": "303.28"
+     },
+     "centre_3br": {
+      "average": "1136.16",
+      "low": "592.77",
+      "high": "2007.14"
+     },
+     "outside_3br": {
+      "average": "554.72",
+      "low": "385.99",
+      "high": "827.12"
+     }
+    },
+    "rentIndex": "10.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "119.52",
+     "low": "46.87",
+     "high": "220.56"
+    },
+    "internet": {
+     "average": "18.44",
+     "low": "13.79",
+     "high": "27.57"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "20.64",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "35.9"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "2.76",
+     "low": "1.38",
+     "high": "4.14"
+    },
+    "midRangeForTwo": {
+     "average": "16.54",
+     "low": "9.65",
+     "high": "33.08"
+    },
+    "restaurantIndex": "16.5"
+   },
+   "indices": {
+    "costOfLiving": "28.7",
+    "rent": "10.7",
+    "groceries": "35.9",
+    "restaurants": "16.5",
+    "costOfLivingPlusRent": "20.5",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "IR-TEHRAN": {
+   "currency": "USD",
+   "numbeoCity": "Tehran",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "425.52",
+      "low": "300",
+      "high": "650"
+     },
+     "outside_1br": {
+      "average": "251.67",
+      "low": "150",
+      "high": "510"
+     },
+     "centre_3br": {
+      "average": "952",
+      "low": "650",
+      "high": "2000"
+     },
+     "outside_3br": {
+      "average": "624",
+      "low": "380",
+      "high": "1500"
+     }
+    },
+    "rentIndex": "10.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "13.01",
+     "low": "10",
+     "high": "35"
+    },
+    "internet": {
+     "average": "3.91",
+     "low": "2",
+     "high": "9"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "15.87",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "24.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "3.5",
+     "low": "2.18",
+     "high": "6"
+    },
+    "midRangeForTwo": {
+     "average": "16",
+     "low": "12",
+     "high": "35"
+    },
+    "restaurantIndex": "16.2"
+   },
+   "indices": {
+    "costOfLiving": "23",
+    "rent": "10.7",
+    "groceries": "24.1",
+    "restaurants": "16.2",
+    "costOfLivingPlusRent": "17.4",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "QA-DOHA": {
+   "currency": "USD",
+   "numbeoCity": "Doha",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "2053.41",
+      "low": "1234.2",
+      "high": "2742.68"
+     },
+     "outside_1br": {
+      "average": "1227.69",
+      "low": "822.8",
+      "high": "1645.61"
+     },
+     "centre_3br": {
+      "average": "3586.45",
+      "low": "2194.14",
+      "high": "4114.01"
+     },
+     "outside_3br": {
+      "average": "2457.03",
+      "low": "1371.34",
+      "high": "3291.21"
+     }
+    },
+    "rentIndex": "43.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "91.86",
+     "low": "54.85",
+     "high": "191.99"
+    },
+    "internet": {
+     "average": "88.02",
+     "low": "76.79",
+     "high": "109.71"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "27.73",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "43.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "10.97",
+     "low": "5.49",
+     "high": "26.88"
+    },
+    "midRangeForTwo": {
+     "average": "72.13",
+     "low": "41.14",
+     "high": "164.56"
+    },
+    "restaurantIndex": "63.3"
+   },
+   "indices": {
+    "costOfLiving": "52",
+    "rent": "43.7",
+    "groceries": "43.1",
+    "restaurants": "63.3",
+    "costOfLivingPlusRent": "48.2",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "CA-OTTAWA": {
+   "currency": "USD",
+   "numbeoCity": "Ottawa",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1440.85",
+      "low": "1284.72",
+      "high": "1712.97"
+     },
+     "outside_1br": {
+      "average": "1258.41",
+      "low": "1106.29",
+      "high": "1427.47"
+     },
+     "centre_3br": {
+      "average": "2247.25",
+      "low": "2069.83",
+      "high": "2498.07"
+     },
+     "outside_3br": {
+      "average": "1878.22",
+      "low": "1777.2",
+      "high": "2141.21"
+     }
+    },
+    "rentIndex": "32.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "138.28",
+     "low": "92.79",
+     "high": "182.72"
+    },
+    "internet": {
+     "average": "48.39",
+     "low": "28.55",
+     "high": "78.51"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "41.28",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "69"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "17.84",
+     "low": "13.56",
+     "high": "28.55"
+    },
+    "midRangeForTwo": {
+     "average": "77.8",
+     "low": "53.53",
+     "high": "107.06"
+    },
+    "restaurantIndex": "62.8"
+   },
+   "indices": {
+    "costOfLiving": "62.4",
+    "rent": "32.6",
+    "groceries": "69",
+    "restaurants": "62.8",
+    "costOfLivingPlusRent": "48.8",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "KR-SEOUL": {
+   "currency": "USD",
+   "numbeoCity": "Seoul",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "928.53",
+      "low": "744.87",
+      "high": "2234.61"
+     },
+     "outside_1br": {
+      "average": "655.49",
+      "low": "446.92",
+      "high": "1638.71"
+     },
+     "centre_3br": {
+      "average": "3068",
+      "low": "1862.18",
+      "high": "5720"
+     },
+     "outside_3br": {
+      "average": "1484.42",
+      "low": "1042.82",
+      "high": "3351.92"
+     }
+    },
+    "rentIndex": "22.5"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "212.32",
+     "low": "141.53",
+     "high": "372.44"
+    },
+    "internet": {
+     "average": "20.78",
+     "low": "13.93",
+     "high": "48.42"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "52.37",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "73.9"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "8.94",
+     "low": "7.45",
+     "high": "11.17"
+    },
+    "midRangeForTwo": {
+     "average": "68.9",
+     "low": "52.14",
+     "high": "89.38"
+    },
+    "restaurantIndex": "41.6"
+   },
+   "indices": {
+    "costOfLiving": "64.5",
+    "rent": "22.5",
+    "groceries": "73.9",
+    "restaurants": "41.6",
+    "costOfLivingPlusRent": "45.3",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "MY-KUALA-LUMPUR": {
+   "currency": "USD",
+   "numbeoCity": "Kuala Lumpur",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "689.13",
+      "low": "416.91",
+      "high": "990.78"
+     },
+     "outside_1br": {
+      "average": "355.31",
+      "low": "245.24",
+      "high": "539.53"
+     },
+     "centre_3br": {
+      "average": "1237.83",
+      "low": "735.73",
+      "high": "1961.94"
+     },
+     "outside_3br": {
+      "average": "584.66",
+      "low": "490.48",
+      "high": "980.97"
+     }
+    },
+    "rentIndex": "13.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "62.37",
+     "low": "36.79",
+     "high": "84.14"
+    },
+    "internet": {
+     "average": "26.22",
+     "low": "24.28",
+     "high": "31.88"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "26.06",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "47.8"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "4.9",
+     "low": "3.68",
+     "high": "8.58"
+    },
+    "midRangeForTwo": {
+     "average": "26.98",
+     "low": "21.58",
+     "high": "63.76"
+    },
+    "restaurantIndex": "28.1"
+   },
+   "indices": {
+    "costOfLiving": "38.8",
+    "rent": "13.4",
+    "groceries": "47.8",
+    "restaurants": "28.1",
+    "costOfLivingPlusRent": "27.2",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "MX-MEXICO-CITY": {
+   "currency": "USD",
+   "numbeoCity": "Mexico City",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1149.42",
+      "low": "796.99",
+      "high": "1668.37"
+     },
+     "outside_1br": {
+      "average": "769.98",
+      "low": "531.33",
+      "high": "1264.56"
+     },
+     "centre_3br": {
+      "average": "2505.64",
+      "low": "1593.99",
+      "high": "3559.9"
+     },
+     "outside_3br": {
+      "average": "1415.66",
+      "low": "796.99",
+      "high": "2699.15"
+     }
+    },
+    "rentIndex": "27.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "60.93",
+     "low": "31.88",
+     "high": "103.23"
+    },
+    "internet": {
+     "average": "33.93",
+     "low": "21.25",
+     "high": "53.13"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "33.07",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "56"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "10.63",
+     "low": "5.84",
+     "high": "26.57"
+    },
+    "midRangeForTwo": {
+     "average": "50.48",
+     "low": "31.88",
+     "high": "85.01"
+    },
+    "restaurantIndex": "48.1"
+   },
+   "indices": {
+    "costOfLiving": "48.9",
+    "rent": "27.7",
+    "groceries": "56",
+    "restaurants": "48.1",
+    "costOfLivingPlusRent": "39.2",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "RU-MOSCOW": {
+   "currency": "USD",
+   "numbeoCity": "Moscow",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1478.08",
+      "low": "1102.43",
+      "high": "1837.39"
+     },
+     "outside_1br": {
+      "average": "816.49",
+      "low": "612.46",
+      "high": "1041.19"
+     },
+     "centre_3br": {
+      "average": "3010.49",
+      "low": "1837.39",
+      "high": "4777.21"
+     },
+     "outside_3br": {
+      "average": "1491.11",
+      "low": "1102.43",
+      "high": "2449.85"
+     }
+    },
+    "rentIndex": "33.1"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "180.13",
+     "low": "122.49",
+     "high": "306.23"
+    },
+    "internet": {
+     "average": "9.62",
+     "low": "6.12",
+     "high": "14.7"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "28.7",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "45.2"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "12.25",
+     "low": "7.96",
+     "high": "24.5"
+    },
+    "midRangeForTwo": {
+     "average": "61.25",
+     "low": "42.87",
+     "high": "122.49"
+    },
+    "restaurantIndex": "50.7"
+   },
+   "indices": {
+    "costOfLiving": "51.7",
+    "rent": "33.1",
+    "groceries": "45.2",
+    "restaurants": "50.7",
+    "costOfLivingPlusRent": "43.2",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "ZA-PRETORIA": {
+   "currency": "USD",
+   "numbeoCity": "Pretoria",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "454.92",
+      "low": "331",
+      "high": "655.99"
+     },
+     "outside_1br": {
+      "average": "357.35",
+      "low": "240.73",
+      "high": "541.64"
+     },
+     "centre_3br": {
+      "average": "1035.14",
+      "low": "662.01",
+      "high": "1251.79"
+     },
+     "outside_3br": {
+      "average": "729.6",
+      "low": "601.82",
+      "high": "902.74"
+     }
+    },
+    "rentIndex": "12.4"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "151.27",
+     "low": "120.36",
+     "high": "210.64"
+    },
+    "internet": {
+     "average": "36.89",
+     "low": "29.13",
+     "high": "48.09"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "21.47",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "35.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "9.03",
+     "low": "4.81",
+     "high": "15.05"
+    },
+    "midRangeForTwo": {
+     "average": "36.47",
+     "low": "30.09",
+     "high": "47.24"
+    },
+    "restaurantIndex": "32.7"
+   },
+   "indices": {
+    "costOfLiving": "42.3",
+    "rent": "12.4",
+    "groceries": "35.3",
+    "restaurants": "32.7",
+    "costOfLivingPlusRent": "28.6",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "AM-YEREVAN": {
+   "currency": "USD",
+   "numbeoCity": "Yerevan",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1087.91",
+      "low": "694.33",
+      "high": "1805.26"
+     },
+     "outside_1br": {
+      "average": "713.94",
+      "low": "472.15",
+      "high": "1055.39"
+     },
+     "centre_3br": {
+      "average": "1537.28",
+      "low": "972.07",
+      "high": "2777.33"
+     },
+     "outside_3br": {
+      "average": "971.24",
+      "low": "833.2",
+      "high": "1388.67"
+     }
+    },
+    "rentIndex": "16.8"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "126.68",
+     "low": "94.43",
+     "high": "180.53"
+    },
+    "internet": {
+     "average": "24.33",
+     "low": "19.44",
+     "high": "34.72"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "26.51",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "40.5"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "11.11",
+     "low": "5.55",
+     "high": "18.05"
+    },
+    "midRangeForTwo": {
+     "average": "52.77",
+     "low": "27.77",
+     "high": "83.32"
+    },
+    "restaurantIndex": "44.4"
+   },
+   "indices": {
+    "costOfLiving": "43.6",
+    "rent": "16.8",
+    "groceries": "40.5",
+    "restaurants": "44.4",
+    "costOfLivingPlusRent": "31.4",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "SA-RIYADH": {
+   "currency": "USD",
+   "numbeoCity": "Riyadh",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1159.71",
+      "low": "796.91",
+      "high": "1933.84"
+     },
+     "outside_1br": {
+      "average": "827.79",
+      "low": "531.27",
+      "high": "1328.18"
+     },
+     "centre_3br": {
+      "average": "2123.32",
+      "low": "1726.64",
+      "high": "2762.62"
+     },
+     "outside_3br": {
+      "average": "1247.27",
+      "low": "796.91",
+      "high": "2071.97"
+     }
+    },
+    "rentIndex": "24.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "106.71",
+     "low": "66.41",
+     "high": "185.95"
+    },
+    "internet": {
+     "average": "69.02",
+     "low": "53.13",
+     "high": "92.97"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "30.52",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "49.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "7.97",
+     "low": "4.78",
+     "high": "15.94"
+    },
+    "midRangeForTwo": {
+     "average": "66.41",
+     "low": "37.19",
+     "high": "132.82"
+    },
+    "restaurantIndex": "40.7"
+   },
+   "indices": {
+    "costOfLiving": "50",
+    "rent": "24.6",
+    "groceries": "49.3",
+    "restaurants": "40.7",
+    "costOfLivingPlusRent": "38.4",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "UZ-TASHKENT": {
+   "currency": "USD",
+   "numbeoCity": "Tashkent",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "600.25",
+      "low": "419.18",
+      "high": "900"
+     },
+     "outside_1br": {
+      "average": "405.54",
+      "low": "301.81",
+      "high": "600"
+     },
+     "centre_3br": {
+      "average": "1190.6",
+      "low": "700",
+      "high": "2012.05"
+     },
+     "outside_3br": {
+      "average": "728.21",
+      "low": "500",
+      "high": "1006.03"
+     }
+    },
+    "rentIndex": "13.3"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "66.93",
+     "low": "41.92",
+     "high": "100.6"
+    },
+    "internet": {
+     "average": "13.7",
+     "low": "10.4",
+     "high": "17.61"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "21.07",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "34.3"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "6.71",
+     "low": "4.19",
+     "high": "16.77"
+    },
+    "midRangeForTwo": {
+     "average": "33.56",
+     "low": "20.96",
+     "high": "50.3"
+    },
+    "restaurantIndex": "26.7"
+   },
+   "indices": {
+    "costOfLiving": "30.7",
+    "rent": "13.3",
+    "groceries": "34.3",
+    "restaurants": "26.7",
+    "costOfLivingPlusRent": "22.8",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "UA-KYIV": {
+   "currency": "USD",
+   "numbeoCity": "Kiev (Kyiv)",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "651.03",
+      "low": "481.78",
+      "high": "954.32"
+     },
+     "outside_1br": {
+      "average": "331.11",
+      "low": "240.89",
+      "high": "437.98"
+     },
+     "centre_3br": {
+      "average": "1367.25",
+      "low": "875.96",
+      "high": "2013.8"
+     },
+     "outside_3br": {
+      "average": "682.52",
+      "low": "437.98",
+      "high": "1555.1"
+     }
+    },
+    "rentIndex": "13.1"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "101.15",
+     "low": "56.94",
+     "high": "150.07"
+    },
+    "internet": {
+     "average": "6.43",
+     "low": "4.82",
+     "high": "9.85"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "21.38",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "33.6"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "10.95",
+     "low": "6.57",
+     "high": "17.52"
+    },
+    "midRangeForTwo": {
+     "average": "32.85",
+     "low": "21.9",
+     "high": "65.7"
+    },
+    "restaurantIndex": "30.9"
+   },
+   "indices": {
+    "costOfLiving": "32.7",
+    "rent": "13.1",
+    "groceries": "33.6",
+    "restaurants": "30.9",
+    "costOfLivingPlusRent": "23.7",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "UA-ODESA": {
+   "currency": "USD",
+   "numbeoCity": "Odessa (Odesa)",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1465.33",
+      "low": "1140",
+      "high": "2056"
+     },
+     "outside_1br": {
+      "average": "963.67",
+      "low": "891",
+      "high": "1000"
+     },
+     "centre_3br": {
+      "average": "2176.67",
+      "low": "1890",
+      "high": "2400"
+     },
+     "outside_3br": {
+      "average": "1829.5",
+      "low": "1659",
+      "high": "2000"
+     }
+    },
+    "rentIndex": "6.8"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "450",
+     "low": null,
+     "high": null
+    },
+    "internet": {
+     "average": "100",
+     "low": null,
+     "high": null
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "53.05",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "31"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "40",
+     "low": "35",
+     "high": "45"
+    },
+    "midRangeForTwo": {
+     "average": "72",
+     "low": "70",
+     "high": "80"
+    },
+    "restaurantIndex": "28.4"
+   },
+   "indices": {
+    "costOfLiving": "30.1",
+    "rent": "6.8",
+    "groceries": "31",
+    "restaurants": "28.4",
+    "costOfLivingPlusRent": "19.5",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "KW-KUWAIT-CITY": {
+   "currency": "USD",
+   "numbeoCity": "Kuwait City",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "921.36",
+      "low": "802.58",
+      "high": "1765.67"
+     },
+     "outside_1br": {
+      "average": "633.23",
+      "low": "577.86",
+      "high": "1123.61"
+     },
+     "centre_3br": {
+      "average": "1852.1",
+      "low": "1418.96",
+      "high": "2247.22"
+     },
+     "outside_3br": {
+      "average": "1330.85",
+      "low": "1123.61",
+      "high": "1605.16"
+     }
+    },
+    "rentIndex": "22.7"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "65.32",
+     "low": "49.61",
+     "high": "96.31"
+    },
+    "internet": {
+     "average": "31.7",
+     "low": "16.05",
+     "high": "48.15"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "23.06",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "36.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "12.84",
+     "low": "6.42",
+     "high": "24.08"
+    },
+    "midRangeForTwo": {
+     "average": "64.21",
+     "low": "38.52",
+     "high": "96.31"
+    },
+    "restaurantIndex": "54.2"
+   },
+   "indices": {
+    "costOfLiving": "46",
+    "rent": "22.7",
+    "groceries": "36.1",
+    "restaurants": "54.2",
+    "costOfLivingPlusRent": "35.4",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "KZ-ASTANA": {
+   "currency": "USD",
+   "numbeoCity": "Astana (Nur-Sultan)",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "257586.25",
+      "low": "220000",
+      "high": "350000"
+     },
+     "outside_1br": {
+      "average": "179666.67",
+      "low": "156000",
+      "high": "200000"
+     },
+     "centre_3br": {
+      "average": "512727.27",
+      "low": "350000",
+      "high": "850000"
+     },
+     "outside_3br": {
+      "average": "346833.33",
+      "low": "270000",
+      "high": "500000"
+     }
+    },
+    "rentIndex": "12.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "30461.11",
+     "low": "25000",
+     "high": "49583.33"
+    },
+    "internet": {
+     "average": "7832",
+     "low": "5500",
+     "high": "10000"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "11256.77",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "34.8"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "4739.69",
+     "low": "4000",
+     "high": "6000"
+    },
+    "midRangeForTwo": {
+     "average": "17006.5",
+     "low": "13000",
+     "high": "25000"
+    },
+    "restaurantIndex": "31"
+   },
+   "indices": {
+    "costOfLiving": "32.8",
+    "rent": "12.6",
+    "groceries": "34.8",
+    "restaurants": "31",
+    "costOfLivingPlusRent": "23.6",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "CN-BEIJING": {
+   "currency": "USD",
+   "numbeoCity": "Beijing",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "923.32",
+      "low": "749.52",
+      "high": "1124.29"
+     },
+     "outside_1br": {
+      "average": "515.86",
+      "low": "424.23",
+      "high": "704.55"
+     },
+     "centre_3br": {
+      "average": "2241.43",
+      "low": "1783.87",
+      "high": "3297.91"
+     },
+     "outside_3br": {
+      "average": "1066.53",
+      "low": "749.52",
+      "high": "1648.95"
+     }
+    },
+    "rentIndex": "23.6"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "59.16",
+     "low": "37.48",
+     "high": "74.95"
+    },
+    "internet": {
+     "average": "14.34",
+     "low": "11.99",
+     "high": "19.49"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "45.85",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "39.7"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "4.5",
+     "low": "3.6",
+     "high": "7.5"
+    },
+    "midRangeForTwo": {
+     "average": "29.98",
+     "low": "22.49",
+     "high": "67.46"
+    },
+    "restaurantIndex": "25.2"
+   },
+   "indices": {
+    "costOfLiving": "37.9",
+    "rent": "23.6",
+    "groceries": "39.7",
+    "restaurants": "25.2",
+    "costOfLivingPlusRent": "31.4",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "CU-HAVANA": {
+   "currency": "USD",
+   "numbeoCity": "Havana",
+   "rent": {
+    "status": "partial",
+    "items": {
+     "centre_1br": {
+      "average": "247.66",
+      "low": "180.64",
+      "high": "375.49"
+     },
+     "outside_1br": {
+      "average": "214.4",
+      "low": "175",
+      "high": "268.2"
+     },
+     "centre_3br": {
+      "average": "884.35",
+      "low": "600",
+      "high": "1287.38"
+     },
+     "outside_3br": {
+      "average": "506.42",
+      "low": "400",
+      "high": "700"
+     }
+    },
+    "rentIndex": null
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "47.33",
+     "low": "20",
+     "high": "100"
+    },
+    "internet": {
+     "average": "90.21",
+     "low": "60",
+     "high": "120.43"
+    }
+   },
+   "groceries": {
+    "status": "partial",
+    "basketItemsSum": "47.34",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": null
+   },
+   "restaurants": {
+    "status": "partial",
+    "inexpensiveMeal": {
+     "average": "3.61",
+     "low": "2.5",
+     "high": "10"
+    },
+    "midRangeForTwo": {
+     "average": "27.5",
+     "low": "16.8",
+     "high": "50"
+    },
+    "restaurantIndex": null
+   },
+   "indices": {
+    "costOfLiving": null,
+    "rent": null,
+    "groceries": null,
+    "restaurants": null,
+    "costOfLivingPlusRent": null,
+    "status": "not_found",
+    "period": null
+   }
+  },
+  "ET-ADDIS-ABABA": {
+   "currency": "USD",
+   "numbeoCity": "Addis Ababa",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "706.95",
+      "low": "364.67",
+      "high": "2500"
+     },
+     "outside_1br": {
+      "average": "394.55",
+      "low": "250",
+      "high": "1500"
+     },
+     "centre_3br": {
+      "average": "2269.56",
+      "low": "1086.95",
+      "high": "3500"
+     },
+     "outside_3br": {
+      "average": "773.67",
+      "low": "565.35",
+      "high": "2000"
+     }
+    },
+    "rentIndex": "18.5"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "205",
+     "low": "60",
+     "high": "350"
+    },
+    "internet": {
+     "average": "212.33",
+     "low": "71",
+     "high": "450"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "44.42",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "41.1"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "4",
+     "low": "2.02",
+     "high": "10"
+    },
+    "midRangeForTwo": {
+     "average": "42.5",
+     "low": "25",
+     "high": "52"
+    },
+    "restaurantIndex": "25"
+   },
+   "indices": {
+    "costOfLiving": "42.7",
+    "rent": "18.5",
+    "groceries": "41.1",
+    "restaurants": "25",
+    "costOfLivingPlusRent": "31.6",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "AE-ABU-DHABI": {
+   "currency": "USD",
+   "numbeoCity": "Abu Dhabi",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "1974.88",
+      "low": "1474.86",
+      "high": "2722.64"
+     },
+     "outside_1br": {
+      "average": "1422.58",
+      "low": "1089.06",
+      "high": "1769.72"
+     },
+     "centre_3br": {
+      "average": "3789.78",
+      "low": "2994.91",
+      "high": "5445.29"
+     },
+     "outside_3br": {
+      "average": "2841.16",
+      "low": "2041.98",
+      "high": "3811.7"
+     }
+    },
+    "rentIndex": "45.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "189.76",
+     "low": "136.13",
+     "high": "282.85"
+    },
+    "internet": {
+     "average": "96.62",
+     "low": "68.07",
+     "high": "136.13"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "53.97",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "47.2"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "9.26",
+     "low": "5.45",
+     "high": "16.34"
+    },
+    "midRangeForTwo": {
+     "average": "54.45",
+     "low": "38.12",
+     "high": "122.52"
+    },
+    "restaurantIndex": "59"
+   },
+   "indices": {
+    "costOfLiving": "55.1",
+    "rent": "45.9",
+    "groceries": "47.2",
+    "restaurants": "59",
+    "costOfLivingPlusRent": "50.9",
+    "status": "fresh",
+    "period": null
+   }
+  },
+  "VN-HANOI": {
+   "currency": "USD",
+   "numbeoCity": "Hanoi",
+   "rent": {
+    "status": "fresh",
+    "items": {
+     "centre_1br": {
+      "average": "439",
+      "low": "271.68",
+      "high": "842.2"
+     },
+     "outside_1br": {
+      "average": "291.49",
+      "low": "194.05",
+      "high": "426.92"
+     },
+     "centre_3br": {
+      "average": "879.15",
+      "low": "504.54",
+      "high": "1901.73"
+     },
+     "outside_3br": {
+      "average": "547.89",
+      "low": "388.11",
+      "high": "737.41"
+     }
+    },
+    "rentIndex": "9.9"
+   },
+   "utilities": {
+    "status": "fresh",
+    "basic85m2": {
+     "average": "84.67",
+     "low": "59.98",
+     "high": "116.43"
+    },
+    "internet": {
+     "average": "8.77",
+     "low": "7.18",
+     "high": "11.64"
+    }
+   },
+   "groceries": {
+    "status": "fresh",
+    "basketItemsSum": "39.3",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "groceriesIndex": "32.9"
+   },
+   "restaurants": {
+    "status": "fresh",
+    "inexpensiveMeal": {
+     "average": "2.04",
+     "low": "1.55",
+     "high": "3.88"
+    },
+    "midRangeForTwo": {
+     "average": "23.29",
+     "low": "15.52",
+     "high": "58.22"
+    },
+    "restaurantIndex": "16.4"
+   },
+   "indices": {
+    "costOfLiving": "28.3",
+    "rent": "9.9",
+    "groceries": "32.9",
+    "restaurants": "16.4",
+    "costOfLivingPlusRent": "19.9",
+    "status": "fresh",
+    "period": null
+   }
+  }
+ }
+}
