@@ -222,7 +222,7 @@ async function ingestCityPage(p, st, job, run, token, t, rankingsRun) {
   for (const g of groups) {
     for (const loc of run.locs) {
       const entry = p.names.locations[loc];
-      if (!entry || !cityMatches(g.city, entry.numbeoCity) || job.written.includes(`${loc}:${run.currency}`)) continue;
+      if (!entry || !(cityMatches(g.city, entry.numbeoCity) || cityMatches(g.city, pricesQueryFor(entry))) || job.written.includes(`${loc}:${run.currency}`)) continue;
       const md = normalizeApify({ locationId: loc, currency: run.currency, entry, prices: { status: 'ok', items: g.rows }, rankings, fetchedAt });
       if (mdHasValue(md) && !['wrong_city', 'invalid_response'].includes(md.utilities.status)) {
         const expiresAt = t + p.cfg.ttl * 1000;

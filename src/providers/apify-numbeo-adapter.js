@@ -274,7 +274,8 @@ export function normalizeApify(p) {
     if (rows.length === 0) pStatus = 'invalid_response';
     else {
       const withCity = rows.filter((r) => typeof r.city === 'string' && r.city.trim());
-      const own = withCity.length ? withCity.filter((r) => cityMatches(r.city, entry.numbeoCity)) : rows;
+      // ქალაქი ემთხვევა Numbeo-ს სახელს ან actor-ის შესავალ სახელს (მაგ. Ganja → „Gence“, 2026-11-04).
+      const own = withCity.length ? withCity.filter((r) => cityMatches(r.city, entry.numbeoCity) || cityMatches(r.city, pricesQueryFor(entry))) : rows;
       if (!withCity.length) warnings.add('city_name_unverified');
       if (withCity.length && own.length === 0) pStatus = 'wrong_city';
       else {
