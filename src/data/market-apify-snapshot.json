@@ -59,7 +59,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "37.69",
+    "basketItemsSum": "71.35",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "72.4"
@@ -132,7 +132,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "40.16",
+    "basketItemsSum": "75.79",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "74.6"
@@ -205,7 +205,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "29.93",
+    "basketItemsSum": "55.45",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "50.1"
@@ -278,7 +278,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "36.22",
+    "basketItemsSum": "69.03",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "66.2"
@@ -351,7 +351,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "35.16",
+    "basketItemsSum": "67.3",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "65.1"
@@ -424,7 +424,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "36.06",
+    "basketItemsSum": "68.8",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "66.6"
@@ -497,7 +497,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "47.02",
+    "basketItemsSum": "86.89",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "82"
@@ -570,7 +570,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "35.03",
+    "basketItemsSum": "63.92",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "72.4"
@@ -643,7 +643,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "41.37",
+    "basketItemsSum": "79.71",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "79.2"
@@ -716,7 +716,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "45.23",
+    "basketItemsSum": "89.7",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "84.3"
@@ -789,7 +789,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "40.69",
+    "basketItemsSum": "78.82",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "79.6"
@@ -862,7 +862,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "32.4",
+    "basketItemsSum": "61.33",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "57.6"
@@ -935,7 +935,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "35.02",
+    "basketItemsSum": "66.14",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "60.2"
@@ -1008,7 +1008,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "32.81",
+    "basketItemsSum": "63.05",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "58.6"
@@ -1081,7 +1081,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "24.37",
+    "basketItemsSum": "46.9",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "42.7"
@@ -1154,7 +1154,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "25.23",
+    "basketItemsSum": "48.86",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "45.2"
@@ -1219,7 +1219,7 @@
    },
    "groceries": {
     "status": "partial",
-    "basketItemsSum": "20.29",
+    "basketItemsSum": "38.51",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": null
@@ -1292,7 +1292,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "33.91",
+    "basketItemsSum": "61.88",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "74.3"
@@ -1365,7 +1365,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "35.52",
+    "basketItemsSum": "67.15",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "60"
@@ -1438,7 +1438,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "42.84",
+    "basketItemsSum": "82.07",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "75.5"
@@ -1511,7 +1511,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "31.82",
+    "basketItemsSum": "60.98",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "56.7"
@@ -1584,7 +1584,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "30.55",
+    "basketItemsSum": "56.21",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "56.3"
@@ -1657,7 +1657,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "26.77",
+    "basketItemsSum": "49.76",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "50.5"
@@ -1730,7 +1730,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "25.39",
+    "basketItemsSum": "46.75",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "46.3"
@@ -1803,7 +1803,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "19.41",
+    "basketItemsSum": "35.54",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "34"
@@ -1876,7 +1876,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "34.49",
+    "basketItemsSum": "65.26",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "67.3"
@@ -1949,7 +1949,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "52.68",
+    "basketItemsSum": "97.11",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "93.1"
@@ -2022,7 +2022,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "24.58",
+    "basketItemsSum": "45.33",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "46.6"
@@ -2136,7 +2136,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "29.47",
+    "basketItemsSum": "55.43",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "50.9"
@@ -2209,7 +2209,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "22.94",
+    "basketItemsSum": "41.66",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "41.8"
@@ -2282,7 +2282,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "32.79",
+    "basketItemsSum": "61.43",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "55.6"
@@ -2355,7 +2355,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "34.62",
+    "basketItemsSum": "64.16",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "57.1"
@@ -2428,7 +2428,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "32.09",
+    "basketItemsSum": "59.84",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "56.5"
@@ -2501,7 +2501,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "31.4",
+    "basketItemsSum": "58.76",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "53.8"
@@ -2574,7 +2574,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "27.15",
+    "basketItemsSum": "50.32",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "52.2"
@@ -2647,7 +2647,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "42.44",
+    "basketItemsSum": "77",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "76.4"
@@ -2720,7 +2720,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "60.76",
+    "basketItemsSum": "116.61",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "105.7"
@@ -2793,7 +2793,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "62.81",
+    "basketItemsSum": "119.99",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "107.3"
@@ -2866,7 +2866,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "27.94",
+    "basketItemsSum": "52.23",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "52"
@@ -2939,7 +2939,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "36.93",
+    "basketItemsSum": "69.12",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "71.3"
@@ -3012,7 +3012,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "31.65",
+    "basketItemsSum": "60.08",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "55.9"
@@ -3085,7 +3085,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "41.41",
+    "basketItemsSum": "75.51",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "90.4"
@@ -3158,7 +3158,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "30.9",
+    "basketItemsSum": "56.43",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "48"
@@ -3231,7 +3231,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "20.32",
+    "basketItemsSum": "38.24",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "33.3"
@@ -3377,7 +3377,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "55.34",
+    "basketItemsSum": "103.12",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "95.6"
@@ -3450,7 +3450,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "61.7",
+    "basketItemsSum": "115.6",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "100"
@@ -3596,7 +3596,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "21.49",
+    "basketItemsSum": "41",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "35.6"
@@ -3669,7 +3669,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "21.24",
+    "basketItemsSum": "39.09",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "35.5"
@@ -3742,7 +3742,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "13.35",
+    "basketItemsSum": "25.65",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "25.1"
@@ -3815,7 +3815,7 @@
    },
    "groceries": {
     "status": "partial",
-    "basketItemsSum": "68.14",
+    "basketItemsSum": "131.04",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": null
@@ -3888,7 +3888,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "35.56",
+    "basketItemsSum": "69.87",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "65"
@@ -3961,7 +3961,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "23.11",
+    "basketItemsSum": "44.1",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "41.1"
@@ -4034,7 +4034,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "54.19",
+    "basketItemsSum": "99.8",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "95"
@@ -4107,7 +4107,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "12.14",
+    "basketItemsSum": "23.08",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "23.9"
@@ -4180,7 +4180,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "20.64",
+    "basketItemsSum": "38.88",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "35.9"
@@ -4253,7 +4253,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "15.87",
+    "basketItemsSum": "31.1",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "24.1"
@@ -4326,7 +4326,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "27.73",
+    "basketItemsSum": "50.76",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "43.1"
@@ -4399,7 +4399,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "41.28",
+    "basketItemsSum": "76.23",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "69"
@@ -4472,7 +4472,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "52.37",
+    "basketItemsSum": "100.86",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "73.9"
@@ -4545,7 +4545,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "26.06",
+    "basketItemsSum": "48.8",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "47.8"
@@ -4618,7 +4618,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "33.07",
+    "basketItemsSum": "61.24",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "56"
@@ -4691,7 +4691,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "28.7",
+    "basketItemsSum": "55.38",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "45.2"
@@ -4764,7 +4764,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "21.47",
+    "basketItemsSum": "38.87",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "35.3"
@@ -4837,7 +4837,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "26.51",
+    "basketItemsSum": "49.92",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "40.5"
@@ -4910,7 +4910,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "30.52",
+    "basketItemsSum": "57.39",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "49.3"
@@ -4983,7 +4983,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "21.07",
+    "basketItemsSum": "40.09",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "34.3"
@@ -5056,7 +5056,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "21.38",
+    "basketItemsSum": "39.91",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "33.6"
@@ -5129,7 +5129,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "53.05",
+    "basketItemsSum": "99.99",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "31"
@@ -5202,7 +5202,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "23.06",
+    "basketItemsSum": "41.64",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "36.1"
@@ -5275,7 +5275,7 @@
    },
    "groceries": {
     "status": "fresh",
-    "basketItemsSum": "11256.77",
+    "basketItemsSum": "21327.4",
     "itemsCounted": 15,
     "itemsMissing": 0,
     "groceriesIndex": "34.8"

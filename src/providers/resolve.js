@@ -12,6 +12,7 @@
 
 import { STATUSES_WITH_VALUE, overallStatus, validateMarketData } from './market-contract.js';
 import { snapshotEntryToMarketData } from './snapshot.js';
+import { apifySnapshotEntryToMarketData } from './apify-snapshot.js';
 import capitalsFile from './capitals.json' with { type: 'json' };
 
 export const CAPITALS = capitalsFile.capitals;
@@ -19,6 +20,21 @@ const BLOCKS = /** @type {const} */ (['rent', 'utilities', 'groceries', 'restaur
 
 /** @param {any} b */
 const hasValue = (b) => !!b && STATUSES_WITH_VALUE.includes(b.status);
+/**
+ * „ძლიერი“ მნიშვნელობა — კატეგორიის ძირითადი თანხები (არა მხოლოდ ინდექსი). ქირის ბლოკი მხოლოდ rentIndex-ით სუსტია:
+ * მაშინ შემდეგი წყაროს რეალური ქირა უპირატესია (მაგ. Krakow: Apify-ს ფასები არ აქვს, მომხმარებლის ასლს — აქვს).
+ * @param {any} b @param {string} k
+ */
+function strong(b, k) {
+  if (!hasValue(b)) return false;
+  if (k === 'rent') return Object.values(b.items || {}).some(Boolean);
+  if (k === 'utilities') return !!(b.basic85m2 || b.internet);
+  if (k === 'groceries') return !!b.basketItemsSum;
+  if (k === 'restaurants') return !!(b.inexpensiveMeal || b.midRangeForTwo);
+  if (k === 'budget') return !!(b.single || b.family4);
+  return true;
+}
+
 /** @param {any} md */
 export const mdHasValue = (md) => !!md && BLOCKS.some((k) => hasValue(md[k]));
 
@@ -52,16 +68,17 @@ function addWarning(list, w) {
 }
 
 /**
- * @param {{ locationId: string, primary?: any, ownSnapshot?: any, capital?: { locationId: string, city_ka: string, md: any } | null }} p
+ * წყაროების რიგი თითო კატეგორიაზე: primary (KV/live) → apifySnapshot (Apify-ის ასლი, 04.11.2026) → ownSnapshot
+ * (მომხმარებლის ასლი, 31.10.2026; ბიუჯეტი მხოლოდ აქ) → დედაქალაქი (იგივე რიგით).
+ * @param {{ locationId: string, primary?: any, apifySnapshot?: any, ownSnapshot?: any, capital?: { locationId: string, city_ka: string, md: any } | null }} p
  * @returns {import('./market-contract.js').MarketData | null}
  */
 export function composeMarketData(p) {
-  const primary = mdHasValue(p.primary) ? p.primary : null;
-  const own = mdHasValue(p.ownSnapshot) ? p.ownSnapshot : null;
+  const sources = [p.primary, p.apifySnapshot, p.ownSnapshot].filter(mdHasValue);
   const cap = p.capital && mdHasValue(p.capital.md) ? p.capital : null;
   const fbMsg = cap ? `ქალაქის მონაცემი არ მოიძებნა — ნაჩვენებია დედაქალაქის (${cap.city_ka}) მონაცემი` : '';
 
-  const base = primary || own;
+  const base = sources[0];
   if (!base) {
     if (!cap) return null;
     const md = structuredClone(cap.md);
@@ -76,11 +93,13 @@ export function composeMarketData(p) {
   const md = structuredClone(base);
   let usedCapital = false;
   for (const k of BLOCKS) {
-    if (hasValue(md[k])) continue;
-    if (base === primary && own && hasValue(own[k])) {
-      md[k] = structuredClone(own[k]);
-      for (const w of own.warnings) if (['snapshot_copy', 'reference_fx'].includes(w.code)) addWarning(md.warnings, w);
-    } else if (cap && hasValue(cap.md[k])) {
+    if (strong(md[k], k)) continue;
+    const src = sources.slice(1).find((x) => strong(x[k], k)) || (hasValue(md[k]) ? null : sources.slice(1).find((x) => hasValue(x[k])));
+    if (!src && hasValue(md[k]) && !(cap && strong(cap.md[k], k))) continue; // მხოლოდ ინდექსი, უკეთესი არსად — ვტოვებთ
+    if (src) {
+      md[k] = structuredClone(src[k]);
+      for (const w of src.warnings) if (['snapshot_copy', 'reference_fx'].includes(w.code)) addWarning(md.warnings, w);
+    } else if (cap && (strong(cap.md[k], k) || (!hasValue(md[k]) && hasValue(cap.md[k])))) {
       md[k] = { ...structuredClone(cap.md[k]), fallback: true };
       usedCapital = true;
       for (const w of cap.md.warnings) if (['snapshot_copy', 'reference_fx'].includes(w.code)) addWarning(md.warnings, w);
@@ -97,13 +116,17 @@ export function composeMarketData(p) {
 }
 
 /**
- * ასლიდან (კლიენტი/ოფლაინ): ქალაქის ასლი + დედაქალაქის წესი. → MarketData | null.
- * @param {any} snapshot @param {string} locationId @param {'EUR'|'USD'} currency
- * @param {{ capitals?: Record<string, { locationId: string, city_ka: string }> }} [opts]
+ * ასლებიდან (კლიენტი/ოფლაინ): Apify-ის ასლი (opts.apifySnapshot, 04.11.2026) → მომხმარებლის ასლი (31.10.2026) → დედაქალაქი.
+ * @param {any} snapshot მომხმარებლის ასლი (src/data/market-snapshot.json) ან null
+ * @param {string} locationId @param {'EUR'|'USD'} currency
+ * @param {{ apifySnapshot?: any, capitals?: Record<string, { locationId: string, city_ka: string }> }} [opts]
  */
 export function marketDataFromSnapshot(snapshot, locationId, currency, opts = {}) {
-  const own = snapshotEntryToMarketData(snapshot, locationId, currency);
+  const layer = (/** @type {string} */ loc) => ({
+    apifySnapshot: opts.apifySnapshot ? apifySnapshotEntryToMarketData(opts.apifySnapshot, loc, currency) : null,
+    ownSnapshot: snapshot ? snapshotEntryToMarketData(snapshot, loc, currency) : null,
+  });
   const capInfo = capitalFor(locationId, opts.capitals);
-  const capital = capInfo ? { ...capInfo, md: snapshotEntryToMarketData(snapshot, capInfo.locationId, currency) } : null;
-  return composeMarketData({ locationId, ownSnapshot: own, capital });
+  const capital = capInfo ? { ...capInfo, md: composeMarketData({ locationId: capInfo.locationId, ...layer(capInfo.locationId) }) } : null;
+  return composeMarketData({ locationId, ...layer(locationId), capital });
 }

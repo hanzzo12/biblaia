@@ -22,7 +22,9 @@ import { fetchApifyMarket, runActor, GENERIC_PROVIDER, DEFAULT_TIMEOUT_MS, RANKI
 import realNames from '../src/providers/numbeo-city-names.json' with { type: 'json' };
 import normative from '../src/data/normative-data.json' with { type: 'json' };
 import realSnapshot from '../src/data/market-snapshot.json' with { type: 'json' };
+import realApifySnapshot from '../src/data/market-apify-snapshot.json' with { type: 'json' };
 import { snapshotEntryToMarketData } from '../src/providers/snapshot.js';
+import { apifySnapshotEntryToMarketData } from '../src/providers/apify-snapshot.js';
 import { composeMarketData, capitalFor } from '../src/providers/resolve.js';
 import { runRefreshTick, readRefreshState, REFRESH_STATE_KEY } from './refresh.js';
 
@@ -99,12 +101,13 @@ function relabel(md, to) {
 }
 
 /**
- * @param {{ names?: any, snapshot?: any, locationIds?: Iterable<string>, fetchImpl?: typeof fetch, now?: () => number,
+ * @param {{ names?: any, snapshot?: any, apifySnapshot?: any, locationIds?: Iterable<string>, fetchImpl?: typeof fetch, now?: () => number,
  *           cacheStore?: CacheStore, log?: (line: string) => void }} [deps]
  */
 export function createWorker(deps = {}) {
   const names = deps.names || realNames;
   const snapshot = 'snapshot' in deps ? deps.snapshot : realSnapshot;
+  const apifySnapshot = 'apifySnapshot' in deps ? deps.apifySnapshot : realApifySnapshot;
   /** @type {Record<string, string[]>} ლოკაცია → მისიების დაფინანსების ვალუტები (cron-ის ბათჩებისთვის). */
   const locationCurrencies = deps.locationCurrencies || (normative.missions || []).reduce((/** @type {Record<string, string[]>} */ acc, /** @type {any} */ m) => {
     if (m.locationId && m.fundingCurrency) { const a = (acc[m.locationId] ??= []); if (!a.includes(m.fundingCurrency)) a.push(m.fundingCurrency); }
@@ -137,6 +140,8 @@ export function createWorker(deps = {}) {
       onDemand: String(env.MARKET_ON_DEMAND ?? 'false').trim().toLowerCase() === 'true',
       refreshDays: intVar(env.MARKET_REFRESH_DAYS, 30, 365),
       pageRows: intVar(env.MARKET_REFRESH_PAGE_ROWS, 120, 1000) || 120,
+      // პირველ ფონურ განახლებამდე Apify არ გამოიძახება (ძველი ანგარიშის კრედიტი ამოწურულია; ახლის $1.85 არ დავხარჯოთ ნოემბერში).
+      firstRefreshAfter: (() => { const v = String(env.MARKET_FIRST_REFRESH_AFTER ?? '2026-12-01').trim(); const ms = Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(v) ? `${v}T00:00:00Z` : v); return Number.isFinite(ms) ? ms : Date.parse('2026-12-01T00:00:00Z'); })(),
     };
   }
   /** @param {Record<string, unknown>} o */
@@ -223,17 +228,19 @@ export function createWorker(deps = {}) {
     if (!primary && usable(cached)) primary = staleOf(cached);
 
     // ასლი და დედაქალაქის წესი (contracts.md §9).
-    const ownSnapshot = snapshot ? snapshotEntryToMarketData(snapshot, loc, cur) : null;
+    const layers = (/** @type {string} */ l) => ({
+      apifySnapshot: apifySnapshot ? apifySnapshotEntryToMarketData(apifySnapshot, l, cur) : null,
+      ownSnapshot: snapshot ? snapshotEntryToMarketData(snapshot, l, cur) : null,
+    });
     const capInfo = capitalFor(loc);
     let capital = null;
     if (capInfo) {
       const ce = await store.get(cacheKey(capInfo.locationId, cur));
       const capPrimary = fresh(ce) ? hitOf(ce) : usable(ce) ? staleOf(ce) : null;
-      const capSnap = snapshot ? snapshotEntryToMarketData(snapshot, capInfo.locationId, cur) : null;
-      capital = { ...capInfo, md: composeMarketData({ locationId: capInfo.locationId, primary: capPrimary, ownSnapshot: capSnap }) };
+      capital = { ...capInfo, md: composeMarketData({ locationId: capInfo.locationId, primary: capPrimary, ...layers(capInfo.locationId) }) };
     }
     /** @type {any} */
-    let md = composeMarketData({ locationId: loc, primary, ownSnapshot, capital });
+    let md = composeMarketData({ locationId: loc, primary, ...layers(loc), capital });
     let httpStatus = 200;
     if (!md) {
       if (limited) {
@@ -271,9 +278,11 @@ export function createWorker(deps = {}) {
       rateLimiter: Boolean(env.MARKET_RATE_LIMITER), allowedCurrencies: cfg.allowed, rankingsEnabled: cfg.rankingsEnabled,
       onDemand: cfg.onDemand,
       snapshot: snapshot ? { cities: Object.keys(snapshot.cities || {}).length, retrievedAt: snapshot.source?.retrievedAt ?? null } : null,
+      apifySnapshot: apifySnapshot ? { cities: Object.keys(apifySnapshot.cities || {}).length, fetchedAt: apifySnapshot.source?.fetchedAt ?? null } : null,
       refresh: rs ? {
         state: rs.phase, lastRefreshAt: rs.lastRefreshAt ? iso(rs.lastRefreshAt) : null, nextRefreshAt: rs.nextRefreshAt ? iso(rs.nextRefreshAt) : null,
         populatedCities: (rs.populated || []).length, lastErrorCode: rs.lastError ? rs.lastError.code : null,
+        firstRefreshAfter: iso(cfg.firstRefreshAfter),
         lastSummary: rs.summary ? { citiesWritten: rs.summary.citiesWritten, costEstimateUsd: rs.summary.costEstimateUsd, failedRuns: (rs.summary.failedRuns || []).length } : null,
       } : null,
     });

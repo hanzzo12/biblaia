@@ -64,23 +64,30 @@ async function apify(fetchFn, url, token, o = {}) {
 }
 
 /**
- * ბათჩები მისიის დაფინანსების ვალუტის მიხედვით.
+ * ბათჩები მისიის დაფინანსების ვალუტის მიხედვით. actor-ი მთელ გაშვებას აჩერებს პირველივე ვერნაპოვნ ქალაქზე
+ * (რეალური გაშვება 2026-11-04: Donetsk → USD ბათჩი FAILED), ამიტომ:
+ *  - ძირითად ბათჩში მხოლოდ `apifyVerified` ქალაქები;
+ *  - `apifyExclude` ქალაქები საერთოდ არ იგზავნება (ჩვენებისას ასლი/დედაქალაქი);
+ *  - დანარჩენი (დაუდასტურებელი) — ცალკე, პატარა, ბოლო გაშვებაში (`unverified`).
  * @param {{ locations: Record<string, any> }} names @param {Record<string, string[]>} locationCurrencies @param {string[]} allowed
  */
 export function buildBatches(names, locationCurrencies, allowed) {
   /** @type {Record<string, { locs: string[], cities: string[] }>} */
   const out = {};
+  /** @type {Record<string, { locs: string[], cities: string[] }>} */
+  const unverified = {};
   for (const [loc, entry] of Object.entries(names.locations || {})) {
-    if (!entry || typeof entry.numbeoCity !== 'string') continue;
+    if (!entry || typeof entry.numbeoCity !== 'string' || entry.apifyExclude) continue;
     for (const cur of locationCurrencies[loc] || []) {
       if (!allowed.includes(cur)) continue;
-      const b = (out[cur] ??= { locs: [], cities: [] });
+      const target = entry.apifyVerified ? out : unverified;
+      const b = (target[cur] ??= { locs: [], cities: [] });
       b.locs.push(loc);
       const q = pricesQueryFor(entry);
       if (!b.cities.includes(q)) b.cities.push(q);
     }
   }
-  return out;
+  return Object.defineProperty(out, 'unverified', { value: unverified, enumerable: false });
 }
 
 /** rankings სტრიქონი ეკუთვნის თუ არა რომელიმე ჩვენს ქალაქს (ზუსტი Numbeo სახელი + ქვეყანა). */
@@ -94,7 +101,7 @@ function rankingRelevant(/** @type {any} */ row, /** @type {any[]} */ entries) {
  * ერთი cron ნაბიჯი. აბრუნებს ქმედების აღწერას (ლოგისა და ტესტებისთვის; საიდუმლოს გარეშე).
  * @param {{ env: any, store: { get(k: string): Promise<any>, put(k: string, v: any, ttl: number): Promise<void> }, names: any,
  *           locationCurrencies: Record<string, string[]>, fetchFn: typeof fetch, now: () => number,
- *           cfg: { provider: string, tokenConfigured: boolean, rankingsEnabled: boolean, ttl: number, staleMax: number, refreshDays: number, allowed: string[], pageRows: number },
+ *           cfg: { provider: string, tokenConfigured: boolean, rankingsEnabled: boolean, firstRefreshAfter?: number, ttl: number, staleMax: number, refreshDays: number, allowed: string[], pageRows: number },
  *           cacheKey: (loc: string, cur: string) => string, rankingsKey: string }} p
  */
 export async function runRefreshTick(p) {
@@ -102,7 +109,7 @@ export async function runRefreshTick(p) {
   const t = p.now();
   const st = await readRefreshState(store);
   if (st.lockUntil > t) return { action: 'locked' };
-  if (st.phase === 'idle' && (t < st.nextRefreshAt || t < st.backoffUntil)) return { action: 'wait' }; // KV-ში არაფერს წერს
+  if (st.phase === 'idle' && (t < st.nextRefreshAt || t < st.backoffUntil || t < (p.cfg.firstRefreshAfter || 0))) return { action: 'wait' }; // KV-ში არაფერს წერს
   if (cfg.provider !== 'apify' || !cfg.tokenConfigured) {
     if (st.lastError?.code === 'not_configured' && t < st.backoffUntil) return { action: 'wait' };
     st.lastError = { code: 'not_configured', at: t };
@@ -128,9 +135,12 @@ export async function runRefreshTick(p) {
 /** @param {any} p @param {any} st @param {string} token @param {number} t */
 async function startJob(p, st, token, t) {
   const batches = buildBatches(p.names, p.locationCurrencies, p.cfg.allowed);
+  const city = (/** @type {Record<string, any>} */ set, /** @type {boolean} */ unv) => Object.entries(set).filter(([, b]) => b.cities.length)
+    .map(([cur, b]) => ({ kind: 'city_prices', currency: cur, unverified: unv, locs: b.locs, input: { mode: 'city_prices', cities: b.cities, currency: cur } }));
   const specs = [
-    ...Object.entries(batches).filter(([, b]) => b.cities.length).map(([cur, b]) => ({ kind: 'city_prices', currency: cur, locs: b.locs, input: { mode: 'city_prices', cities: b.cities, currency: cur } })),
-    ...(p.cfg.rankingsEnabled ? [{ kind: 'rankings', currency: null, locs: [], input: { ...RANKINGS_INPUT } }] : []),
+    ...city(batches, false),
+    ...(p.cfg.rankingsEnabled ? [{ kind: 'rankings', currency: null, unverified: false, locs: [], input: { ...RANKINGS_INPUT } }] : []),
+    ...city(/** @type {any} */ (batches).unverified || {}, true), // დაუდასტურებელი — ბოლოს, ცალკე
   ];
   const runs = [];
   for (const s of specs) {
@@ -146,7 +156,7 @@ async function startJob(p, st, token, t) {
       st.lastError = { code, at: t, step: `start:${s.kind}:${s.currency ?? ''}` };
       continue;
     }
-    runs.push({ kind: s.kind, currency: s.currency, locs: s.locs, cities: s.kind === 'city_prices' ? s.input.cities.length : 0, runId: data.id, datasetId: data.defaultDatasetId, state: 'running', offset: 0, carry: [] });
+    runs.push({ kind: s.kind, currency: s.currency, unverified: s.unverified, partial: false, locs: s.locs, cities: s.kind === 'city_prices' ? s.input.cities.length : 0, runId: data.id, datasetId: data.defaultDatasetId, state: 'running', offset: 0, carry: [] });
   }
   st.phase = 'running';
   st.job = { startedAt: t, runs, written: [], empty: [], failedRuns: [], rankingsRows: [], rankingsTotal: 0 };
@@ -166,7 +176,12 @@ async function advanceJob(p, st, token, t) {
     if (!r.ok) continue; // დროებითი შეცდომა — შემდეგ ნაბიჯზე
     const status = r.json?.data?.status;
     if (status === 'SUCCEEDED') run.state = 'ready';
-    else if (['FAILED', 'ABORTED', 'TIMED-OUT', 'TIMING-OUT', 'ABORTING'].includes(status)) { run.state = 'failed'; job.failedRuns.push(`${run.kind}:${run.currency ?? ''}:${status}`); }
+    else if (['FAILED', 'ABORTED', 'TIMED-OUT'].includes(status)) {
+      // ვერნაპოვნი ქალაქი გაშვებას აჩერებს, მაგრამ მანამდე მიღებული სტრიქონები dataset-შია — მათ მაინც ვამუშავებთ.
+      run.state = 'ready';
+      run.partial = true;
+      job.failedRuns.push(`${run.kind}:${run.currency ?? ''}:${status}`);
+    }
   }
   // 2) ერთი გვერდის დამუშავება: rankings ჯერ (ინდექსები ქალაქებს სჭირდება), შემდეგ ქალაქები.
   const rankingsRun = job.runs.find((r) => r.kind === 'rankings');

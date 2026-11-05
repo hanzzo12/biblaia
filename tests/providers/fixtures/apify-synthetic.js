@@ -4,9 +4,9 @@
 export const SYNTHETIC_NAMES = {
   _meta: { status: 'SYNTHETIC' },
   locations: {
-    'AT-VIENNA': { numbeoCity: 'Vienna', numbeoCountry: 'Austria', countryCode: 'AT', matchStatus: 'exact', verified: true },
-    'US-NEW-YORK': { numbeoCity: 'New York, NY', numbeoCountry: 'United States', countryCode: 'US', matchStatus: 'exact', verified: true },
-    'VA-VATICAN-CITY': { numbeoCity: 'Rome', numbeoCountry: 'Italy', countryCode: 'IT', matchStatus: 'nearby-explained', note: 'სინთეზური: ვატიკანი → რომი', verified: true },
+    'AT-VIENNA': { numbeoCity: 'Vienna', numbeoCountry: 'Austria', countryCode: 'AT', matchStatus: 'exact', verified: true, apifyVerified: '2026-11-04' },
+    'US-NEW-YORK': { numbeoCity: 'New York, NY', numbeoCountry: 'United States', countryCode: 'US', matchStatus: 'exact', verified: true, apifyVerified: '2026-11-04' },
+    'VA-VATICAN-CITY': { numbeoCity: 'Rome', numbeoCountry: 'Italy', countryCode: 'IT', matchStatus: 'nearby-explained', note: 'სინთეზური: ვატიკანი → რომი', verified: true, apifyVerified: '2026-11-04' },
     'TR-TRABZON': { numbeoCity: 'Trabzon', numbeoCountry: null, countryCode: 'TR', matchStatus: 'exact', verified: false },
   },
 };

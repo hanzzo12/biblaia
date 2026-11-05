@@ -68,6 +68,37 @@ export const ITEM_DEFS = Object.freeze({
 });
 /** სურსათის კალათიდან გამორიცხული (ალკოჰოლი, თამბაქო) — ზუსტი სახელები + საკვანძო სიტყვები. */
 export const GROCERY_EXCLUDED_NAMES = Object.freeze(['Bottle of Wine (Mid-Range)', 'Domestic Beer (0.5 Liter Bottle)', 'Imported Beer (0.33 Liter Bottle)', 'Cigarettes (Pack of 20, Marlboro)']);
+/**
+ * Numbeo ზოგჯერ აბრუნებს იმპერიულ ერთეულებს (რეალური გაშვება 2026-11-04: „(1 lb)“, „(1 lb Loaf)“, „(50 oz)“).
+ * კალათა ყოველთვის მეტრულია (როგორც მომხმარებლის ასლში: 1 კგ, 500 გ პური, 1.5 ლ წყალი) — ფასი გადაიყვანება ზუსტი
+ * კოეფიციენტით; უცნობი იმპერიული ერთეული → არ ჯამდება (itemsMissing).
+ */
+export const GROCERY_UNIT_FACTORS = Object.freeze([
+  [/\(1 lb Loaf\)/i, '1.10231131'], // 1 lb → 500 გ (500 / 453.59237)
+  [/\(1 lb\)/i, '2.20462262'], // 1 lb → 1 კგ
+  [/^Bottled Water \(50 oz\)/i, '1.01442058'], // 50 US fl oz (1.47868 ლ) → 1.5 ლ
+]);
+const IMPERIAL_RE = /\b\d+(?:\.\d+)?\s*(?:lb|oz)\b/i;
+
+/** ათწილადი × კოეფიციენტი, ზუსტად, დამრგვალება 2 ათწილადამდე (half-up). @param {string} a @param {string} f */
+export function mulDecimal2(a, f) {
+  const [ai, af = ''] = a.split('.'); const [fi, ff = ''] = f.split('.');
+  const num = BigInt(ai + af) * BigInt(fi + ff) * 100n;
+  const den = 10n ** BigInt(af.length + ff.length);
+  let n = num / den;
+  if ((num % den) * 2n >= den) n += 1n;
+  return n === 0n ? null : `${n / 100n}.${(n % 100n).toString().padStart(2, '0')}`;
+}
+
+/** სურსათის ერთეულის მეტრული ფასი ან null. @param {{ item: string, average: unknown }} r */
+function metricGroceryPrice(r) {
+  const v = toDecimalString(r.average);
+  if (v === null) return null;
+  if (!IMPERIAL_RE.test(String(r.item))) return v;
+  const hit = GROCERY_UNIT_FACTORS.find(([re]) => re.test(String(r.item)));
+  return hit ? mulDecimal2(v, hit[1]) : null;
+}
+
 const EXCLUDED_RE = /\b(wine|beer|cigarette|cigarettes|tobacco|vodka|whisky|whiskey|spirits)\b/i;
 const GROCERY_CATEGORIES = new Set(['markets', 'groceries', 'supermarket', 'supermarkets']);
 
@@ -169,7 +200,7 @@ export function selectItems(rows) {
   }
   const excludedKeys = new Set(GROCERY_EXCLUDED_NAMES.map(itemKey));
   const market = rows.filter((r) => GROCERY_CATEGORIES.has(nk(r.category)) && !excludedKeys.has(itemKey(r.item)) && !EXCLUDED_RE.test(String(r.item)));
-  const vals = market.map((r) => toDecimalString(r.average));
+  const vals = market.map((r) => metricGroceryPrice(r));
   const counted = /** @type {string[]} */ (vals.filter((v) => v !== null));
   return { items: out, basket: { sum: sumDecimalStrings(counted), counted: counted.length, missing: vals.length - counted.length } };
 }

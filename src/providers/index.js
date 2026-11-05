@@ -12,6 +12,7 @@ import {
 export * from './market-contract.js';
 export { marketDataFromSnapshot, composeMarketData, capitalFor, combinedStatus, CAPITALS } from './resolve.js';
 export { snapshotEntryToMarketData, validateMarketSnapshot, usdToEur, parseRate, formatDateKa } from './snapshot.js';
+export { apifySnapshotEntryToMarketData } from './apify-snapshot.js';
 
 export const MARKET_STATUS_LABELS_KA = Object.freeze({
   loading: 'იტვირთება',

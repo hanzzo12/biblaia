@@ -21,3 +21,4 @@
 | `resolve.js` | `composeMarketData({ locationId, primary, ownSnapshot, capital })` — წყაროების რიგი თითო კატეგორიაზე + დედაქალაქის წესი; `marketDataFromSnapshot(snapshot, locationId, currency)` — კლიენტისთვის (ოფლაინ/file://) |
 | `capitals.json` | ქვეყანა → საელჩოს ქალაქი (`scripts/gen-capitals.mjs`, `--check` ტესტში) |
 | `../../worker/refresh.js` | Cron-ის მდგომარეობის მანქანა (KV `refresh:state`) |
+| `apify-snapshot.js` | `apifySnapshotEntryToMarketData(apifySnapshot, locationId, currency)` — `src/data/market-apify-snapshot.json` (04.11.2026, მისიის ვალუტაში; `scripts/build-apify-snapshot.mjs`). კლიენტი: `marketDataFromSnapshot(userSnapshot, loc, cur, { apifySnapshot })` |

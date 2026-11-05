@@ -62,7 +62,7 @@ export function marketNotes(md) {
   if (!md) return [];
   const out = [];
   const snap = warn(md, 'snapshot_copy');
-  if (snap) out.push({ kind: 'badge', text: `შენახული მონაცემი · ${kaDate(md.budget?.sourceUpdatedAt ?? md.fetchedAt) || '31.10.2026'}` });
+  if (snap) out.push({ kind: 'badge', text: snap.message_ka || `შენახული მონაცემი · ${kaDate(md.fetchedAt ?? md.budget?.sourceUpdatedAt)}` });
   const cap = warn(md, 'capital_fallback');
   if (cap || md.resolvedLocation?.matchStatus === 'capital-fallback') {
     out.push({ kind: 'line', text: cap?.message_ka || `ქალაქის მონაცემი არ მოიძებნა — ნაჩვენებია დედაქალაქის (${md.resolvedLocation?.city ?? '—'}) მონაცემი` });

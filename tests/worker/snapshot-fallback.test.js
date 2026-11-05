@@ -11,9 +11,9 @@ const DAY = 86400000;
 const T0 = Date.parse('2026-11-04T10:00:00Z');
 const body = async (r) => JSON.parse(await r.text());
 function mkKv(clock) { const m = new Map(); return { m, async get(k, t) { const e = m.get(k); if (!e || clock.t > e.until) return null; return t === 'json' ? JSON.parse(e.v) : e.v; }, async put(k, v, o) { m.set(k, { v, until: clock.t + o.expirationTtl * 1000 }); } }; }
-function setup({ snap = snapshot, env = {} } = {}) {
+function setup({ snap = snapshot, apify = null, env = {} } = {}) {
   const clock = { t: T0 }; const kv = mkKv(clock); let calls = 0;
-  const w = createWorker({ snapshot: snap, fetchImpl: async () => { calls++; return new Response('[]', { status: 201 }); }, now: () => clock.t, log: () => {} });
+  const w = createWorker({ snapshot: snap, apifySnapshot: apify, fetchImpl: async () => { calls++; return new Response('[]', { status: 201 }); }, now: () => clock.t, log: () => {} });
   const e = { MARKET_CACHE: kv, APIFY_TOKEN: 'synthetic', ...env };
   return { w, kv, clock, env: e, calls: () => calls, get: async (loc, cur) => body(await w.fetch(new Request(`https://x/api/market?location=${loc}&currency=${cur}`), e)) };
 }
@@ -74,4 +74,15 @@ test('capital data from KV is used for fallback too', async () => {
   assert.ok(validateMarketData(md).ok, validateMarketData(md).errors.join());
   assert.equal(md.resolvedLocation.matchStatus, 'capital-fallback');
   assert.equal(md.rent.items.centre_1br.average, '1234.56');
+});
+
+test('KV beats the Apify snapshot, which beats the user snapshot', async () => {
+  const apify = (await import('../../src/data/market-apify-snapshot.json', { with: { type: 'json' } })).default;
+  const s = setup({ apify });
+  let md = await s.get('AT-VIENNA', 'EUR');
+  assert.equal(md.warnings.find((w) => w.code === 'snapshot_copy').message_ka, 'შენახული მონაცემი · 04.11.2026');
+  assert.equal(md.budget.source, 'snapshot');
+  await s.kv.put(cacheKey('AT-VIENNA', 'EUR'), JSON.stringify(kvEntry('AT-VIENNA', 'EUR', T0)), { expirationTtl: 400 * 86400 });
+  md = await s.get('AT-VIENNA', 'EUR');
+  assert.deepEqual([md.cache.state, md.rent.items.centre_1br.average], ['hit', '1234.56']);
 });

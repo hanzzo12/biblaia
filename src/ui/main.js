@@ -3,6 +3,7 @@ import './polyfill.js';
 import data from '../data/normative-data.json';
 import * as P from '../providers/index.js';
 import marketSnapshot from '../data/market-snapshot.json';
+import apifySnapshot from '../data/market-apify-snapshot.json';
 import { startApp } from './app.js';
 
 /* global __APP_VERSION__, __RULES_VERSION__, __DATA_SHA256__, __BUILD_DATE__ */
@@ -17,7 +18,7 @@ const online = location.protocol === 'http:' || location.protocol === 'https:';
 const client = online ? P.createMarketClient({ endpoint: '/api/market', timeoutMs: 100000 }) : null;
 // ოფლაინ (file://): პროვაიდერის ჩაშენებული ასლი, თუ ხელმისაწვდომია (contracts §9)
 const offline = (loc, cur) => {
-  const md = P.marketDataFromSnapshot(marketSnapshot, loc, cur);
+  const md = P.marketDataFromSnapshot(marketSnapshot, loc, cur, { apifySnapshot });
   return md && P.validateMarketData(md).ok ? md : null;
 };
 
