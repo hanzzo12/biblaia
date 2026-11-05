@@ -1,13 +1,14 @@
 // საფეხური 4: მთავარი — დარჩენილი თანხა ქირისა და სწავლის შემდეგ; დანარჩენი — ბარათებად; დეტალები ერთი ღილაკით.
 import { h, uid } from './dom.js';
 import * as core from '../core/index.js';
+import { livingRemainder, marketList, marketRows, marketNotes } from './market.js';
 
 export const v = (c) => (c && typeof c === 'object' ? c.value ?? null : c ?? null);
 export const fmt = (c, cur) => { const x = v(c); return x == null ? '—' : `${core.formatAmount(x)} ${cur ?? ''}`.trim(); };
 export const ROLE_KA = { spouse: 'მეუღლე', child: 'შვილი', guardianship: 'მეურვეობის ქვეშ მყოფი' };
 
 /** ეკრანისა და PDF-ის საერთო მოდელი (ერთი წყარო — ციფრები არ აცდება ერთმანეთს). */
-export function resultModel({ r, st, sc, mission, data, personName }) {
+export function resultModel({ r, st, sc, mission, data, personName, md = null, mdLoading = false, beds = 1 }) {
   const cur = r?.currency ?? mission?.fundingCurrency ?? '';
   const m = r?.monthly || {};
   const ed = r?.education || {};
@@ -35,10 +36,15 @@ export function resultModel({ r, st, sc, mission, data, personName }) {
     sub: sc.broker ? `${st.head ? '80%' : '50%'} საკომისიოსი, მაქს. ერთი თვის ქირა` : null });
   const ins = st.ex.insurance ? (r?.insurance?.perPerson || []).map((p) => ({ name: personName(p.personId), cap: v(p.annualCap), reimb: v(p.reimbursable), entered: p.policyCost != null && v(p.policyCost) != null })) : [];
   const sum = (xs) => { const ok = xs.filter((x) => x != null); return ok.length === xs.length && ok.length ? (ok.reduce((a, b) => a + Math.round(Number(b) * 100), 0) / 100).toFixed(2) : null; };
+  const heroVal = noRent ? null : v(r?.remainder?.value);
+  const living = livingRemainder(heroVal, md, st.family.length);
   return {
-    cur, noRent, hasEdu, undetermined, why, m, ed, ot, ins,
+    cur, noRent, hasEdu, undetermined, why, m, ed, ot, ins, md, mdLoading, beds, familyCount: st.family.length, living,
+    city: mission?.location_ka ?? '',
+    marketRows: marketRows(md, beds, { familyCount: st.family.length }), marketNotes: marketNotes(md),
     insCapTotal: sum(ins.map((p) => p.cap).filter((x) => x != null).length ? ins.map((p) => p.cap).filter((x) => x != null) : [null]), insReimbTotal: ins.some((p) => p.entered) ? sum(ins.filter((p) => p.entered).map((p) => p.reimb)) : null,
-    hero: noRent ? null : v(r?.remainder?.value),
+    hero: heroVal,
+    missing: (r?.missingInputs || [])[0]?.message_ka ?? null,
     S: noRent ? v(m.DminusT) : v(m.S),
     rows: [['H', 'საბაზისო თანხა', m.H, true], ['A', 'თანამდებობის პროცენტი', m.A, false, '%'], ['K', 'ქვეყნის კოეფიციენტი', m.K], ['C', 'ოჯახის წევრები (დანამატით)', m.C],
       ['D', 'პერსონალური თანხა', m.D, true], ['E', 'ბინის წილი', m.E, false, '%'], ['T', 'ბინის წილი თანხაში', m.T, true],
@@ -85,10 +91,15 @@ export function renderResult(M, { onPdf, onPrint, onCompare }) {
     h('div', { class: 'print-only' }, h('table', { class: 'inputs' }, h('tbody', null, M.inputs.map(([k, x]) => h('tr', null, h('th', { scope: 'row' }, k), h('td', null, x)))))),
     h('div', { class: 'hero', 'aria-live': 'polite' },
       h('p', { class: 'hero-l' }, 'დარჩენილი თანხა ქირისა და სწავლის შემდეგ'),
-      M.noRent
-        ? h('p', { class: 'hero-msg', 'data-testid': 'hero-remainder', 'data-value': '' }, 'მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს')
+      M.noRent || M.hero == null
+        ? h('p', { class: 'hero-msg', 'data-testid': 'hero-remainder', 'data-value': '' }, M.noRent ? 'მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს' : (M.missing || 'თანხა ვერ დადგინდა'))
         : h('p', { class: 'hero-v' }, h('span', { 'data-testid': 'hero-remainder', 'data-value': M.hero ?? '' }, M.hero == null ? '—' : `${core.formatAmount(M.hero)} ${cur}`), h('span', { class: 'per' }, ' / თვე')),
       h('p', { class: 'hero-n' }, M.noRent ? '' : 'სხვა ხარჯები (კვება, კომუნალური…) არ აკლდება.')),
+    M.noRent ? null : h('div', { class: 'hero2' },
+      h('span', { class: 'hero2-l' }, 'დარჩენილი თანხა საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)'),
+      h('span', { class: 'hero2-v' + (M.living.value?.startsWith('-') ? ' neg' : ''), 'data-testid': 'remainder-living', 'data-value': M.living.value ?? '' },
+        M.living.value == null ? (M.mdLoading ? '…' : '—') : `${core.formatAmount(M.living.value)} ${cur}`),
+      h('p', { class: 'hero2-n' }, M.living.note ?? (M.hero == null ? 'გამოჩნდება, როცა ზემოთ მოცემული თანხა დადგინდება' : M.mdLoading ? 'ფასები იტვირთება…' : 'ფასები ამჟამად მიუწვდომელია'))),
     M.why ? h('p', { class: 'muted small' }, M.why) : null,
     h('div', { class: 'rcards' },
       card(M.noRent ? 'ყოველთვიური სამივლინებო თანხა (ქირის გარეშე)' : 'ყოველთვიური სამივლინებო თანხა', M.S == null ? '—' : `${core.formatAmount(M.S)} ${cur}`, M.S, M.noRent ? 'ქირის ანაზღაურება არ შედის' : 'ქირის ანაზღაურების ჩათვლით', 'S-card', true),
@@ -103,6 +114,8 @@ export function renderResult(M, { onPdf, onPrint, onCompare }) {
           h('strong', { 'data-value': p.cap ?? '' }, p.cap == null ? 'მიუთითეთ ასაკი' : `${core.formatAmount(p.cap)} ${cur} / წელი`))),
         h('li', { class: 'total' }, h('span', null, 'ოჯახის ჯამური წლიური ლიმიტი'), h('strong', null, M.insCapTotal == null ? '—' : `${core.formatAmount(M.insCapTotal)} ${cur} / წელი`)),
         M.insReimbTotal != null ? h('li', { class: 'total' }, h('span', null, 'ანაზღაურდება სულ (შეყვანილი პოლისებით)'), h('strong', null, `${core.formatAmount(M.insReimbTotal)} ${cur}`)) : null)] : null) : null,
+    M.city ? h('section', { class: 'mcard mres', 'data-testid': 'market-result', 'aria-live': 'polite' },
+      h('h3', null, `ცხოვრების ღირებულება — ${M.city}`), marketList(M.md, M.beds, { loading: M.mdLoading, familyCount: M.familyCount })) : null,
     h('div', { class: 'actions no-print' }, pdfBtn, printBtn, detBtn, cmpBtn),
     det,
   ];

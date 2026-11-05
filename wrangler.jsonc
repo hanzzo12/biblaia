@@ -25,8 +25,14 @@
     "MARKET_UPSTREAM_TIMEOUT_MS": "90000",
     "MARKET_ALLOWED_CURRENCIES": "EUR,USD",
     // "false" — ინდექსები (rankings, ≈ $2.745 ერთ გაშვებაზე / 30 დღე) გამორთულია; ფასები რჩება.
-    "MARKET_RANKINGS_ENABLED": "true"
+    "MARKET_RANKINGS_ENABLED": "true",
+    // "false" (ნაგულისხმევი): მომხმარებლის მოთხოვნა Apify-ს არ იძახებს — ფასები KV-დან / ასლიდან / დედაქალაქიდან; KV-ს ავსებს ყოველთვიური cron.
+    "MARKET_ON_DEMAND": "false",
+    // ყოველთვიური ფონური განახლების პერიოდი (დღე).
+    "MARKET_REFRESH_DAYS": "30"
   },
+  // ყოველ 15 წუთში ერთი მცირე ნაბიჯი (worker/refresh.js); თუ განახლების დრო არ დამდგარა, არაფერს აკეთებს.
+  "triggers": { "crons": ["*/15 * * * *"] },
   // Workers KV ქეში: id არ არის მითითებული — `wrangler deploy` (4.x) პირველ განთავსებაზე KV-ს ავტომატურად ქმნის და მიაბამს.
   // KV-ის გარეშე (id არ არის) Worker იყენებს Cache API-ს/მეხსიერებას — ამისთვის ეს ბლოკი წაშალეთ.
   "kv_namespaces": [

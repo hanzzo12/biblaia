@@ -21,6 +21,10 @@ import { MARKET_SCHEMA_VERSION, createEmptyMarketData, validateMarketData, ERROR
 import { fetchApifyMarket, runActor, GENERIC_PROVIDER, DEFAULT_TIMEOUT_MS, RANKINGS_INPUT } from '../src/providers/apify-numbeo-adapter.js';
 import realNames from '../src/providers/numbeo-city-names.json' with { type: 'json' };
 import normative from '../src/data/normative-data.json' with { type: 'json' };
+import realSnapshot from '../src/data/market-snapshot.json' with { type: 'json' };
+import { snapshotEntryToMarketData } from '../src/providers/snapshot.js';
+import { composeMarketData, capitalFor } from '../src/providers/resolve.js';
+import { runRefreshTick, readRefreshState, REFRESH_STATE_KEY } from './refresh.js';
 
 const JSON_HEADERS = Object.freeze({
   'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'private, no-store',
@@ -95,11 +99,17 @@ function relabel(md, to) {
 }
 
 /**
- * @param {{ names?: any, locationIds?: Iterable<string>, fetchImpl?: typeof fetch, now?: () => number,
+ * @param {{ names?: any, snapshot?: any, locationIds?: Iterable<string>, fetchImpl?: typeof fetch, now?: () => number,
  *           cacheStore?: CacheStore, log?: (line: string) => void }} [deps]
  */
 export function createWorker(deps = {}) {
   const names = deps.names || realNames;
+  const snapshot = 'snapshot' in deps ? deps.snapshot : realSnapshot;
+  /** @type {Record<string, string[]>} ლოკაცია → მისიების დაფინანსების ვალუტები (cron-ის ბათჩებისთვის). */
+  const locationCurrencies = deps.locationCurrencies || (normative.missions || []).reduce((/** @type {Record<string, string[]>} */ acc, /** @type {any} */ m) => {
+    if (m.locationId && m.fundingCurrency) { const a = (acc[m.locationId] ??= []); if (!a.includes(m.fundingCurrency)) a.push(m.fundingCurrency); }
+    return acc;
+  }, {});
   const known = new Set([...(deps.locationIds || (normative.locations || []).map((/** @type {any} */ l) => l.id)), ...Object.keys(names.locations || {})]);
   const now = deps.now || Date.now;
   // workerd: გლობალური fetch ობიექტის მეთოდად გამოძახება → „Illegal invocation“; ამიტომ ყოველთვის wrapper.
@@ -123,6 +133,10 @@ export function createWorker(deps = {}) {
       timeoutMs: intVar(env.MARKET_UPSTREAM_TIMEOUT_MS, DEFAULT_TIMEOUT_MS, 290000) || DEFAULT_TIMEOUT_MS,
       allowed: allowed.length ? allowed : ['EUR', 'USD'],
       rankingsEnabled: String(env.MARKET_RANKINGS_ENABLED ?? 'true').trim().toLowerCase() !== 'false',
+      // false (ნაგულისხმევი): მომხმარებლის მოთხოვნა Apify-ს არასოდეს იძახებს — მხოლოდ KV/ასლი/დედაქალაქი; შევსება — ყოველთვიური cron.
+      onDemand: String(env.MARKET_ON_DEMAND ?? 'false').trim().toLowerCase() === 'true',
+      refreshDays: intVar(env.MARKET_REFRESH_DAYS, 30, 365),
+      pageRows: intVar(env.MARKET_REFRESH_PAGE_ROWS, 120, 1000) || 120,
     };
   }
   /** @param {Record<string, unknown>} o */
@@ -166,50 +180,72 @@ export function createWorker(deps = {}) {
       logLine({ loc, cur, status: 'disabled' });
       return json(createEmptyMarketData(loc, 'disabled', { currency: cur }));
     }
-    if (cfg.provider !== 'apify' || !cfg.tokenConfigured) {
-      logLine({ loc, cur, status: 'not_configured', reason: cfg.provider !== 'apify' ? 'provider' : 'no_token' });
-      return json(createEmptyMarketData(loc, 'not_configured', { currency: cur, provider: { ...GENERIC_PROVIDER } }));
-    }
 
     const store = storeFor(env);
     const key = cacheKey(loc, cur);
+    const fresh = (/** @type {any} */ e) => !!e && now() < e.expiresAt;
+    const usable = (/** @type {any} */ e) => !!e && now() <= e.expiresAt + cfg.staleMax * 1000;
+    const hitOf = (/** @type {any} */ e) => { const m = relabel(e.data, 'cached'); m.cache = { state: 'hit', expiresAt: iso(e.expiresAt) }; return m; };
     const cached = await store.get(key);
-    if (cached && now() < cached.expiresAt) {
-      const md = relabel(cached.data, 'cached');
-      md.cache = { state: 'hit', expiresAt: iso(cached.expiresAt) };
-      logLine({ loc, cur, status: md.status, cache: 'hit', ms: now() - t0 });
-      return json(md);
-    }
+    /** @type {any} */
+    let primary = null;
+    /** @type {any} */
+    let upstreamResult = null;
+    /** @type {any} */
+    let diagnostics = null;
+    let limited = false;
 
-    if (env.MARKET_RATE_LIMITER && typeof env.MARKET_RATE_LIMITER.limit === 'function') {
-      let ok = true;
-      const ip = request.headers.get('cf-connecting-ip') || 'unknown';
-      try { ok = (await env.MARKET_RATE_LIMITER.limit({ key: `market:${ip}` })).success !== false; } catch { ok = true; }
-      if (!ok) {
-        logLine({ loc, cur, status: 'rate_limited', reason: 'local_limiter' });
-        if (cached && now() <= cached.expiresAt + cfg.staleMax * 1000) return json(staleOf(cached));
-        return json(createEmptyMarketData(loc, 'rate_limited', { currency: cur, provider: { ...GENERIC_PROVIDER } }), 429, { 'Retry-After': '60' });
+    if (fresh(cached)) {
+      primary = hitOf(cached);
+    } else if (cfg.onDemand && cfg.provider === 'apify' && cfg.tokenConfigured) {
+      if (env.MARKET_RATE_LIMITER && typeof env.MARKET_RATE_LIMITER.limit === 'function') {
+        const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+        try { limited = (await env.MARKET_RATE_LIMITER.limit({ key: `market:${ip}` })).success === false; } catch { limited = false; }
+      }
+      if (!limited) {
+        const r = await coalesce(key, () => fetchApifyMarket({
+          locationId: loc, currency: cur, names, token: env.APIFY_TOKEN, fetchImpl: fetchFn,
+          timeoutMs: cfg.timeoutMs, now, getRankings: getRankings(env, store, cfg),
+        }));
+        diagnostics = r.diagnostics;
+        const data = r.data;
+        if (!hasError(data) && data.status !== 'not_configured' && data.status !== 'not_found') {
+          const expiresAt = now() + cfg.ttl * 1000;
+          await store.put(key, { storedAt: now(), expiresAt, data }, cfg.ttl + cfg.staleMax);
+          primary = structuredClone(data);
+          primary.cache = { state: 'miss', expiresAt: iso(expiresAt) };
+        } else {
+          upstreamResult = structuredClone(data);
+          upstreamResult.cache = { state: 'miss', expiresAt: null };
+        }
       }
     }
+    if (!primary && usable(cached)) primary = staleOf(cached);
 
-    const { data, diagnostics } = await coalesce(key, () => fetchApifyMarket({
-      locationId: loc, currency: cur, names, token: env.APIFY_TOKEN, fetchImpl: fetchFn,
-      timeoutMs: cfg.timeoutMs, now, getRankings: getRankings(env, store, cfg),
-    }));
+    // ასლი და დედაქალაქის წესი (contracts.md §9).
+    const ownSnapshot = snapshot ? snapshotEntryToMarketData(snapshot, loc, cur) : null;
+    const capInfo = capitalFor(loc);
+    let capital = null;
+    if (capInfo) {
+      const ce = await store.get(cacheKey(capInfo.locationId, cur));
+      const capPrimary = fresh(ce) ? hitOf(ce) : usable(ce) ? staleOf(ce) : null;
+      const capSnap = snapshot ? snapshotEntryToMarketData(snapshot, capInfo.locationId, cur) : null;
+      capital = { ...capInfo, md: composeMarketData({ locationId: capInfo.locationId, primary: capPrimary, ownSnapshot: capSnap }) };
+    }
     /** @type {any} */
-    let md = structuredClone(data);
-    if (hasError(md) && cached && now() <= cached.expiresAt + cfg.staleMax * 1000) {
-      md = staleOf(cached);
-    } else if (!hasError(md) && md.status !== 'not_configured' && md.status !== 'not_found') {
-      const expiresAt = now() + cfg.ttl * 1000;
-      md.cache = { state: 'miss', expiresAt: iso(expiresAt) };
-      await store.put(key, { storedAt: now(), expiresAt, data }, cfg.ttl + cfg.staleMax);
-    } else {
-      md.cache = { state: 'miss', expiresAt: null };
+    let md = composeMarketData({ locationId: loc, primary, ownSnapshot, capital });
+    let httpStatus = 200;
+    if (!md) {
+      if (limited) {
+        md = createEmptyMarketData(loc, 'rate_limited', { currency: cur, provider: { ...GENERIC_PROVIDER } });
+        httpStatus = 429;
+      } else if (upstreamResult) md = upstreamResult;
+      else if (!cfg.onDemand) md = createEmptyMarketData(loc, 'pending_refresh', { currency: cur, provider: { ...GENERIC_PROVIDER } });
+      else md = createEmptyMarketData(loc, cfg.tokenConfigured ? 'not_found' : 'not_configured', { currency: cur, provider: { ...GENERIC_PROVIDER } });
     }
     if (!validateMarketData(md, { allowedCurrencies: cfg.allowed }).ok) md = createEmptyMarketData(loc, 'invalid_response', { currency: cur, provider: { ...GENERIC_PROVIDER } });
-    logLine({ loc, cur, status: md.status, cache: md.cache.state, upstream: diagnostics, ms: now() - t0 });
-    return json(md);
+    logLine({ loc, cur, status: md.status, cache: md.cache.state, match: md.resolvedLocation.matchStatus, upstream: diagnostics, ms: now() - t0 });
+    return json(md, httpStatus, httpStatus === 429 ? { 'Retry-After': '60' } : {});
   }
 
   /** @param {any} cached */
@@ -221,8 +257,10 @@ export function createWorker(deps = {}) {
   }
 
   /** @param {any} env */
-  function health(env) {
+  async function health(env) {
     const cfg = config(env);
+    let rs = null;
+    try { rs = await readRefreshState(storeFor(env)); } catch { rs = null; }
     const mapped = Object.keys(names.locations || {}).length;
     const status = cfg.provider === 'off' || cfg.provider === 'disabled' || cfg.provider === 'none' ? 'disabled'
       : cfg.provider === 'apify' && cfg.tokenConfigured && mapped > 0 ? 'configured' : 'not_configured';
@@ -231,10 +269,39 @@ export function createWorker(deps = {}) {
       cacheBackend: storeFor(env).name, cacheTtlDays: cfg.ttl / DAY, staleMaxDays: cfg.staleMax / DAY,
       mappedLocations: mapped, mappingVerified: names._meta?.status === 'verified',
       rateLimiter: Boolean(env.MARKET_RATE_LIMITER), allowedCurrencies: cfg.allowed, rankingsEnabled: cfg.rankingsEnabled,
+      onDemand: cfg.onDemand,
+      snapshot: snapshot ? { cities: Object.keys(snapshot.cities || {}).length, retrievedAt: snapshot.source?.retrievedAt ?? null } : null,
+      refresh: rs ? {
+        state: rs.phase, lastRefreshAt: rs.lastRefreshAt ? iso(rs.lastRefreshAt) : null, nextRefreshAt: rs.nextRefreshAt ? iso(rs.nextRefreshAt) : null,
+        populatedCities: (rs.populated || []).length, lastErrorCode: rs.lastError ? rs.lastError.code : null,
+        lastSummary: rs.summary ? { citiesWritten: rs.summary.citiesWritten, costEstimateUsd: rs.summary.costEstimateUsd, failedRuns: (rs.summary.failedRuns || []).length } : null,
+      } : null,
     });
   }
 
+  /**
+   * Cron Trigger: ერთი „იაფი“ ნაბიჯი ყოველთვიური განახლების მანქანაში (worker/refresh.js).
+   * @param {any} env
+   */
+  async function refreshTick(env) {
+    const cfg = config(env);
+    try {
+      const r = await runRefreshTick({ env, store: storeFor(env), names, locationCurrencies, fetchFn, now, cfg, cacheKey, rankingsKey: RANKINGS_KEY });
+      if (r.action !== 'wait') logLine({ evt2: 'refresh', ...r });
+      return r;
+    } catch {
+      logLine({ evt2: 'refresh', action: 'internal_error' });
+      return { action: 'internal_error' };
+    }
+  }
+
   return {
+    /** @param {any} controller @param {any} env @param {any} ctx */
+    scheduled(controller, env = {}, ctx) {
+      const p = refreshTick(env);
+      if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(p);
+      return p;
+    },
     /** @param {Request} request @param {any} [env] */
     async fetch(request, env = {}) {
       let url;
@@ -242,7 +309,7 @@ export function createWorker(deps = {}) {
       if (url.pathname === '/api' || url.pathname.startsWith('/api/')) {
         if (request.method !== 'GET' && request.method !== 'HEAD') return apiError(405, 'method_not_allowed', 'დაშვებულია მხოლოდ GET.', { Allow: 'GET, HEAD' });
         try {
-          if (url.pathname === '/api/market/health') return health(env);
+          if (url.pathname === '/api/market/health') return await health(env);
           if (url.pathname === '/api/market') return await handleMarket(request, url, env);
         } catch {
           logLine({ reason: 'internal_error' });

@@ -26,10 +26,13 @@ test('health wrapper with secret + KV binding: configured, kv backend, token not
   assert.deepEqual([JSON.parse(t).status, JSON.parse(t).cacheBackend], ['configured', 'kv']);
 });
 
-test('market wrapper: no token → valid MarketData not_configured; bad params 400; POST 405; off → disabled', async () => {
+test('market wrapper: no token → served from the embedded snapshot (EUR); bad params 400; POST 405; off → disabled', async () => {
   const md = await json(await market.onRequest(ctx('/api/market?location=AT-VIENNA&currency=EUR')));
   assert.ok(validateMarketData(md).ok);
-  assert.equal(md.status, 'not_configured');
+  assert.equal(md.status, 'cached');
+  assert.equal(md.cache.state, 'snapshot');
+  assert.equal(md.currency, 'EUR');
+  assert.ok(md.warnings.some((w) => w.code === 'reference_fx'));
   assert.equal((await market.onRequest(ctx('/api/market?location=AT-VIENNA&currency=GBP'))).status, 400);
   assert.equal((await market.onRequest(ctx('/api/market?location=AT-VIENNA&currency=EUR', {}, { method: 'POST' }))).status, 405);
   const off = await json(await market.onRequest(ctx('/api/market?location=AT-VIENNA&currency=EUR', { MARKET_PROVIDER: 'off', APIFY_TOKEN: 'x' })));

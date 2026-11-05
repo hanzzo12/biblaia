@@ -16,6 +16,8 @@ export const DATA_STATUS = Object.freeze({
   NOT_FOUND: 'not_found', NETWORK_ERROR: 'network_error', TIMEOUT: 'timeout', NOT_CONFIGURED: 'not_configured',
   UNAUTHORIZED: 'unauthorized', RATE_LIMITED: 'rate_limited', UPSTREAM_ERROR: 'upstream_error',
   INVALID_RESPONSE: 'invalid_response', WRONG_CITY: 'wrong_city', DISABLED: 'disabled',
+  /** ქალაქი ჯერ არ არის შევსებული (არც ქეში, არც ასლი, არც დედაქალაქი) — ყოველთვიური განახლება შეავსებს. */
+  PENDING_REFRESH: 'pending_refresh',
 });
 const ALL_STATUSES = new Set(Object.values(DATA_STATUS));
 /** მნიშვნელობის შემცველი სტატუსები. */
@@ -23,13 +25,15 @@ export const STATUSES_WITH_VALUE = Object.freeze(['fresh', 'cached', 'stale', 'p
 /** სტატუსები, რომლებშიც ბლოკის ყველა მნიშვნელობა null-ია. */
 export const STATUSES_WITHOUT_VALUE = Object.freeze([
   'loading', 'not_found', 'network_error', 'timeout', 'not_configured', 'unauthorized', 'rate_limited',
-  'upstream_error', 'invalid_response', 'wrong_city', 'disabled',
+  'upstream_error', 'invalid_response', 'wrong_city', 'disabled', 'pending_refresh',
 ]);
 /** შეცდომის სტატუსები (ქეშში არ ინახება; ვადაგასული ასლის გამოყენების საფუძველია). */
 export const ERROR_STATUSES = Object.freeze(['network_error', 'timeout', 'unauthorized', 'rate_limited', 'upstream_error', 'invalid_response', 'wrong_city']);
 
-export const MATCH_STATUS = Object.freeze({ EXACT: 'exact', NEARBY_EXPLAINED: 'nearby-explained', NONE: 'none' });
-export const CACHE_STATE = Object.freeze({ NONE: 'none', MISS: 'miss', HIT: 'hit', STALE: 'stale' });
+/** `capital-fallback` — ქალაქს საკუთარი მონაცემი არ აქვს; ნაჩვენებია ქვეყნის დედაქალაქის (საელჩოს ქალაქის) მონაცემი (`fallbackFrom`). */
+export const MATCH_STATUS = Object.freeze({ EXACT: 'exact', NEARBY_EXPLAINED: 'nearby-explained', CAPITAL_FALLBACK: 'capital-fallback', NONE: 'none' });
+/** `snapshot` — მონაცემი ჩაშენებული ასლიდანაა (src/data/market-snapshot.json), არა live/KV-დან. */
+export const CACHE_STATE = Object.freeze({ NONE: 'none', MISS: 'miss', HIT: 'hit', STALE: 'stale', SNAPSHOT: 'snapshot' });
 
 /** ქირის მეტრიკები (საძინებლები, არა „ოთახები“). */
 export const RENT_METRICS = Object.freeze({
@@ -43,6 +47,8 @@ export const DEFAULT_RENT_METRIC = 'centre_1br';
 /** ინდექსის ველები (Numbeo, ნიუ-იორკი = 100). */
 export const INDEX_FIELDS = Object.freeze(['costOfLiving', 'rent', 'groceries', 'restaurants', 'costOfLivingPlusRent']);
 export const NUMBEO_BASELINE_KA = 'ნიუ-იორკი = 100';
+/** წყაროს მითითება (ერთი ტექსტი live/KV და ასლისთვის). */
+export const NUMBEO_ATTRIBUTION_KA = 'წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით)';
 
 export const WARNING_CODE = Object.freeze({
   NEARBY_CITY: 'nearby_city',
@@ -62,6 +68,9 @@ export const WARNING_CODE = Object.freeze({
   SCRAPED_SOURCE_TERMS: 'scraped_source_terms',
   PAYMENT_REQUIRED: 'payment_required',
   SYNTHETIC_TEST_DATA: 'synthetic_test_data',
+  SNAPSHOT_COPY: 'snapshot_copy',
+  REFERENCE_FX: 'reference_fx',
+  CAPITAL_FALLBACK: 'capital_fallback',
 });
 const ALL_WARNING_CODES = new Set(Object.values(WARNING_CODE));
 
@@ -202,7 +211,7 @@ export function validateMarketData(obj, options = {}) {
   /** @type {string[]} */
   const e = [];
   if (!isPlainObject(obj)) return { ok: false, errors: ['$: not_object'] };
-  keys(obj, ['schemaVersion', 'requestedLocationId', 'resolvedLocation', 'provider', 'currency', 'status', 'rent', 'utilities', 'groceries', 'restaurants', 'indices', 'fetchedAt', 'sourceUpdatedAt', 'cache', 'warnings'], [], '', e);
+  keys(obj, ['schemaVersion', 'requestedLocationId', 'resolvedLocation', 'provider', 'currency', 'status', 'rent', 'utilities', 'groceries', 'restaurants', 'indices', 'fetchedAt', 'sourceUpdatedAt', 'cache', 'warnings'], ['budget'], '', e);
   if (obj.schemaVersion !== MARKET_SCHEMA_VERSION) e.push('schemaVersion: unsupported');
   if (!(typeof obj.requestedLocationId === 'string' && LOCATION_ID_RE.test(obj.requestedLocationId))) e.push('requestedLocationId: invalid');
 
@@ -210,12 +219,21 @@ export function validateMarketData(obj, options = {}) {
   let match = 'none';
   if (!isPlainObject(loc)) e.push('resolvedLocation: not_object');
   else {
-    keys(loc, ['city', 'countryCode', 'providerCity', 'matchStatus'], ['note'], 'resolvedLocation.', e);
+    keys(loc, ['city', 'countryCode', 'providerCity', 'matchStatus'], ['note', 'fallbackFrom'], 'resolvedLocation.', e);
     if (!Object.values(MATCH_STATUS).includes(loc.matchStatus)) e.push('resolvedLocation.matchStatus: unknown'); else match = loc.matchStatus;
     for (const f of ['city', 'providerCity']) if (loc[f] !== null && !isSafeText(loc[f], 120)) e.push(`resolvedLocation.${f}: invalid_text`);
     if (loc.countryCode !== null && !(typeof loc.countryCode === 'string' && /^[A-Z]{2}$/.test(loc.countryCode))) e.push('resolvedLocation.countryCode: invalid');
     if ('note' in loc && loc.note !== null && !isSafeText(loc.note, 300)) e.push('resolvedLocation.note: invalid_text');
     if (match === 'nearby-explained' && !isSafeText(loc.note, 300)) e.push('resolvedLocation.note: required_for_nearby_explained');
+    if ('fallbackFrom' in loc) {
+      const f = loc.fallbackFrom;
+      if (!isPlainObject(f)) e.push('resolvedLocation.fallbackFrom: not_object');
+      else {
+        keys(f, ['locationId', 'city_ka'], [], 'resolvedLocation.fallbackFrom.', e);
+        if (!(typeof f.locationId === 'string' && LOCATION_ID_RE.test(f.locationId))) e.push('resolvedLocation.fallbackFrom.locationId: invalid');
+        if (!isSafeText(f.city_ka, 120)) e.push('resolvedLocation.fallbackFrom.city_ka: invalid_text');
+      }
+    } else if (match === 'capital-fallback') e.push('resolvedLocation.fallbackFrom: required_for_capital_fallback');
   }
 
   const pr = obj.provider;
@@ -240,7 +258,7 @@ export function validateMarketData(obj, options = {}) {
   const r = obj.rent;
   if (!isPlainObject(r)) e.push('rent: not_object');
   else {
-    keys(r, ['status', 'items', 'rentIndex'], [], 'rent.', e);
+    keys(r, ['status', 'items', 'rentIndex'], ['fallback'], 'rent.', e);
     let v = false;
     if (!isPlainObject(r.items)) e.push('rent.items: not_object');
     else {
@@ -253,14 +271,14 @@ export function validateMarketData(obj, options = {}) {
   const u = obj.utilities;
   if (!isPlainObject(u)) e.push('utilities: not_object');
   else {
-    keys(u, ['status', 'basic85m2', 'internet'], [], 'utilities.', e);
+    keys(u, ['status', 'basic85m2', 'internet'], ['fallback'], 'utilities.', e);
     const v = [checkPrice(u.basic85m2, 'utilities.basic85m2', e), checkPrice(u.internet, 'utilities.internet', e)].some(Boolean);
     money ||= v; any ||= v; checkStatus(u.status, v, 'utilities', e);
   }
   const g = obj.groceries;
   if (!isPlainObject(g)) e.push('groceries: not_object');
   else {
-    keys(g, ['status', 'basketItemsSum', 'itemsCounted', 'itemsMissing', 'groceriesIndex'], [], 'groceries.', e);
+    keys(g, ['status', 'basketItemsSum', 'itemsCounted', 'itemsMissing', 'groceriesIndex'], ['fallback'], 'groceries.', e);
     const sum = checkDec(g.basketItemsSum, 'groceries.basketItemsSum', e);
     for (const f of ['itemsCounted', 'itemsMissing']) if (!(Number.isSafeInteger(g[f]) && g[f] >= 0)) e.push(`groceries.${f}: not_non_negative_integer`);
     if (sum !== (g.itemsCounted > 0)) e.push('groceries.basketItemsSum: inconsistent_with_itemsCounted');
@@ -270,7 +288,7 @@ export function validateMarketData(obj, options = {}) {
   const rs = obj.restaurants;
   if (!isPlainObject(rs)) e.push('restaurants: not_object');
   else {
-    keys(rs, ['status', 'inexpensiveMeal', 'midRangeForTwo', 'restaurantIndex'], [], 'restaurants.', e);
+    keys(rs, ['status', 'inexpensiveMeal', 'midRangeForTwo', 'restaurantIndex'], ['fallback'], 'restaurants.', e);
     const m = [checkPrice(rs.inexpensiveMeal, 'restaurants.inexpensiveMeal', e), checkPrice(rs.midRangeForTwo, 'restaurants.midRangeForTwo', e)].some(Boolean);
     const v = checkDec(rs.restaurantIndex, 'restaurants.restaurantIndex', e) || m;
     money ||= m; any ||= v; checkStatus(rs.status, v, 'restaurants', e);
@@ -278,11 +296,28 @@ export function validateMarketData(obj, options = {}) {
   const ix = obj.indices;
   if (!isPlainObject(ix)) e.push('indices: not_object');
   else {
-    keys(ix, [...INDEX_FIELDS, 'baseline', 'status', 'period'], [], 'indices.', e);
+    keys(ix, [...INDEX_FIELDS, 'baseline', 'status', 'period'], ['fallback'], 'indices.', e);
     const v = INDEX_FIELDS.map((f) => checkDec(ix[f], `indices.${f}`, e)).some(Boolean);
     if (!isSafeText(ix.baseline, 60)) e.push('indices.baseline: invalid_text');
     if (ix.period !== null && !(typeof ix.period === 'string' && /^\d{4}(?:-(?:0[1-9]|1[0-2]))?$/.test(ix.period))) e.push('indices.period: invalid');
     any ||= v; checkStatus(ix.status, v, 'indices', e);
+  }
+  if ('budget' in obj) {
+    const b = obj.budget;
+    if (!isPlainObject(b)) e.push('budget: not_object');
+    else {
+      keys(b, ['status', 'single', 'family4', 'sourceUpdatedAt', 'source'], ['fallback'], 'budget.', e);
+      const v = [checkPrice(b.single, 'budget.single', e), checkPrice(b.family4, 'budget.family4', e)].some(Boolean);
+      checkStatus(b.status, v, 'budget', e);
+      if (b.sourceUpdatedAt !== null && !isPartialDate(b.sourceUpdatedAt)) e.push('budget.sourceUpdatedAt: not_partial_date_or_null');
+      if (b.source !== 'snapshot' && b.source !== 'apify') e.push('budget.source: invalid');
+      money ||= v; any ||= v;
+    }
+  }
+  for (const blk of ['rent', 'utilities', 'groceries', 'restaurants', 'indices', 'budget']) {
+    const b = /** @type {any} */ (obj)[blk];
+    if (isPlainObject(b) && 'fallback' in b && b.fallback !== true) e.push(`${blk}.fallback: must_be_true_when_present`);
+    if (isPlainObject(b) && b.fallback === true && !(isPlainObject(loc) && 'fallbackFrom' in loc)) e.push(`${blk}.fallback: requires_resolvedLocation_fallbackFrom`);
   }
   checkStatus(obj.status, any, '$', e);
   if (match === 'none' && any) e.push('resolvedLocation.matchStatus: none_but_values_present');

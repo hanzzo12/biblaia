@@ -27,8 +27,9 @@ function setup({ fetchImpl = mockApify({ city_prices: nestedPrices(), rankings: 
   const clock = { t: Date.parse('2026-10-30T10:00:00Z') };
   const logs = [];
   const kv = mockKv(clock);
-  const w = createWorker({ names: SYNTHETIC_NAMES, fetchImpl, now: () => clock.t, log: (l) => logs.push(l) });
-  const e = { APIFY_TOKEN: FAKE_TOKEN, MARKET_PROVIDER: 'apify', MARKET_CACHE: kv, MARKET_UPSTREAM_TIMEOUT_MS: '50', ...env };
+  // ეს ფაილი ამოწმებს on-demand რეჟიმს (MARKET_ON_DEMAND=true) ასლის გარეშე; ასლი/დედაქალაქი/cron — snapshot-fallback.test.js, refresh.test.js.
+  const w = createWorker({ names: SYNTHETIC_NAMES, snapshot: null, fetchImpl, now: () => clock.t, log: (l) => logs.push(l) });
+  const e = { APIFY_TOKEN: FAKE_TOKEN, MARKET_PROVIDER: 'apify', MARKET_ON_DEMAND: 'true', MARKET_CACHE: kv, MARKET_UPSTREAM_TIMEOUT_MS: '50', ...env };
   return { w, env: e, clock, logs, kv, fetchImpl, get: (p, h) => w.fetch(req(p, h ? { headers: h } : undefined), e) };
 }
 const URL_OK = '/api/market?location=AT-VIENNA&currency=EUR';

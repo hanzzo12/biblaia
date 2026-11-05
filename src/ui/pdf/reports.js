@@ -25,7 +25,14 @@ export async function resultPdf(M) {
   p.rect(X, y, CW, 64, ACCENT, 10);
   p.text('დარჩენილი თანხა ქირისა და სწავლის შემდეგ (თვეში)', X + 16, y + 20, { size: 10, color: WHITE });
   p.text(M.noRent ? 'მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს' : M.hero == null ? '—' : `${formatAmount(M.hero)} ${M.cur}`, X + 16, y + 48, { size: M.noRent ? 13 : 24, bold: true, color: WHITE });
-  y += 76;
+  y += 72;
+  if (!M.noRent) {
+    p.rect(X, y, CW, 26, [238, 242, 255], 8);
+    p.text('დარჩენილი თანხა საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)', X + 12, y + 11, { size: 8.5 });
+    p.text(M.living.value == null ? '—' : `${formatAmount(M.living.value)} ${M.cur}`, W - X - 12, y + 16, { size: 12, bold: true, color: ACCENT, align: 'right' });
+    if (M.living.note) p.text(M.living.note, X + 12, y + 21.5, { size: 6.5, color: MUTED });
+    y += 34;
+  }
   const cards = [
     [M.noRent ? 'სამივლინებო თანხა (ქირის გარეშე)' : 'ყოველთვიური სამივლინებო თანხა', M.S == null ? '—' : `${formatAmount(M.S)} ${M.cur}`, M.noRent ? 'ქირის ანაზღაურება არ შედის' : 'ქირის ანაზღაურების ჩათვლით'],
     ['ქირის ანაზღაურება', M.noRent ? '—' : fmtC(M.m.F, M.cur), M.noRent ? '' : `თქვენი წილი: ${fmtC(M.m.uncoveredRent, M.cur)}`],
@@ -59,13 +66,22 @@ export async function resultPdf(M) {
       ['ოჯახის ჯამური წლიური ლიმიტი', M.insCapTotal == null ? '—' : `${formatAmount(M.insCapTotal)} ${M.cur} / წელი`, M.insReimbTotal != null ? `ანაზღაურდება სულ: ${formatAmount(M.insReimbTotal)} ${M.cur}` : null],
     ]);
   }
+  // ცხოვრების ღირებულება
+  if (M.marketRows) {
+    p.text(`ცხოვრების ღირებულება — ${M.city} (საორიენტაციო)`, X, y, { size: 10.5, bold: true }); y += 14;
+    for (const n of M.marketNotes) { p.text(n.text, X, y, { size: 7, color: MUTED }); y += 9.5; }
+    if (M.marketNotes.length) y += 4;
+    for (const r of M.marketRows) { p.text(r.label, X, y, { size: 8.5 }); p.text(r.value, W - X, y, { size: 8.5, bold: true, align: 'right' }); y += 4; p.line(X, y, W - X, y); y += 9.5; }
+    if (M.md?.indices?.costOfLiving != null) { p.text(`ცხოვრების ღირებულების ინდექსი: ${M.md.indices.costOfLiving} (ნიუ-იორკი = 100) · ${M.md.provider?.attribution_ka ?? ''}`, X, y, { size: 7.5, color: MUTED }); y += 12; }
+    y += 4;
+  }
   // როგორ დაითვალა
-  p.text('როგორ დაითვალა', X, y, { size: 10.5, bold: true }); y += 15;
+  p.text('როგორ დაითვალა', X, y, { size: 10.5, bold: true }); y += 14;
   for (const r of M.rows) {
     p.text(r.k, X, y, { size: 9, bold: true, color: ACCENT });
     p.text(r.label, X + 18, y, { size: 9, color: r.k === 'S' ? ACCENT : INK });
     p.text(r.text, W - X, y, { size: 9, bold: true, align: 'right', color: r.k === 'S' ? ACCENT : INK });
-    y += 5; p.line(X, y, W - X, y); y += 10.5;
+    y += 4; p.line(X, y, W - X, y); y += 9.5;
   }
   p.text('D = H × A × K × (1 + 7% × C) · T = D × E · S = D − T + F', X, y + 2, { size: 8, color: MUTED });
   p.text(DISCLAIMER, X, H - 30, { size: 8, color: MUTED });
@@ -94,6 +110,7 @@ export async function comparePdf(cards) {
   y += 50;
   const rows = [
     ['დარჩება ქირისა და სწავლის შემდეგ', (c) => c.remainder, true, (c) => c.remNote],
+    ['დარჩება საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)', (c) => c.living, true, (c) => c.livingNote],
     ['ყოველთვიური სამივლინებო თანხა', (c) => c.S, true],
     ['ქირის ანაზღაურება', (c) => c.F],
     ['ქირა', (c) => c.rent, false, (c) => c.rentLabel],
@@ -113,6 +130,8 @@ export async function comparePdf(cards) {
     y += maxH + 3; p.line(X, y - 6, W - X, y - 6);
     y += 4;
   }
+  const nts = [...new Set(cards.flatMap((c) => c.notes || []))];
+  nts.slice(0, 4).forEach((t, k) => p.text(t, X, H - 92 + k * 9.5, { size: 7, color: MUTED }));
   const src = cards.find((c) => c.source)?.source;
   if (src) p.text(src, X, H - 44, { size: 7.5, color: MUTED });
   p.text(DISCLAIMER, X, H - 28, { size: 8, color: MUTED });

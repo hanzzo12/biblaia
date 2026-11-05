@@ -12,3 +12,12 @@
 ბლოკები: `rent` (4 ქირა + `rentIndex`), `utilities` (85 მ² + ინტერნეტი), `groceries` („Markets“ კატეგორიის ფასების ჯამი, `itemsCounted/itemsMissing` + ინდექსი), `restaurants` (2 კერძი + ინდექსი), `indices` (ნიუ-იორკი = 100). თითო ბლოკს საკუთარი `status` აქვს; ზედა დონის `status` — `overallStatus()`.
 
 ტოკენი: მხოლოდ `APIFY_TOKEN` Secret / `.dev.vars`; `Authorization: Bearer` სათაურით. ლოგებში არასოდეს. რეალური გაშვების სქემის დადასტურება: `scripts/live-check-apify.mjs` (იხ. `docs/providers.md` §4).
+
+## რაუნდი 4: ასლი, დედაქალაქის წესი, ყოველთვიური განახლება
+
+| ფაილი | დანიშნულება |
+| --- | --- |
+| `snapshot.js` | `snapshotEntryToMarketData(snapshot, locationId, currency)` — ასლის ერთი ქალაქი → MarketData v2; USD→EUR ზუსტად (`usdPerEur.exact`), `reference_fx`; `cache.state: "snapshot"`, `snapshot_copy` |
+| `resolve.js` | `composeMarketData({ locationId, primary, ownSnapshot, capital })` — წყაროების რიგი თითო კატეგორიაზე + დედაქალაქის წესი; `marketDataFromSnapshot(snapshot, locationId, currency)` — კლიენტისთვის (ოფლაინ/file://) |
+| `capitals.json` | ქვეყანა → საელჩოს ქალაქი (`scripts/gen-capitals.mjs`, `--check` ტესტში) |
+| `../../worker/refresh.js` | Cron-ის მდგომარეობის მანქანა (KV `refresh:state`) |

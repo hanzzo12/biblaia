@@ -30,8 +30,8 @@ export function parseMoney(raw) {
 }
 const parseAge = (raw) => { const s = String(raw ?? '').trim(); return /^\d{1,3}$/.test(s) && Number(s) <= 120 ? Number(s) : null; };
 
-export function startApp({ data, meta, online, client }) {
-  const service = createMarketService({ online, client });
+export function startApp({ data, meta, online, client, offline = null }) {
+  const service = createMarketService({ online, client, offline });
   const now = new Date();
   const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   const monthEnd = `${month}-${String(new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()).padStart(2, '0')}`;
@@ -301,7 +301,9 @@ export function startApp({ data, meta, online, client }) {
     const sc = scenario();
     const r = calc(sc);
     const m = mission();
-    const M = resultModel({ r, st, sc, mission: m ? { ...m, shortName: shortName(m) } : null, data, personName });
+    loadMarket();
+    refreshMarket = () => { if (st.step === 4) replace(body, step4()); };
+    const M = resultModel({ r, st, sc, mission: m ? { ...m, shortName: shortName(m) } : null, data, personName, md: market.md, mdLoading: market.loading, beds: beds() });
     return renderResult(M, {
       onPrint: () => window.print(),
       onCompare: () => compare.open(),

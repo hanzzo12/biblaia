@@ -1,7 +1,8 @@
 // esbuild-ის შესასვლელი წერტილი (scripts/build.mjs). ნორმატიული მონაცემები ჩაშენდება build-ისას.
 import './polyfill.js';
 import data from '../data/normative-data.json';
-import { createMarketClient } from '../providers/index.js';
+import * as P from '../providers/index.js';
+import marketSnapshot from '../data/market-snapshot.json';
 import { startApp } from './app.js';
 
 /* global __APP_VERSION__, __RULES_VERSION__, __DATA_SHA256__, __BUILD_DATE__ */
@@ -13,10 +14,15 @@ const meta = {
 };
 // ბაზრის ფასები მხოლოდ http/https-დან (Cloudflare Worker, same-origin /api/market). file:// — ქსელის მოთხოვნა არ იგზავნება.
 const online = location.protocol === 'http:' || location.protocol === 'https:';
-const client = online ? createMarketClient({ endpoint: '/api/market', timeoutMs: 100000 }) : null;
+const client = online ? P.createMarketClient({ endpoint: '/api/market', timeoutMs: 100000 }) : null;
+// ოფლაინ (file://): პროვაიდერის ჩაშენებული ასლი, თუ ხელმისაწვდომია (contracts §9)
+const offline = (loc, cur) => {
+  const md = P.marketDataFromSnapshot(marketSnapshot, loc, cur);
+  return md && P.validateMarketData(md).ok ? md : null;
+};
 
 function boot() {
   for (const el of document.querySelectorAll('[data-meta]')) el.textContent = meta[el.getAttribute('data-meta')] ?? '';
-  window.__rotationApp = startApp({ data, meta, online, client });
+  window.__rotationApp = startApp({ data, meta, online, client, offline: online ? null : offline });
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();

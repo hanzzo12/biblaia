@@ -18,13 +18,18 @@ export function emptyMarket(locationId, status, currency = null) {
   };
 }
 
-export function createMarketService({ online, client, timeoutMs = 120000 }) {
+export function createMarketService({ online, client, offline = null, timeoutMs = 120000 }) {
   const cache = new Map();
   return {
-    online,
+    online: online || !!offline,
     /** @returns {Promise<any>} არასოდეს ისვრის */
     get(locationId, currency, { force = false } = {}) {
-      if (!online || !client) return Promise.resolve(emptyMarket(locationId, 'not_configured', currency));
+      if (!online || !client) {
+        // ოფლაინ: ჩაშენებული ასლი პროვაიდერის API-ით (თუ არის), სხვაგვარად — მონაცემის გარეშე
+        let md = null;
+        try { md = offline ? offline(locationId, currency) : null; } catch { md = null; }
+        return Promise.resolve(md && md.schemaVersion === 2 ? md : emptyMarket(locationId, 'not_configured', currency));
+      }
       const key = `${locationId}|${currency}`;
       if (!force && cache.has(key)) return cache.get(key);
       const p = Promise.resolve()

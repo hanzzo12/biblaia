@@ -232,3 +232,15 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
 .pos-name:first-child { font-weight: 600; }
 .pos-name + .pos-name { font-size: .8rem; }
 .pos-pct { min-width: 52px; padding: 4px 8px; font-size: .88rem; }
+.mbadge { align-self: flex-start; display: inline-block; font-size: .72rem; font-weight: 600; color: var(--muted); background: var(--line); border-radius: 999px; padding: 2px 9px; margin-bottom: 4px; }
+.mnote { margin: 0 0 4px; }
+.hero2 { margin: -6px 0 16px; padding: 14px 18px; border-radius: 16px; background: var(--accent-soft); border: 1px solid #c7d2fe; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 14px; }
+.hero2-l { font-size: .9rem; color: var(--ink); }
+.hero2-v { font-size: 1.45rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.hero2-v.neg, .c-s.neg { color: var(--err); }
+.hero2-n { flex-basis: 100%; font-size: .78rem; color: var(--muted); margin: 0; }
+.mres { margin-top: 18px; }
+.c-s2 { font-size: 1.15rem; font-weight: 700; color: var(--accent); margin: 0; font-variant-numeric: tabular-nums; }
+.mrow { flex-wrap: wrap; }
+.mrow-v { white-space: normal; margin-left: auto; }
+.hero-v .per { font-size: 1rem; font-weight: 400; opacity: .85; white-space: nowrap; }

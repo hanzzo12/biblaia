@@ -1,0 +1,6108 @@
+{
+ "schemaVersion": 1,
+ "source": {
+  "file": "sources/original/numbeo-cities-snapshot-2026-10-31.txt",
+  "sha256": "2ee27fa03ae344c0b3b24b1fb76add1eec0cf1fc8c2733026efd2a768c6f100f",
+  "compiledAt": "2026-11-01T10:20+04:00",
+  "retrievedAt": "2026-10-31",
+  "note_ka": "მომხმარებლის მიერ შედგენილი Numbeo-ს ქალაქების გვერდების ასლი (USD). ნაწილი პირდაპირ 31.10.2026-ს, ნაწილი 2026 წლის მაის–ივნისის საძიებო ასლებიდან (`retrieval` თითო ქალაქზე). ოფიციალურ ნორმატიულ თანხებზე გავლენა არ აქვს."
+ },
+ "currency": "USD",
+ "usdPerEur": {
+  "value": "1.119954",
+  "exact": "211544003/188886392",
+  "min": "1.119859",
+  "max": "1.120049",
+  "pairs": 54,
+  "derivedFrom": "Numbeo € parallels in the snapshot (median of all budget pairs)",
+  "date": "2026-10-31",
+  "purpose": "reference display only"
+ },
+ "vaticanNote_ka": "სტატუსი: ვატიკანის დამოუკიდებელი მონაცემები არ მოიძებნა. ქვემოთ მოცემული ყველა რიცხვი ეხება რომს, იტალიას; ეს ვატიკანის სტატისტიკა არ არის. რომის სრული 55-პოზიციანი ცხრილი, დიაპაზონები, ინდექსები და წყაროები იხილეთ ჩანაწერში [015].",
+ "cities": {
+  "AE-ABU-DHABI": {
+   "entryNo": 48,
+   "numbeoName": "Abu Dhabi",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-08",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Abu-Dhabi",
+   "rent": {
+    "centre_1br": {
+     "average": "1921.55",
+     "low": "1361.47",
+     "high": "2722.94",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "1325.27",
+     "low": "816.88",
+     "high": "1769.91",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "3752.19",
+     "low": "2450.65",
+     "high": "5173.59",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "2728.91",
+     "low": "1906.06",
+     "high": "4084.41",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "160.88",
+     "low": "108.92",
+     "high": "282.88",
+     "converted": true
+    },
+    "internet": {
+     "average": "88.54",
+     "low": "62.63",
+     "high": "127.71",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "50.83",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "8.17",
+     "low": "5.45",
+     "high": "19.06",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "68.07",
+     "low": "40.84",
+     "high": "173.68",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "54.1",
+    "rent": "44.3",
+    "costOfLivingPlusRent": "49.6",
+    "groceries": "45.1",
+    "restaurants": "54.6"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "AM-YEREVAN": {
+   "entryNo": 73,
+   "numbeoName": "Yerevan",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-17",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Yerevan",
+   "rent": {
+    "centre_1br": {
+     "average": "791.38",
+     "low": "625.04",
+     "high": "1189.87",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "579.39",
+     "low": "416.69",
+     "high": "951.9",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "1366.26",
+     "low": "972.29",
+     "high": "2500.16",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "863.3",
+     "low": "777.83",
+     "high": "1022.19",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "125.95",
+     "low": "94.45",
+     "high": "180.57",
+     "converted": true
+    },
+    "internet": {
+     "average": "21.54",
+     "low": "13.89",
+     "high": "27.78",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "47.73",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "11.11",
+     "low": "6.94",
+     "high": "16.64",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "52.78",
+     "low": "27.78",
+     "high": "130.56",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "44.1",
+    "rent": "19",
+    "costOfLivingPlusRent": "32.4",
+    "groceries": "38.9",
+    "restaurants": "47.1"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "AR-BUENOS-AIRES": {
+   "entryNo": 49,
+   "numbeoName": "Buenos Aires",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-10",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Buenos-Aires",
+   "rent": {
+    "centre_1br": {
+     "average": "744.29",
+     "low": "464.83",
+     "high": "1200"
+    },
+    "outside_1br": {
+     "average": "507.7",
+     "low": "359.3",
+     "high": "800"
+    },
+    "centre_3br": {
+     "average": "1573.92",
+     "low": "1200",
+     "high": "2500"
+    },
+    "outside_3br": {
+     "average": "1200.66",
+     "low": "800",
+     "high": "1939.65"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "196.88",
+     "low": "140",
+     "high": "300"
+    },
+    "internet": {
+     "average": "29.82",
+     "low": "17.67",
+     "high": "61.99"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "55.72",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "20",
+     "low": "11.13",
+     "high": "35"
+    },
+    "midRangeForTwo": {
+     "average": "70",
+     "low": "48",
+     "high": "100"
+    }
+   },
+   "indices": {
+    "costOfLiving": "50.2",
+    "rent": "17.1",
+    "costOfLivingPlusRent": "34.8",
+    "groceries": "45.5",
+    "restaurants": "62.5"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "AT-VIENNA": {
+   "entryNo": 1,
+   "numbeoName": "Vienna",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Vienna?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1324.77",
+     "low": "951.96",
+     "high": "1791.92"
+    },
+    "outside_1br": {
+     "average": "946.36",
+     "low": "783.97",
+     "high": "1343.94"
+    },
+    "centre_3br": {
+     "average": "2569.99",
+     "low": "2015.91",
+     "high": "3359.85"
+    },
+    "outside_3br": {
+     "average": "1692.3",
+     "low": "1119.95",
+     "high": "2239.9"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "320.42",
+     "low": "221.75",
+     "high": "503.98"
+    },
+    "internet": {
+     "average": "32.34",
+     "low": "22.4",
+     "high": "47.04"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "80.60",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "19.04",
+     "low": "13.44",
+     "high": "29.12"
+    },
+    "midRangeForTwo": {
+     "average": "89.6",
+     "low": "56",
+     "high": "134.39"
+    }
+   },
+   "indices": {
+    "costOfLiving": "69.5",
+    "rent": "29.3",
+    "costOfLivingPlusRent": "50.8",
+    "groceries": "62.9",
+    "restaurants": "77.3"
+   },
+   "budget": {
+    "single": {
+     "average": "1149.2",
+     "parallelRaw": "€1,026.1"
+    },
+    "family4": {
+     "average": "4035.1",
+     "parallelRaw": "€3,602.9"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "AU-CANBERRA": {
+   "entryNo": 45,
+   "numbeoName": "Canberra",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Canberra?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1775.74",
+     "low": "1686.72",
+     "high": "1967.84"
+    },
+    "outside_1br": {
+     "average": "1509.74",
+     "low": "1265.04",
+     "high": "1967.84"
+    },
+    "centre_3br": {
+     "average": "3119.26",
+     "low": "2263.02",
+     "high": "4763.58"
+    },
+    "outside_3br": {
+     "average": "2006.49",
+     "low": "1827.28",
+     "high": "2459.8"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "183.65",
+     "low": "126.5",
+     "high": "210.84"
+    },
+    "internet": {
+     "average": "55.92",
+     "low": "49.2",
+     "high": "63.25"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "76.70",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "21.08",
+     "low": "14.06",
+     "high": "28.11"
+    },
+    "midRangeForTwo": {
+     "average": "91.01",
+     "low": "61.85",
+     "high": "126.5"
+    }
+   },
+   "indices": {
+    "costOfLiving": "79.1",
+    "rent": "37.6",
+    "costOfLivingPlusRent": "59.9",
+    "groceries": "88.1",
+    "restaurants": "77.1"
+   },
+   "budget": {
+    "single": {
+     "average": "1193.3",
+     "parallelRaw": "A$1,698.0"
+    },
+    "family4": {
+     "average": "4347",
+     "parallelRaw": "A$6,185.3"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "AZ-BAKU": {
+   "entryNo": 46,
+   "numbeoName": "Baku",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Baku?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "532.35",
+     "low": "352.94",
+     "high": "705.88"
+    },
+    "outside_1br": {
+     "average": "294.85",
+     "low": "176.47",
+     "high": "411.76"
+    },
+    "centre_3br": {
+     "average": "945.85",
+     "low": "529.41",
+     "high": "1176.47"
+    },
+    "outside_3br": {
+     "average": "488.97",
+     "low": "276.47",
+     "high": "705.88"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "66.47",
+     "low": "45.45",
+     "high": "100"
+    },
+    "internet": {
+     "average": "15.29",
+     "low": "14.71",
+     "high": "23.53"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "38.13",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "8.82",
+     "low": "5.88",
+     "high": "12.94"
+    },
+    "midRangeForTwo": {
+     "average": "39.71",
+     "low": "29.41",
+     "high": "58.82"
+    }
+   },
+   "indices": {
+    "costOfLiving": "33.1",
+    "rent": "10.1",
+    "costOfLivingPlusRent": "22.4",
+    "groceries": "31.2",
+    "restaurants": "37.7"
+   },
+   "budget": {
+    "single": {
+     "average": "583.4",
+     "parallelRaw": "991.7 man"
+    },
+    "family4": {
+     "average": "2161.5",
+     "parallelRaw": "3,674.5 man"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "AZ-GANJA": {
+   "entryNo": 47,
+   "numbeoName": "Gence — comparison first column",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-06",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/compare_cities.jsp?city1=Gence&city2=Trabzon&country1=Azerbaijan&country2=Turkey",
+   "rent": {
+    "centre_1br": {
+     "average": "353.04",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "176.52",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "588.4",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "353.04",
+     "low": null,
+     "high": null,
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "58.84",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "internet": {
+     "average": "18.83",
+     "low": null,
+     "high": null,
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "29.14",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "7.06",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "33.83",
+     "low": null,
+     "high": null,
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": null,
+    "rent": null,
+    "costOfLivingPlusRent": null,
+    "groceries": null,
+    "restaurants": null
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "BE-BRUSSELS": {
+   "entryNo": 2,
+   "numbeoName": "Brussels",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Brussels?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1377.54",
+     "low": "1231.95",
+     "high": "1679.93"
+    },
+    "outside_1br": {
+     "average": "1147.95",
+     "low": "1007.96",
+     "high": "1343.94"
+    },
+    "centre_3br": {
+     "average": "2556.29",
+     "low": "2071.91",
+     "high": "3135.86"
+    },
+    "outside_3br": {
+     "average": "2062.31",
+     "low": "1567.93",
+     "high": "2463.89"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "282.4",
+     "low": "167.99",
+     "high": "444.25"
+    },
+    "internet": {
+     "average": "51.89",
+     "low": "44.8",
+     "high": "67.2"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "85.45",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "22.4",
+     "low": "13.44",
+     "high": "43.68"
+    },
+    "midRangeForTwo": {
+     "average": "89.6",
+     "low": "67.2",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "70.3",
+    "rent": "32",
+    "costOfLivingPlusRent": "52.5",
+    "groceries": "70",
+    "restaurants": "80.3"
+   },
+   "budget": {
+    "single": {
+     "average": "1176.1",
+     "parallelRaw": "€1,050.2"
+    },
+    "family4": {
+     "average": "4169",
+     "parallelRaw": "€3,722.5"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "BG-SOFIA": {
+   "entryNo": 3,
+   "numbeoName": "Sofia",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Sofia?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "780.17",
+     "low": "658.53",
+     "high": "895.96"
+    },
+    "outside_1br": {
+     "average": "596.81",
+     "low": "447.98",
+     "high": "783.97"
+    },
+    "centre_3br": {
+     "average": "1543.89",
+     "low": "1343.94",
+     "high": "2043.91"
+    },
+    "outside_3br": {
+     "average": "1051.69",
+     "low": "801.81",
+     "high": "1343.94"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "159.34",
+     "low": "112",
+     "high": "246.39"
+    },
+    "internet": {
+     "average": "15.23",
+     "low": "11.2",
+     "high": "28"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "61.97",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "11.2",
+     "high": "24.64"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "50.4",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "50.6",
+    "rent": "17.8",
+    "costOfLivingPlusRent": "35.3",
+    "groceries": "47.9",
+    "restaurants": "60"
+   },
+   "budget": {
+    "single": {
+     "average": "856.1",
+     "parallelRaw": "€764.4"
+    },
+    "family4": {
+     "average": "3117.8",
+     "parallelRaw": "€2,783.9"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "BR-BRASILIA": {
+   "entryNo": 54,
+   "numbeoName": "Brasilia",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-10",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Brasilia",
+   "rent": {
+    "centre_1br": {
+     "average": "472.61",
+     "low": "370.56",
+     "high": "555.84",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "281.63",
+     "low": "214.92",
+     "high": "370.56",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "1031.74",
+     "low": "926.4",
+     "high": "1296.96",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "541.33",
+     "low": "481.73",
+     "high": "741.12",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "92.81",
+     "low": "55.58",
+     "high": "222.34",
+     "converted": true
+    },
+    "internet": {
+     "average": "21.06",
+     "low": "18.34",
+     "high": "27.79",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "39.68",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "8.34",
+     "low": "4.63",
+     "high": "18.53",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "37.06",
+     "low": "27.79",
+     "high": "74.11",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "33.5",
+    "rent": "11",
+    "costOfLivingPlusRent": "23",
+    "groceries": "31.6",
+    "restaurants": "34.8"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "BY-MINSK": {
+   "entryNo": 53,
+   "numbeoName": "Minsk",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-24",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Minsk",
+   "rent": {
+    "centre_1br": {
+     "average": "588.74",
+     "low": "470.69",
+     "high": "782.65",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "378.7",
+     "low": "313.06",
+     "high": "510.42",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "957.57",
+     "low": "714.59",
+     "high": "1531.27",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "656.13",
+     "low": "470.69",
+     "high": "1020.85",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "61.89",
+     "low": "47",
+     "high": "94",
+     "converted": true
+    },
+    "internet": {
+     "average": "13.3",
+     "low": "8.51",
+     "high": "17.01",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "40.90",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "10.21",
+     "low": "7.83",
+     "high": "17.01",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "47.64",
+     "low": "27.22",
+     "high": "68.06",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "33.7",
+    "rent": "12.6",
+    "costOfLivingPlusRent": "23.9",
+    "groceries": "32.9",
+    "restaurants": "39"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "CA-OTTAWA": {
+   "entryNo": 64,
+   "numbeoName": "Ottawa",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-05",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Ottawa",
+   "rent": {
+    "centre_1br": {
+     "average": "1482.61",
+     "low": "1288.84",
+     "high": "1718.46",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "1255.57",
+     "low": "1074.04",
+     "high": "1432.05",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "2316.07",
+     "low": "2004.87",
+     "high": "2506.08",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "1951.99",
+     "low": "1718.46",
+     "high": "2291.28",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "141.36",
+     "low": "93.63",
+     "high": "183.3",
+     "converted": true
+    },
+    "internet": {
+     "average": "43.43",
+     "low": "31.51",
+     "high": "71.6",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "70.25",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "17.9",
+     "low": "12.89",
+     "high": "28.64",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "71.6",
+     "low": "53.7",
+     "high": "107.4",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "62.8",
+    "rent": "30.5",
+    "costOfLivingPlusRent": "47.8",
+    "groceries": "66.7",
+    "restaurants": "66.4"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "CH-BERN": {
+   "entryNo": 36,
+   "numbeoName": "Bern",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Bern?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "2135.4",
+     "low": "1456.65",
+     "high": "2913.29"
+    },
+    "outside_1br": {
+     "average": "1608.38",
+     "low": "1213.87",
+     "high": "2063.58"
+    },
+    "centre_3br": {
+     "average": "3565.75",
+     "low": "2840.46",
+     "high": "5219.65"
+    },
+    "outside_3br": {
+     "average": "2675.58",
+     "low": "2063.58",
+     "high": "3641.62"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "274.8",
+     "low": "180.56",
+     "high": "424.86"
+    },
+    "internet": {
+     "average": "55.23",
+     "low": "48.49",
+     "high": "72.83"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "129.88",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "29.13",
+     "low": "20.64",
+     "high": "36.42"
+    },
+    "midRangeForTwo": {
+     "average": "121.99",
+     "low": "84.97",
+     "high": "235.49"
+    }
+   },
+   "indices": {
+    "costOfLiving": "103.7",
+    "rent": "44.7",
+    "costOfLivingPlusRent": "76.3",
+    "groceries": "95.9",
+    "restaurants": "109"
+   },
+   "budget": {
+    "single": {
+     "average": "1638.5",
+     "parallelRaw": "1,349.9 Fr."
+    },
+    "family4": {
+     "average": "6019.5",
+     "parallelRaw": "4,958.9 Fr."
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "CH-GENEVA": {
+   "entryNo": 37,
+   "numbeoName": "Geneva",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Geneva?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "2882.95",
+     "low": "2306.36",
+     "high": "3495.95"
+    },
+    "outside_1br": {
+     "average": "2166.76",
+     "low": "1942.2",
+     "high": "2646.24"
+    },
+    "centre_3br": {
+     "average": "5161.76",
+     "low": "4248.55",
+     "high": "6202.89"
+    },
+    "outside_3br": {
+     "average": "3936.68",
+     "low": "3398.84",
+     "high": "4697.69"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "286.12",
+     "low": "182.08",
+     "high": "375.2"
+    },
+    "internet": {
+     "average": "57.78",
+     "low": "48.55",
+     "high": "72.83"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "133.64",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "30.35",
+     "low": "21.85",
+     "high": "42.49"
+    },
+    "midRangeForTwo": {
+     "average": "127.46",
+     "low": "82.54",
+     "high": "242.77"
+    }
+   },
+   "indices": {
+    "costOfLiving": "105.5",
+    "rent": "63.3",
+    "costOfLivingPlusRent": "85.9",
+    "groceries": "98.3",
+    "restaurants": "111.5"
+   },
+   "budget": {
+    "single": {
+     "average": "1652.3",
+     "parallelRaw": "1,361.2 Fr."
+    },
+    "family4": {
+     "average": "6040",
+     "parallelRaw": "4,975.8 Fr."
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "CN-BEIJING": {
+   "entryNo": 79,
+   "numbeoName": "Beijing",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-11",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Beijing",
+   "rent": {
+    "centre_1br": {
+     "average": "1085.15",
+     "low": "749.67",
+     "high": "2099.09",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "580.78",
+     "low": "374.84",
+     "high": "1049.54",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "2355.7",
+     "low": "1649.28",
+     "high": "3298.57",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "1203.76",
+     "low": "749.67",
+     "high": "1799.22",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "53.92",
+     "low": "33.99",
+     "high": "89.96",
+     "converted": true
+    },
+    "internet": {
+     "average": "14.74",
+     "low": "11.99",
+     "high": "22.49",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "45.96",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "4.5",
+     "low": "3.6",
+     "high": "7.5",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "29.99",
+     "low": "17.99",
+     "high": "37.48",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "37.9",
+    "rent": "21.5",
+    "costOfLivingPlusRent": "30.3",
+    "groceries": "37.4",
+    "restaurants": "26.9"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "CU-HAVANA": {
+   "entryNo": 67,
+   "numbeoName": "Havana",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-28",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Havana",
+   "rent": {
+    "centre_1br": {
+     "average": "246.53",
+     "low": "180",
+     "high": "375.49"
+    },
+    "outside_1br": {
+     "average": "234.1",
+     "low": "200",
+     "high": "268.2"
+    },
+    "centre_3br": {
+     "average": "995.79",
+     "low": "800",
+     "high": "1287.38"
+    },
+    "outside_3br": {
+     "average": "541.89",
+     "low": "400",
+     "high": "700"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "47.33",
+     "low": "20",
+     "high": "100"
+    },
+    "internet": {
+     "average": "90.21",
+     "low": "60",
+     "high": "120.43"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "53.09",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "4.4",
+     "low": "3",
+     "high": "10"
+    },
+    "midRangeForTwo": {
+     "average": "30",
+     "low": "16.8",
+     "high": "50"
+    }
+   },
+   "indices": {
+    "costOfLiving": "37.78",
+    "rent": null,
+    "costOfLivingPlusRent": null,
+    "groceries": null,
+    "restaurants": null
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ფაილის შენიშვნა: არასრული ან ნაწილობრივ შეფასებული ფასები. ინდექსი: costOfLiving: ცხოვრების ხარისხის გვერდიდან. დაფარვა: 51/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "CY-NICOSIA": {
+   "entryNo": 18,
+   "numbeoName": "Nicosia",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Nicosia?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "786.89",
+     "low": "615.97",
+     "high": "1048.27"
+    },
+    "outside_1br": {
+     "average": "688.17",
+     "low": "615.97",
+     "high": "783.97"
+    },
+    "centre_3br": {
+     "average": "1706.63",
+     "low": "1455.94",
+     "high": "2273.5"
+    },
+    "outside_3br": {
+     "average": "1314.65",
+     "low": "1119.95",
+     "high": "1679.93"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "207.73",
+     "low": "95.2",
+     "high": "403.18"
+    },
+    "internet": {
+     "average": "33.23",
+     "low": "28",
+     "high": "50.4"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "63.74",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "11.31",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "56",
+     "high": "89.6"
+    }
+   },
+   "indices": {
+    "costOfLiving": "55.1",
+    "rent": "20.1",
+    "costOfLivingPlusRent": "38.9",
+    "groceries": "51.5",
+    "restaurants": "58.3"
+   },
+   "budget": {
+    "single": {
+     "average": "949.9",
+     "parallelRaw": "€848.2"
+    },
+    "family4": {
+     "average": "3398.3",
+     "parallelRaw": "€3,034.3"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "CZ-PRAGUE": {
+   "entryNo": 38,
+   "numbeoName": "Prague",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Prague?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1164.65",
+     "low": "825.08",
+     "high": "1680.67"
+    },
+    "outside_1br": {
+     "average": "978.37",
+     "low": "779.24",
+     "high": "1237.62"
+    },
+    "centre_3br": {
+     "average": "2306.01",
+     "low": "1512.65",
+     "high": "3361.35"
+    },
+    "outside_3br": {
+     "average": "1579.92",
+     "low": "1145.95",
+     "high": "2062.71"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "283.51",
+     "low": "229.19",
+     "high": "432.91"
+    },
+    "internet": {
+     "average": "21.52",
+     "low": "13.75",
+     "high": "33.61"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "57.89",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "10.54",
+     "low": "8.25",
+     "high": "17.89"
+    },
+    "midRangeForTwo": {
+     "average": "50.42",
+     "low": "36.67",
+     "high": "91.68"
+    }
+   },
+   "indices": {
+    "costOfLiving": "53.8",
+    "rent": "27",
+    "costOfLivingPlusRent": "41.4",
+    "groceries": "46.7",
+    "restaurants": "46.4"
+   },
+   "budget": {
+    "single": {
+     "average": "890.9",
+     "parallelRaw": "19,436.4 Kč"
+    },
+    "family4": {
+     "average": "3073",
+     "parallelRaw": "67,041.6 Kč"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "DE-BERLIN": {
+   "entryNo": 4,
+   "numbeoName": "Berlin",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Berlin?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1433.05",
+     "low": "1063.95",
+     "high": "1847.92"
+    },
+    "outside_1br": {
+     "average": "1105.03",
+     "low": "895.96",
+     "high": "1399.94"
+    },
+    "centre_3br": {
+     "average": "2731.7",
+     "low": "2239.9",
+     "high": "3359.85"
+    },
+    "outside_3br": {
+     "average": "2143.84",
+     "low": "1679.93",
+     "high": "2799.88"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "381.42",
+     "low": "274.39",
+     "high": "559.98"
+    },
+    "internet": {
+     "average": "48.16",
+     "low": "39.2",
+     "high": "56"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "77.83",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "11.2",
+     "high": "31.36"
+    },
+    "midRangeForTwo": {
+     "average": "78.4",
+     "low": "56",
+     "high": "123.19"
+    }
+   },
+   "indices": {
+    "costOfLiving": "69.4",
+    "rent": "33.2",
+    "costOfLivingPlusRent": "52.6",
+    "groceries": "62.3",
+    "restaurants": "68.6"
+   },
+   "budget": {
+    "single": {
+     "average": "1176.3",
+     "parallelRaw": "€1,050.4"
+    },
+    "family4": {
+     "average": "4043.6",
+     "parallelRaw": "€3,610.6"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "DE-FRANKFURT": {
+   "entryNo": 5,
+   "numbeoName": "Frankfurt",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Frankfurt?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1412.39",
+     "low": "1119.95",
+     "high": "1679.93"
+    },
+    "outside_1br": {
+     "average": "1105.22",
+     "low": "783.97",
+     "high": "1343.94"
+    },
+    "centre_3br": {
+     "average": "2716.81",
+     "low": "2071.91",
+     "high": "3919.83"
+    },
+    "outside_3br": {
+     "average": "1944.05",
+     "low": "1467.13",
+     "high": "2575.89"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "388.19",
+     "low": "335.99",
+     "high": "547.38"
+    },
+    "internet": {
+     "average": "47.16",
+     "low": "39.2",
+     "high": "67.2"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "75.17",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "15.68",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "89.6",
+     "low": "64.96",
+     "high": "123.19"
+    }
+   },
+   "indices": {
+    "costOfLiving": "68.5",
+    "rent": "32.1",
+    "costOfLivingPlusRent": "51.6",
+    "groceries": "59",
+    "restaurants": "73.3"
+   },
+   "budget": {
+    "single": {
+     "average": "1200",
+     "parallelRaw": "€1,071.4"
+    },
+    "family4": {
+     "average": "4131.6",
+     "parallelRaw": "€3,689.1"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "DK-COPENHAGEN": {
+   "entryNo": 7,
+   "numbeoName": "Copenhagen",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Copenhagen?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "2070.91",
+     "low": "1493.12",
+     "high": "2388.99"
+    },
+    "outside_1br": {
+     "average": "1539.78",
+     "low": "1119.84",
+     "high": "1941.05"
+    },
+    "centre_3br": {
+     "average": "3487.39",
+     "low": "2687.61",
+     "high": "4255.38"
+    },
+    "outside_3br": {
+     "average": "2431.79",
+     "low": "2090.36",
+     "high": "2836.92"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "180.95",
+     "low": "126.91",
+     "high": "298.62"
+    },
+    "internet": {
+     "average": "37.3",
+     "low": "29.86",
+     "high": "49.12"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "97.28",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "20.9",
+     "low": "13.44",
+     "high": "44.79"
+    },
+    "midRangeForTwo": {
+     "average": "119.45",
+     "low": "74.66",
+     "high": "223.97"
+    }
+   },
+   "indices": {
+    "costOfLiving": "83.8",
+    "rent": "42.7",
+    "costOfLivingPlusRent": "64.7",
+    "groceries": "78.1",
+    "restaurants": "94.2"
+   },
+   "budget": {
+    "single": {
+     "average": "1335.3",
+     "parallelRaw": "8,942.7 kr"
+    },
+    "family4": {
+     "average": "4962",
+     "parallelRaw": "33,232.7 kr"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "EE-TALLINN": {
+   "entryNo": 11,
+   "numbeoName": "Tallinn",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Tallinn?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "824.88",
+     "low": "671.97",
+     "high": "951.96"
+    },
+    "outside_1br": {
+     "average": "602.66",
+     "low": "475.98",
+     "high": "727.97"
+    },
+    "centre_3br": {
+     "average": "1563.03",
+     "low": "1119.95",
+     "high": "2239.9"
+    },
+    "outside_3br": {
+     "average": "996.62",
+     "low": "783.97",
+     "high": "1175.95"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "339.9",
+     "low": "218.39",
+     "high": "519.25"
+    },
+    "internet": {
+     "average": "32.51",
+     "low": "28",
+     "high": "56"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "70.32",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "11.2",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "89.6",
+     "low": "67.2",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "61.8",
+    "rent": "17.9",
+    "costOfLivingPlusRent": "41.4",
+    "groceries": "54.6",
+    "restaurants": "70.5"
+   },
+   "budget": {
+    "single": {
+     "average": "1100.9",
+     "parallelRaw": "€983.0"
+    },
+    "family4": {
+     "average": "3809.1",
+     "parallelRaw": "€3,401.1"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "EG-CAIRO": {
+   "entryNo": 55,
+   "numbeoName": "Cairo",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-02",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Cairo-Egypt",
+   "rent": {
+    "centre_1br": {
+     "average": "203.55",
+     "low": "107.09",
+     "high": "356.96",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "155.47",
+     "low": "71.39",
+     "high": "321.27",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "440",
+     "low": "249.87",
+     "high": "892.41",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "281.45",
+     "low": "178.48",
+     "high": "588.99",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "23.51",
+     "low": "12.49",
+     "high": "37.93",
+     "converted": true
+    },
+    "internet": {
+     "average": "11.02",
+     "low": "7.14",
+     "high": "17.85",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "25.11",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "4.46",
+     "low": "1.78",
+     "high": "8.92",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "26.77",
+     "low": "14.28",
+     "high": "53.54",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "21.6",
+    "rent": "5.6",
+    "costOfLivingPlusRent": "14.1",
+    "groceries": "20.8",
+    "restaurants": "22"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "ES-BARCELONA": {
+   "entryNo": 10,
+   "numbeoName": "Barcelona",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Barcelona?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1682.24",
+     "low": "1343.94",
+     "high": "2015.91"
+    },
+    "outside_1br": {
+     "average": "1334.88",
+     "low": "1063.95",
+     "high": "1679.93"
+    },
+    "centre_3br": {
+     "average": "2660.42",
+     "low": "1766.16",
+     "high": "3359.85"
+    },
+    "outside_3br": {
+     "average": "2057.17",
+     "low": "1623.93",
+     "high": "3135.86"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "181.18",
+     "low": "99.73",
+     "high": "313.59"
+    },
+    "internet": {
+     "average": "33.33",
+     "low": "22.4",
+     "high": "62.72"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "73.12",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "17.92",
+     "low": "13.44",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "44.8",
+     "high": "89.6"
+    }
+   },
+   "indices": {
+    "costOfLiving": "57.7",
+    "rent": "34.6",
+    "costOfLivingPlusRent": "47",
+    "groceries": "56.7",
+    "restaurants": "62.6"
+   },
+   "budget": {
+    "single": {
+     "average": "920.1",
+     "parallelRaw": "€821.6"
+    },
+    "family4": {
+     "average": "3319.3",
+     "parallelRaw": "€2,963.8"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "ES-MADRID": {
+   "entryNo": 9,
+   "numbeoName": "Madrid",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Madrid?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1518.2",
+     "low": "1119.95",
+     "high": "2239.9"
+    },
+    "outside_1br": {
+     "average": "1224.15",
+     "low": "895.96",
+     "high": "1567.93"
+    },
+    "centre_3br": {
+     "average": "2869.87",
+     "low": "2127.91",
+     "high": "3919.83"
+    },
+    "outside_3br": {
+     "average": "1982.54",
+     "low": "1455.94",
+     "high": "2822.27"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "188.48",
+     "low": "134.39",
+     "high": "285.59"
+    },
+    "internet": {
+     "average": "34.87",
+     "low": "22.4",
+     "high": "56"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "68.67",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "17.92",
+     "low": "13.44",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "44.8",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "56.7",
+    "rent": "34",
+    "costOfLivingPlusRent": "46.2",
+    "groceries": "53.2",
+    "restaurants": "61.3"
+   },
+   "budget": {
+    "single": {
+     "average": "914.2",
+     "parallelRaw": "€816.3"
+    },
+    "family4": {
+     "average": "3286.1",
+     "parallelRaw": "€2,934.1"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "ET-ADDIS-ABABA": {
+   "entryNo": 56,
+   "numbeoName": "Addis Ababa",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-10",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Addis-Ababa",
+   "rent": {
+    "centre_1br": {
+     "average": "706.95",
+     "low": "364.67",
+     "high": "2500"
+    },
+    "outside_1br": {
+     "average": "356.03",
+     "low": "201.94",
+     "high": "1500"
+    },
+    "centre_3br": {
+     "average": "2147.83",
+     "low": "1086.95",
+     "high": "3500"
+    },
+    "outside_3br": {
+     "average": "700.38",
+     "low": "407.22",
+     "high": "2000"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "176.67",
+     "low": "60",
+     "high": "350"
+    },
+    "internet": {
+     "average": "255.25",
+     "low": "71",
+     "high": "450"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "44.66",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "4",
+     "low": "2.02",
+     "high": "10"
+    },
+    "midRangeForTwo": {
+     "average": "42.5",
+     "low": "25",
+     "high": "52"
+    }
+   },
+   "indices": {
+    "costOfLiving": "41.6",
+    "rent": "18.5",
+    "costOfLivingPlusRent": "30.9",
+    "groceries": "38.8",
+    "restaurants": "25.5"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "FI-HELSINKI": {
+   "entryNo": 34,
+   "numbeoName": "Helsinki",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Helsinki?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1290.6",
+     "low": "1007.96",
+     "high": "1926.31"
+    },
+    "outside_1br": {
+     "average": "923.85",
+     "low": "783.97",
+     "high": "1231.95"
+    },
+    "centre_3br": {
+     "average": "2251.1",
+     "low": "1915.11",
+     "high": "3135.86"
+    },
+    "outside_3br": {
+     "average": "1680.62",
+     "low": "1399.94",
+     "high": "2351.9"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "137.18",
+     "low": "61.6",
+     "high": "237.99"
+    },
+    "internet": {
+     "average": "23.73",
+     "low": "16.8",
+     "high": "33.6"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "77.24",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "17.92",
+     "low": "15.34",
+     "high": "33.6"
+    },
+    "midRangeForTwo": {
+     "average": "112",
+     "low": "72.8",
+     "high": "167.99"
+    }
+   },
+   "indices": {
+    "costOfLiving": "72.4",
+    "rent": "27.5",
+    "costOfLivingPlusRent": "51.6",
+    "groceries": "67",
+    "restaurants": "84.2"
+   },
+   "budget": {
+    "single": {
+     "average": "1136.3",
+     "parallelRaw": "€1,014.6"
+    },
+    "family4": {
+     "average": "4225.8",
+     "parallelRaw": "€3,773.2"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "FR-LYON": {
+   "entryNo": 30,
+   "numbeoName": "Lyon",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Lyon?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "909.14",
+     "low": "727.97",
+     "high": "1119.95"
+    },
+    "outside_1br": {
+     "average": "691.29",
+     "low": "503.98",
+     "high": "895.96"
+    },
+    "centre_3br": {
+     "average": "1894.44",
+     "low": "1399.94",
+     "high": "2239.9"
+    },
+    "outside_3br": {
+     "average": "1358.87",
+     "low": "895.96",
+     "high": "2127.91"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "265.85",
+     "low": "117.16",
+     "high": "447.98"
+    },
+    "internet": {
+     "average": "29.3",
+     "low": "22.4",
+     "high": "48.16"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "88.33",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "11.2",
+     "high": "24.64"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "44.8",
+     "high": "100.8"
+    }
+   },
+   "indices": {
+    "costOfLiving": "67.6",
+    "rent": "21.7",
+    "costOfLivingPlusRent": "46.3",
+    "groceries": "70",
+    "restaurants": "65.3"
+   },
+   "budget": {
+    "single": {
+     "average": "1114.6",
+     "parallelRaw": "€995.2"
+    },
+    "family4": {
+     "average": "3966.8",
+     "parallelRaw": "€3,541.9"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "FR-PARIS": {
+   "entryNo": 29,
+   "numbeoName": "Paris",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Paris?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1635.47",
+     "low": "1343.94",
+     "high": "2463.89"
+    },
+    "outside_1br": {
+     "average": "1281.06",
+     "low": "895.96",
+     "high": "1657.53"
+    },
+    "centre_3br": {
+     "average": "3723.25",
+     "low": "2911.87",
+     "high": "4614.19"
+    },
+    "outside_3br": {
+     "average": "2425.68",
+     "low": "2239.9",
+     "high": "3494.24"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "247.94",
+     "low": "180.31",
+     "high": "356.98"
+    },
+    "internet": {
+     "average": "29.73",
+     "low": "24.64",
+     "high": "39.2"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "89.89",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "19.04",
+     "low": "13.44",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "78.4",
+     "low": "67.2",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "75",
+    "rent": "40.6",
+    "costOfLivingPlusRent": "59",
+    "groceries": "72.3",
+    "restaurants": "75.2"
+   },
+   "budget": {
+    "single": {
+     "average": "1176.1",
+     "parallelRaw": "€1,050.2"
+    },
+    "family4": {
+     "average": "4235.2",
+     "parallelRaw": "€3,781.6"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "GB-LONDON": {
+   "entryNo": 8,
+   "numbeoName": "London",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/London?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "2878.69",
+     "low": "2009.62",
+     "high": "4019.25"
+    },
+    "outside_1br": {
+     "average": "2293.72",
+     "low": "1741.67",
+     "high": "2947.45"
+    },
+    "centre_3br": {
+     "average": "5221.88",
+     "low": "4019.25",
+     "high": "7368.62"
+    },
+    "outside_3br": {
+     "average": "3856.47",
+     "low": "2947.45",
+     "high": "5359"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "384.64",
+     "low": "208.78",
+     "high": "669.87"
+    },
+    "internet": {
+     "average": "41.05",
+     "low": "33.49",
+     "high": "53.59"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "70.32",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "26.79",
+     "low": "18.76",
+     "high": "40.19"
+    },
+    "midRangeForTwo": {
+     "average": "107.18",
+     "low": "80.38",
+     "high": "200.96"
+    }
+   },
+   "indices": {
+    "costOfLiving": "85.5",
+    "rent": "63.8",
+    "costOfLivingPlusRent": "75.4",
+    "groceries": "68.2",
+    "restaurants": "90.5"
+   },
+   "budget": {
+    "single": {
+     "average": "1444.5",
+     "parallelRaw": "£1,078.2"
+    },
+    "family4": {
+     "average": "5084.3",
+     "parallelRaw": "£3,795.0"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "GR-ATHENS": {
+   "entryNo": 27,
+   "numbeoName": "Athens",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Athens?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "740.12",
+     "low": "559.98",
+     "high": "1119.95"
+    },
+    "outside_1br": {
+     "average": "641.32",
+     "low": "503.98",
+     "high": "895.96"
+    },
+    "centre_3br": {
+     "average": "1287.55",
+     "low": "1007.96",
+     "high": "2015.91"
+    },
+    "outside_3br": {
+     "average": "1134.47",
+     "low": "839.96",
+     "high": "1678.81"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "203.13",
+     "low": "135.99",
+     "high": "285.59"
+    },
+    "internet": {
+     "average": "30.24",
+     "low": "24.64",
+     "high": "42.56"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "67.25",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "13.44",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "44.8",
+     "high": "100.8"
+    }
+   },
+   "indices": {
+    "costOfLiving": "54.5",
+    "rent": "17",
+    "costOfLivingPlusRent": "37.1",
+    "groceries": "51.1",
+    "restaurants": "61.7"
+   },
+   "budget": {
+    "single": {
+     "average": "924.9",
+     "parallelRaw": "€825.8"
+    },
+    "family4": {
+     "average": "3303.9",
+     "parallelRaw": "€2,950.0"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "GR-THESSALONIKI": {
+   "entryNo": 28,
+   "numbeoName": "Thessaloniki",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Thessaloniki?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "623.5",
+     "low": "559.98",
+     "high": "727.97"
+    },
+    "outside_1br": {
+     "average": "502.58",
+     "low": "436.78",
+     "high": "615.97"
+    },
+    "centre_3br": {
+     "average": "1089.41",
+     "low": "895.96",
+     "high": "1679.93"
+    },
+    "outside_3br": {
+     "average": "826.46",
+     "low": "671.97",
+     "high": "1007.96"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "218.08",
+     "low": "142.79",
+     "high": "335.99"
+    },
+    "internet": {
+     "average": "30.47",
+     "low": "26.88",
+     "high": "33.6"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "71.30",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "11.2",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "44.8",
+     "high": "89.6"
+    }
+   },
+   "indices": {
+    "costOfLiving": "55.4",
+    "rent": "13.6",
+    "costOfLivingPlusRent": "36",
+    "groceries": "55.1",
+    "restaurants": "62.5"
+   },
+   "budget": {
+    "single": {
+     "average": "942.6",
+     "parallelRaw": "€841.6"
+    },
+    "family4": {
+     "average": "3352",
+     "parallelRaw": "€2,992.9"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "HR-ZAGREB": {
+   "entryNo": 40,
+   "numbeoName": "Zagreb",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Zagreb?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "882.78",
+     "low": "783.97",
+     "high": "1119.95"
+    },
+    "outside_1br": {
+     "average": "672.32",
+     "low": "615.97",
+     "high": "783.97"
+    },
+    "centre_3br": {
+     "average": "1474.6",
+     "low": "1231.95",
+     "high": "2239.9"
+    },
+    "outside_3br": {
+     "average": "1048.2",
+     "low": "895.96",
+     "high": "1231.95"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "212.51",
+     "low": "155.77",
+     "high": "335.99"
+    },
+    "internet": {
+     "average": "38.45",
+     "low": "22.4",
+     "high": "50.35"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "67.26",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "12.32",
+     "low": "11.2",
+     "high": "16.8"
+    },
+    "midRangeForTwo": {
+     "average": "64.96",
+     "low": "56",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "52.2",
+    "rent": "18.3",
+    "costOfLivingPlusRent": "36.4",
+    "groceries": "52.1",
+    "restaurants": "50.6"
+   },
+   "budget": {
+    "single": {
+     "average": "916.2",
+     "parallelRaw": "€818.0"
+    },
+    "family4": {
+     "average": "3254.8",
+     "parallelRaw": "€2,906.2"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "HU-BUDAPEST": {
+   "entryNo": 33,
+   "numbeoName": "Budapest",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Budapest?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "833.57",
+     "low": "701.35",
+     "high": "991.03"
+    },
+    "outside_1br": {
+     "average": "642.27",
+     "low": "548.88",
+     "high": "762.33"
+    },
+    "centre_3br": {
+     "average": "1621.23",
+     "low": "1372.2",
+     "high": "2464.99"
+    },
+    "outside_3br": {
+     "average": "1221.26",
+     "low": "914.8",
+     "high": "1524.67"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "173.58",
+     "low": "116.64",
+     "high": "233.27"
+    },
+    "internet": {
+     "average": "23.49",
+     "low": "17.96",
+     "high": "32.02"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "56.05",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "13.72",
+     "low": "9.15",
+     "high": "21.35"
+    },
+    "midRangeForTwo": {
+     "average": "60.99",
+     "low": "42.69",
+     "high": "91.48"
+    }
+   },
+   "indices": {
+    "costOfLiving": "50.8",
+    "rent": "19.3",
+    "costOfLivingPlusRent": "36.2",
+    "groceries": "46",
+    "restaurants": "53"
+   },
+   "budget": {
+    "single": {
+     "average": "837.4",
+     "parallelRaw": "274,606.2 Ft"
+    },
+    "family4": {
+     "average": "3015.4",
+     "parallelRaw": "988,859.4 Ft"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "ID-JAKARTA": {
+   "entryNo": 61,
+   "numbeoName": "Jakarta",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-04",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Jakarta",
+   "rent": {
+    "centre_1br": {
+     "average": "348.29",
+     "low": "275.74",
+     "high": "516.19",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "196.14",
+     "low": "165.45",
+     "high": "330.89",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "1123.66",
+     "low": "689.36",
+     "high": "2007.42",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "579.57",
+     "low": "386.04",
+     "high": "827.23",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "93.85",
+     "low": "46.88",
+     "high": "220.6",
+     "converted": true
+    },
+    "internet": {
+     "average": "18.77",
+     "low": "13.79",
+     "high": "22.06",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "36.63",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "1.93",
+     "low": "1.1",
+     "high": "3.86",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "16.54",
+     "low": "8.27",
+     "high": "41.36",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "28.5",
+    "rent": "10.1",
+    "costOfLivingPlusRent": "20",
+    "groceries": "34.3",
+    "restaurants": "17.5"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "IE-DUBLIN": {
+   "entryNo": 42,
+   "numbeoName": "Dublin",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Dublin?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "2462.55",
+     "low": "2127.91",
+     "high": "2911.87"
+    },
+    "outside_1br": {
+     "average": "2180.74",
+     "low": "2015.91",
+     "high": "2463.89"
+    },
+    "centre_3br": {
+     "average": "4340.14",
+     "low": "3919.83",
+     "high": "5039.78"
+    },
+    "outside_3br": {
+     "average": "3401.73",
+     "low": "3023.87",
+     "high": "4479.8"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "272.53",
+     "low": "162.39",
+     "high": "475.98"
+    },
+    "internet": {
+     "average": "53.52",
+     "low": "39.2",
+     "high": "72.8"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "69.75",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "22.96",
+     "low": "16.8",
+     "high": "39.2"
+    },
+    "midRangeForTwo": {
+     "average": "100.8",
+     "low": "84",
+     "high": "134.39"
+    }
+   },
+   "indices": {
+    "costOfLiving": "73.6",
+    "rent": "55.4",
+    "costOfLivingPlusRent": "65.2",
+    "groceries": "67.4",
+    "restaurants": "84.4"
+   },
+   "budget": {
+    "single": {
+     "average": "1213.8",
+     "parallelRaw": "€1,083.8"
+    },
+    "family4": {
+     "average": "4314.3",
+     "parallelRaw": "€3,852.2"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "IL-TEL-AVIV": {
+   "entryNo": 63,
+   "numbeoName": "Price Rankings for Tel Aviv-Yafo, Israel",
+   "retrieval": "archive",
+   "sourceUpdatedAt": null,
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/price-rankings/in/Tel-Aviv-Yafo",
+   "rent": {
+    "centre_1br": {
+     "average": "2101.11",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "1578.91",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "3622.43",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "2631.81",
+     "low": null,
+     "high": null,
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "379.31",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "internet": {
+     "average": "34.47",
+     "low": null,
+     "high": null,
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "100.81",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "25.53",
+     "low": null,
+     "high": null,
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "127.66",
+     "low": null,
+     "high": null,
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "95.8",
+    "rent": "46.8",
+    "costOfLivingPlusRent": "73",
+    "groceries": "83.8",
+    "restaurants": "104"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "IN-NEW-DELHI": {
+   "entryNo": 60,
+   "numbeoName": "Delhi",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-10",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Delhi",
+   "rent": {
+    "centre_1br": {
+     "average": "248.61",
+     "low": "157.77",
+     "high": "420.73",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "151.81",
+     "low": "84.15",
+     "high": "262.95",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "729.02",
+     "low": "420.73",
+     "high": "1157",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "394.98",
+     "low": "252.44",
+     "high": "683.68",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "43.54",
+     "low": "26.3",
+     "high": "84.15",
+     "converted": true
+    },
+    "internet": {
+     "average": "7.23",
+     "low": "5.26",
+     "high": "12.62",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "23.06",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "3.68",
+     "low": "2.63",
+     "high": "10.52",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "21.04",
+     "low": "12.62",
+     "high": "52.59",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "21.5",
+    "rent": "7.4",
+    "costOfLivingPlusRent": "15",
+    "groceries": "22.1",
+    "restaurants": "20.6"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "IR-TEHRAN": {
+   "entryNo": 62,
+   "numbeoName": "Tehran",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-27",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Tehran",
+   "rent": {
+    "centre_1br": {
+     "average": "428.57",
+     "low": "300",
+     "high": "730"
+    },
+    "outside_1br": {
+     "average": "279.89",
+     "low": "150",
+     "high": "500"
+    },
+    "centre_3br": {
+     "average": "968.82",
+     "low": "650",
+     "high": "2000"
+    },
+    "outside_3br": {
+     "average": "587.69",
+     "low": "333",
+     "high": "1050"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "13.35",
+     "low": "10",
+     "high": "35"
+    },
+    "internet": {
+     "average": "4.15",
+     "low": "2",
+     "high": "9"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "32.61",
+    "itemsCounted": 18,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "3.5",
+     "low": "2",
+     "high": "6"
+    },
+    "midRangeForTwo": {
+     "average": "16.5",
+     "low": "11.41",
+     "high": "33.33"
+    }
+   },
+   "indices": {
+    "costOfLiving": "22.7",
+    "rent": "10.2",
+    "costOfLivingPlusRent": "16.9",
+    "groceries": "23.8",
+    "restaurants": "16.7"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "IT-BARI": {
+   "entryNo": 17,
+   "numbeoName": "Bari",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-27",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Bari?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "893.05",
+     "low": "848.92",
+     "high": "1106.51"
+    },
+    "outside_1br": {
+     "average": "650.02",
+     "low": "559.98",
+     "high": "783.97"
+    },
+    "centre_3br": {
+     "average": "1607.93",
+     "low": "1343.94",
+     "high": "2239.9"
+    },
+    "outside_3br": {
+     "average": "1109.03",
+     "low": "951.96",
+     "high": "1343.94"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "210.46",
+     "low": "167.99",
+     "high": "335.99"
+    },
+    "internet": {
+     "average": "30.66",
+     "low": "24.64",
+     "high": "33.6"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "68.29",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "11.2",
+     "high": "22.4"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "44.8",
+     "high": "84"
+    }
+   },
+   "indices": {
+    "costOfLiving": "53.7",
+    "rent": "19.1",
+    "costOfLivingPlusRent": "37.6",
+    "groceries": "52.6",
+    "restaurants": "55.9"
+   },
+   "budget": {
+    "single": {
+     "average": "898.2",
+     "parallelRaw": "€802.0"
+    },
+    "family4": {
+     "average": "3193.5",
+     "parallelRaw": "€2,851.5"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "IT-MILAN": {
+   "entryNo": 16,
+   "numbeoName": "Milan",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Milan?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1757.46",
+     "low": "1343.94",
+     "high": "2508.69"
+    },
+    "outside_1br": {
+     "average": "1151.68",
+     "low": "1007.96",
+     "high": "1567.93"
+    },
+    "centre_3br": {
+     "average": "3492.21",
+     "low": "2799.88",
+     "high": "4927.78"
+    },
+    "outside_3br": {
+     "average": "1995.55",
+     "low": "1679.93",
+     "high": "2799.88"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "252.85",
+     "low": "134.39",
+     "high": "366.14"
+    },
+    "internet": {
+     "average": "29.52",
+     "low": "25.76",
+     "high": "33.6"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "93.26",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "22.4",
+     "low": "16.8",
+     "high": "33.6"
+    },
+    "midRangeForTwo": {
+     "average": "89.6",
+     "low": "67.2",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "72",
+    "rent": "37.6",
+    "costOfLivingPlusRent": "56",
+    "groceries": "70.3",
+    "restaurants": "74.4"
+   },
+   "budget": {
+    "single": {
+     "average": "1169.5",
+     "parallelRaw": "€1,044.2"
+    },
+    "family4": {
+     "average": "4206",
+     "parallelRaw": "€3,755.5"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "IT-ROME": {
+   "entryNo": 15,
+   "numbeoName": "Rome",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Rome?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1307.33",
+     "low": "1063.95",
+     "high": "2015.91"
+    },
+    "outside_1br": {
+     "average": "883.92",
+     "low": "727.97",
+     "high": "1119.95"
+    },
+    "centre_3br": {
+     "average": "2553.49",
+     "low": "2239.9",
+     "high": "3359.85"
+    },
+    "outside_3br": {
+     "average": "1714.92",
+     "low": "1567.93",
+     "high": "2239.9"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "206.13",
+     "low": "184.05",
+     "high": "279.99"
+    },
+    "internet": {
+     "average": "31.87",
+     "low": "23.52",
+     "high": "39.2"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "72.23",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "13.44",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "56",
+     "high": "89.6"
+    }
+   },
+   "indices": {
+    "costOfLiving": "57.9",
+    "rent": "28.9",
+    "costOfLivingPlusRent": "44.4",
+    "groceries": "55.4",
+    "restaurants": "58.6"
+   },
+   "budget": {
+    "single": {
+     "average": "943.5",
+     "parallelRaw": "€842.4"
+    },
+    "family4": {
+     "average": "3375.9",
+     "parallelRaw": "€3,014.3"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "JO-AMMAN": {
+   "entryNo": 59,
+   "numbeoName": "Amman",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-11",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Amman",
+   "rent": {
+    "centre_1br": {
+     "average": "423.78",
+     "low": "282.09",
+     "high": "705.22",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "268.63",
+     "low": "169.25",
+     "high": "564.17",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "722.58",
+     "low": "493.65",
+     "high": "1410.44",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "438.41",
+     "low": "352.61",
+     "high": "1128.35",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "139.79",
+     "low": "70.52",
+     "high": "211.57",
+     "converted": true
+    },
+    "internet": {
+     "average": "31.97",
+     "low": "25.39",
+     "high": "42.31",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "43.52",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "7.05",
+     "low": "4.23",
+     "high": "12.69",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "67",
+     "low": "42.31",
+     "high": "141.04",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "44.7",
+    "rent": "8.9",
+    "costOfLivingPlusRent": "28.1",
+    "groceries": "39.2",
+    "restaurants": "51"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "JP-TOKYO": {
+   "entryNo": 58,
+   "numbeoName": "Tokyo",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-03",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Tokyo",
+   "rent": {
+    "centre_1br": {
+     "average": "1309.17",
+     "low": "825.43",
+     "high": "1873.08",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "659.34",
+     "low": "476.21",
+     "high": "1263.54",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "2369.09",
+     "low": "1714.35",
+     "high": "3739.82",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "1331.18",
+     "low": "1002.58",
+     "high": "1936.58",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "150.51",
+     "low": "111.12",
+     "high": "269.85",
+     "converted": true
+    },
+    "internet": {
+     "average": "31.22",
+     "low": "25.4",
+     "high": "50.8",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "79.10",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "7.62",
+     "low": "5.08",
+     "high": "12.7",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "47.62",
+     "low": "31.75",
+     "high": "114.29",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "51.6",
+    "rent": "27.2",
+    "costOfLivingPlusRent": "40.3",
+    "groceries": "56.9",
+    "restaurants": "36"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "KR-SEOUL": {
+   "entryNo": 66,
+   "numbeoName": "Seoul",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-12",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Seoul",
+   "rent": {
+    "centre_1br": {
+     "average": "964.78",
+     "low": "749.34",
+     "high": "1262.97",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "653.5",
+     "low": "524.54",
+     "high": "899.21",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "2675.86",
+     "low": "1873.35",
+     "high": "4496.04",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "1398.77",
+     "low": "1124.01",
+     "high": "1873.35",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "182.57",
+     "low": "112.4",
+     "high": "329.09",
+     "converted": true
+    },
+    "internet": {
+     "average": "20.16",
+     "low": "14.01",
+     "high": "26.98",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "98.01",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "9.74",
+     "low": "6.74",
+     "high": "13.49",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "67.44",
+     "low": "37.47",
+     "high": "104.91",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "72.3",
+    "rent": "27.1",
+    "costOfLivingPlusRent": "51.3",
+    "groceries": "80.9",
+    "restaurants": "48.8"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "KW-KUWAIT-CITY": {
+   "entryNo": 77,
+   "numbeoName": "Kuwait City",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Kuwait-City",
+   "rent": {
+    "centre_1br": {
+     "average": "912.45",
+     "low": "804.23",
+     "high": "1769.31",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "621.22",
+     "low": "514.71",
+     "high": "1125.93",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "1922.57",
+     "low": "1286.77",
+     "high": "2573.55",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "1328.92",
+     "low": "1125.93",
+     "high": "1608.47",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "65.46",
+     "low": "49.7",
+     "high": "96.51",
+     "converted": true
+    },
+    "internet": {
+     "average": "29.89",
+     "low": "16.08",
+     "high": "48.25",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "47.40",
+    "itemsCounted": 18,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "12.87",
+     "low": "6.43",
+     "high": "24.13",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "64.34",
+     "low": "38.6",
+     "high": "96.51",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "44.5",
+    "rent": "21.2",
+    "costOfLivingPlusRent": "33.7",
+    "groceries": "33.5",
+    "restaurants": "53.9"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "KZ-ASTANA": {
+   "entryNo": 78,
+   "numbeoName": "Astana",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Astana-Nur-Sultan-Kazakhstan",
+   "rent": {
+    "centre_1br": {
+     "average": "591.58",
+     "low": "485.28",
+     "high": "772.04",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "396.5",
+     "low": "344.11",
+     "high": "507.34",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "1110.26",
+     "low": "882.33",
+     "high": "1764.65",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "765.59",
+     "low": "661.74",
+     "high": "992.62",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "65.86",
+     "low": "50",
+     "high": "109.37",
+     "converted": true
+    },
+    "internet": {
+     "average": "17.15",
+     "low": "13.23",
+     "high": "22.06",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "43.40",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "9.37",
+     "low": "6.62",
+     "high": "13.23",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "36.4",
+     "low": "33.09",
+     "high": "55.15",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "35.7",
+    "rent": "12.8",
+    "costOfLivingPlusRent": "25",
+    "groceries": "36.2",
+    "restaurants": "36.7"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "LT-VILNIUS": {
+   "entryNo": 20,
+   "numbeoName": "Vilnius",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Vilnius?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "848.43",
+     "low": "671.97",
+     "high": "1006.84"
+    },
+    "outside_1br": {
+     "average": "652.21",
+     "low": "559.98",
+     "high": "808.6"
+    },
+    "centre_3br": {
+     "average": "1503.53",
+     "low": "1231.95",
+     "high": "2307.1"
+    },
+    "outside_3br": {
+     "average": "1105.95",
+     "low": "839.96",
+     "high": "1747.12"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "236.16",
+     "low": "167.99",
+     "high": "447.98"
+    },
+    "internet": {
+     "average": "20.46",
+     "low": "13.44",
+     "high": "33.6"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "52.36",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "14.56",
+     "low": "8.96",
+     "high": "20.16"
+    },
+    "midRangeForTwo": {
+     "average": "75.6",
+     "low": "50.4",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "50.7",
+    "rent": "18.4",
+    "costOfLivingPlusRent": "35.7",
+    "groceries": "42.8",
+    "restaurants": "59.3"
+   },
+   "budget": {
+    "single": {
+     "average": "878.5",
+     "parallelRaw": "€784.4"
+    },
+    "family4": {
+     "average": "3086.8",
+     "parallelRaw": "€2,756.2"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "LV-RIGA": {
+   "entryNo": 19,
+   "numbeoName": "Riga",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Riga?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "622.41",
+     "low": "447.98",
+     "high": "848.92"
+    },
+    "outside_1br": {
+     "average": "413.39",
+     "low": "313.59",
+     "high": "565.57"
+    },
+    "centre_3br": {
+     "average": "1216.62",
+     "low": "895.96",
+     "high": "2127.91"
+    },
+    "outside_3br": {
+     "average": "785.64",
+     "low": "559.98",
+     "high": "1343.94"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "372.17",
+     "low": "285.59",
+     "high": "559.98"
+    },
+    "internet": {
+     "average": "19.92",
+     "low": "13.44",
+     "high": "33.6"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "55.75",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "12.32",
+     "high": "28"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "56",
+     "high": "100.8"
+    }
+   },
+   "indices": {
+    "costOfLiving": "53.3",
+    "rent": "13.6",
+    "costOfLivingPlusRent": "34.8",
+    "groceries": "45.5",
+    "restaurants": "58.6"
+   },
+   "budget": {
+    "single": {
+     "average": "976.1",
+     "parallelRaw": "€871.5"
+    },
+    "family4": {
+     "average": "3280.8",
+     "parallelRaw": "€2,929.4"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "MD-CHISINAU": {
+   "entryNo": 41,
+   "numbeoName": "Chisinau",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Chisinau?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "693.15",
+     "low": "560.94",
+     "high": "950.91"
+    },
+    "outside_1br": {
+     "average": "469.77",
+     "low": "391.55",
+     "high": "566.55"
+    },
+    "centre_3br": {
+     "average": "1282.16",
+     "low": "897.5",
+     "high": "1957.75"
+    },
+    "outside_3br": {
+     "average": "816.21",
+     "low": "671.23",
+     "high": "1118.71"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "237.76",
+     "low": "178.29",
+     "high": "408.33"
+    },
+    "internet": {
+     "average": "10.38",
+     "low": "7.94",
+     "high": "12.31"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "40.35",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "11.19",
+     "low": "8.39",
+     "high": "16.78"
+    },
+    "midRangeForTwo": {
+     "average": "55.94",
+     "low": "27.97",
+     "high": "83.9"
+    }
+   },
+   "indices": {
+    "costOfLiving": "38.5",
+    "rent": "14.6",
+    "costOfLivingPlusRent": "27.4",
+    "groceries": "31.8",
+    "restaurants": "42.3"
+   },
+   "budget": {
+    "single": {
+     "average": "697.4",
+     "parallelRaw": "12,467.2 L"
+    },
+    "family4": {
+     "average": "2382.4",
+     "parallelRaw": "42,591.2 L"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "MX-MEXICO-CITY": {
+   "entryNo": 69,
+   "numbeoName": "Mexico City",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-12",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Mexico-City",
+   "rent": {
+    "centre_1br": {
+     "average": "1067.67",
+     "low": "796.85",
+     "high": "1487.46",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "690",
+     "low": "478.11",
+     "high": "956.23",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "2432.5",
+     "low": "1593.71",
+     "high": "3187.42",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "1235.13",
+     "low": "796.85",
+     "high": "2390.56",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "64.89",
+     "low": "36.12",
+     "high": "106.25",
+     "converted": true
+    },
+    "internet": {
+     "average": "33.26",
+     "low": "23.91",
+     "high": "44.09",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "58.37",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "10.62",
+     "low": "5.31",
+     "high": "26.56",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "50.38",
+     "low": "34.53",
+     "high": "95.62",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "45.6",
+    "rent": "25.9",
+    "costOfLivingPlusRent": "36.4",
+    "groceries": "50.7",
+    "restaurants": "46.7"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "MY-KUALA-LUMPUR": {
+   "entryNo": 68,
+   "numbeoName": "Kuala Lumpur",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-04",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Kuala-Lumpur",
+   "rent": {
+    "centre_1br": {
+     "average": "640.85",
+     "low": "419.02",
+     "high": "985.93",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "380.51",
+     "low": "295.78",
+     "high": "542.26",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "1218.32",
+     "low": "739.44",
+     "high": "1971.85",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "617.74",
+     "low": "468.31",
+     "high": "985.93",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "66.63",
+     "low": "39.44",
+     "high": "86.27",
+     "converted": true
+    },
+    "internet": {
+     "average": "26.71",
+     "low": "24.4",
+     "high": "32.04",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "52.39",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "4.93",
+     "low": "2.46",
+     "high": "6.16",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "27.11",
+     "low": "17.25",
+     "high": "73.94",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "37.4",
+    "rent": "12.9",
+    "costOfLivingPlusRent": "26",
+    "groceries": "43.1",
+    "restaurants": "29.3"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "NL-THE-HAGUE": {
+   "entryNo": 21,
+   "numbeoName": "The Hague",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/The-Hague-Den-Haag-Netherlands?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1685.96",
+     "low": "1343.94",
+     "high": "2239.9"
+    },
+    "outside_1br": {
+     "average": "1331.88",
+     "low": "1007.96",
+     "high": "1814.32"
+    },
+    "centre_3br": {
+     "average": "2964.42",
+     "low": "2015.91",
+     "high": "3953.42"
+    },
+    "outside_3br": {
+     "average": "2406.96",
+     "low": "2015.91",
+     "high": "2990.27"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "278.67",
+     "low": "201.59",
+     "high": "507.71"
+    },
+    "internet": {
+     "average": "54.99",
+     "low": "33.6",
+     "high": "84"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "73.05",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "22.4",
+     "low": "15.68",
+     "high": "33.6"
+    },
+    "midRangeForTwo": {
+     "average": "89.6",
+     "low": "67.2",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "71.2",
+    "rent": "37.6",
+    "costOfLivingPlusRent": "55.6",
+    "groceries": "60.6",
+    "restaurants": "82.9"
+   },
+   "budget": {
+    "single": {
+     "average": "1153.3",
+     "parallelRaw": "€1,029.7"
+    },
+    "family4": {
+     "average": "4087.4",
+     "parallelRaw": "€3,649.7"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "NO-OSLO": {
+   "entryNo": 22,
+   "numbeoName": "Oslo",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Oslo?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "2159.04",
+     "low": "1846.12",
+     "high": "2454.25"
+    },
+    "outside_1br": {
+     "average": "1661.21",
+     "low": "1357.44",
+     "high": "1954.72"
+    },
+    "centre_3br": {
+     "average": "3265.08",
+     "low": "2714.88",
+     "high": "3800.84"
+    },
+    "outside_3br": {
+     "average": "2520.83",
+     "low": "2171.91",
+     "high": "2845.2"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "433.78",
+     "low": "217.19",
+     "high": "839.15"
+    },
+    "internet": {
+     "average": "55.48",
+     "low": "32.58",
+     "high": "97.63"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "109.26",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "21.72",
+     "low": "15.25",
+     "high": "32.58"
+    },
+    "midRangeForTwo": {
+     "average": "130.31",
+     "low": "86.88",
+     "high": "195.47"
+    }
+   },
+   "indices": {
+    "costOfLiving": "96.7",
+    "rent": "43",
+    "costOfLivingPlusRent": "71.8",
+    "groceries": "93.6",
+    "restaurants": "101.5"
+   },
+   "budget": {
+    "single": {
+     "average": "1588.3",
+     "parallelRaw": "14,625.5 kr"
+    },
+    "family4": {
+     "average": "5566.3",
+     "parallelRaw": "51,257.0 kr"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "PL-KRAKOW": {
+   "entryNo": 24,
+   "numbeoName": "Krakow",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Krakow-Cracow?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "916.04",
+     "low": "810.68",
+     "high": "1140.02"
+    },
+    "outside_1br": {
+     "average": "725.88",
+     "low": "640.95",
+     "high": "886.69"
+    },
+    "centre_3br": {
+     "average": "1514.97",
+     "low": "1216.03",
+     "high": "2280.05"
+    },
+    "outside_3br": {
+     "average": "1187.53",
+     "low": "1013.36",
+     "high": "1849.37"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "327.59",
+     "low": "228",
+     "high": "430.68"
+    },
+    "internet": {
+     "average": "17.41",
+     "low": "13.93",
+     "high": "22.8"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "49.87",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "11.91",
+     "low": "8.11",
+     "high": "17.48"
+    },
+    "midRangeForTwo": {
+     "average": "50.67",
+     "low": "38",
+     "high": "76"
+    }
+   },
+   "indices": {
+    "costOfLiving": "47.9",
+    "rent": "19.4",
+    "costOfLivingPlusRent": "34.7",
+    "groceries": "40.3",
+    "restaurants": "50.7"
+   },
+   "budget": {
+    "single": {
+     "average": "851.3",
+     "parallelRaw": "3,360.2 zł"
+    },
+    "family4": {
+     "average": "2857.3",
+     "parallelRaw": "11,278.6 zł"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "PL-WARSAW": {
+   "entryNo": 23,
+   "numbeoName": "Warsaw",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Warsaw?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1149.75",
+     "low": "1013.36",
+     "high": "1520.03"
+    },
+    "outside_1br": {
+     "average": "918.87",
+     "low": "727.08",
+     "high": "1140.02"
+    },
+    "centre_3br": {
+     "average": "2161.39",
+     "low": "1602.09",
+     "high": "2533.39"
+    },
+    "outside_3br": {
+     "average": "1434.11",
+     "low": "1023.49",
+     "high": "2026.71"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "340.42",
+     "low": "202.67",
+     "high": "548.13"
+    },
+    "internet": {
+     "average": "15.97",
+     "low": "11.4",
+     "high": "22.8"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "50.06",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "11.4",
+     "low": "8.87",
+     "high": "17.73"
+    },
+    "midRangeForTwo": {
+     "average": "60.8",
+     "low": "40.53",
+     "high": "111.47"
+    }
+   },
+   "indices": {
+    "costOfLiving": "49.4",
+    "rent": "25.3",
+    "costOfLivingPlusRent": "38.2",
+    "groceries": "40.5",
+    "restaurants": "53.5"
+   },
+   "budget": {
+    "single": {
+     "average": "880.6",
+     "parallelRaw": "3,475.9 zł"
+    },
+    "family4": {
+     "average": "2955.9",
+     "parallelRaw": "11,667.7 zł"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "PT-LISBON": {
+   "entryNo": 25,
+   "numbeoName": "Lisbon",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Lisbon?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1619.93",
+     "low": "1343.94",
+     "high": "2071.91"
+    },
+    "outside_1br": {
+     "average": "1200.93",
+     "low": "1007.96",
+     "high": "1567.93"
+    },
+    "centre_3br": {
+     "average": "2838.45",
+     "low": "2239.9",
+     "high": "3919.83"
+    },
+    "outside_3br": {
+     "average": "2031.88",
+     "low": "1567.93",
+     "high": "2575.89"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "160.87",
+     "low": "95.2",
+     "high": "237.99"
+    },
+    "internet": {
+     "average": "33.47",
+     "low": "22.4",
+     "high": "67.2"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "61.63",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "16.8",
+     "low": "12.32",
+     "high": "22.4"
+    },
+    "midRangeForTwo": {
+     "average": "61.6",
+     "low": "44.8",
+     "high": "84"
+    }
+   },
+   "indices": {
+    "costOfLiving": "53.6",
+    "rent": "34.4",
+    "costOfLivingPlusRent": "44.7",
+    "groceries": "48",
+    "restaurants": "56.9"
+   },
+   "budget": {
+    "single": {
+     "average": "851.3",
+     "parallelRaw": "€760.1"
+    },
+    "family4": {
+     "average": "3076.6",
+     "parallelRaw": "€2,747.1"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "QA-DOHA": {
+   "entryNo": 65,
+   "numbeoName": "Doha",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-17",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Doha",
+   "rent": {
+    "centre_1br": {
+     "average": "2087.91",
+     "low": "1236.26",
+     "high": "2747.25",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "1326.76",
+     "low": "961.54",
+     "high": "1923.08",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "3700.71",
+     "low": "2197.8",
+     "high": "4395.6",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "2736.71",
+     "low": "1923.08",
+     "high": "3846.15",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "93.71",
+     "low": "54.95",
+     "high": "151.1",
+     "converted": true
+    },
+    "internet": {
+     "average": "88.04",
+     "low": "82.14",
+     "high": "103.02",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "64.73",
+    "itemsCounted": 18,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "10.99",
+     "low": "4.95",
+     "high": "17.86",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "77.47",
+     "low": "41.21",
+     "high": "137.36",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "52.6",
+    "rent": "41.7",
+    "costOfLivingPlusRent": "47.5",
+    "groceries": "41",
+    "restaurants": "62.8"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "RO-BUCHAREST": {
+   "entryNo": 26,
+   "numbeoName": "Bucharest",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Bucharest?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "699.12",
+     "low": "522.77",
+     "high": "950.14"
+    },
+    "outside_1br": {
+     "average": "466.58",
+     "low": "334.57",
+     "high": "720.45"
+    },
+    "centre_3br": {
+     "average": "1075.92",
+     "low": "836.44",
+     "high": "1456.58"
+    },
+    "outside_3br": {
+     "average": "711.64",
+     "low": "627.33",
+     "high": "952.38"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "193.65",
+     "low": "125.47",
+     "high": "250.93"
+    },
+    "internet": {
+     "average": "9.18",
+     "low": "7.32",
+     "high": "12.55"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "46.46",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "14.64",
+     "low": "8.36",
+     "high": "25.09"
+    },
+    "midRangeForTwo": {
+     "average": "57.5",
+     "low": "37.64",
+     "high": "88.87"
+    }
+   },
+   "indices": {
+    "costOfLiving": "43.2",
+    "rent": "13.2",
+    "costOfLivingPlusRent": "29.3",
+    "groceries": "38.1",
+    "restaurants": "51.7"
+   },
+   "budget": {
+    "single": {
+     "average": "742.3",
+     "parallelRaw": "3,550.0 lei"
+    },
+    "family4": {
+     "average": "2624",
+     "parallelRaw": "12,548.3 lei"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "RU-MOSCOW": {
+   "entryNo": 70,
+   "numbeoName": "Moscow",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-11",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Moscow",
+   "rent": {
+    "centre_1br": {
+     "average": "1476.38",
+     "low": "1119.28",
+     "high": "1865.46",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "778.31",
+     "low": "621.82",
+     "high": "1119.28",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "3070.84",
+     "low": "1865.46",
+     "high": "4725.84",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "1485.71",
+     "low": "1119.28",
+     "high": "2487.29",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "185.66",
+     "low": "124.36",
+     "high": "284.6",
+     "converted": true
+    },
+    "internet": {
+     "average": "9.26",
+     "low": "6.22",
+     "high": "14.3",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "52.43",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "12.44",
+     "low": "7.46",
+     "high": "24.87",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "62.18",
+     "low": "40.05",
+     "high": "87.06",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "51.3",
+    "rent": "30.6",
+    "costOfLivingPlusRent": "41.7",
+    "groceries": "43.5",
+    "restaurants": "50.8"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "SA-RIYADH": {
+   "entryNo": 72,
+   "numbeoName": "Riyadh",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-21",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Riyadh",
+   "rent": {
+    "centre_1br": {
+     "average": "1062.2",
+     "low": "666.67",
+     "high": "1941.33",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "850",
+     "low": "533.33",
+     "high": "2000",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "1949.39",
+     "low": "1333.33",
+     "high": "2773.33",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "1185",
+     "low": "800",
+     "high": "1866.67",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "96.44",
+     "low": "56.67",
+     "high": "213.33",
+     "converted": true
+    },
+    "internet": {
+     "average": "72.69",
+     "low": "61.33",
+     "high": "80",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "67.88",
+    "itemsCounted": 18,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "8",
+     "low": "4.8",
+     "high": "16",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "53.33",
+     "low": "26.67",
+     "high": "93.33",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "48.4",
+    "rent": "24",
+    "costOfLivingPlusRent": "37.1",
+    "groceries": "47.2",
+    "restaurants": "45"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "SE-STOCKHOLM": {
+   "entryNo": 35,
+   "numbeoName": "Stockholm",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Stockholm?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1615.96",
+     "low": "1119.46",
+     "high": "2035.37"
+    },
+    "outside_1br": {
+     "average": "1054.75",
+     "low": "854.86",
+     "high": "1373.88"
+    },
+    "centre_3br": {
+     "average": "2690.94",
+     "low": "2035.37",
+     "high": "4579.59"
+    },
+    "outside_3br": {
+     "average": "1713.31",
+     "low": "1322.99",
+     "high": "2645.99"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "253.13",
+     "low": "144.17",
+     "high": "437.61"
+    },
+    "internet": {
+     "average": "41.06",
+     "low": "23.31",
+     "high": "55.97"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "85.63",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "17.81",
+     "low": "12.72",
+     "high": "28.01"
+    },
+    "midRangeForTwo": {
+     "average": "101.77",
+     "low": "81.41",
+     "high": "142.48"
+    }
+   },
+   "indices": {
+    "costOfLiving": "76",
+    "rent": "31.7",
+    "costOfLivingPlusRent": "55.4",
+    "groceries": "70.5",
+    "restaurants": "80.1"
+   },
+   "budget": {
+    "single": {
+     "average": "1279.7",
+     "parallelRaw": "12,574.9 kr"
+    },
+    "family4": {
+     "average": "4630.2",
+     "parallelRaw": "45,497.4 kr"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "SI-LJUBLJANA": {
+   "entryNo": 32,
+   "numbeoName": "Ljubljana",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Ljubljana?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1167.55",
+     "low": "951.96",
+     "high": "1455.94"
+    },
+    "outside_1br": {
+     "average": "925.64",
+     "low": "783.97",
+     "high": "1079.63"
+    },
+    "centre_3br": {
+     "average": "2325.19",
+     "low": "1679.93",
+     "high": "3326.25"
+    },
+    "outside_3br": {
+     "average": "1598.73",
+     "low": "1231.95",
+     "high": "2519.89"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "284.97",
+     "low": "223.99",
+     "high": "423.09"
+    },
+    "internet": {
+     "average": "38.41",
+     "low": "28",
+     "high": "50.4"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "65.71",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "15.68",
+     "low": "10.08",
+     "high": "16.8"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "56",
+     "high": "84"
+    }
+   },
+   "indices": {
+    "costOfLiving": "55.7",
+    "rent": "26.9",
+    "costOfLivingPlusRent": "42.4",
+    "groceries": "51.1",
+    "restaurants": "58"
+   },
+   "budget": {
+    "single": {
+     "average": "967.4",
+     "parallelRaw": "€863.8"
+    },
+    "family4": {
+     "average": "3357.6",
+     "parallelRaw": "€2,998.0"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "SK-BRATISLAVA": {
+   "entryNo": 31,
+   "numbeoName": "Bratislava",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Bratislava?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1053.87",
+     "low": "895.96",
+     "high": "1343.94"
+    },
+    "outside_1br": {
+     "average": "780.28",
+     "low": "694.37",
+     "high": "951.96"
+    },
+    "centre_3br": {
+     "average": "1929.67",
+     "low": "1399.94",
+     "high": "2564.69"
+    },
+    "outside_3br": {
+     "average": "1367",
+     "low": "1007.96",
+     "high": "1691.12"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "262.71",
+     "low": "167.99",
+     "high": "339.98"
+    },
+    "internet": {
+     "average": "19.11",
+     "low": "15.68",
+     "high": "44.8"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "66.36",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "11.2",
+     "low": "8.96",
+     "high": "16.8"
+    },
+    "midRangeForTwo": {
+     "average": "67.2",
+     "low": "39.2",
+     "high": "112"
+    }
+   },
+   "indices": {
+    "costOfLiving": "54.9",
+    "rent": "23",
+    "costOfLivingPlusRent": "40.1",
+    "groceries": "52.2",
+    "restaurants": "52.6"
+   },
+   "budget": {
+    "single": {
+     "average": "955.2",
+     "parallelRaw": "€852.9"
+    },
+    "family4": {
+     "average": "3363.9",
+     "parallelRaw": "€3,003.6"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "TM-ASHGABAT": {
+   "entryNo": 57,
+   "numbeoName": "Ashgabat",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-14",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Ashgabat",
+   "rent": {
+    "centre_1br": {
+     "average": "1128.68",
+     "low": "857.23",
+     "high": "2000.2",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "1000.1",
+     "low": "571.49",
+     "high": "1428.71",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "2285.94",
+     "low": "1714.46",
+     "high": "2857.43",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "1928.76",
+     "low": "1428.71",
+     "high": "2571.69",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "571.49",
+     "low": "571.49",
+     "high": "571.49",
+     "converted": true
+    },
+    "internet": {
+     "average": "102.87",
+     "low": "80.01",
+     "high": "142.87",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "131.44",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "31.43",
+     "low": "14.29",
+     "high": "80.01",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "85.72",
+     "low": "60.18",
+     "high": "342.89",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": null,
+    "rent": null,
+    "costOfLivingPlusRent": null,
+    "groceries": null,
+    "restaurants": null
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "TR-ANKARA": {
+   "entryNo": 12,
+   "numbeoName": "Ankara",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Ankara?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "750.04",
+     "low": "600.8",
+     "high": "1001.33"
+    },
+    "outside_1br": {
+     "average": "563.69",
+     "low": "400.53",
+     "high": "700.93"
+    },
+    "centre_3br": {
+     "average": "1144.3",
+     "low": "901.19",
+     "high": "1602.12"
+    },
+    "outside_3br": {
+     "average": "874.69",
+     "low": "600.8",
+     "high": "1201.59"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "92.96",
+     "low": "50.07",
+     "high": "160.21"
+    },
+    "internet": {
+     "average": "17.51",
+     "low": "13.62",
+     "high": "24.03"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "52.17",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "10.01",
+     "low": "7.01",
+     "high": "18.02"
+    },
+    "midRangeForTwo": {
+     "average": "43.06",
+     "low": "30.04",
+     "high": "80.11"
+    }
+   },
+   "indices": {
+    "costOfLiving": "41.8",
+    "rent": "14.9",
+    "costOfLivingPlusRent": "29.3",
+    "groceries": "39.9",
+    "restaurants": "45.5"
+   },
+   "budget": {
+    "single": {
+     "average": "689.7",
+     "parallelRaw": "₺34,437.4"
+    },
+    "family4": {
+     "average": "2531.7",
+     "parallelRaw": "₺126,416.0"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "TR-ISTANBUL": {
+   "entryNo": 13,
+   "numbeoName": "Istanbul",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Istanbul?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "987.67",
+     "low": "801.06",
+     "high": "1401.86"
+    },
+    "outside_1br": {
+     "average": "634.17",
+     "low": "500.66",
+     "high": "1001.33"
+    },
+    "centre_3br": {
+     "average": "1966.78",
+     "low": "1401.86",
+     "high": "2803.71"
+    },
+    "outside_3br": {
+     "average": "1139.74",
+     "low": "801.06",
+     "high": "1602.12"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "88.82",
+     "low": "60.08",
+     "high": "140.19"
+    },
+    "internet": {
+     "average": "16.11",
+     "low": "13.02",
+     "high": "20.03"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "54.00",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "12.02",
+     "low": "6.81",
+     "high": "20.03"
+    },
+    "midRangeForTwo": {
+     "average": "53.07",
+     "low": "34.05",
+     "high": "80.11"
+    }
+   },
+   "indices": {
+    "costOfLiving": "46",
+    "rent": "21.2",
+    "costOfLivingPlusRent": "34.5",
+    "groceries": "41.1",
+    "restaurants": "50.8"
+   },
+   "budget": {
+    "single": {
+     "average": "784.1",
+     "parallelRaw": "₺39,151.2"
+    },
+    "family4": {
+     "average": "2912.6",
+     "parallelRaw": "₺145,437.6"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "TR-TRABZON": {
+   "entryNo": 14,
+   "numbeoName": "Trabzon",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-02",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Trabzon-Turkey?displayCurrency=USD",
+   "rent": {
+    "centre_1br": null,
+    "outside_1br": null,
+    "centre_3br": {
+     "average": "440.58",
+     "low": null,
+     "high": null
+    },
+    "outside_3br": {
+     "average": "340.45",
+     "low": null,
+     "high": null
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "88.45",
+     "low": "45.06",
+     "high": "120.16"
+    },
+    "internet": {
+     "average": "12.35",
+     "low": "11.01",
+     "high": "15.02"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "43.13",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "8.01",
+     "low": "5.01",
+     "high": "10.01"
+    },
+    "midRangeForTwo": {
+     "average": "30.04",
+     "low": "30.04",
+     "high": "100.13"
+    }
+   },
+   "indices": {
+    "costOfLiving": null,
+    "rent": null,
+    "costOfLivingPlusRent": null,
+    "groceries": null,
+    "restaurants": null
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "Numbeo: მონაწილეთა მცირე რაოდენობის გამო ზოგიერთი ფასი შეფასებითაა მიღებული. ფაილის შენიშვნა: არასრული ან ნაწილობრივ შეფასებული ფასები. დაფარვა: 47/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "UA-KYIV": {
+   "entryNo": 75,
+   "numbeoName": "Kiev",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Kiev",
+   "rent": {
+    "centre_1br": {
+     "average": "607.67",
+     "low": "440.52",
+     "high": "770.9",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "364.21",
+     "low": "286.34",
+     "high": "440.52",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "1144.82",
+     "low": "792.93",
+     "high": "2422.84",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "612.32",
+     "low": "440.52",
+     "high": "1085.65",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "92.15",
+     "low": "57.27",
+     "high": "132.15",
+     "converted": true
+    },
+    "internet": {
+     "average": "6.49",
+     "low": "5.07",
+     "high": "9.91",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "39.29",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "9.91",
+     "low": "6.61",
+     "high": "13.22",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "33.04",
+     "low": "22.03",
+     "high": "66.08",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "33",
+    "rent": "13.5",
+    "costOfLivingPlusRent": "24",
+    "groceries": "31.5",
+    "restaurants": "33.1"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "UA-ODESA": {
+   "entryNo": 76,
+   "numbeoName": "Odessa",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-28",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Odesa",
+   "rent": {
+    "centre_1br": {
+     "average": "331.27",
+     "low": "264.31",
+     "high": "440.52",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "188.36",
+     "low": "132.15",
+     "high": "330.39",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "543.38",
+     "low": "374.44",
+     "high": "687.2",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "361.22",
+     "low": "264.31",
+     "high": "440.52",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "103.25",
+     "low": "78.01",
+     "high": "156.02",
+     "converted": true
+    },
+    "internet": {
+     "average": "6.47",
+     "low": "5.51",
+     "high": "8.81",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "35.86",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "7.71",
+     "low": "5.51",
+     "high": "15.42",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "35.24",
+     "low": "29.29",
+     "high": "66.08",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "30.5",
+    "rent": "6.8",
+    "costOfLivingPlusRent": "19.5",
+    "groceries": "30.6",
+    "restaurants": "28.8"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "US-NEW-YORK": {
+   "entryNo": 51,
+   "numbeoName": "New York",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-10",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/New-York",
+   "rent": {
+    "centre_1br": {
+     "average": "4284.9",
+     "low": "3000",
+     "high": "5999"
+    },
+    "outside_1br": {
+     "average": "2779.76",
+     "low": "2000",
+     "high": "3800"
+    },
+    "centre_3br": {
+     "average": "9033.93",
+     "low": "7000",
+     "high": "12000"
+    },
+    "outside_3br": {
+     "average": "5035.38",
+     "low": "3500",
+     "high": "6500"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "229.24",
+     "low": "115",
+     "high": "400"
+    },
+    "internet": {
+     "average": "75.35",
+     "low": "50",
+     "high": "100"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "103.61",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "25",
+     "low": "15",
+     "high": "45"
+    },
+    "midRangeForTwo": {
+     "average": "150",
+     "low": "80",
+     "high": "200"
+    }
+   },
+   "indices": {
+    "costOfLiving": "100",
+    "rent": "100",
+    "costOfLivingPlusRent": "100",
+    "groceries": "100",
+    "restaurants": "100"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "US-SAN-FRANCISCO": {
+   "entryNo": 52,
+   "numbeoName": "San Francisco",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-05",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/San-Francisco",
+   "rent": {
+    "centre_1br": {
+     "average": "3614.12",
+     "low": "3000",
+     "high": "4500"
+    },
+    "outside_1br": {
+     "average": "2719.5",
+     "low": "2212",
+     "high": "3400"
+    },
+    "centre_3br": {
+     "average": "5801.54",
+     "low": "4500",
+     "high": "8000"
+    },
+    "outside_3br": {
+     "average": "4784",
+     "low": "4000",
+     "high": "5500"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "226.94",
+     "low": "134.21",
+     "high": "500"
+    },
+    "internet": {
+     "average": "72.88",
+     "low": "45",
+     "high": "105"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "119.20",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "25",
+     "low": "17.78",
+     "high": "45"
+    },
+    "midRangeForTwo": {
+     "average": "127.5",
+     "low": "80",
+     "high": "200"
+    }
+   },
+   "indices": {
+    "costOfLiving": "93.9",
+    "rent": "78.2",
+    "costOfLivingPlusRent": "86.7",
+    "groceries": "95.5",
+    "restaurants": "103.8"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "US-WASHINGTON": {
+   "entryNo": 50,
+   "numbeoName": "Washington",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-10",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Washington",
+   "rent": {
+    "centre_1br": {
+     "average": "2606.88",
+     "low": "2150",
+     "high": "3200"
+    },
+    "outside_1br": {
+     "average": "2120",
+     "low": "1800",
+     "high": "2500"
+    },
+    "centre_3br": {
+     "average": "5376.67",
+     "low": "4000",
+     "high": "8000"
+    },
+    "outside_3br": {
+     "average": "4305.56",
+     "low": "3590",
+     "high": "6100"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "210.59",
+     "low": "150",
+     "high": "263.5"
+    },
+    "internet": {
+     "average": "71.86",
+     "low": "49.99",
+     "high": "90"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "105.00",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "26.5",
+     "low": "15",
+     "high": "40"
+    },
+    "midRangeForTwo": {
+     "average": "115",
+     "low": "70",
+     "high": "150"
+    }
+   },
+   "indices": {
+    "costOfLiving": "87.9",
+    "rent": "63.8",
+    "costOfLivingPlusRent": "76.7",
+    "groceries": "88.2",
+    "restaurants": "91.6"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "UZ-TASHKENT": {
+   "entryNo": 74,
+   "numbeoName": "Tashkent",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-06",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Tashkent",
+   "rent": {
+    "centre_1br": {
+     "average": "611.31",
+     "low": "416.85",
+     "high": "1000.45",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "362.41",
+     "low": "270.2",
+     "high": "500.22",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "1179.88",
+     "low": "700.52",
+     "high": "2001.49",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "632.04",
+     "low": "416.85",
+     "high": "1000.74",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "62.67",
+     "low": "33.35",
+     "high": "100.04",
+     "converted": true
+    },
+    "internet": {
+     "average": "12.38",
+     "low": "9.17",
+     "high": "16.67",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "40.17",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "5.84",
+     "low": "4.17",
+     "high": "11.59",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "33.35",
+     "low": "25.01",
+     "high": "50.02",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "30.6",
+    "rent": "13",
+    "costOfLivingPlusRent": "22.4",
+    "groceries": "31.6",
+    "restaurants": "29.2"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "VN-HANOI": {
+   "entryNo": 80,
+   "numbeoName": "Hanoi",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-06-05",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Hanoi",
+   "rent": {
+    "centre_1br": {
+     "average": "432.05",
+     "low": "348.81",
+     "high": "581.35",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "297.23",
+     "low": "251.92",
+     "high": "355.78",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "841.05",
+     "low": "503.83",
+     "high": "1356.48",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "547.91",
+     "low": "387.56",
+     "high": "713.12",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "78.09",
+     "low": "58.13",
+     "high": "102.03",
+     "converted": true
+    },
+    "internet": {
+     "average": "9.01",
+     "low": "7.75",
+     "high": "11.63",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "39.51",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "2.13",
+     "low": "1.55",
+     "high": "3.88",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "19.38",
+     "low": "15.5",
+     "high": "46.51",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "28.3",
+    "rent": "9.7",
+    "costOfLivingPlusRent": "19.7",
+    "groceries": "31",
+    "restaurants": "18"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "ZA-PRETORIA": {
+   "entryNo": 71,
+   "numbeoName": "Pretoria",
+   "retrieval": "archive",
+   "sourceUpdatedAt": "2026-05-16",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Pretoria",
+   "rent": {
+    "centre_1br": {
+     "average": "455.44",
+     "low": "329.89",
+     "high": "653.78",
+     "converted": true
+    },
+    "outside_1br": {
+     "average": "404.41",
+     "low": "329.89",
+     "high": "539.81",
+     "converted": true
+    },
+    "centre_3br": {
+     "average": "964.34",
+     "low": "599.79",
+     "high": "1247.57",
+     "converted": true
+    },
+    "outside_3br": {
+     "average": "750.41",
+     "low": "539.81",
+     "high": "959.67",
+     "converted": true
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "150.76",
+     "low": "119.96",
+     "high": "209.93",
+     "converted": true
+    },
+    "internet": {
+     "average": "36.76",
+     "low": "29.03",
+     "high": "47.92",
+     "converted": true
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "39.58",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "9",
+     "low": "4.8",
+     "high": "13.8",
+     "converted": true
+    },
+    "midRangeForTwo": {
+     "average": "36.35",
+     "low": "23.99",
+     "high": "47.98",
+     "converted": true
+    }
+   },
+   "indices": {
+    "costOfLiving": "40",
+    "rent": "11.5",
+    "costOfLivingPlusRent": "26.7",
+    "groceries": "31.3",
+    "restaurants": "32.4"
+   },
+   "budget": {
+    "single": null,
+    "family4": null
+   },
+   "notes": "საჯარო საძიებო ასლიდან აღდგენილი (31.10.2026-ზე ცოცხლად სრულად ვერ გადამოწმდა). ნაწილი ფასისა ადგილობრივი ვალუტიდან გადათვლილია (≈, ExchangeRate-API, 31.10.2026). დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  }
+ },
+ "extraCities": {
+  "Belgrade": {
+   "entryNo": 43,
+   "numbeoName": "Belgrade",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Belgrade?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "811.61",
+     "low": "669.81",
+     "high": "1120.45"
+    },
+    "outside_1br": {
+     "average": "544.08",
+     "low": "448.18",
+     "high": "807.57"
+    },
+    "centre_3br": {
+     "average": "1534.04",
+     "low": "1120.45",
+     "high": "1904.76"
+    },
+    "outside_3br": {
+     "average": "989.88",
+     "low": "784.31",
+     "high": "1425.13"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "215.39",
+     "low": "143.57",
+     "high": "304.03"
+    },
+    "internet": {
+     "average": "35.03",
+     "low": "28.5",
+     "high": "47.5"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "52.01",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "13.21",
+     "low": "8.55",
+     "high": "23.75"
+    },
+    "midRangeForTwo": {
+     "average": "57.01",
+     "low": "47.5",
+     "high": "76.01"
+    }
+   },
+   "indices": {
+    "costOfLiving": "47",
+    "rent": "17.4",
+    "costOfLivingPlusRent": "33.3",
+    "groceries": "40.4",
+    "restaurants": "54.2"
+   },
+   "budget": {
+    "single": {
+     "average": "785.2",
+     "parallelRaw": "82,641.0 din"
+    },
+    "family4": {
+     "average": "2737.7",
+     "parallelRaw": "288,155.0 din"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "Munich": {
+   "entryNo": 6,
+   "numbeoName": "Munich",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Munich?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "1691.79",
+     "low": "1343.94",
+     "high": "2351.9"
+    },
+    "outside_1br": {
+     "average": "1268.61",
+     "low": "1007.96",
+     "high": "1679.93"
+    },
+    "centre_3br": {
+     "average": "3064.13",
+     "low": "2463.89",
+     "high": "4479.8"
+    },
+    "outside_3br": {
+     "average": "2331.02",
+     "low": "1903.92",
+     "high": "3247.86"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "348.11",
+     "low": "240.79",
+     "high": "567.81"
+    },
+    "internet": {
+     "average": "39.97",
+     "low": "33.6",
+     "high": "56"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "82.42",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "19.04",
+     "low": "13.44",
+     "high": "30.24"
+    },
+    "midRangeForTwo": {
+     "average": "89.6",
+     "low": "56",
+     "high": "134.39"
+    }
+   },
+   "indices": {
+    "costOfLiving": "73.9",
+    "rent": "37.4",
+    "costOfLivingPlusRent": "57",
+    "groceries": "64.9",
+    "restaurants": "75.4"
+   },
+   "budget": {
+    "single": {
+     "average": "1203.2",
+     "parallelRaw": "€1,074.3"
+    },
+    "family4": {
+     "average": "4205.7",
+     "parallelRaw": "€3,755.2"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  },
+  "Podgorica": {
+   "entryNo": 44,
+   "numbeoName": "Podgorica",
+   "retrieval": "direct",
+   "sourceUpdatedAt": "2026-10-31",
+   "sourceUrl": "https://www.numbeo.com/cost-of-living/in/Podgorica?displayCurrency=USD",
+   "rent": {
+    "centre_1br": {
+     "average": "653.92",
+     "low": "559.98",
+     "high": "783.97"
+    },
+    "outside_1br": {
+     "average": "490.67",
+     "low": "391.98",
+     "high": "671.97"
+    },
+    "centre_3br": {
+     "average": "1346.93",
+     "low": "951.96",
+     "high": "1903.92"
+    },
+    "outside_3br": {
+     "average": "997.79",
+     "low": "806.36",
+     "high": "1343.94"
+    }
+   },
+   "utilities": {
+    "basic85m2": {
+     "average": "128.2",
+     "low": "84",
+     "high": "190.39"
+    },
+    "internet": {
+     "average": "31.81",
+     "low": "22.4",
+     "high": "44.8"
+    }
+   },
+   "groceries": {
+    "basketItemsSum": "48.58",
+    "itemsCounted": 15,
+    "itemsMissing": 0,
+    "missingItems": []
+   },
+   "restaurants": {
+    "inexpensiveMeal": {
+     "average": "11.2",
+     "low": "7.62",
+     "high": "22.4"
+    },
+    "midRangeForTwo": {
+     "average": "44.8",
+     "low": "33.6",
+     "high": "67.2"
+    }
+   },
+   "indices": {
+    "costOfLiving": "40.8",
+    "rent": "15.6",
+    "costOfLivingPlusRent": "29.1",
+    "groceries": "38",
+    "restaurants": "43.4"
+   },
+   "budget": {
+    "single": {
+     "average": "694.7",
+     "parallelRaw": "€620.3"
+    },
+    "family4": {
+     "average": "2506.4",
+     "parallelRaw": "€2,238.0"
+    }
+   },
+   "notes": "დაფარვა: 55/55 პოზიციას აქვს რიცხვითი მნიშვნელობა."
+  }
+ },
+ "parseAnomalies": []
+}

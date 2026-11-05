@@ -22,6 +22,21 @@
   .details { margin-top: 4pt; }
   tr, .olist li { break-inside: avoid; }
   a { color: #000; text-decoration: none; }
+  body { font-size: 8.5pt; }
+  .inputs th, .inputs td, .calc th, .calc td { padding: 1pt 4pt; font-size: 8pt; }
+  .hero { padding: 4pt 8pt; margin: 4pt 0; }
+  .hero-v { font-size: 16pt; margin: 2pt 0 0; }
+  .hero-l, .hero-n { font-size: 8pt; margin: 0; }
+  .hero2 { margin: 0 0 4pt; padding: 4pt 8pt; background: none; border: 1px solid #999; }
+  .hero2-v { font-size: 11pt; }
+  .rcards { margin-bottom: 4pt; }
+  .rcard { padding: 4pt 6pt; gap: 0; }
+  .rc-value { font-size: 10.5pt; }
+  .mres { margin: 4pt 0; padding: 4pt 8pt; border: 1px solid #999; background: #fff; }
+  .mres h3 { margin: 0 0 2pt; }
+  .mres .mrow { padding: 1pt 0; font-size: 8pt; }
+  .mres .msource, .mres .mindex { margin: 1pt 0 0; font-size: 7pt; }
+  .formula, .details .small, .details .tiny { margin: 2pt 0; font-size: 7pt; }
   /* შედარების ბეჭდვა — ლანდშაფტი, ერთი გვერდი */
   body.print-compare .wrap { display: none !important; }
   body:not(.print-compare) .overlay { display: none !important; }

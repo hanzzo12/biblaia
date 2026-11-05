@@ -82,7 +82,9 @@ function marketV2(loc, currency, k = 1) {
     groceries: { status: 'cached', basketItemsSum: (60 * k).toFixed(2), itemsCounted: 20, itemsMissing: 0, groceriesIndex: '55.0' },
     restaurants: { status: 'cached', inexpensiveMeal: p(15), midRangeForTwo: p(70), restaurantIndex: '60.2' },
     indices: { costOfLiving: '65.3', rent: '40.1', groceries: '55.0', restaurants: '60.2', costOfLivingPlusRent: '53.0', baseline: 'ნიუ-იორკი = 100', status: 'cached', period: '2026' },
-    fetchedAt: '2026-10-20T10:00:00Z', sourceUpdatedAt: null, cache: { state: 'hit', expiresAt: '2026-11-19T10:00:00Z' }, warnings: [],
+    fetchedAt: '2026-10-20T10:00:00Z', sourceUpdatedAt: null, cache: { state: 'hit', expiresAt: '2026-11-19T10:00:00Z' },
+    warnings: loc === 'AT-VIENNA' ? [{ code: 'reference_fx', message_ka: '≈ გადაყვანილია USD-დან Numbeo-ს კურსით 1 EUR = 1.08 USD, 31.10.2026' }] : [],
+    ...(loc === 'AT-VIENNA' ? { budget: { status: 'cached', single: p(800), family4: p(2500), sourceUpdatedAt: '2026-10-31', source: 'snapshot' } } : {}),
   };
 }
 
@@ -115,6 +117,9 @@ test('ოფლაინ file://: ვენის სცენარი ოთ�
   assert.equal(await val(page, '[data-testid="S"]'), '4985.16');
   assert.equal(await val(page, '[data-testid="edu"] .rc-value'), '938.00');
   assert.equal(await val(page, '[data-testid="F"] .rc-value'), '1246.86');
+  // ოფლაინ: ჩაშენებული ასლი (შენახული მონაცემი), EUR-ში
+  assert.match(await page.getByTestId('market-result').innerText(), /შენახული მონაცემი · \d{2}\.\d{2}\.\d{4}/);
+  assert.match(await val(page, '[data-testid="remainder-living"]'), /^-?\d+\.\d{2}$/);
   await page.getByTestId('how').click();
   assert.equal(await val(page, 'tr[data-component="D"] td'), '4732.03');
   assert.deepEqual(external, []);
@@ -226,6 +231,26 @@ test('ონლაინ: ბაზრის ბარათი, ქირის
   await page.close();
 });
 
+test('ონლაინ შედეგი: ცხოვრების ღირებულების ბლოკი და ნაშთი საცხოვრებელი ხარჯების შემდეგ', async () => {
+  const { page, errors } = await openOnline();
+  await vienna(page);
+  await page.getByTestId('market-result').locator('.mrow').first().waitFor();
+  const mr = await page.getByTestId('market-result').innerText();
+  assert.match(mr, /ცენტრი 3 000\.00 EUR · გარეუბანი 2 250\.00 EUR/);
+  assert.match(mr, /1 200\.00 EUR \/ 3 750\.00 EUR/);
+  assert.match(mr, /1 EUR = 1\.08 USD/);
+  // ოჯახით → ოთხსულიანი ოჯახის შეფასება: 3423.16 − 3750.00
+  assert.equal(await val(page, '[data-testid="remainder-living"]'), '-326.84');
+  assert.match(await page.locator('.hero2').innerText(), /ოთხსულიანი ოჯახის შეფასება/);
+  assert.equal(await val(page, '[data-testid="hero-remainder"]'), '3423.16', 'ოფიციალური ნაწილი არ იცვლება');
+  const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('pdf-download').click()]);
+  const info = pdfInfo(await dl.path());
+  if (info) { assert.equal(info.pages, 1); assert.match(info.text, /−326\.84 EUR|-326\.84 EUR/); assert.match(info.text, /ცხოვრების ღირებულება/); }
+  if (SHOTS) { await page.screenshot({ path: path.join(SHOTS, 'd-step4-online.png'), fullPage: true }); await dl.saveAs(path.join(SHOTS, 'result-online.pdf')); }
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
 test('შედარება: EUR + USD ბარათები გვერდიგვერდ, Numbeo-ს ქირით; მობილურზე გვერდი არ იშლება', async () => {
   const { page, errors } = await openOnline({ delays: { 'US-WASHINGTON': 300 } });
   await vienna(page);
@@ -236,6 +261,9 @@ test('შედარება: EUR + USD ბარათები გვერ�
   const cards = page.locator('.ccard');
   assert.equal(await cards.count(), 2);
   assert.equal(await cards.nth(0).getByTestId('compare-S').getAttribute('data-value'), '4985.16');
+  assert.equal(await cards.nth(0).getByTestId('compare-remainder-living').getAttribute('data-value'), '-326.84');
+  assert.match(await cards.nth(1).getByTestId('compare-remainder-living').getAttribute('data-value'), /^-?\d+\.\d{2}$/);
+  assert.match(await cards.nth(1).innerText(), /გამოკლებულია კომუნალური/);
   const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('compare-pdf').click()]);
   const cinfo = pdfInfo(await dl.path());
   if (cinfo) { assert.equal(cinfo.pages, 1); assert.match(cinfo.text, /ვაშინგტონი/); assert.match(cinfo.text, /3 423\.16 EUR/); }

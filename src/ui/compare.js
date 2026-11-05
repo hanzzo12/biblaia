@@ -2,7 +2,7 @@
 import { h, replace, uid } from './dom.js';
 import * as core from '../core/index.js';
 import { missionPicker, shortName } from './picker.js';
-import { marketList, rentFor, WITH_DATA } from './market.js';
+import { marketList, rentFor, WITH_DATA, livingRemainder, marketRows, marketNotes } from './market.js';
 import { comparePdf, downloadBytes } from './pdf/reports.js';
 
 const MAX = 5;
@@ -17,7 +17,7 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
   const printBtn = h('button', { type: 'button', class: 'btn ghost small', 'data-testid': 'compare-print' }, 'ბეჭდვა');
   pdfBtn.addEventListener('click', async () => {
     pdfBtn.disabled = true;
-    try { downloadBytes(await comparePdf(cols.map((c) => { const M = colModel(c); return { city: M.city, name: M.name, cur: M.cur, remainder: M.remainder, remNote: M.remNote, S: M.Stext, F: M.F, rent: M.rentText, rentLabel: M.rentLabel, market: M.market, index: M.index, source: M.source }; })), `rotacia-shedareba-${new Date().toISOString().slice(0, 10)}.pdf`); }
+    try { downloadBytes(await comparePdf(cols.map((c) => { const M = colModel(c); return { city: M.city, name: M.name, cur: M.cur, remainder: M.remainder, remNote: M.remNote, living: M.livingText, livingNote: M.living.note, notes: M.notes, S: M.Stext, F: M.F, rent: M.rentText, rentLabel: M.rentLabel, market: M.market, index: M.index, source: M.source }; })), `rotacia-shedareba-${new Date().toISOString().slice(0, 10)}.pdf`); }
     catch (e) { console.error(e); } finally { pdfBtn.disabled = false; }
   });
   printBtn.addEventListener('click', () => { document.body.classList.add('print-compare'); window.print(); });
@@ -68,8 +68,12 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
     const val = (x) => (x?.value == null ? '—' : `${core.formatAmount(x.value)} ${cur}`);
     const md = c.md && WITH_DATA.has(c.md.status) ? c.md : null;
     const money = (x) => (x == null ? '—' : `${core.formatAmount(x)} ${cur}`);
+    const remRaw = rent == null ? null : r?.remainder?.value?.value ?? null;
+    const living = livingRemainder(remRaw, c.md, scenario({}).family.length);
+    const rows = marketRows(c.md, beds(), { compact: true, familyCount: scenario({}).family.length });
     return {
-      m, cur, own, numbeo, rent, eduOk, hasEdu, S, mm, r,
+      m, cur, own, numbeo, rent, eduOk, hasEdu, S, mm, r, living,
+      livingText: living.value == null ? (c.loading ? '…' : '—') : `${core.formatAmount(living.value)} ${cur}`,
       city: m.location_ka, name: shortName(m),
       remainder: rent == null ? '—' : val(r?.remainder?.value), remainderRaw: rent == null ? null : r?.remainder?.value?.value ?? null,
       remLabel: hasEdu && eduOk ? 'დარჩება ქირისა და სწავლის შემდეგ' : 'დარჩება ქირის შემდეგ',
@@ -77,11 +81,8 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
       Stext: c.loading && !own.value ? '…' : val(S), F: rent == null ? '—' : val(mm.F),
       rentLabel: own.value != null ? `თქვენი, ${beds()} საძინებელი` : numbeo ? `Numbeo-ს საშუალო, ცენტრი, ${beds()} საძინებელი` : `${beds()} საძინებელი`,
       rentText: money(rent),
-      market: md ? [
-        ['კომუნალური + ინტერნეტი', `${money(md.utilities?.basic85m2?.average)} + ${money(md.utilities?.internet?.average)}`],
-        ['სურსათი (კალათა)', money(md.groceries?.basketItemsSum)],
-        ['რესტორანი (ბიუჯ. / საშ. 2 პირზე)', `${money(md.restaurants?.inexpensiveMeal?.average)} / ${money(md.restaurants?.midRangeForTwo?.average)}`],
-      ] : [['ფასები', 'მიუწვდომელია']],
+      market: rows ? rows.slice(1).map((x) => [x.label, x.value]) : [['ფასები', md ? '—' : 'მიუწვდომელია']],
+      notes: marketNotes(c.md).map((n) => n.text),
       index: md?.indices?.costOfLiving ?? null, source: md?.provider?.attribution_ka ?? null,
     };
   }
@@ -98,6 +99,9 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
       h('p', { class: 'c-s-l' }, M.remLabel),
       h('p', { class: 'c-s', 'data-testid': 'compare-remainder', 'data-value': M.remainderRaw ?? '' }, M.remainder),
       M.remNote ? h('p', { class: 'tiny muted c-note', 'data-testid': M.hasEdu && !M.eduOk ? 'edu-not-applied' : null }, M.remNote) : null,
+      h('p', { class: 'c-s-l' }, 'დარჩება საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)'),
+      h('p', { class: 'c-s2' + (M.living.value?.startsWith('-') ? ' neg' : ''), 'data-testid': 'compare-remainder-living', 'data-value': M.living.value ?? '' }, M.livingText),
+      M.living.note ? h('p', { class: 'tiny muted' }, M.living.note) : null,
       h('div', { class: 'crow' }, h('span', null, M.rent == null ? 'თვიური თანხა (ქირის გარეშე)' : 'თვიური სამივლინებო თანხა'), h('strong', { 'data-testid': 'compare-S', 'data-value': M.S?.value ?? '' }, M.Stext)),
       h('div', { class: 'crow' }, h('span', null, 'ქირის ანაზღაურება'), h('strong', null, M.F)),
       h('div', { class: 'rent-in' }, h('label', { for: rid }, `ქირა (${M.rentLabel})`),

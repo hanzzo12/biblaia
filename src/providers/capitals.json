@@ -1,0 +1,333 @@
+{
+ "_meta": {
+  "generatedBy": "scripts/gen-capitals.mjs",
+  "rule": "capital = location of the embassy mission (normative-data); overrides listed in OVERRIDES"
+ },
+ "capitals": {
+  "AT": {
+   "locationId": "AT-VIENNA",
+   "city_ka": "ვენა",
+   "basis": "embassy"
+  },
+  "AU": {
+   "locationId": "AU-CANBERRA",
+   "city_ka": "კანბერა",
+   "basis": "embassy"
+  },
+  "AR": {
+   "locationId": "AR-BUENOS-AIRES",
+   "city_ka": "ბუენოს-აირესი",
+   "basis": "embassy"
+  },
+  "AZ": {
+   "locationId": "AZ-BAKU",
+   "city_ka": "ბაქო",
+   "basis": "embassy"
+  },
+  "US": {
+   "locationId": "US-WASHINGTON",
+   "city_ka": "ვაშინგტონი",
+   "basis": "embassy"
+  },
+  "BY": {
+   "locationId": "BY-MINSK",
+   "city_ka": "მინსკი",
+   "basis": "embassy"
+  },
+  "BE": {
+   "locationId": "BE-BRUSSELS",
+   "city_ka": "ბრიუსელი",
+   "basis": "embassy"
+  },
+  "BR": {
+   "locationId": "BR-BRASILIA",
+   "city_ka": "ბრაზილია",
+   "basis": "embassy"
+  },
+  "BG": {
+   "locationId": "BG-SOFIA",
+   "city_ka": "სოფია",
+   "basis": "embassy"
+  },
+  "DE": {
+   "locationId": "DE-BERLIN",
+   "city_ka": "ბერლინი",
+   "basis": "embassy"
+  },
+  "DK": {
+   "locationId": "DK-COPENHAGEN",
+   "city_ka": "კოპენჰაგენი",
+   "basis": "embassy"
+  },
+  "GB": {
+   "locationId": "GB-LONDON",
+   "city_ka": "ლონდონი",
+   "basis": "embassy"
+  },
+  "EG": {
+   "locationId": "EG-CAIRO",
+   "city_ka": "კაირო",
+   "basis": "embassy"
+  },
+  "ET": {
+   "locationId": "ET-ADDIS-ABABA",
+   "city_ka": "ადის-აბება",
+   "basis": "embassy"
+  },
+  "ES": {
+   "locationId": "ES-MADRID",
+   "city_ka": "მადრიდი",
+   "basis": "embassy"
+  },
+  "EE": {
+   "locationId": "EE-TALLINN",
+   "city_ka": "ტალინი",
+   "basis": "embassy"
+  },
+  "TR": {
+   "locationId": "TR-ANKARA",
+   "city_ka": "ანკარა",
+   "basis": "embassy"
+  },
+  "TM": {
+   "locationId": "TM-ASHGABAT",
+   "city_ka": "აშხაბადი",
+   "basis": "embassy"
+  },
+  "JP": {
+   "locationId": "JP-TOKYO",
+   "city_ka": "ტოკიო",
+   "basis": "embassy"
+  },
+  "JO": {
+   "locationId": "JO-AMMAN",
+   "city_ka": "ამანი",
+   "basis": "embassy"
+  },
+  "IR": {
+   "locationId": "IR-TEHRAN",
+   "city_ka": "თეირანი",
+   "basis": "embassy"
+  },
+  "IL": {
+   "locationId": "IL-TEL-AVIV",
+   "city_ka": "თელ-ავივი",
+   "basis": "embassy",
+   "embassyNotInCapital": "საელჩო თელ-ავივშია; დედაქალაქის სტატუსი (იერუსალიმი) საერთაშორისოდ სადავოა."
+  },
+  "IT": {
+   "locationId": "IT-ROME",
+   "city_ka": "რომი",
+   "basis": "embassy"
+  },
+  "IN": {
+   "locationId": "IN-NEW-DELHI",
+   "city_ka": "ნიუ-დელი",
+   "basis": "embassy"
+  },
+  "ID": {
+   "locationId": "ID-JAKARTA",
+   "city_ka": "ჯაკარტა",
+   "basis": "embassy"
+  },
+  "IE": {
+   "locationId": "IE-DUBLIN",
+   "city_ka": "დუბლინი",
+   "basis": "embassy"
+  },
+  "CY": {
+   "locationId": "CY-NICOSIA",
+   "city_ka": "ნიქოზია",
+   "basis": "embassy"
+  },
+  "CA": {
+   "locationId": "CA-OTTAWA",
+   "city_ka": "ოტავა",
+   "basis": "embassy"
+  },
+  "QA": {
+   "locationId": "QA-DOHA",
+   "city_ka": "დოჰა",
+   "basis": "embassy"
+  },
+  "KR": {
+   "locationId": "KR-SEOUL",
+   "city_ka": "სეული",
+   "basis": "embassy"
+  },
+  "LV": {
+   "locationId": "LV-RIGA",
+   "city_ka": "რიგა",
+   "basis": "embassy"
+  },
+  "LT": {
+   "locationId": "LT-VILNIUS",
+   "city_ka": "ვილნიუსი",
+   "basis": "embassy"
+  },
+  "MY": {
+   "locationId": "MY-KUALA-LUMPUR",
+   "city_ka": "კუალა-ლუმპური",
+   "basis": "embassy"
+  },
+  "MX": {
+   "locationId": "MX-MEXICO-CITY",
+   "city_ka": "მეხიკო",
+   "basis": "embassy"
+  },
+  "MD": {
+   "locationId": "MD-CHISINAU",
+   "city_ka": "კიშინიოვი",
+   "basis": "embassy"
+  },
+  "NL": {
+   "locationId": "NL-THE-HAGUE",
+   "city_ka": "ჰააგა",
+   "basis": "embassy",
+   "embassyNotInCapital": "საელჩო ჰააგაშია; კონსტიტუციური დედაქალაქია ამსტერდამი."
+  },
+  "NO": {
+   "locationId": "NO-OSLO",
+   "city_ka": "ოსლო",
+   "basis": "embassy"
+  },
+  "PL": {
+   "locationId": "PL-WARSAW",
+   "city_ka": "ვარშავა",
+   "basis": "embassy"
+  },
+  "PT": {
+   "locationId": "PT-LISBON",
+   "city_ka": "ლისაბონი",
+   "basis": "embassy"
+  },
+  "RU": {
+   "locationId": "RU-MOSCOW",
+   "city_ka": "მოსკოვი",
+   "basis": "embassy-section",
+   "note": "რუსეთში საელჩო არ არის — გამოყენებულია ინტერესების სექციის ადგილმდებარეობა (მოსკოვი)."
+  },
+  "RO": {
+   "locationId": "RO-BUCHAREST",
+   "city_ka": "ბუქარესტი",
+   "basis": "embassy"
+  },
+  "GR": {
+   "locationId": "GR-ATHENS",
+   "city_ka": "ათენი",
+   "basis": "embassy"
+  },
+  "ZA": {
+   "locationId": "ZA-PRETORIA",
+   "city_ka": "პრეტორია",
+   "basis": "embassy"
+  },
+  "SA": {
+   "locationId": "SA-RIYADH",
+   "city_ka": "ერ-რიადი",
+   "basis": "embassy"
+  },
+  "FR": {
+   "locationId": "FR-PARIS",
+   "city_ka": "პარიზი",
+   "basis": "embassy"
+  },
+  "SK": {
+   "locationId": "SK-BRATISLAVA",
+   "city_ka": "ბრატისლავა",
+   "basis": "embassy"
+  },
+  "SI": {
+   "locationId": "SI-LJUBLJANA",
+   "city_ka": "ლიუბლიანა",
+   "basis": "embassy"
+  },
+  "AM": {
+   "locationId": "AM-YEREVAN",
+   "city_ka": "ერევანი",
+   "basis": "embassy"
+  },
+  "UZ": {
+   "locationId": "UZ-TASHKENT",
+   "city_ka": "ტაშკენტი",
+   "basis": "embassy"
+  },
+  "UA": {
+   "locationId": "UA-KYIV",
+   "city_ka": "კიევი",
+   "basis": "embassy"
+  },
+  "HU": {
+   "locationId": "HU-BUDAPEST",
+   "city_ka": "ბუდაპეშტი",
+   "basis": "embassy"
+  },
+  "FI": {
+   "locationId": "FI-HELSINKI",
+   "city_ka": "ჰელსინკი",
+   "basis": "embassy"
+  },
+  "KW": {
+   "locationId": "KW-KUWAIT-CITY",
+   "city_ka": "ელ-ქუვეითი",
+   "basis": "embassy"
+  },
+  "KZ": {
+   "locationId": "KZ-ASTANA",
+   "city_ka": "ასტანა",
+   "basis": "embassy"
+  },
+  "SE": {
+   "locationId": "SE-STOCKHOLM",
+   "city_ka": "სტოკჰოლმი",
+   "basis": "embassy"
+  },
+  "CH": {
+   "locationId": "CH-BERN",
+   "city_ka": "ბერნი",
+   "basis": "embassy"
+  },
+  "CZ": {
+   "locationId": "CZ-PRAGUE",
+   "city_ka": "პრაღა",
+   "basis": "embassy"
+  },
+  "CN": {
+   "locationId": "CN-BEIJING",
+   "city_ka": "პეკინი",
+   "basis": "embassy"
+  },
+  "CU": {
+   "locationId": "CU-HAVANA",
+   "city_ka": "ჰავანა",
+   "basis": "embassy"
+  },
+  "RS": {
+   "locationId": "RS-BELGRADE",
+   "city_ka": "ბელგრადი",
+   "basis": "only-location",
+   "note": "სერბეთში მისია ნორმატიულ მონაცემებში არ არის — ქვეყნის ერთადერთი ლოკაცია (ბელგრადი)."
+  },
+  "AE": {
+   "locationId": "AE-ABU-DHABI",
+   "city_ka": "აბუ-დაბი",
+   "basis": "embassy"
+  },
+  "VN": {
+   "locationId": "VN-HANOI",
+   "city_ka": "ჰანოი",
+   "basis": "embassy"
+  },
+  "HR": {
+   "locationId": "HR-ZAGREB",
+   "city_ka": "ზაგრები",
+   "basis": "embassy"
+  },
+  "VA": {
+   "locationId": "IT-ROME",
+   "city_ka": "რომი",
+   "basis": "override",
+   "note": "წმინდა საყდარი (ვატიკანი): ბაზრის მონაცემისთვის დედაქალაქად ითვლება რომი (მომხმარებლის წესი)."
+  }
+ }
+}

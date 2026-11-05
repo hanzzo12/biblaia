@@ -10,6 +10,8 @@ import {
 } from './market-contract.js';
 
 export * from './market-contract.js';
+export { marketDataFromSnapshot, composeMarketData, capitalFor, combinedStatus, CAPITALS } from './resolve.js';
+export { snapshotEntryToMarketData, validateMarketSnapshot, usdToEur, parseRate, formatDateKa } from './snapshot.js';
 
 export const MARKET_STATUS_LABELS_KA = Object.freeze({
   loading: 'იტვირთება',
@@ -28,6 +30,7 @@ export const MARKET_STATUS_LABELS_KA = Object.freeze({
   invalid_response: 'წყაროს პასუხი არასწორია',
   wrong_city: 'პასუხი სხვა ქალაქს ან ვალუტას ეკუთვნის — უარყოფილია',
   disabled: 'ბაზრის მონაცემები გამორთულია',
+  pending_refresh: 'ფასები მალე განახლდება',
 });
 
 export const MARKET_CATEGORY_LABELS_KA = Object.freeze({
@@ -50,6 +53,9 @@ export const MARKET_CATEGORY_LABELS_KA = Object.freeze({
   restaurantIndex: 'რესტორნების ფასების ინდექსი',
   costOfLiving: 'ცხოვრების ღირებულების ინდექსი (ქირის გარეშე)',
   costOfLivingPlusRent: 'ცხოვრების ღირებულება + ქირა',
+  budget: 'საორიენტაციო თვიური ხარჯი (ქირის გარეშე)',
+  single: 'ერთი პირი',
+  family4: 'ოთხსულიანი ოჯახი',
 });
 
 export const MARKET_WARNING_LABELS_KA = Object.freeze({
@@ -70,6 +76,9 @@ export const MARKET_WARNING_LABELS_KA = Object.freeze({
   scraped_source_terms: 'მონაცემი Numbeo.com-დან მესამე მხარის სერვისით (Apify) არის მოპოვებული; Numbeo-ს პირობები ავტომატურ შეგროვებას ზღუდავს.',
   payment_required: 'Apify-ის ანგარიშზე კრედიტი ამოიწურა ან გადახდაა საჭირო.',
   synthetic_test_data: 'სინთეზური სატესტო მონაცემი — რეალური ფასი არ არის.',
+  snapshot_copy: 'შენახული მონაცემი (ასლი) — არა მიმდინარე ფასი.',
+  reference_fx: '≈ თანხა გადაყვანილია USD-დან EUR-ში Numbeo-ს კურსით — საორიენტაციოდ.',
+  capital_fallback: 'ქალაქის მონაცემი არ მოიძებნა — ნაჩვენებია დედაქალაქის მონაცემი.',
 });
 
 const ERROR_MESSAGES_KA = Object.freeze({

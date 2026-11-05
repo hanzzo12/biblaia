@@ -313,6 +313,44 @@ const known = [
 ];
 for (const [id, ok, msg] of known) check(ok, `${id}: ${msg}`);
 
+// ---------------------------------------------------------------- market snapshot (src/data/market-snapshot.json, contracts §9)
+const snapPath = join(dirname(file), 'market-snapshot.json');
+if (existsSync(snapPath)) {
+  let snap = null;
+  try { snap = JSON.parse(readFileSync(snapPath, 'utf8')); } catch (e) { err(`market-snapshot: cannot parse: ${e.message}`); }
+  if (snap) {
+    const w = 'market-snapshot';
+    check(snap.schemaVersion === 1 && snap.currency === 'USD', `${w}: schemaVersion 1 and currency USD`);
+    check(isObj(snap.source) && /^[0-9a-f]{64}$/.test(snap.source.sha256 || ''), `${w}: source.sha256`);
+    const sp = join(ROOT, snap.source?.file || '');
+    if (snap.source?.file && existsSync(sp)) check(createHash('sha256').update(readFileSync(sp)).digest('hex') === snap.source.sha256, `${w}: source sha256 does not match ${snap.source.file}`);
+    if (posDec(snap.usdPerEur?.value, `${w}.usdPerEur.value`)) check(Number(snap.usdPerEur.value) > 0.5 && Number(snap.usdPerEur.value) < 2, `${w}: implausible usdPerEur`);
+    check(isObj(snap.cities) && Object.keys(snap.cities).length > 0, `${w}: cities`);
+    const optDec = (v, where) => { if (v !== null && v !== undefined) posDec(v, where); };
+    const optPrice = (p, where) => {
+      if (p === null) return;
+      if (!check(isObj(p), `${where}: Price or null`)) return;
+      posDec(p.average, `${where}.average`); optDec(p.low, `${where}.low`); optDec(p.high, `${where}.high`);
+    };
+    const entries = new Set();
+    for (const [lid, c] of Object.entries(snap.cities || {})) {
+      const cw = `${w}.cities.${lid}`;
+      check(locations.has(lid), `${cw}: unknown location id`);
+      check(!entries.has(c.entryNo), `${cw}: entryNo ${c.entryNo} used twice`); entries.add(c.entryNo);
+      check(['direct', 'archive'].includes(c.retrieval), `${cw}: retrieval`);
+      check(c.sourceUpdatedAt === null || /^\d{4}-\d{2}(-\d{2})?$/.test(c.sourceUpdatedAt), `${cw}: sourceUpdatedAt`);
+      for (const k of ['centre_1br', 'outside_1br', 'centre_3br', 'outside_3br']) optPrice(c.rent?.[k] ?? null, `${cw}.rent.${k}`);
+      for (const k of ['basic85m2', 'internet']) optPrice(c.utilities?.[k] ?? null, `${cw}.utilities.${k}`);
+      for (const k of ['inexpensiveMeal', 'midRangeForTwo']) optPrice(c.restaurants?.[k] ?? null, `${cw}.restaurants.${k}`);
+      optDec(c.groceries?.basketItemsSum, `${cw}.groceries.basketItemsSum`);
+      for (const k of ['costOfLiving', 'rent', 'groceries', 'restaurants', 'costOfLivingPlusRent']) optDec(c.indices?.[k], `${cw}.indices.${k}`);
+      for (const k of ['single', 'family4']) { const b = c.budget?.[k]; if (b !== null && b !== undefined) posDec(b.average, `${cw}.budget.${k}.average`); }
+    }
+    check(!('VA-VATICAN-CITY' in (snap.cities || {})), `${w}: no data stored under the Holy See (runtime maps it to Rome)`);
+    check(Array.isArray(snap.parseAnomalies), `${w}: parseAnomalies list`);
+  }
+}
+
 finish();
 
 function finish() {
