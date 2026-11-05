@@ -127,7 +127,7 @@ export function snapshotEntryToMarketData(snapshot, locationId, currency) {
     period: Object.values(ix).some(Boolean) && sourceUpdatedAt ? sourceUpdatedAt.slice(0, 7).replace(/^(\d{4})-(\d{2})-.*/, '$1-$2') : null,
   };
   const b0 = blockHasValue(c.budget) ? c.budget : {};
-  const budget = { status: 'not_found', single: price(b0.single), family4: price(b0.family4), sourceUpdatedAt, source: /** @type {'snapshot'} */ ('snapshot') };
+  const budget = { status: 'not_found', single: price(b0.single), family4: price(b0.family4), sourceUpdatedAt, source: /** @type {'snapshot'} */ ('snapshot'), basis: /** @type {'numbeo'} */ ('numbeo'), estimated: false };
   budget.status = st(!!(budget.single || budget.family4));
 
   const blocks = [rent.status, utilities.status, groceries.status, restaurants.status, indices.status, budget.status];

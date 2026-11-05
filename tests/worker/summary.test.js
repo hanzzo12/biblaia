@@ -23,7 +23,7 @@ test('client-side summary from both snapshots: all 80 mission cities, mission cu
   const s = marketSummaryFromSnapshots(userSnapshot, apifySnapshot, normative);
   assert.ok(validateMarketSummary(s));
   assert.equal(s.rows.length, new Set(normative.missions.map((m) => m.locationId)).size);
-  assert.deepEqual(row(s, 'AT-VIENNA'), { locationId: 'AT-VIENNA', city_ka: 'ვენა', country_ka: 'ავსტრია', currency: 'EUR', indices: row(s, 'AT-VIENNA').indices, rentCentre1br: '1182.88', source: 'apify-snapshot', sourceDate: '2026-11-04' });
+  assert.deepEqual(row(s, 'AT-VIENNA'), { locationId: 'AT-VIENNA', city_ka: 'ვენა', country_ka: 'ავსტრია', currency: 'EUR', indices: row(s, 'AT-VIENNA').indices, rentCentre1br: '1182.88', source: 'apify-snapshot', sourceDate: '2026-11-04', budget: { single: '1026.11', family4: '3602.92', basis: 'numbeo', fromCapital: false } });
   assert.equal(row(s, 'PL-KRAKOW').source, 'user-snapshot');
   assert.equal(row(s, 'PL-KRAKOW').sourceDate, '2026-10-31');
   assert.equal(row(s, 'UA-DONETSK').source, 'capital');

@@ -7,7 +7,10 @@ import { livingRemainder } from './market.js';
 
 const ex = (c) => {
   if (c == null) return null;
-  if (typeof c === 'object') return c.exact ? fromExactString(c.exact) : c.value != null ? R(c.value) : null;
+  if (typeof c === 'object') {
+    if (c.exact) return /^-?\d+(\/\d+)?$/.test(c.exact) ? fromExactString(c.exact) : R(c.exact);
+    return c.value != null ? R(c.value) : null;
+  }
   return R(c);
 };
 const fx = (x) => (x == null ? null : toFixed2(x));
@@ -20,12 +23,12 @@ export function computeChain(r, md, familyCount, { hasEdu = false } = {}) {
   const eduR = hasEdu ? ex(ed.total) : ZERO;
   const eduPersonal = eduE != null && eduR != null ? sub(eduE, eduR) : null;
   const remainder = ex(r?.remainder?.value);
-  const check = S != null && G != null && eduPersonal != null ? sub(sub(S, G), eduPersonal) : null;
+  const check = S != null && G != null && eduE != null && eduR != null ? add(sub(sub(S, G), eduE), eduR) : null;
   const matches = remainder != null && check != null && eq(remainder, check);
   if (remainder != null && check != null && !matches) console.warn('chain mismatch', toFixed2(check), toFixed2(remainder));
   const living = livingRemainder(remainder, md, familyCount);
   return {
-    S: fx(S), G: fx(G), eduPersonal: fx(eduPersonal), hasEdu, remainder: fx(remainder), matches, living,
+    S: fx(S), G: fx(G), eduPersonal: fx(eduPersonal), eduExpense: fx(eduE), eduReimb: fx(eduR), hasEdu, remainder: fx(remainder), matches, living,
     rent: { G: fx(G), T: fx(T), FminusT: F != null && T != null ? fx(sub(F, T)) : null, F: fx(F), extra: fx(ex(m.uncoveredRent)), surplus: fx(ex(m.rentSurplus)) },
   };
 }
@@ -37,15 +40,18 @@ const neg = (x) => (x != null && String(x).startsWith('-') ? ' neg' : '');
 export function chainRows(c) {
   const rows = [
     { sign: '', label: 'ყოველთვიური სამივლინებო თანხა', value: c.S },
-    { sign: '−', label: 'ბინის ქირა (სრული)', value: c.G },
+    { sign: '−', label: 'ბინის ქირა (სრული)', short: 'ქირა', value: c.G },
   ];
-  if (c.hasEdu) rows.push({ sign: '−', label: 'სწავლის თქვენი წილი (გადასახადი − ანაზღაურება)', value: c.eduPersonal });
-  rows.push({ sign: '=', label: 'დარჩენილი თანხა ქირისა და სწავლის შემდეგ', value: c.remainder, strong: true, testid: 'chain-remainder' });
-  rows.push({ sign: '−', label: c.living.label ?? 'საორიენტაციო საცხოვრებელი ხარჯი ქირის გარეშე', value: c.living.deduction });
-  rows.push({ sign: '=', label: 'დარჩენილი თანხა ქირის, სწავლისა და საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)', value: c.living.value, strong: true, testid: 'remainder-living' });
+  if (c.hasEdu) {
+    rows.push({ sign: '−', label: 'სწავლის გადასახადი (სრული)', short: 'სწავლის გადასახადი', value: c.eduExpense });
+    rows.push({ sign: '+', label: 'სწავლის ანაზღაურება', short: 'სწავლის ანაზღაურება', value: c.eduReimb });
+  }
+  rows.push({ sign: '=', label: 'დარჩენილი თანხა ქირისა და სწავლის შემდეგ', short: 'ქირისა და სწავლის შემდეგ', value: c.remainder, strong: true, testid: 'chain-remainder' });
+  rows.push({ sign: '−', label: c.living.label ?? 'საორიენტაციო საცხოვრებელი ხარჯი (Numbeo, ქირის და სწავლის გარეშე)', short: `საცხოვრებელი ხარჯი (Numbeo${c.living.estimated ? ', ≈ ინდექსით' : ''})`, value: c.living.deduction });
+  rows.push({ sign: '=', label: 'დარჩენილი თანხა ქირის, სწავლისა და საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)', short: 'საბოლოოდ (საორიენტაციო)', value: c.living.value, strong: true, testid: 'remainder-living' });
   return rows;
 }
-export const CHAIN_NOTE = 'Numbeo-ს შეფასება ქირას არ შეიცავს — ქირა ზემოთ ერთხელ აკლდება.';
+export const CHAIN_NOTE = 'Numbeo-ს შეფასება ქირასა და სწავლას არ შეიცავს — ქირა ზემოთ ერთხელ აკლდება.';
 
 export function renderChain(c, cur, { loading = false } = {}) {
   return h('section', { class: 'chain', 'data-testid': 'chain', 'aria-label': 'როგორ მივიღეთ დარჩენილი თანხა' },

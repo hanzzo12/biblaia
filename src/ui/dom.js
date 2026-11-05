@@ -1,7 +1,7 @@
 // უსაფრთხო DOM დამხმარეები. დინამიკური ტექსტი მხოლოდ textContent / createTextNode-ით.
 // innerHTML / outerHTML / insertAdjacentHTML / document.write src/ui-ში აკრძალულია (tests/e2e/ui-smoke.test.js ამოწმებს).
 
-const ATTR_OK = /^(class|id|for|type|name|label|placeholder|role|tabindex|title|lang|min|max|step|inputmode|autocomplete|rows|maxlength|colspan|scope|accept|href|rel|target|datetime|spellcheck|form|size|pattern)$|^(aria|data)-[a-z-]+$/;
+const ATTR_OK = /^(class|id|for|type|name|label|draggable|placeholder|role|tabindex|title|lang|min|max|step|inputmode|autocomplete|rows|maxlength|colspan|scope|accept|href|rel|target|datetime|spellcheck|form|size|pattern)$|^(aria|data)-[a-z-]+$/;
 const PROP_BOOL = new Set(['checked', 'disabled', 'hidden', 'open', 'selected', 'required', 'multiple', 'readonly']);
 
 /** @param {unknown} u */
@@ -67,3 +67,11 @@ export const uid = (p = 'id') => `${p}-${++seq}`;
 
 /** @param {string} sel @param {ParentNode} [root] */
 export const $ = (sel, root = document) => root.querySelector(sel);
+
+/** „×“ ღილაკი ველის გასასუფთავებლად (კლავიატურით ხელმისაწვდომი) */
+export function clearButton(inp) {
+  const b = h('button', { type: 'button', class: 'clear-btn', 'aria-label': 'გასუფთავება', title: 'გასუფთავება' }, '×');
+  b.addEventListener('click', () => { inp.value = ''; inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true })); inp.focus(); });
+  b.hidden = !inp.value;
+  return b;
+}

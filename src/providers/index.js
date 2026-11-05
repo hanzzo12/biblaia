@@ -13,6 +13,7 @@ export * from './market-contract.js';
 export { marketDataFromSnapshot, composeMarketData, capitalFor, combinedStatus, CAPITALS } from './resolve.js';
 export { snapshotEntryToMarketData, validateMarketSnapshot, usdToEur, parseRate, formatDateKa } from './snapshot.js';
 export { apifySnapshotEntryToMarketData } from './apify-snapshot.js';
+export { estimateBudget, applyEstimatedBudget, nycBudgetReference, BUDGET_ESTIMATE_MESSAGE_KA } from './budget.js';
 export { marketSummaryFromSnapshots, validateMarketSummary, missionLocations, SUMMARY_SCHEMA_VERSION } from './summary.js';
 import { validateMarketSummary, SUMMARY_SCHEMA_VERSION } from './summary.js';
 
@@ -82,6 +83,8 @@ export const MARKET_WARNING_LABELS_KA = Object.freeze({
   snapshot_copy: 'შენახული მონაცემი (ასლი) — არა მიმდინარე ფასი.',
   reference_fx: '≈ თანხა გადაყვანილია USD-დან EUR-ში Numbeo-ს კურსით — საორიენტაციოდ.',
   capital_fallback: 'ქალაქის მონაცემი არ მოიძებნა — ნაჩვენებია დედაქალაქის მონაცემი.',
+  budget_estimated: '≈ შეფასებულია Numbeo-ს ინდექსით: ნიუ-იორკის ხარჯი × ინდექსი / 100',
+  implausible_value: 'წყაროს მნიშვნელობა დაუჯერებელია (მაგ. სხვა ვალუტა ან სხვა ქალაქი) — უარყოფილია.',
 });
 
 const ERROR_MESSAGES_KA = Object.freeze({

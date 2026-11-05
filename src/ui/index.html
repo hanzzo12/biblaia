@@ -13,10 +13,15 @@
 <div class="wrap">
   <header class="head">
     <h1>როტაციის კალკულატორი</h1>
+    <div class="tabs no-print" role="tablist" aria-label="განყოფილებები">
+      <button type="button" role="tab" id="tab-calc" aria-controls="app" aria-selected="true" class="tab" data-testid="calc-tab">კალკულატორი</button>
+      <button type="button" role="tab" id="tab-cities" aria-controls="cities" aria-selected="false" tabindex="-1" class="tab" data-testid="cities-tab">ქალაქების სიძვირე</button>
+    </div>
     <button type="button" class="link-btn no-print" data-open-compare>ქალაქების შედარება</button>
   </header>
   <noscript><p>კალკულატორს სჭირდება JavaScript.</p></noscript>
-  <main id="app"></main>
+  <main id="app" role="tabpanel" aria-labelledby="tab-calc"></main>
+  <section id="cities" class="card cities-card" role="tabpanel" aria-labelledby="tab-cities" hidden><h2 class="cities-h">ქალაქების სიძვირე</h2><div id="cities-body"></div></section>
   <footer class="foot">საინფორმაციო გაანგარიშება — არ წარმოადგენს ოფიციალურ ფინანსურ დოკუმენტს.</footer>
 </div>
 <div id="compare" class="overlay" hidden></div>

@@ -1,5 +1,5 @@
 // მარტივი ოთხსაფეხურიანი კალკულატორი. გამოთვლა — მხოლოდ src/core-ით; ბაზრის ფასები — საორიენტაციოდ.
-import { h, replace, uid } from './dom.js';
+import { h, replace, uid, clearButton } from './dom.js';
 import * as core from '../core/index.js';
 import { missionPicker, shortName } from './picker.js';
 import { marketList, suggestBedrooms, rentFor } from './market.js';
@@ -28,16 +28,9 @@ export function parseMoney(raw) {
   const r = core.parseDecimalInput(String(raw ?? ''));
   return r.ok ? { value: r.normalized } : { value: null, error: r.error_ka };
 }
-/** „×“ ღილაკი ველის გასასუფთავებლად (კლავიატურით ხელმისაწვდომი) */
-export function clearButton(inp) {
-  const b = h('button', { type: 'button', class: 'clear-btn', 'aria-label': 'გასუფთავება', title: 'გასუფთავება' }, '×');
-  b.addEventListener('click', () => { inp.value = ''; inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true })); inp.focus(); });
-  b.hidden = !inp.value;
-  return b;
-}
 const parseAge = (raw) => { const s = String(raw ?? '').trim(); return /^\d{1,3}$/.test(s) && Number(s) <= 120 ? Number(s) : null; };
 
-export function startApp({ data, meta, online, client, offline = null }) {
+export function startApp({ data, meta, online, client, offline = null, usdPerEur = null }) {
   const service = createMarketService({ online, client, offline });
   const now = new Date();
   const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
@@ -55,7 +48,7 @@ export function startApp({ data, meta, online, client, offline = null }) {
   const profiles = () => core.positionProfiles(data);
 
   /** ScenarioV1 მიმდინარე მდგომარეობიდან (contracts §2). */
-  function scenario({ missionId = st.missionId, rent, extras = true, keepEdu = true } = {}) {
+  function scenario({ missionId = st.missionId, rent, extras = true, keepEdu = true, eduConvert = null } = {}) {
     const sc = core.emptyScenario();
     sc.missionId = missionId;
     sc.position = { mode: 'annex2', entryId: st.entryId };
@@ -70,7 +63,7 @@ export function startApp({ data, meta, online, client, offline = null }) {
     const g = rent !== undefined ? rent : parseMoney(st.rentRaw).value;
     sc.rent = { amount: g, basis: rent === undefined && st.rentFromMarket ? 'market-scenario' : 'actual', marketRef: rent === undefined && st.rentFromMarket ? st.marketRef : null, changes: [] };
     if (keepEdu) {
-      sc.education = st.family.filter((f) => f.role === 'child').map((f) => ({ f, v: parseMoney(st.edu[f.id]).value })).filter((x) => x.v != null)
+      sc.education = st.family.filter((f) => f.role === 'child').map((f) => ({ f, v: parseMoney(st.edu[f.id]).value })).filter((x) => x.v != null).map((x) => (eduConvert ? { ...x, v: eduConvert(x.v) } : x))
         .map(({ f, v }) => ({ memberId: f.id, tuition: v, registration: null, transport: null, meals: null, holidayExtraContract: null, freeStateLanguageSchoolAvailable: false, ministerDecision34: false }));
     }
     if (extras) {
@@ -108,7 +101,7 @@ export function startApp({ data, meta, online, client, offline = null }) {
   const pills = h('ol', { class: 'pills', 'aria-label': 'საფეხურები' });
   const body = h('div', { class: 'step-body' });
   const nav = h('div', { class: 'nav no-print' });
-  const compare = mountCompare(document.getElementById('compare'), { data, service, scenario, calc, beds, parseMoney, getMissionId: () => st.missionId, getRentRaw: () => st.rentRaw });
+  const compare = mountCompare(document.getElementById('compare'), { data, service, scenario, calc, beds, parseMoney, usdPerEur, getMissionId: () => st.missionId, getRentRaw: () => st.rentRaw });
   app.append(pills, h('div', { class: 'card main-card' }, body, nav));
   for (const b of document.querySelectorAll('[data-open-compare]')) b.addEventListener('click', () => compare.open());
 

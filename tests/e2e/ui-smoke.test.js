@@ -116,7 +116,12 @@ test('ოფლაინ file://: ვენის სცენარი ოთ�
   assert.equal(await val(page, '[data-testid="hero-remainder"]'), '3423.16');
   assert.equal(await val(page, '[data-testid="S"]'), '4985.16');
   assert.equal(await val(page, '[data-testid="edu"] .rc-value'), '938.00');
-  assert.equal(await val(page, '[data-testid="F"] .rc-value'), '1246.86');
+  assert.equal(await val(page, '[data-testid="F-value"]'), '1246.86');
+  // ჯაჭვი = ბირთვის r.remainder ზუსტად
+  assert.equal(await val(page, '[data-testid="chain-remainder"]'), '3423.16');
+  const rb = page.getByTestId('rent-breakdown');
+  assert.match(await rb.innerText(), /ბინის ძირითადი წილი \(T\)\s+993\.73 EUR/);
+  assert.match(await rb.innerText(), /თქვენ ამატებთ\s+253\.14 EUR/);
   // ოფლაინ: ჩაშენებული ასლი (შენახული მონაცემი), EUR-ში
   assert.match(await page.getByTestId('market-result').innerText(), /შენახული მონაცემი · \d{2}\.\d{2}\.\d{4}/);
   assert.match(await val(page, '[data-testid="remainder-living"]'), /^-?\d+\.\d{2}$/);
@@ -198,6 +203,21 @@ test('დამატებითი ხარჯები: დაზღვე�
   await page.close();
 });
 
+test('„×“ გასუფთავება: მისია და ქირა', async () => {
+  const { page } = await openPage();
+  await pickMission(page, 'Vienna');
+  assert.match(await page.getByTestId('mission-info').innerText(), /EUR/);
+  await page.getByTestId('picker-clear').click();
+  assert.equal(await page.getByTestId('mission').inputValue(), '');
+  assert.equal(await page.getByTestId('mission-info').innerText(), '');
+  await pickMission(page, 'Vienna');
+  await next(page); await page.getByTestId('pos-A2-R5').check(); await next(page);
+  await page.getByTestId('rent').fill('1500');
+  await page.locator('.field:has([data-testid="rent"]) .clear-btn').click();
+  assert.equal(await page.getByTestId('rent').inputValue(), '');
+  await page.close();
+});
+
 test('XSS: ტექსტი HTML-ად არ სრულდება', async () => {
   const { page } = await openPage();
   await page.evaluate(() => { window.__xss = 0; });
@@ -241,7 +261,8 @@ test('ონლაინ შედეგი: ცხოვრების ღი�
   assert.match(mr, /1 EUR = 1\.08 USD/);
   // ოჯახით → ოთხსულიანი ოჯახის შეფასება: 3423.16 − 3750.00
   assert.equal(await val(page, '[data-testid="remainder-living"]'), '-326.84');
-  assert.match(await page.locator('.hero2').innerText(), /ოთხსულიანი ოჯახის შეფასება/);
+  assert.match(await page.getByTestId('chain').innerText(), /ოთხსულიანი ოჯახის/);
+  assert.match(await page.getByTestId('chain').innerText(), /ქირა ზემოთ ერთხელ აკლდება/);
   assert.equal(await val(page, '[data-testid="hero-remainder"]'), '3423.16', 'ოფიციალური ნაწილი არ იცვლება');
   const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('pdf-download').click()]);
   const info = pdfInfo(await dl.path());
@@ -270,11 +291,14 @@ test('შედარება: EUR + USD ბარათები გვერ�
   if (SHOTS) await dl.saveAs(path.join(SHOTS, 'compare.pdf'));
   assert.match(await cards.nth(1).innerText(), /USD/);
   assert.match(await cards.nth(1).getByTestId('compare-S').getAttribute('data-value'), /^\d+\.\d{2}$/);
-  assert.match(await cards.nth(1).innerText(), /Numbeo-ს საშუალო, ცენტრი, 3 საძინებელი/);
+  assert.match(await cards.nth(1).innerText(), /Numbeo, ცენტრი, 3 საძინებელი/);
   assert.match(await cards.nth(0).innerText(), /დარჩება ქირისა და სწავლის შემდეგ/);
   assert.equal(await cards.nth(0).getByTestId('compare-remainder').getAttribute('data-value'), '3423.16');
-  assert.match(await cards.nth(1).innerText(), /დარჩება ქირის შემდეგ/);
-  assert.equal(await cards.nth(1).getByTestId('edu-not-applied').count(), 1);
+  // სწავლა ითვლება ყველა ქალაქში: USD ბარათზე — გადაყვანილი Numbeo-ს კურსით
+  assert.match(await cards.nth(1).innerText(), /დარჩება ქირისა და სწავლის შემდეგ/);
+  assert.equal(await cards.nth(1).getByTestId('edu-converted').count(), 1);
+  // ოჯახის დანამატი (C) ყველა ბარათზე იგივეა, რაც შედეგის გვერდზე
+  for (const k of [0, 1]) assert.equal(await cards.nth(k).getAttribute('data-c'), '2');
   assert.deepEqual(errors, []);
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'd-compare.png') });
   await page.setViewportSize({ width: 375, height: 800 });
@@ -282,6 +306,69 @@ test('შედარება: EUR + USD ბარათები გვერ�
   const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   assert.ok(over <= 0, `page overflow ${over}px`);
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'm-compare.png') });
+  await page.close();
+});
+
+test('შედარება: 7 ქალაქი, დალაგება ინდექსით, ← → და გადათრევა, PDF 2 გვერდი', async () => {
+  const { page, errors } = await openPage();
+  await vienna(page);
+  await page.getByTestId('compare-open').click();
+  await page.locator('.ccard').first().waitFor();
+  for (const q of ['ვაშინგტონ საელჩო', 'ბერლინ', 'პარიზ საელჩო', 'ტოკიო', 'ბაქო', 'ანკარა']) await pickMission(page, q, 'compare-add');
+  await page.waitForTimeout(300);
+  const cards = page.locator('.ccard');
+  assert.equal(await cards.count(), 7, 'ლიმიტი აღარ არის');
+  const cities = async () => page.locator('.ccard h3').allInnerTexts();
+  const before = await cities();
+  await page.getByTestId('compare-sort').selectOption('asc');
+  const asc = await cities();
+  await page.getByTestId('compare-sort').selectOption('desc');
+  const desc = await cities();
+  assert.equal(desc[0], asc[asc.length - 1]);
+  assert.notDeepEqual(asc, before);
+  await page.getByTestId('compare-sort').selectOption('mine');
+  assert.deepEqual(await cities(), before);
+  await cards.nth(0).getByTestId('compare-move-right').click();
+  const moved = await cities();
+  assert.equal(moved[1], before[0]); assert.equal(moved[0], before[1]);
+  await cards.nth(3).dragTo(cards.nth(0));
+  assert.equal((await cities())[0], moved[3]);
+  assert.equal(await page.getByTestId('compare-sort').inputValue(), 'mine');
+  const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('compare-pdf').click()]);
+  const info = pdfInfo(await dl.path());
+  if (info) assert.equal(info.pages, 2, '6 ქალაქი გვერდზე');
+  if (SHOTS) { await dl.saveAs(path.join(SHOTS, 'compare7.pdf')); await page.screenshot({ path: path.join(SHOTS, 'd-compare7.png') }); }
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
+test('ქალაქების სიძვირე: ცხრილი, დალაგება, მონიშვნა, PDF', async () => {
+  const { page, errors, external } = await openPage();
+  await page.getByTestId('cities-tab').click();
+  const rows = page.locator('[data-testid="cities-table"] tbody tr');
+  await rows.first().waitFor();
+  assert.ok(await rows.count() >= 70, `rows ${await rows.count()}`);
+  const first = await rows.first().locator('th').innerText();
+  await page.getByTestId('cities-sort').selectOption('desc');
+  const vals = (await page.locator('[data-testid="cities-table"] tbody td.strong').evaluateAll((els) => els.map((e) => e.getAttribute('data-value')))).filter(Boolean).map(Number);
+  for (let i = 1; i < vals.length; i++) assert.ok(vals[i - 1] >= vals[i], 'desc');
+  await rows.nth(0).locator('input[type=checkbox]').check();
+  await rows.nth(2).locator('input[type=checkbox]').check();
+  await page.getByTestId('cities-only-selected').check();
+  assert.equal(await rows.count(), 2);
+  await page.getByTestId('cities-only-selected').uncheck();
+  await page.getByTestId('cities-sort').selectOption('alpha');
+  assert.equal(await rows.first().locator('th').innerText(), first);
+  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'd-cities.png') });
+  const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('cities-pdf').click()]);
+  const info = pdfInfo(await dl.path());
+  if (info) { assert.ok(info.pages >= 3); assert.match(info.text, /ქალაქების სიძვირე/); }
+  if (SHOTS) await dl.saveAs(path.join(SHOTS, 'cities.pdf'));
+  await page.setViewportSize({ width: 375, height: 800 });
+  const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  assert.ok(over <= 0, `page overflow ${over}`);
+  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'm-cities.png') });
+  assert.deepEqual(errors, []); assert.deepEqual(external, []);
   await page.close();
 });
 

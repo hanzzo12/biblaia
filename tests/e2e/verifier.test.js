@@ -15,6 +15,9 @@ const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/normative-data
 const TMP = path.join(ROOT, '.shots');
 fs.mkdirSync(TMP, { recursive: true });
 const UNAVAILABLE = 'ფასები ამჟამად მიუწვდომელია';
+/** deterministic synthetic 'cost of living + rent' index per location (sorting tests only) */
+const synthIndex = (loc) => (30 + ([...loc].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) % 997, 7) % 60)).toFixed(1);
+const USD_PER_EUR = '1.119954'; // snapshot reference rate used by the UI to convert the school fee (interpretation, not a norm)
 
 let browser, server;
 const api = { mode: 'fresh', delayMs: 0, opts: {} };
@@ -31,7 +34,11 @@ before(async () => {
         case 'timeout': return undefined; // never answers
         case 'rate_limited': return json(429, { error: 'rate_limited' });
         case 'invalid_json': return json(200, '{"schemaVersion":2, "rent": ');
-        default: return json(200, marketBodyV2(loc, { currency: cur, status: api.mode, ...api.opts }));
+        default: {
+          const body = marketBodyV2(loc, { currency: cur, status: api.mode, ...api.opts });
+          if (body.indices.costOfLivingPlusRent != null) body.indices.costOfLivingPlusRent = synthIndex(loc);
+          return json(200, body);
+        }
       }
     },
   });
@@ -42,7 +49,8 @@ after(async () => { await browser?.close(); await server?.close(); });
 const dv = (page, sel) => page.locator(sel).first().getAttribute('data-value');
 const cardVal = (page, id) => dv(page, `[data-testid="${id}"] [data-value]`);
 const remainder = (page) => dv(page, '[data-testid="hero-remainder"]');
-const RESULT_SEL = '[data-testid="S"], [data-testid="hero-remainder"], .rcard [data-value]';
+const OFFICIAL_SEL = '[data-testid="S"], [data-testid="hero-remainder"], [data-testid="chain-remainder"], .rcard [data-value]';
+const RESULT_SEL = '[data-testid="S"], [data-testid="hero-remainder"], [data-testid="chain"] [data-value], .rcard [data-value]';
 
 async function stepMission(page, query = 'Vienna') {
   await page.getByTestId('mission').fill(query);
@@ -78,14 +86,31 @@ async function viennaMin(page, rent = '1500') {
 }
 
 // ---------------------------------------------------------------- offline
-test('offline file://: golden Vienna S/F/edu/remainder, no external requests, no errors', async () => {
+test('offline file://: golden Vienna S, rent breakdown, chain, living remainder; no external requests', async () => {
   const h = await openOffline();
   try {
     await viennaGolden(h.page);
-    assert.equal(await dv(h.page, '[data-testid="S"]'), '4985.16');
-    assert.equal(await cardVal(h.page, 'F'), '1246.86');
-    assert.equal(await cardVal(h.page, 'edu'), '938.00');
-    assert.equal(await remainder(h.page), '3423.16', 'hero shows the remainder first');
+    const p = h.page;
+    assert.equal(await dv(p, '[data-testid="S"]'), '4985.16');
+    assert.equal(await remainder(p), '3423.16', 'hero shows the remainder first');
+    assert.equal(await dv(p, '[data-testid="F-value"]'), '1246.86');
+    assert.equal(await cardVal(p, 'edu'), '938.00');
+    // rent breakdown, hand-derived: G 1500, T 993.72546, F - T = 253.13727, F 1246.86273, own share 1500 - F = 253.13727
+    const rb = await p.$$eval('[data-testid="rent-breakdown"] [data-value]', (els) => els.map((e) => e.getAttribute('data-value')));
+    assert.deepEqual(rb, ['1500.00', '993.73', '253.14', '1246.86', '253.14']);
+    // chain: S - G - school + reimbursement = remainder; last row = living remainder
+    const chain = await p.$$eval('[data-testid="chain"] .chain-v', (els) => els.map((e) => [e.getAttribute('data-testid'), e.getAttribute('data-value')]));
+    assert.deepEqual(chain.slice(0, 5).map((x) => x[1]), ['4985.16', '1500.00', '1000.00', '938.00', '3423.16']);
+    assert.equal(chain[4][0], 'chain-remainder');
+    assert.equal(chain.at(-1)[0], 'remainder-living', 'living remainder is the last chain row');
+    // living deduction = family-of-4 budget shown in the page's own market block (spouse + child -> not alone)
+    const mtext = await p.locator('[data-testid="market-result"]').innerText();
+    const m = /ოჯახი 4\)[^\n]*\n?[^\n]*?([\d\s ]+\.\d{2})\s*EUR\s*\/\s*([\d\s ]+\.\d{2})\s*EUR/.exec(mtext);
+    assert.ok(m, `family-4 budget not found in market block:\n${mtext}`);
+    const fam4 = m[2].replace(/[\s ]/g, '');
+    const exp = (Math.round((3423.16327 - Number(fam4)) * 100) / 100).toFixed(2);
+    assert.equal(chain.at(-2)[1], fam4, 'deduction row = family-of-4 budget');
+    assert.equal(chain.at(-1)[1], exp, `living remainder = 3423.16327 - ${fam4}`);
     assert.deepEqual(h.blockedRequests, [], 'no external request attempted');
     assert.deepEqual(h.unexpectedConsoleErrors(), []);
     assert.deepEqual(h.pageErrors, []);
@@ -189,63 +214,152 @@ test('privacy: /api/market requests carry only location & currency', async () =>
 });
 
 // ---------------------------------------------------------------- comparison
-function expectedCard(missionId, rent, withEdu) {
+const half2 = (x) => { // exact decimal string -> 2-dp half-up (positive values)
+  const [i, f = ''] = String(x).split('.'); const n = BigInt(i + (f + '000').slice(0, 3));
+  const r = (n + 5n) / 10n; return `${r / 100n}.${String(r % 100n).padStart(2, '0')}`;
+};
+/** independent expectation for a comparison card: same position/family; school fee converted at the reference rate for USD cities */
+function expectedCard(missionId, rent, eduEur = '1000') {
+  const cur = DATA.missions.find((m) => m.id === missionId).fundingCurrency;
   const sc = emptyScenario();
   sc.missionId = missionId;
   sc.position = { mode: 'annex2', entryId: 'A2-R5' };
   sc.status.rentHead = 'not-head';
   sc.family = [{ ...emptyFamilyMember('F1'), role: 'spouse', age: 38 }, { ...emptyFamilyMember('F2'), role: 'child', age: 8 }];
   sc.rent = { amount: rent, basis: 'actual', marketRef: null, changes: [] };
-  if (withEdu) sc.education = [{ memberId: 'F2', tuition: '1000' }];
-  return calculate(sc, DATA);
+  const fee = cur === 'EUR' ? eduEur : half2((Number(eduEur) * 1e6 * Number(USD_PER_EUR) * 1e6 / 1e12).toFixed(6));
+  sc.education = [{ memberId: 'F2', tuition: fee }];
+  return { cur, fee, r: calculate(sc, DATA) };
 }
 
-test('comparison: ≤5 cards, EUR/USD never summed, each card S = calculate() for that mission', async () => {
+test('Washington card, hand-derived: rent 5049.17 USD, school 1000 EUR -> S 7243.14, F 3168.87, remainder 2119.98 USD', () => {
+  // D = 3495 x 0.65 x 2.185 x 1.14 = 5658.702075; T = 1584.436581; 0.5 x (5049.17 - T) > T -> F = 2T = 3168.873162
+  // S = D + T = 7243.138656; fee 1000 x 1.119954 = 1119.95 USD; edu = 750 + 0.8 x 369.95 = 1045.96
+  // remainder = 7243.138656 + 1045.96 - 5049.17 - 1119.95 = 2119.978656
+  const { cur, fee, r } = expectedCard('M-A6-R4', '5049.17');
+  assert.equal(cur, 'USD'); assert.equal(fee, '1119.95');
+  assert.equal(r.monthly.S.value, '7243.14'); assert.equal(r.monthly.F.value, '3168.87');
+  assert.equal(r.education.total.value, '1045.96'); assert.equal(r.remainder.value.value, '2119.98');
+});
+
+test('comparison: 8 cities accepted, EUR/USD never summed, cards = calculate(); sort, arrows, 2-page PDF for 7', { timeout: 90000 }, async () => {
   Object.assign(api, { mode: 'fresh', delayMs: 0, opts: {} });
   const s = await openServed(browser, server.origin);
   try {
-    await viennaGolden(s.page);
-    await s.page.getByTestId('compare-open').click();
-    const add = async (q) => { await s.page.getByTestId('compare-add').fill(q); await s.page.getByTestId('compare-add').press('Enter'); await s.page.waitForTimeout(150); };
-    for (const q of ['Washington', 'Kyiv', 'Lyon', 'Beijing']) await add(q);
-    const cards = s.page.locator('.ccard');
-    assert.equal(await cards.count(), 5);
-    assert.equal(await s.page.getByTestId('compare-add').count(), 0, '6th add not offered');
-    assert.match(await s.page.locator('.cadd').innerText(), /მაქსიმუმ 5/);
+    const p = s.page;
+    await viennaGolden(p);
+    await p.getByTestId('compare-open').click();
+    const add = async (q) => { await p.getByTestId('compare-add').fill(q); await p.getByTestId('compare-add').press('Enter'); await p.waitForTimeout(150); };
+    for (const q of ['Washington', 'Kyiv', 'Lyon', 'Beijing', 'Tokyo', 'Ottawa', 'Madrid']) await add(q);
+    const cards = p.locator('.ccard');
+    assert.equal(await cards.count(), 8, '8 cities accepted (no limit)');
+    assert.equal(await p.getByTestId('compare-add').count(), 1, 'still possible to add more');
     const ids = await cards.evaluateAll((els) => els.map((e) => e.getAttribute('data-col')));
-    // own rents per card (USD cards in USD)
-    const rents = { 'M-A5-R1': '1500' };
-    for (const id of ids.slice(1)) rents[id] = '2500';
+    const rents = Object.fromEntries(ids.map((id) => [id, id === 'M-A5-R1' ? '1500' : DATA.missions.find((m) => m.id === id).fundingCurrency === 'USD' ? '5049.17' : '1800']));
     for (const id of ids.slice(1)) {
-      const inp = s.page.locator(`[data-col="${id}"] [data-testid="compare-rent"]`);
-      await inp.fill(rents[id]); await inp.press('Tab'); await s.page.waitForTimeout(100);
+      const inp = p.locator(`[data-col="${id}"] [data-testid="compare-rent"]`);
+      await inp.fill(rents[id]); await inp.press('Tab'); await p.waitForTimeout(80);
     }
-    const currencies = new Set();
-    const sValues = [];
+    const curs = new Set(); const sValues = [];
     for (const id of ids) {
-      const cur = DATA.missions.find((m) => m.id === id).fundingCurrency;
-      currencies.add(cur);
-      const r = expectedCard(id, rents[id], cur === 'EUR');
-      const card = s.page.locator(`[data-col="${id}"]`);
+      const { cur, r } = expectedCard(id, rents[id]);
+      curs.add(cur);
+      const card = p.locator(`[data-col="${id}"]`);
       assert.equal(await card.getByTestId('compare-S').getAttribute('data-value'), r.monthly.S.value, `${id} S`);
       assert.equal(await card.getByTestId('compare-remainder').getAttribute('data-value'), r.remainder.value.value, `${id} remainder`);
+      // living remainder: synthetic market has no budget -> deduction = utilities 250.00 + internet 35.00
+      const liv = r.remainder.value.exact.includes('/') ? null : half2((Number(r.remainder.value.exact) - 285).toFixed(6));
+      if (liv) assert.equal(await card.getByTestId('compare-remainder-living').getAttribute('data-value'), liv, `${id} living remainder`);
+      assert.equal(await card.getAttribute('data-c'), '2', `${id} C`);
       const text = await card.innerText();
-      assert.ok(text.includes(cur), `${id} shows ${cur}`);
-      assert.match(text, cur === 'EUR' ? /დარჩება ქირისა და სწავლის შემდეგ/ : /დარჩება ქირის შემდეგ/, `${id} remainder label`);
-      assert.equal(await card.getByTestId('edu-not-applied').count(), cur === 'EUR' ? 0 : 1, `${id} edu-not-applied note`);
-      sValues.push(Number(r.monthly.S.exact.includes('/') ? eval(r.monthly.S.exact) : r.monthly.S.exact)); // eslint-disable-line no-eval
+      assert.match(text, /დარჩება ქირისა და სწავლის შემდეგ/, `${id}: education counted for every card`);
+      assert.equal(await card.getByTestId('edu-converted').count(), cur === 'USD' ? 1 : 0, `${id} edu-converted note`);
+      assert.equal(await card.getByTestId('compare-chain').count(), 1);
+      sValues.push(Number(r.monthly.S.value));
     }
-    assert.equal(await dv(s.page, '[data-col="M-A5-R1"] [data-testid="compare-S"]'), '4985.16', 'Vienna card = golden');
-    assert.equal(currencies.size, 2, 'mixed EUR/USD present');
-    const flat = (await s.page.locator('.cpanel').innerText()).replace(/\s/g, '');
-    const total = sValues.reduce((a, b) => a + b, 0).toFixed(2);
-    assert.ok(!flat.includes(total), 'no cross-currency total');
-    assert.equal(await s.page.locator('.cpanel').getByText(/^(სულ|ჯამი)/).count(), 0, 'no total row');
-    // 375px comparison
-    await s.page.setViewportSize({ width: 375, height: 800 });
-    await s.page.waitForTimeout(100);
-    assert.equal(await hasHorizontalScroll(s.page), false, 'comparison 375px horizontal scroll');
+    assert.equal(await p.locator('[data-col="M-A5-R1"] [data-testid="compare-remainder"]').getAttribute('data-value'), '3423.16', 'Vienna card = golden');
+    assert.equal(await p.locator('[data-col="M-A6-R4"] [data-testid="compare-remainder"]').getAttribute('data-value'), '2119.98', 'Washington card = hand-derived');
+    assert.equal(curs.size, 2, 'mixed EUR/USD present');
+    const flat = (await p.locator('.cpanel').innerText()).replace(/\s/g, '');
+    assert.ok(!flat.includes(sValues.reduce((a, b) => a + b, 0).toFixed(2)), 'no cross-currency total');
+    assert.equal(await p.locator('.cpanel').getByText(/^(სულ|ჯამი)/).count(), 0, 'no total row');
+    // sort by the 'cost of living + rent' index
+    const order = () => p.locator('.ccard').evaluateAll((els) => els.map((e) => e.getAttribute('data-col')));
+    const locOf = (id) => DATA.missions.find((m) => m.id === id).locationId;
+    for (const dir of ['asc', 'desc']) {
+      await p.getByTestId('compare-sort').selectOption(dir);
+      const idx = (await order()).map((id) => Number(synthIndex(locOf(id))));
+      const sorted = idx.slice().sort((a, b) => (dir === 'asc' ? a - b : b - a));
+      assert.deepEqual(idx, sorted, `sorted ${dir}`);
+    }
+    // arrow reorder (keyboard-accessible alternative to drag)
+    const before_ = await order();
+    await p.locator(`[data-col="${before_[0]}"] [data-testid="compare-move-right"]`).click();
+    const after1 = await order();
+    assert.deepEqual(after1.slice(0, 2), [before_[1], before_[0]]);
+    await p.locator(`[data-col="${before_[0]}"] [data-testid="compare-move-left"]`).click();
+    assert.deepEqual(await order(), before_);
+    assert.equal(await p.locator('.ccard').first().getByTestId('compare-move-left').isDisabled(), true);
+    // 375px
+    await p.setViewportSize({ width: 375, height: 800 });
+    await p.waitForTimeout(100);
+    assert.equal(await hasHorizontalScroll(p), false, 'comparison 375px horizontal scroll');
+    await p.setViewportSize({ width: 1280, height: 900 });
+    // remove one -> 7 cities -> PDF: 6 per landscape page -> 2 pages
+    await p.locator('.ccard').last().locator('header .x').click();
+    assert.equal(await p.locator('.ccard').count(), 7);
+    const [dl] = await Promise.all([p.waitForEvent('download'), p.getByTestId('compare-pdf').click()]);
+    const file = path.join(TMP, `verifier-cmp-${process.pid}.pdf`);
+    await dl.saveAs(file);
+    assert.equal(pdfPages(file), 2, '7 cities -> 2 pages');
+    const size = /Page size:\s+([\d.]+) x ([\d.]+)/.exec(execFileSync('pdfinfo', [file], { encoding: 'utf8' }));
+    assert.ok(Number(size[1]) > Number(size[2]), 'landscape pages');
+    fs.rmSync(file, { force: true });
   } finally { await s.close(); }
+});
+
+// ---------------------------------------------------------------- cities tab
+test('cities tab: 80 rows, alphabetical default, sort by index, only-selected filter, PDF header on every page', { timeout: 60000 }, async () => {
+  const h = await openOffline();
+  try {
+    const p = h.page;
+    await p.getByTestId('cities-tab').click();
+    const table = p.getByTestId('cities-table');
+    await table.waitFor();
+    const names = () => table.locator('tbody th').allInnerTexts();
+    const all = await names();
+    assert.equal(all.length, 80, `rows: ${all.length}`);
+    assert.deepEqual(all, all.slice().sort((a, b) => a.localeCompare(b, 'ka')), 'alphabetical (Georgian) by default');
+    const idxVals = () => table.locator('tbody td.num.strong').evaluateAll((els) => els.map((e) => e.getAttribute('data-value')));
+    for (const dir of ['asc', 'desc']) {
+      await p.getByTestId('cities-sort').selectOption(dir);
+      const v = (await idxVals()).filter((x) => x !== '').map(Number);
+      const sorted = v.slice().sort((a, b) => (dir === 'asc' ? a - b : b - a));
+      assert.deepEqual(v, sorted, `index ${dir}`);
+      const raw = await idxVals(); const firstEmpty = raw.indexOf('');
+      if (firstEmpty >= 0) assert.ok(raw.slice(firstEmpty).every((x) => x === ''), 'unknown index last');
+    }
+    await p.getByTestId('cities-sort').selectOption('alpha');
+    for (const i of [0, 5, 9]) await table.locator('tbody tr').nth(i).locator('input[type=checkbox]').check();
+    await p.getByTestId('cities-only-selected').check();
+    assert.equal(await table.locator('tbody tr').count(), 3, 'only selected rows');
+    await p.getByTestId('cities-only-selected').uncheck();
+    assert.equal(await table.locator('tbody tr').count(), 80);
+    const [dl] = await Promise.all([p.waitForEvent('download'), p.getByTestId('cities-pdf').click()]);
+    const file = path.join(TMP, `verifier-cities-${process.pid}.pdf`);
+    await dl.saveAs(file);
+    const pages = pdfPages(file);
+    assert.ok(pages >= 2, `80 rows span pages (${pages})`);
+    for (let i = 1; i <= pages; i++) {
+      const t = execFileSync('pdftotext', ['-f', String(i), '-l', String(i), '-layout', file, '-'], { encoding: 'utf8' });
+      assert.match(t, /ქალაქი/, `page ${i} repeats the table header`);
+      assert.match(t, /ქვეყანა/, `page ${i} repeats the table header`);
+    }
+    fs.rmSync(file, { force: true });
+    await p.setViewportSize({ width: 375, height: 800 });
+    assert.equal(await hasHorizontalScroll(p), false, 'cities tab 375px (table scrolls inside its own region)');
+    assert.deepEqual(h.blockedRequests, []);
+  } finally { await h.close(); }
 });
 
 // ---------------------------------------------------------------- XSS, print, layout
@@ -276,19 +390,12 @@ test('print values equal screen values; PDF text contains the golden amounts', a
     const screen = await grab();
     await h.page.emulateMedia({ media: 'print' });
     assert.deepEqual(await grab(), screen);
-    const visible = await h.page.$$eval(RESULT_SEL, (els) => els.filter((e) => e.offsetParent !== null || e.getClientRects().length).map((e) => e.getAttribute('data-value')));
+    const visible = await h.page.$$eval(RESULT_SEL, (els) => els.filter((e) => e.getClientRects().length).map((e) => e.getAttribute('data-value')));
     for (const v of ['4985.16', '1246.86', '938.00', '3423.16']) assert.ok(visible.includes(v), `${v} visible in print`);
     const pdf = path.join(TMP, `verifier-print-${process.pid}.pdf`);
     await h.page.pdf({ path: pdf, format: 'A4' });
-    let text = '';
-    try {
-      text = execFileSync('python3', ['-I', '-c', 'import sys,pypdfium2 as p\nd=p.PdfDocument(sys.argv[1])\nprint("".join(d[i].get_textpage().get_text_range() for i in range(len(d))))', pdf], { encoding: 'utf8' });
-    } catch { /* pypdfium2 unavailable: DOM check above still applies */ }
-    if (text) {
-      const flat = text.replace(/\s/g, '');
-      for (const v of ['4985.16', '1246.86', '938.00', '3423.16']) assert.ok(flat.includes(v), `PDF contains ${v}`);
-      assert.match(text, /[ა-ჰ]{4,}/, 'Georgian text extractable from PDF');
-    }
+    const flat = pdfText(pdf).replace(/\s/g, '');
+    for (const v of ['4985.16', '1246.86', '938.00', '3423.16']) assert.ok(flat.includes(v), `PDF contains ${v}`);
     fs.rmSync(pdf, { force: true });
   } finally { await h.close(); }
 });
@@ -313,13 +420,13 @@ test('375px: no horizontal scroll on every step (long mission name, 7 family mem
   } finally { await h.close(); }
 });
 
-test('offline (file://) and served (http) give identical results', async () => {
+test('offline (file://) and served (http) give identical official results (market-based living rows may differ)', async () => {
   Object.assign(api, { mode: 'fresh', delayMs: 0, opts: {} });
   const h = await openOffline();
   const s = await openServed(browser, server.origin);
   try {
     await viennaGolden(h.page); await viennaGolden(s.page);
-    const grab = (p) => p.$$eval(RESULT_SEL, (els) => els.map((e) => e.getAttribute('data-value')));
+    const grab = (p) => p.$$eval(OFFICIAL_SEL, (els) => els.map((e) => e.getAttribute('data-value')));
     assert.deepEqual(await grab(s.page), await grab(h.page));
   } finally { await h.close(); await s.close(); }
 });

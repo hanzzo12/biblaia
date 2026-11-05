@@ -93,52 +93,92 @@ export async function resultPdf(M) {
 
 function fmtC(c, cur) { const x = c && typeof c === 'object' ? c.value : c; return x == null ? '—' : `${formatAmount(x)} ${cur}`; }
 
-/** cards: [{ city, name, cur, remainder, S, F, rentLabel, rent, market: [[label, value]], index }] */
+/** cards: [{ city, name, cur, remainder, remNote, living, livingNote, S, F, extra, rentLabel, rent, market: [[label, value]], index, notes, source }] — 6 ქალაქი გვერდზე */
+export const COMPARE_PER_PAGE = 6;
 export async function comparePdf(cards) {
   const fonts = await loadPdfFonts();
-  const W = 841.89, H = 595.28, X = 36, CW = W - 2 * X;
-  const p = new PdfPage(fonts, W, H);
-  p.text('როტაციის კალკულატორი — ქალაქების შედარება', X, 44, { size: 16, bold: true, color: ACCENT });
-  p.text(today(), W - X, 44, { size: 9, color: MUTED, align: 'right' });
-  p.text('თქვენი თანამდებობითა და ოჯახით. ვალუტები არ კონვერტირდება და არ იკრიბება.', X, 62, { size: 8.5, color: MUTED });
-  const labW = 175; const n = Math.max(cards.length, 1); const colW = (CW - labW) / n;
-  let y = 84;
-  // სათაურები
-  cards.forEach((c, i) => {
-    const cx = X + labW + i * colW;
-    p.rect(cx + 3, y - 4, colW - 6, 40, SOFT, 6);
-    p.text(c.city, cx + 10, y + 10, { size: 11, bold: true });
-    p.para(`${c.name} · ${c.cur}`, cx + 10, y + 24, colW - 20, { size: 7.5, color: MUTED, lineHeight: 9 });
-  });
-  y += 50;
+  const W = 841.89, H = 595.28, X = 30, CW = W - 2 * X;
+  let p = null;
+  const chunks = [];
+  for (let i = 0; i < Math.max(cards.length, 1); i += COMPARE_PER_PAGE) chunks.push(cards.slice(i, i + COMPARE_PER_PAGE));
   const rows = [
     ['დარჩება ქირისა და სწავლის შემდეგ', (c) => c.remainder, true, (c) => c.remNote],
     ['დარჩება საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)', (c) => c.living, true, (c) => c.livingNote],
-    ['ყოველთვიური სამივლინებო თანხა', (c) => c.S, true],
-    ['ქირის ანაზღაურება', (c) => c.F],
+    ['ყოველთვიური სამივლინებო თანხა', (c) => c.S],
     ['ქირა', (c) => c.rent, false, (c) => c.rentLabel],
-    ...((cards[0]?.market || []).map((_, k) => [cards[0].market[k][0], (c) => c.market?.[k]?.[1] ?? '—'])),
-    ['ცხოვრების ღირ. ინდექსი (ნიუ-იორკი = 100)', (c) => c.index ?? '—'],
+    ['რამდენს ანაზღაურებს (F)', (c) => c.F],
+    ['თქვენ ამატებთ ქირაში', (c) => c.extra],
+    ...((cards.find((c) => (c.market || []).length > 1)?.market || cards[0]?.market || []).map((m, k) => [m[0], (c) => c.market?.[k]?.[1] ?? '—'])),
+    ['ცხოვრება + ქირა ინდექსი (ნიუ-იორკი = 100)', (c) => c.index ?? '—'],
   ];
-  for (const [label, get, strong, note] of rows) {
-    let maxH = Math.max(12, p.para(label, X, y, labW - 10, { size: 8.5, color: MUTED, lineHeight: 10 }) - y);
-    cards.forEach((c, i) => {
+  chunks.forEach((chunk, pi) => {
+    p = p ? p.addPage() : new PdfPage(fonts, W, H);
+    p.text('როტაციის კალკულატორი — ქალაქების შედარება', X, 38, { size: 15, bold: true, color: ACCENT });
+    p.text(`${today()} · გვერდი ${pi + 1}/${chunks.length}`, W - X, 38, { size: 8.5, color: MUTED, align: 'right' });
+    p.text('თქვენი თანამდებობითა და ოჯახით. ვალუტები არ კონვერტირდება და არ იკრიბება.', X, 54, { size: 8, color: MUTED });
+    const labW = 140; const colW = (CW - labW) / COMPARE_PER_PAGE;
+    let y = 72;
+    chunk.forEach((c, i) => {
       const cx = X + labW + i * colW;
-      const yy = p.para(String(get(c) ?? '—'), cx + 10, y, colW - 16, { size: strong ? 11 : 9, bold: !!strong, color: strong && label.startsWith('დარჩება') ? ACCENT : INK, lineHeight: strong ? 13 : 11 });
-      let h2 = yy - y;
-      const nt = note ? note(c) : null;
-      if (nt) h2 = p.para(nt, cx + 10, yy - 2, colW - 16, { size: 7, color: MUTED, lineHeight: 8.5 }) - y;
-      maxH = Math.max(maxH, h2);
+      p.rect(cx + 2, y - 4, colW - 4, 36, SOFT, 6);
+      p.text(c.city, cx + 8, y + 9, { size: 10, bold: true });
+      p.para(`${c.name} · ${c.cur}`, cx + 8, y + 21, colW - 14, { size: 6.8, color: MUTED, lineHeight: 8 });
     });
-    y += maxH + 3; p.line(X, y - 6, W - X, y - 6);
-    y += 4;
+    y += 44;
+    for (const [label, get, strong, note] of rows) {
+      let maxH = Math.max(11, p.para(label, X, y, labW - 10, { size: 7.8, color: MUTED, lineHeight: 9.2 }) - y);
+      chunk.forEach((c, i) => {
+        const cx = X + labW + i * colW;
+        const val = String(get(c) ?? '—');
+        const yy = p.para(val, cx + 8, y, colW - 12, { size: strong ? 10 : 8.2, bold: !!strong, color: strong ? (val.startsWith('-') || val.startsWith('−') ? [220, 38, 38] : ACCENT) : INK, lineHeight: strong ? 12 : 9.8 });
+        let h2 = yy - y;
+        const nt = note ? note(c) : null;
+        if (nt) h2 = p.para(nt, cx + 8, yy - 1.5, colW - 12, { size: 6.3, color: MUTED, lineHeight: 7.5 }) - y;
+        maxH = Math.max(maxH, h2);
+      });
+      y += maxH + 2; p.line(X, y - 5, W - X, y - 5); y += 3;
+    }
+    const nts = [...new Set(chunk.flatMap((c) => c.notes || []))];
+    nts.slice(0, 4).forEach((t, k) => p.text(t, X, H - 74 + k * 9, { size: 6.8, color: MUTED }));
+    const src = chunk.find((c) => c.source)?.source;
+    if (src) p.text(src, X, H - 34, { size: 7, color: MUTED });
+    p.text(DISCLAIMER, X, H - 22, { size: 7.5, color: MUTED });
+  });
+  return p.root.toBytes('როტაციის კალკულატორი — შედარება');
+}
+
+/** ტექსტის შემოკლება სვეტის სიგანეზე (…) */
+function fit(p, t, w, size, bold) {
+  if (p.width(t, size, bold) <= w) return t;
+  let s = t;
+  while (s.length > 1 && p.width(s + '…', size, bold) > w) s = s.slice(0, -1);
+  return s.trimEnd() + '…';
+}
+
+/** ქალაქების სიძვირის ცხრილი — A4 ლანდშაფტი, მრავალგვერდიანი, სათაურის სტრიქონი მეორდება */
+export async function citiesPdf(rows, { sortLabel = '' } = {}) {
+  const fonts = await loadPdfFonts();
+  const W = 841.89, H = 595.28, X = 30;
+  const cols = [['ქალაქი', 104], ['ქვეყანა', 118], ['ცხოვრება + ქირა', 72], ['ცხოვრება', 56], ['ქირა (ინდ.)', 58], ['ქირა ცენტრში, 1 საძ.', 92], ['ვალუტა', 44], ['K', 52], ['წყარო / თარიღი', 186]];
+  const per = 30; const n = Math.max(1, Math.ceil(rows.length / per));
+  let p = null;
+  for (let pi = 0; pi < n; pi++) {
+    p = p ? p.addPage() : new PdfPage(fonts, W, H);
+    p.text('ქალაქების სიძვირე', X, 36, { size: 15, bold: true, color: ACCENT });
+    p.text(`${today()} · გვერდი ${pi + 1}/${n}`, W - X, 36, { size: 8.5, color: MUTED, align: 'right' });
+    p.text(`ინდექსები: Numbeo, ნიუ-იორკი = 100. ${sortLabel}`, X, 51, { size: 7.5, color: MUTED });
+    let y = 70; let x = X;
+    p.rect(X, y - 11, W - 2 * X, 16, SOFT, 3);
+    for (const [t, w] of cols) { p.text(t, x + 3, y, { size: 7.5, bold: true }); x += w; }
+    y += 15;
+    for (const r of rows.slice(pi * per, pi * per + per)) {
+      x = X;
+      r.cells.forEach((v2, k) => { p.text(fit(p, String(v2 ?? '—'), cols[k][1] - 6, 7.8, k === 0), x + 3, y, { size: 7.8, bold: k === 0 }); x += cols[k][1]; });
+      y += 4; p.line(X, y, W - X, y); y += 11;
+    }
+    p.text('წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით / შენახული ასლები). ' + DISCLAIMER, X, H - 20, { size: 7, color: MUTED });
   }
-  const nts = [...new Set(cards.flatMap((c) => c.notes || []))];
-  nts.slice(0, 4).forEach((t, k) => p.text(t, X, H - 92 + k * 9.5, { size: 7, color: MUTED }));
-  const src = cards.find((c) => c.source)?.source;
-  if (src) p.text(src, X, H - 44, { size: 7.5, color: MUTED });
-  p.text(DISCLAIMER, X, H - 28, { size: 8, color: MUTED });
-  return p.toBytes('როტაციის კალკულატორი — შედარება');
+  return p.root.toBytes('ქალაქების სიძვირე');
 }
 
 export { downloadBytes };

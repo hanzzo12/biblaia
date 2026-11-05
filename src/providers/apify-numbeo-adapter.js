@@ -27,6 +27,10 @@ export const APIFY_ACTOR_ID = 'automation-lab~numbeo-scraper';
 export const APIFY_SYNC_URL = `https://api.apify.com/v2/acts/${APIFY_ACTOR_ID}/run-sync-get-dataset-items`;
 export const ATTRIBUTION_KA = 'წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით)';
 export const DEFAULT_TIMEOUT_MS = 90000;
+/** იაფი სადილის მაქსიმალური დამაჯერებელი ფასი EUR/USD-ში (მსოფლიოში ~40-ზე ნაკლებია); მეტი ⇒ ვალუტა არასწორია. */
+export const MAX_PLAUSIBLE_MEAL = 150;
+export { MAX_ABSOLUTE_RENT } from './plausibility.js';
+import { MAX_ABSOLUTE_RENT } from './plausibility.js';
 /** maxCities: 0 = ყველა ქალაქი (ნაგულისხმევი 50 — ამიტომ ვენა ადრე არ ჩანდა). ~547 ქალაქი, ≈ $2.745 ერთ გაშვებაზე. */
 export const RANKINGS_INPUT = Object.freeze({ mode: 'rankings', maxCities: 0 });
 
@@ -306,7 +310,10 @@ export function normalizeApify(p) {
     else {
       const withCity = rows.filter((r) => typeof r.city === 'string' && r.city.trim());
       // ქალაქი ემთხვევა Numbeo-ს სახელს ან actor-ის შესავალ სახელს (მაგ. Ganja → „Gence“, 2026-11-04).
-      const own = withCity.length ? withCity.filter((r) => cityMatches(r.city, entry.numbeoCity) || cityMatches(r.city, pricesQueryFor(entry))) : rows;
+      const cityOk = (/** @type {any} */ r) => cityMatches(r.city, entry.numbeoCity) || cityMatches(r.city, pricesQueryFor(entry));
+      // ქვეყნის შემოწმება: „Odessa“ actor-მა ტეხასის ოდესა დააბრუნა (2026-11-04) — სხვა ქვეყნის სტრიქონი არ არის ჩვენი.
+      const countryOk = (/** @type {any} */ r) => !entry.numbeoCountry || typeof r.country !== 'string' || !r.country.trim() || normCity(r.country) === normCity(entry.numbeoCountry);
+      const own = withCity.length ? withCity.filter((r) => cityOk(r) && countryOk(r)) : rows;
       if (!withCity.length) warnings.add('city_name_unverified');
       if (withCity.length && own.length === 0) pStatus = 'wrong_city';
       else {
@@ -315,6 +322,9 @@ export function normalizeApify(p) {
         else {
           if (curs.size === 0) warnings.add('currency_unconfirmed');
           sel = selectItems(own);
+          // დამაჯერებლობა: იაფი სადილი > 150 EUR/USD ⇒ ფასები სინამდვილეში ადგილობრივ ვალუტაშია (Astana: KZT „USD“ ნიშნით).
+          const tooHighRent = ['centre_1br', 'outside_1br', 'centre_3br', 'outside_3br'].some((k) => sel?.items[k] && Number(sel.items[k].average) > MAX_ABSOLUTE_RENT);
+          if (tooHighRent || (sel.items.inexpensiveMeal && Number(sel.items.inexpensiveMeal.average) > MAX_PLAUSIBLE_MEAL)) { sel = null; pStatus = 'invalid_response'; warnings.add('implausible_value'); }
         }
       }
     }

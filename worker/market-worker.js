@@ -27,6 +27,7 @@ import { snapshotEntryToMarketData } from '../src/providers/snapshot.js';
 import { apifySnapshotEntryToMarketData } from '../src/providers/apify-snapshot.js';
 import { missionLocations, buildSummaryRow, snapshotLayers, SUMMARY_SCHEMA_VERSION } from '../src/providers/summary.js';
 import { composeMarketData, capitalFor } from '../src/providers/resolve.js';
+import { applyEstimatedBudget, estimateBudget } from '../src/providers/budget.js';
 import { runRefreshTick, readRefreshState, REFRESH_STATE_KEY } from './refresh.js';
 
 const JSON_HEADERS = Object.freeze({
@@ -244,7 +245,7 @@ export function createWorker(deps = {}) {
       capital = { ...capInfo, md: composeMarketData({ locationId: capInfo.locationId, primary: capPrimary, ...layers(capInfo.locationId) }) };
     }
     /** @type {any} */
-    let md = composeMarketData({ locationId: loc, primary, ...layers(loc), capital });
+    let md = applyEstimatedBudget(composeMarketData({ locationId: loc, primary, ...layers(loc), capital }), snapshot);
     let httpStatus = 200;
     if (!md) {
       if (limited) {
@@ -283,11 +284,12 @@ export function createWorker(deps = {}) {
       const e = await store.get(cacheKey(id, cur));
       if (e && now() <= e.expiresAt + cfg.staleMax * 1000) kv.set(k, e);
     }));
+    const estimate = (/** @type {string} */ idx, /** @type {'EUR'|'USD'} */ cur) => (snapshot ? estimateBudget(snapshot, idx, cur) : null);
     const rows = locs.map((loc) => buildSummaryRow(loc, (id) => {
       const e = kv.get(`${id}|${loc.currency}`);
       const head = e ? [{ src: /** @type {'kv'} */ ('kv'), md: e.data, date: iso(e.storedAt).slice(0, 10) }] : [];
       return [...head, ...snapshotLayers(snapshot, apifySnapshot, id, /** @type {'EUR'|'USD'} */ (loc.currency))];
-    }));
+    }, { estimate }));
     const summary = { schemaVersion: SUMMARY_SCHEMA_VERSION, generatedAt: iso(now()), rows };
     await store.put(SUMMARY_KEY, { storedAt: now(), expiresAt: now() + SUMMARY_TTL_S * 1000, summary }, SUMMARY_TTL_S);
     logLine({ evt2: 'summary', rows: rows.length, kvHits: kv.size });
@@ -334,7 +336,8 @@ export function createWorker(deps = {}) {
   async function refreshTick(env) {
     const cfg = config(env);
     try {
-      const r = await runRefreshTick({ env, store: storeFor(env), names, locationCurrencies, fetchFn, now, cfg, cacheKey, rankingsKey: RANKINGS_KEY });
+      const referenceFor = (/** @type {string} */ l, /** @type {'EUR'|'USD'} */ c) => (snapshot ? snapshotEntryToMarketData(snapshot, l, c) : null);
+      const r = await runRefreshTick({ env, store: storeFor(env), names, locationCurrencies, fetchFn, now, cfg, cacheKey, rankingsKey: RANKINGS_KEY, referenceFor });
       if (r.action !== 'wait') logLine({ evt2: 'refresh', ...r });
       if (r.action === 'finished') await storeFor(env).put(SUMMARY_KEY, { storedAt: now(), expiresAt: 0, summary: null }, 60); // სიის ქეში უქმდება
       return r;

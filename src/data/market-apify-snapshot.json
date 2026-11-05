@@ -8,10 +8,14 @@
   "note_ka": "Numbeo.com-ის მონაცემი Apify actor-ის რეალური გაშვებიდან; თანხები მისიის დაფინანსების ვალუტაში. Krakow და Donetsk actor-მა ვერ იპოვა (ფასები — მომხმარებლის ასლიდან/დედაქალაქიდან)."
  },
  "stats": {
-  "withPrices": 77,
-  "indicesOnly": 1,
+  "withPrices": 75,
+  "indicesOnly": 3,
   "none": [
    "UA-DONETSK:USD"
+  ],
+  "rejected": [
+   "UA-ODESA:wrong_city",
+   "KZ-ASTANA:invalid_response"
   ]
  },
  "cities": {
@@ -5089,63 +5093,31 @@
    "currency": "USD",
    "numbeoCity": "Odessa (Odesa)",
    "rent": {
-    "status": "fresh",
+    "status": "partial",
     "items": {
-     "centre_1br": {
-      "average": "1465.33",
-      "low": "1140",
-      "high": "2056"
-     },
-     "outside_1br": {
-      "average": "963.67",
-      "low": "891",
-      "high": "1000"
-     },
-     "centre_3br": {
-      "average": "2176.67",
-      "low": "1890",
-      "high": "2400"
-     },
-     "outside_3br": {
-      "average": "1829.5",
-      "low": "1659",
-      "high": "2000"
-     }
+     "centre_1br": null,
+     "outside_1br": null,
+     "centre_3br": null,
+     "outside_3br": null
     },
     "rentIndex": "6.8"
    },
    "utilities": {
-    "status": "fresh",
-    "basic85m2": {
-     "average": "450",
-     "low": null,
-     "high": null
-    },
-    "internet": {
-     "average": "100",
-     "low": null,
-     "high": null
-    }
+    "status": "wrong_city",
+    "basic85m2": null,
+    "internet": null
    },
    "groceries": {
-    "status": "fresh",
-    "basketItemsSum": "99.99",
-    "itemsCounted": 15,
+    "status": "partial",
+    "basketItemsSum": null,
+    "itemsCounted": 0,
     "itemsMissing": 0,
     "groceriesIndex": "31"
    },
    "restaurants": {
-    "status": "fresh",
-    "inexpensiveMeal": {
-     "average": "40",
-     "low": "35",
-     "high": "45"
-    },
-    "midRangeForTwo": {
-     "average": "72",
-     "low": "70",
-     "high": "80"
-    },
+    "status": "partial",
+    "inexpensiveMeal": null,
+    "midRangeForTwo": null,
     "restaurantIndex": "28.4"
    },
    "indices": {
@@ -5235,63 +5207,31 @@
    "currency": "USD",
    "numbeoCity": "Astana (Nur-Sultan)",
    "rent": {
-    "status": "fresh",
+    "status": "partial",
     "items": {
-     "centre_1br": {
-      "average": "257586.25",
-      "low": "220000",
-      "high": "350000"
-     },
-     "outside_1br": {
-      "average": "179666.67",
-      "low": "156000",
-      "high": "200000"
-     },
-     "centre_3br": {
-      "average": "512727.27",
-      "low": "350000",
-      "high": "850000"
-     },
-     "outside_3br": {
-      "average": "346833.33",
-      "low": "270000",
-      "high": "500000"
-     }
+     "centre_1br": null,
+     "outside_1br": null,
+     "centre_3br": null,
+     "outside_3br": null
     },
     "rentIndex": "12.6"
    },
    "utilities": {
-    "status": "fresh",
-    "basic85m2": {
-     "average": "30461.11",
-     "low": "25000",
-     "high": "49583.33"
-    },
-    "internet": {
-     "average": "7832",
-     "low": "5500",
-     "high": "10000"
-    }
+    "status": "invalid_response",
+    "basic85m2": null,
+    "internet": null
    },
    "groceries": {
-    "status": "fresh",
-    "basketItemsSum": "21327.4",
-    "itemsCounted": 15,
+    "status": "partial",
+    "basketItemsSum": null,
+    "itemsCounted": 0,
     "itemsMissing": 0,
     "groceriesIndex": "34.8"
    },
    "restaurants": {
-    "status": "fresh",
-    "inexpensiveMeal": {
-     "average": "4739.69",
-     "low": "4000",
-     "high": "6000"
-    },
-    "midRangeForTwo": {
-     "average": "17006.5",
-     "low": "13000",
-     "high": "25000"
-    },
+    "status": "partial",
+    "inexpensiveMeal": null,
+    "midRangeForTwo": null,
     "restaurantIndex": "31"
    },
    "indices": {

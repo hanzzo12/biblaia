@@ -37,12 +37,35 @@
   .mres .mrow { padding: 1pt 0; font-size: 8pt; }
   .mres .msource, .mres .mindex { margin: 1pt 0 0; font-size: 7pt; }
   .formula, .details .small, .details .tiny { margin: 2pt 0; font-size: 7pt; }
+  .chain { margin: 0 0 4pt; padding: 3pt 8pt; background: none; border: 1px solid #999; }
+  .chain-row { padding: 1pt 0; font-size: 8pt; }
+  .chain-row.strong .chain-v { font-size: 9pt; }
+  .chain p { margin: 1pt 0 0; font-size: 6.5pt; }
+  [data-testid="S-card"] { display: none !important; }
+  .rcards { grid-template-columns: repeat(2, 1fr); }
+  .rent-card .rb { font-size: 7pt; margin-top: 2pt; }
+  .rent-card .rb li { padding: 0; }
+  .mres .mrow.long .mrow-l { font-size: 7pt; }
+  /* ქალაქების ცხრილის ბეჭდვა — ლანდშაფტი, სათაური მეორდება */
+  body.print-cities #app, body.print-cities .overlay { display: none !important; }
+  body.print-cities #cities { display: block !important; page: land; border: 0; padding: 0; }
+  body.print-cities .ctl, body.print-cities .ctable td.cb, body.print-cities .ctable th:first-child { display: none !important; }
+  body.print-cities .table-scroll { overflow: visible; border: 0; }
+  body.print-cities .ctable { min-width: 0; font-size: 7.5pt; }
+  body.print-cities .ctable th, body.print-cities .ctable td { padding: 2pt 4pt; }
+  body.print-cities thead { display: table-header-group; }
+  body:not(.print-cities) #cities { display: none !important; }
   /* შედარების ბეჭდვა — ლანდშაფტი, ერთი გვერდი */
   body.print-compare .wrap { display: none !important; }
+  body.print-compare #cities { display: none !important; }
   body:not(.print-compare) .overlay { display: none !important; }
   body.print-compare .overlay { position: static; background: none; padding: 0; overflow: visible; display: block !important; }
   body.print-compare .cpanel { page: land; background: #fff; padding: 0; min-height: 0; border-radius: 0; }
-  body.print-compare .cgrid { display: grid !important; grid-auto-flow: row !important; grid-template-columns: repeat(5, 1fr) !important; overflow: visible !important; gap: 4pt; }
+  body.print-compare .cgrid { display: grid !important; grid-auto-flow: row !important; grid-template-columns: repeat(6, 1fr) !important; overflow: visible !important; gap: 4pt; }
+  body.print-compare .ccard:nth-child(6n + 1) { break-before: page; }
+  body.print-compare .ccard:first-child { break-before: auto; }
+  body.print-compare .cmove, body.print-compare .grip, body.print-compare .clear-btn { display: none !important; }
+  body.print-compare .csum { min-height: 0; }
   body.print-compare .ccard { border: 1px solid #999; padding: 5pt; font-size: 8pt; box-shadow: none; }
   body.print-compare .c-s { font-size: 12pt; }
   body.print-compare .rent-in input { border: 0; padding: 0; min-height: 0; }

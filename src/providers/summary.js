@@ -11,6 +11,7 @@ import { snapshotEntryToMarketData } from './snapshot.js';
 import { apifySnapshotEntryToMarketData } from './apify-snapshot.js';
 import { capitalFor } from './resolve.js';
 import { isPositiveDecimalString } from './market-contract.js';
+import { estimateBudget } from './budget.js';
 
 export const SUMMARY_SCHEMA_VERSION = 1;
 export const SUMMARY_SOURCES = Object.freeze(['kv', 'apify-snapshot', 'user-snapshot', 'capital']);
@@ -18,7 +19,8 @@ export const SUMMARY_SOURCES = Object.freeze(['kv', 'apify-snapshot', 'user-snap
 /**
  * @typedef {{ costOfLivingPlusRent: string|null, costOfLiving: string|null, rent: string|null }} SummaryIndices
  * @typedef {{ locationId: string, city_ka: string, country_ka: string|null, currency: string|null, indices: SummaryIndices,
- *             rentCentre1br: string|null, source: string|null, sourceDate: string|null, fallbackFrom?: { locationId: string, city_ka: string } }} SummaryRow
+ *             rentCentre1br: string|null, source: string|null, sourceDate: string|null, fallbackFrom?: { locationId: string, city_ka: string },
+ *             budget: { single: string|null, family4: string|null, basis: 'numbeo'|'estimated-from-index', fromCapital: boolean } | null }} SummaryRow
  * @typedef {{ schemaVersion: 1, generatedAt: string|null, rows: SummaryRow[] }} MarketSummary
  * @typedef {{ src: 'kv'|'apify-snapshot'|'user-snapshot', md: any, date: string|null }} Layer
  */
@@ -46,9 +48,10 @@ const rentOf = (md) => { const v = md?.rent?.items?.centre_1br?.average; return 
 /**
  * ერთი სტრიქონი წყაროების ფენებიდან. @param {{ locationId: string, city_ka: string, country_ka: string|null, currency: string|null }} loc
  * @param {(locationId: string) => Layer[]} layersFor ფენები რიგით (KV, Apify-ის ასლი, მომხმარებლის ასლი)
+ * @param {{ estimate?: (indexDec: string, currency: 'EUR'|'USD') => any }} [opts] ბიუჯეტის შეფასება ინდექსიდან (budget.js)
  * @returns {SummaryRow}
  */
-export function buildSummaryRow(loc, layersFor) {
+export function buildSummaryRow(loc, layersFor, opts = {}) {
   /** @param {Layer[]} ls @param {(md: any) => any} get */
   const pick = (ls, get) => { for (const l of ls) { const v = get(l.md); if (v) return { v, l }; } return null; };
   const own = layersFor(loc.locationId);
@@ -64,6 +67,16 @@ export function buildSummaryRow(loc, layersFor) {
     if (!idx) { idx = pick(capLayers, indicesOf); idxFromCap = !!idx; }
     if (rentFromCap || idxFromCap) fallbackFrom = { locationId: cap.locationId, city_ka: cap.city_ka };
   }
+  // ბიუჯეტი: საკუთარი Numbeo ბიუჯეტი → შეფასება ქალაქის ინდექსით → დედაქალაქის Numbeo ბიუჯეტი.
+  const budgetOf = (/** @type {any} */ md) => { const b = md?.budget; return b && (b.single || b.family4) ? b : null; };
+  const ownBudget = pick(own, budgetOf);
+  /** @type {SummaryRow['budget']} */
+  let budget = null;
+  if (ownBudget) budget = { single: ownBudget.v.single?.average ?? null, family4: ownBudget.v.family4?.average ?? null, basis: 'numbeo', fromCapital: false };
+  else if (idx && idx.v.costOfLiving && opts.estimate && loc.currency) {
+    const est = opts.estimate(idx.v.costOfLiving, /** @type {'EUR'|'USD'} */ (loc.currency));
+    if (est) budget = { single: est.single?.average ?? null, family4: est.family4?.average ?? null, basis: 'estimated-from-index', fromCapital: idxFromCap };
+  }
   const main = rent || idx;
   const fromCap = rent ? rentFromCap : idxFromCap;
   return {
@@ -72,6 +85,7 @@ export function buildSummaryRow(loc, layersFor) {
     rentCentre1br: rent ? rent.v : null,
     source: main ? (fromCap ? 'capital' : main.l.src) : null,
     sourceDate: main ? main.l.date : null,
+    budget,
     ...(fallbackFrom ? { fallbackFrom } : {}),
   };
 }
@@ -105,7 +119,7 @@ export function marketSummaryFromSnapshots(userSnapshot, apifySnapshot, data) {
   const curOf = Object.fromEntries(locs.map((l) => [l.locationId, l.currency]));
   return {
     schemaVersion: SUMMARY_SCHEMA_VERSION, generatedAt: null,
-    rows: locs.map((loc) => buildSummaryRow(loc, (id) => snapshotLayers(userSnapshot, apifySnapshot, id, curOf[loc.locationId] || loc.currency))),
+    rows: locs.map((loc) => buildSummaryRow(loc, (id) => snapshotLayers(userSnapshot, apifySnapshot, id, curOf[loc.locationId] || loc.currency), { estimate: (i, c) => estimateBudget(userSnapshot, i, c) })),
   };
 }
 
@@ -118,5 +132,6 @@ export function validateMarketSummary(s) {
     && (r.currency === null || r.currency === 'EUR' || r.currency === 'USD')
     && r.indices && dec(r.indices.costOfLivingPlusRent) && dec(r.indices.costOfLiving) && dec(r.indices.rent)
     && dec(r.rentCentre1br) && (r.source === null || SUMMARY_SOURCES.includes(r.source))
-    && (r.sourceDate === null || /^\d{4}-\d{2}-\d{2}$/.test(r.sourceDate)));
+    && (r.sourceDate === null || /^\d{4}-\d{2}-\d{2}$/.test(r.sourceDate))
+    && (r.budget == null || (dec(r.budget.single) && dec(r.budget.family4) && ['numbeo', 'estimated-from-index'].includes(r.budget.basis))));
 }

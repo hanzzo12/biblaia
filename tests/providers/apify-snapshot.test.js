@@ -81,3 +81,32 @@ test('precedence per category: Apify snapshot (04.11) → user snapshot (31.10, 
   assert.equal(donetsk.resolvedLocation.matchStatus, 'capital-fallback');
   assert.equal(donetsk.resolvedLocation.fallbackFrom.locationId, 'UA-KYIV');
 });
+
+test('guards: price rows from another country (Odessa, Texas) → wrong_city; local-currency prices labelled USD (Astana KZT) → invalid_response', async () => {
+  const { normalizeApify } = await import('../../src/providers/apify-numbeo-adapter.js');
+  const entry = { numbeoCity: 'Odessa (Odesa)', numbeoCountry: 'Ukraine', countryCode: 'UA', matchStatus: 'exact', verified: true, pricesQuery: 'Odessa' };
+  const tx = normalizeApify({ locationId: 'UA-ODESA', currency: 'USD', entry, prices: { status: 'ok', items: flatPrices({ city: 'Odessa', country: 'United States', currency: 'USD' }) }, rankings: { status: 'not_found' }, fetchedAt: '2026-11-04T00:00:00Z' });
+  assert.equal(tx.utilities.status, 'wrong_city');
+  assert.equal(tx.rent.items.centre_1br, null);
+  const kz = { numbeoCity: 'Astana (Nur-Sultan)', numbeoCountry: 'Kazakhstan', countryCode: 'KZ', matchStatus: 'exact', verified: true, pricesQuery: 'Astana' };
+  const rows = flatPrices({ city: 'Astana', country: 'Kazakhstan', currency: 'USD', override: { 'Meal at an Inexpensive Restaurant': 4739.69 } });
+  const md = normalizeApify({ locationId: 'KZ-ASTANA', currency: 'USD', entry: kz, prices: { status: 'ok', items: rows }, rankings: { status: 'not_found' }, fetchedAt: '2026-11-04T00:00:00Z' });
+  assert.equal(md.utilities.status, 'invalid_response');
+  assert.equal(md.rent.items.centre_1br, null);
+  assert.ok(validateMarketData(md).ok);
+});
+
+test('real Apify snapshot is consistent with the user snapshot (centre 1br rent within 0.4–2.5×); Astana/Odessa from the user copy', () => {
+  const rate = 211544003 / 188886392;
+  for (const [id, c] of Object.entries(realApify.cities)) {
+    const a = Number(c.rent.items.centre_1br?.average); let b = Number(userSnapshot.cities[id]?.rent?.centre_1br?.average);
+    if (!a || !b) continue;
+    if (c.currency === 'EUR') b /= rate;
+    assert.ok(a / b > 0.4 && a / b < 2.5, `${id}: ${a} vs ${b}`);
+  }
+  for (const id of ['KZ-ASTANA', 'UA-ODESA']) {
+    assert.ok(Object.values(realApify.cities[id].rent.items).every((x) => x === null), id);
+    const md = marketDataFromSnapshot(userSnapshot, id, 'USD', { apifySnapshot: realApify });
+    assert.equal(md.rent.items.centre_1br.average, userSnapshot.cities[id].rent.centre_1br.average);
+  }
+});

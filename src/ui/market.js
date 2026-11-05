@@ -24,8 +24,11 @@ export function livingDeduction(md, familyCount) {
   const b = md.budget; const alone = familyCount === 0;
   const budget = b ? avg(alone ? b.single : b.family4) : null;
   if (budget != null) {
-    return { deduction: R(budget), label: alone ? 'საორიენტაციო საცხოვრებელი ხარჯი ქირის გარეშე (Numbeo: ერთი პირის)' : 'საორიენტაციო საცხოვრებელი ხარჯი ქირის გარეშე (Numbeo: ოთხსულიანი ოჯახის)',
-      note: alone ? 'გამოკლებულია ერთი პირის თვიური ხარჯი ქირის გარეშე (Numbeo)' : 'გამოკლებულია ოთხსულიანი ოჯახის შეფასება — თვიური ხარჯი ქირის გარეშე (Numbeo)' };
+    const est = b.estimated === true || b.basis === 'estimated-from-index' || (md.warnings || []).some((w) => w.code === 'budget_estimated');
+    const who = alone ? 'ერთი პირის' : 'ოთხსულიანი ოჯახის';
+    return { deduction: R(budget), estimated: est,
+      label: `საორიენტაციო საცხოვრებელი ხარჯი — ${who} (Numbeo, ქირის და სწავლის გარეშე: კომუნალური, კვება, ტრანსპორტი)${est ? ' · ≈ ინდექსით შეფასებული' : ''}`,
+      note: `გამოკლებულია ${who} თვიური ხარჯი ქირის გარეშე (Numbeo${est ? ', ≈ ინდექსით შეფასებული' : ''})` };
   }
   const u = avg(md.utilities?.basic85m2); const i = avg(md.utilities?.internet);
   if (u == null && i == null) return { deduction: null, label: null, note: null };
@@ -39,7 +42,7 @@ export function livingDeduction(md, familyCount) {
 export function livingRemainder(remainder, md, familyCount) {
   const d = livingDeduction(md, familyCount);
   if (remainder == null || !d.deduction) return { value: null, note: d.note, deduction: d.deduction ? toFixed2(d.deduction) : null, label: d.label };
-  return { value: toFixed2(sub(R(remainder), d.deduction)), note: d.note, deduction: toFixed2(d.deduction), label: d.label };
+  return { value: toFixed2(sub(R(remainder), d.deduction)), note: d.note, deduction: toFixed2(d.deduction), label: d.label, estimated: !!d.estimated };
 }
 
 /** ბლოკის სტრიქონები — ეკრანისა და PDF-ის საერთო წყარო. */
@@ -56,7 +59,8 @@ export function marketRows(md, beds, { compact = false, familyCount = 0 } = {}) 
   rows.push({ label: GROCERIES_LABEL, value: money(g.basketItemsSum, cur), raw: g.basketItemsSum, long: true });
   rows.push({ label: compact ? 'რესტორანი' : 'რესტორანი (ბიუჯეტური / საშუალო 2 პირზე)', value: avg(r.inexpensiveMeal) != null || avg(r.midRangeForTwo) != null ? `${money(avg(r.inexpensiveMeal), cur)} / ${money(avg(r.midRangeForTwo), cur)}` : '—', raw: avg(r.inexpensiveMeal) });
   if (b && (avg(b.single) != null || avg(b.family4) != null)) {
-    rows.push({ label: compact ? 'თვიური ხარჯი (1 / 4 პირი)' : 'თვიური ხარჯი ქირის გარეშე (1 პირი / ოჯახი 4)', value: `${money(avg(b.single), cur)} / ${money(avg(b.family4), cur)}`, raw: avg(familyCount === 0 ? b.single : b.family4), testid: compact ? null : 'market-budget' });
+    const est = b.estimated || b.basis === 'estimated-from-index';
+    rows.push({ label: (compact ? 'თვიური ხარჯი (1 / 4 პირი)' : 'თვიური ხარჯი ქირის გარეშე (1 პირი / ოჯახი 4)') + (est ? ' ≈ ინდექსით' : ''), value: `${money(avg(b.single), cur)} / ${money(avg(b.family4), cur)}`, raw: avg(familyCount === 0 ? b.single : b.family4), testid: compact ? null : 'market-budget' });
   }
   return rows;
 }
@@ -71,6 +75,8 @@ export function marketNotes(md) {
   if (cap || md.resolvedLocation?.matchStatus === 'capital-fallback') {
     out.push({ kind: 'line', text: cap?.message_ka || `ქალაქის მონაცემი არ მოიძებნა — ნაჩვენებია დედაქალაქის (${md.resolvedLocation?.city ?? '—'}) მონაცემი` });
   }
+  const be = warn(md, 'budget_estimated');
+  if (be) out.push({ kind: 'tiny', text: be.message_ka || '≈ შეფასებულია Numbeo-ს ინდექსით' });
   const fx = warn(md, 'reference_fx');
   if (fx) out.push({ kind: 'tiny', text: fx.message_ka || '≈ გადაყვანილია USD-დან Numbeo-ს კურსით (საორიენტაციოდ)' });
   return out;

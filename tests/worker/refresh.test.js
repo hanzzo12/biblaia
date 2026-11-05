@@ -64,11 +64,11 @@ test('batches follow mission funding currency and use actor-input city names', (
   assert.equal(b2.USD, undefined, 'apifyExclude never sent');
 });
 
-test('real name map: 77 verified, Donetsk/Krakow/Vatican excluded, Ganja → "Gence"', async () => {
+test('real name map: 75 verified; Donetsk/Krakow/Vatican/Odessa/Astana excluded; Ganja → "Gence"', async () => {
   const real = (await import('../../src/providers/numbeo-city-names.json', { with: { type: 'json' } })).default;
   const v = Object.values(real.locations).filter((e) => e.apifyVerified).length;
-  assert.equal(v, 77);
-  for (const id of ['UA-DONETSK', 'PL-KRAKOW', 'VA-VATICAN-CITY']) assert.ok(real.locations[id].apifyExclude, id);
+  assert.equal(v, 75, '77 returned rows; Odessa (Texas) and Astana (KZT) rejected');
+  for (const id of ['UA-DONETSK', 'PL-KRAKOW', 'VA-VATICAN-CITY', 'UA-ODESA', 'KZ-ASTANA']) assert.ok(real.locations[id].apifyExclude, id);
   assert.equal(real.locations['AZ-GANJA'].pricesQuery, 'Gence');
 });
 

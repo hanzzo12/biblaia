@@ -13,6 +13,7 @@
 import { STATUSES_WITH_VALUE, overallStatus, validateMarketData } from './market-contract.js';
 import { snapshotEntryToMarketData } from './snapshot.js';
 import { apifySnapshotEntryToMarketData } from './apify-snapshot.js';
+import { applyEstimatedBudget } from './budget.js';
 import capitalsFile from './capitals.json' with { type: 'json' };
 
 export const CAPITALS = capitalsFile.capitals;
@@ -128,5 +129,5 @@ export function marketDataFromSnapshot(snapshot, locationId, currency, opts = {}
   });
   const capInfo = capitalFor(locationId, opts.capitals);
   const capital = capInfo ? { ...capInfo, md: composeMarketData({ locationId: capInfo.locationId, ...layer(capInfo.locationId) }) } : null;
-  return composeMarketData({ locationId, ...layer(locationId), capital });
+  return applyEstimatedBudget(composeMarketData({ locationId, ...layer(locationId), capital }), snapshot);
 }

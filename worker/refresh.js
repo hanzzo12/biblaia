@@ -13,6 +13,7 @@
 
 import { APIFY_ACTOR_ID, RANKINGS_INPUT, normalizeApify, pricesQueryFor, cityMatches } from '../src/providers/apify-numbeo-adapter.js';
 import { mdHasValue } from '../src/providers/resolve.js';
+import { checkAgainstReference } from '../src/providers/plausibility.js';
 
 export const REFRESH_STATE_KEY = 'refresh:state';
 const API = 'https://api.apify.com/v2';
@@ -239,6 +240,11 @@ async function ingestCityPage(p, st, job, run, token, t, rankingsRun) {
       const entry = p.names.locations[loc];
       if (!entry || !(cityMatches(g.city, entry.numbeoCity) || cityMatches(g.city, pricesQueryFor(entry))) || job.written.includes(`${loc}:${run.currency}`)) continue;
       const md = normalizeApify({ locationId: loc, currency: run.currency, entry, prices: { status: 'ok', items: g.rows }, rankings, fetchedAt });
+      // დამაჯერებლობა: KV-ის წინა ასლი ან მომხმარებლის ასლი (იმავე ვალუტაში). დაუჯერებელი ⇒ არ იწერება, წინა ასლი რჩება.
+      const prev = await p.store.get(p.cacheKey(loc, run.currency));
+      const ref = prev?.data || (p.referenceFor ? p.referenceFor(loc, run.currency) : null);
+      const chk = checkAgainstReference(md, ref);
+      if (chk.implausible) { job.implausible = [...(job.implausible || []), `${loc}:${run.currency}:${chk.reason}`]; continue; }
       if (mdHasValue(md) && !['wrong_city', 'invalid_response'].includes(md.utilities.status)) {
         const expiresAt = t + p.cfg.ttl * 1000;
         await p.store.put(p.cacheKey(loc, run.currency), { storedAt: t, expiresAt, data: md }, p.cfg.ttl + p.cfg.staleMax);
@@ -260,7 +266,7 @@ function finish(p, st, t, errorCode) {
   const cities = job.runs.filter((/** @type {any} */ r) => r.kind === 'city_prices').reduce((/** @type {number} */ a, /** @type {any} */ r) => a + r.cities, 0);
   const costEstimateUsd = Math.round((job.runs.length * 0.01 + (cities + (job.rankingsTotal || 0)) * 0.005) * 1000) / 1000;
   const nothing = job.written.length === 0;
-  st.summary = { finishedAt: t, citiesWritten: job.written.length, citiesEmpty: job.empty.slice(0, 100), failedRuns: job.failedRuns, rankingsRows: (job.rankingsRows || []).length, costEstimateUsd, error: errorCode };
+  st.summary = { finishedAt: t, citiesWritten: job.written.length, citiesEmpty: job.empty.slice(0, 100), implausible: (job.implausible || []).slice(0, 100), failedRuns: job.failedRuns, rankingsRows: (job.rankingsRows || []).length, costEstimateUsd, error: errorCode };
   st.phase = 'idle';
   st.job = null;
   st.lastRefreshAt = t;

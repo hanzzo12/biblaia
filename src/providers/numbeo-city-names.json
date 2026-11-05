@@ -663,7 +663,7 @@
    "verified": true,
    "numbeoCountry": "Ukraine",
    "verifiedBy": "rankings 2026-10-30",
-   "apifyVerified": "2026-11-04"
+   "apifyExclude": "2026-11-04: შესავალი „Odessa“ actor-მა ტეხასის ოდესად (აშშ) გაიგო — ფასები უარყოფილია; ჩვენებისას მომხმარებლის ასლი (31.10.2026)."
   },
   "UA-DONETSK": {
    "numbeoCity": "Donetsk",
@@ -690,7 +690,7 @@
    "verified": true,
    "numbeoCountry": "Kazakhstan",
    "verifiedBy": "rankings 2026-10-30",
-   "apifyVerified": "2026-11-04"
+   "apifyExclude": "2026-11-04: ფასები დაბრუნდა KZT-ში „USD“ ნიშნით (იაფი სადილი 4739.69) — უარყოფილია; ჩვენებისას მომხმარებლის ასლი (31.10.2026)."
   },
   "CN-BEIJING": {
    "numbeoCity": "Beijing",

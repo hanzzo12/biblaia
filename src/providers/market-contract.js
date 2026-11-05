@@ -71,6 +71,8 @@ export const WARNING_CODE = Object.freeze({
   SNAPSHOT_COPY: 'snapshot_copy',
   REFERENCE_FX: 'reference_fx',
   CAPITAL_FALLBACK: 'capital_fallback',
+  IMPLAUSIBLE_VALUE: 'implausible_value',
+  BUDGET_ESTIMATED: 'budget_estimated',
 });
 const ALL_WARNING_CODES = new Set(Object.values(WARNING_CODE));
 
@@ -306,7 +308,10 @@ export function validateMarketData(obj, options = {}) {
     const b = obj.budget;
     if (!isPlainObject(b)) e.push('budget: not_object');
     else {
-      keys(b, ['status', 'single', 'family4', 'sourceUpdatedAt', 'source'], ['fallback'], 'budget.', e);
+      keys(b, ['status', 'single', 'family4', 'sourceUpdatedAt', 'source'], ['fallback', 'basis', 'estimated'], 'budget.', e);
+      if ('basis' in b && b.basis !== 'numbeo' && b.basis !== 'estimated-from-index') e.push('budget.basis: invalid');
+      if ('estimated' in b && typeof b.estimated !== 'boolean') e.push('budget.estimated: not_boolean');
+      if (b.estimated === true && b.basis !== 'estimated-from-index') e.push('budget.estimated: requires_basis_estimated');
       const v = [checkPrice(b.single, 'budget.single', e), checkPrice(b.family4, 'budget.family4', e)].some(Boolean);
       checkStatus(b.status, v, 'budget', e);
       if (b.sourceUpdatedAt !== null && !isPartialDate(b.sourceUpdatedAt)) e.push('budget.sourceUpdatedAt: not_partial_date_or_null');
