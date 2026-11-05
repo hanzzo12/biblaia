@@ -28,13 +28,6 @@ export function parseMoney(raw) {
   const r = core.parseDecimalInput(String(raw ?? ''));
   return r.ok ? { value: r.normalized } : { value: null, error: r.error_ka };
 }
-/** „×“ ღილაკი ველის გასასუფთავებლად (კლავიატურით ხელმისაწვდომი) */
-export function clearButton(inp) {
-  const b = h('button', { type: 'button', class: 'clear-btn', 'aria-label': 'გასუფთავება', title: 'გასუფთავება' }, '×');
-  b.addEventListener('click', () => { inp.value = ''; inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true })); inp.focus(); });
-  b.hidden = !inp.value;
-  return b;
-}
 const parseAge = (raw) => { const s = String(raw ?? '').trim(); return /^\d{1,3}$/.test(s) && Number(s) <= 120 ? Number(s) : null; };
 
 export function startApp({ data, meta, online, client, offline = null }) {
@@ -159,7 +152,6 @@ export function startApp({ data, meta, online, client, offline = null }) {
     };
     refreshMarket = fill;
     const picker = missionPicker({ data, label: 'საელჩო / საკონსულო / მისია', value: st.missionId, testid: 'mission',
-      onClear: () => { st.missionId = null; fill(); },
       onPick: (id) => { st.missionId = id; st.dailyCur = null; body.querySelector('[data-need]')?.setAttribute('hidden', ''); fill(); loadMarket(); } });
     setTimeout(fill, 0);
     if (st.missionId) loadMarket();
@@ -231,11 +223,10 @@ export function startApp({ data, meta, online, client, offline = null }) {
   function moneyField(label, get, set, opts = {}) {
     const id = uid('f'); const err = h('p', { class: 'err', id: id + '-e' });
     const inp = h('input', { id, type: 'text', inputmode: 'decimal', autocomplete: 'off', value: get(), placeholder: opts.placeholder ?? '0.00', 'aria-describedby': id + '-e', 'data-testid': opts.testid ?? null });
-    const clr = clearButton(inp);
-    const check = () => { const r = parseMoney(inp.value); err.textContent = r.error ?? ''; if (r.error) inp.setAttribute('aria-invalid', 'true'); else inp.removeAttribute('aria-invalid'); clr.hidden = !inp.value; };
+    const check = () => { const r = parseMoney(inp.value); err.textContent = r.error ?? ''; if (r.error) inp.setAttribute('aria-invalid', 'true'); else inp.removeAttribute('aria-invalid'); };
     inp.addEventListener('input', () => { set(inp.value); check(); });
-    check();
-    return { el: h('div', { class: 'field' }, h('label', { for: id }, label), h('div', { class: 'with-cur' }, h('span', { class: 'inp-wrap' }, inp, clr), h('span', { class: 'cur' }, opts.cur ?? '')), err, opts.after ?? null), inp };
+    if (get()) check();
+    return { el: h('div', { class: 'field' }, h('label', { for: id }, label), h('div', { class: 'with-cur' }, inp, h('span', { class: 'cur' }, opts.cur ?? '')), err, opts.after ?? null), inp };
   }
 
   function step3() {

@@ -26,30 +26,27 @@ export async function resultPdf(M) {
   p.text('დარჩენილი თანხა ქირისა და სწავლის შემდეგ (თვეში)', X + 16, y + 20, { size: 10, color: WHITE });
   p.text(M.noRent ? 'მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს' : M.hero == null ? '—' : `${formatAmount(M.hero)} ${M.cur}`, X + 16, y + 48, { size: M.noRent ? 13 : 24, bold: true, color: WHITE });
   y += 72;
-  if (!M.noRent && M.hero != null) {
-    for (const r of M.chainRows) {
-      p.text(r.sign, X + 4, y, { size: 9, color: MUTED, bold: true });
-      p.text(r.label, X + 18, y, { size: r.strong ? 9 : 8.5, bold: !!r.strong });
-      p.text(r.value == null ? '—' : `${formatAmount(r.value)} ${M.cur}`, W - X, y, { size: r.strong ? 9.5 : 8.5, bold: true, align: 'right', color: r.strong ? ACCENT : INK });
-      y += 4; p.line(X, y, W - X, y); y += 9.5;
-    }
-    p.text(M.living.note ? `${M.living.note}. ${M.chainNote}` : M.chainNote, X, y, { size: 7, color: MUTED });
-    y += 14;
+  if (!M.noRent) {
+    p.rect(X, y, CW, 26, [238, 242, 255], 8);
+    p.text('დარჩენილი თანხა საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)', X + 12, y + 11, { size: 8.5 });
+    p.text(M.living.value == null ? '—' : `${formatAmount(M.living.value)} ${M.cur}`, W - X - 12, y + 16, { size: 12, bold: true, color: ACCENT, align: 'right' });
+    if (M.living.note) p.text(M.living.note, X + 12, y + 21.5, { size: 6.5, color: MUTED });
+    y += 34;
   }
   const cards = [
     [M.noRent ? 'სამივლინებო თანხა (ქირის გარეშე)' : 'ყოველთვიური სამივლინებო თანხა', M.S == null ? '—' : `${formatAmount(M.S)} ${M.cur}`, M.noRent ? 'ქირის ანაზღაურება არ შედის' : 'ქირის ანაზღაურების ჩათვლით'],
-    ['ქირის ანაზღაურება (F)', M.noRent ? '—' : fmtC(M.m.F, M.cur), M.noRent ? '' : `ქირა ${fmtC(M.chain.rent.G, M.cur)} · T ${fmtC(M.chain.rent.T, M.cur)} · თქვენ ამატებთ ${fmtC(M.chain.rent.extra, M.cur)}`],
+    ['ქირის ანაზღაურება', M.noRent ? '—' : fmtC(M.m.F, M.cur), M.noRent ? '' : `თქვენი წილი: ${fmtC(M.m.uncoveredRent, M.cur)}`],
     ['სწავლის ანაზღაურება', M.hasEdu ? fmtC(M.ed.total, M.cur) : '—', M.hasEdu ? `თქვენი წილი: ${fmtC(M.ed.personal, M.cur)}` : ''],
   ];
   const cw = (CW - 16) / 3;
   cards.forEach(([l, val, sub], i) => {
     const cx = X + i * (cw + 8);
-    p.rect(cx, y, cw, 70, SOFT, 8);
+    p.rect(cx, y, cw, 62, SOFT, 8);
     p.para(l, cx + 10, y + 15, cw - 20, { size: 8.5, color: MUTED, lineHeight: 10.5 });
     p.text(val, cx + 10, y + 44, { size: 13, bold: true });
-    if (sub) p.para(sub, cx + 10, y + 55, cw - 20, { size: 6.8, color: MUTED, lineHeight: 8 });
+    if (sub) p.text(sub, cx + 10, y + 56, { size: 7.5, color: MUTED });
   });
-  y += 84;
+  y += 78;
   // ერთჯერადი და დაზღვევა
   const list = (title, items) => {
     if (!items.length) return;

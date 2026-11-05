@@ -2,9 +2,7 @@
 import { h } from './dom.js';
 import * as P from '../providers/index.js';
 import { formatAmount } from '../core/index.js';
-import { R, sub, add, toFixed2 } from '../core/rational.js';
 
-export const GROCERIES_LABEL = 'სურსათი — 15 ძირითადი პროდუქტის ერთეულის ფასი ჯამში (1 ლ რძე, 1 კგ ბრინჯი, 12 კვერცხი…), არა თვიური ან კვირის ხარჯი';
 export const WITH_DATA = new Set(['fresh', 'cached', 'stale', 'partial']);
 export const suggestBedrooms = (n) => (typeof P.suggestBedrooms === 'function' ? P.suggestBedrooms(n) : (n >= 2 ? 3 : 1));
 const money = (x, cur) => (x == null ? '—' : `${formatAmount(x)} ${cur ?? ''}`.trim());
@@ -15,31 +13,29 @@ const warn = (md, code) => (md?.warnings || []).find((w) => w.code === code) || 
 
 export const rentFor = (md, beds) => (hasData(md) ? avg(md.rent?.items?.[`centre_${beds}br`]) : null);
 
-/**
- * საორიენტაციო საცხოვრებელი ხარჯი ქირის გარეშე (§9 პ.2): ბიუჯეტი (1 პირი / ოჯახი 4) ან კომუნალური + ინტერნეტი.
- * @returns {{ deduction: any|null, label: string|null, note: string|null }}
- */
-export function livingDeduction(md, familyCount) {
-  if (!hasData(md)) return { deduction: null, label: null, note: null };
-  const b = md.budget; const alone = familyCount === 0;
-  const budget = b ? avg(alone ? b.single : b.family4) : null;
-  if (budget != null) {
-    return { deduction: R(budget), label: alone ? 'საორიენტაციო საცხოვრებელი ხარჯი ქირის გარეშე (Numbeo: ერთი პირის)' : 'საორიენტაციო საცხოვრებელი ხარჯი ქირის გარეშე (Numbeo: ოთხსულიანი ოჯახის)',
-      note: alone ? 'გამოკლებულია ერთი პირის თვიური ხარჯი ქირის გარეშე (Numbeo)' : 'გამოკლებულია ოთხსულიანი ოჯახის შეფასება — თვიური ხარჯი ქირის გარეშე (Numbeo)' };
-  }
-  const u = avg(md.utilities?.basic85m2); const i = avg(md.utilities?.internet);
-  if (u == null && i == null) return { deduction: null, label: null, note: null };
-  return { deduction: add(R(u ?? '0'), R(i ?? '0')), label: 'კომუნალური (85 მ²) + ინტერნეტი (Numbeo)', note: 'გამოკლებულია კომუნალური (85 მ²) და ინტერნეტი' };
+/** ცენტებში გამოკლება (ორივე — ათწილადი სტრიქონი ≤ 2 ათწილადით). */
+function minus(a, ...bs) {
+  if (a == null || bs.some((b) => b == null)) return null;
+  const c = (x) => Math.round(Number(x) * 100);
+  const v = bs.reduce((acc, b) => acc - c(b), c(a));
+  return (v / 100).toFixed(2);
 }
 
 /**
- * საორიენტაციო ნაშთი საცხოვრებელი ხარჯების შემდეგ. remainder — ათწილადი სტრიქონი ან რაციონალი.
- * @returns {{ value: string|null, note: string|null, deduction: string|null, label: string|null }}
+ * საორიენტაციო ნაშთი საცხოვრებელი ხარჯების შემდეგ (§9 პ.2).
+ * @returns {{ value: string|null, note: string|null }}
  */
 export function livingRemainder(remainder, md, familyCount) {
-  const d = livingDeduction(md, familyCount);
-  if (remainder == null || !d.deduction) return { value: null, note: d.note, deduction: d.deduction ? toFixed2(d.deduction) : null, label: d.label };
-  return { value: toFixed2(sub(R(remainder), d.deduction)), note: d.note, deduction: toFixed2(d.deduction), label: d.label };
+  if (remainder == null || !hasData(md)) return { value: null, note: null };
+  const b = md.budget;
+  const alone = familyCount === 0;
+  const budget = b ? avg(alone ? b.single : b.family4) : null;
+  if (budget != null) {
+    return { value: minus(remainder, budget), note: alone ? 'გამოკლებულია ერთი პირის თვიური ხარჯი ქირის გარეშე (Numbeo)' : 'გამოკლებულია ოთხსულიანი ოჯახის შეფასება — თვიური ხარჯი ქირის გარეშე (Numbeo)' };
+  }
+  const u = avg(md.utilities?.basic85m2); const i = avg(md.utilities?.internet);
+  if (u == null && i == null) return { value: null, note: null };
+  return { value: minus(remainder, u ?? '0', i ?? '0'), note: 'გამოკლებულია კომუნალური (85 მ²) და ინტერნეტი' };
 }
 
 /** ბლოკის სტრიქონები — ეკრანისა და PDF-ის საერთო წყარო. */
@@ -53,7 +49,7 @@ export function marketRows(md, beds, { compact = false, familyCount = 0 } = {}) 
     ? { label: `ქირა, ${beds} საძ. (ცენტრი)`, value: money(c, cur), raw: c }
     : { label: `ქირა, ${beds} საძინებელი`, value: `ცენტრი ${money(c, cur)} · გარეუბანი ${money(o, cur)}`, raw: c, testid: 'market-rent' });
   rows.push({ label: compact ? 'კომუნალური + ინტ.' : 'კომუნალური (85 მ²) + ინტერნეტი', value: avg(u.basic85m2) != null || avg(u.internet) != null ? `${money(avg(u.basic85m2), cur)} + ${money(avg(u.internet), cur)}` : '—', raw: avg(u.basic85m2) });
-  rows.push({ label: GROCERIES_LABEL, value: money(g.basketItemsSum, cur), raw: g.basketItemsSum, long: true });
+  rows.push({ label: compact ? 'სურსათი' : 'სურსათი (ძირითადი კალათა)', value: money(g.basketItemsSum, cur), raw: g.basketItemsSum });
   rows.push({ label: compact ? 'რესტორანი' : 'რესტორანი (ბიუჯეტური / საშუალო 2 პირზე)', value: avg(r.inexpensiveMeal) != null || avg(r.midRangeForTwo) != null ? `${money(avg(r.inexpensiveMeal), cur)} / ${money(avg(r.midRangeForTwo), cur)}` : '—', raw: avg(r.inexpensiveMeal) });
   if (b && (avg(b.single) != null || avg(b.family4) != null)) {
     rows.push({ label: compact ? 'თვიური ხარჯი (1 / 4 პირი)' : 'თვიური ხარჯი ქირის გარეშე (1 პირი / ოჯახი 4)', value: `${money(avg(b.single), cur)} / ${money(avg(b.family4), cur)}`, raw: avg(familyCount === 0 ? b.single : b.family4), testid: compact ? null : 'market-budget' });
@@ -77,7 +73,7 @@ export function marketNotes(md) {
 }
 
 function row(x) {
-  return h('div', { class: 'mrow' + (x.long ? ' long' : '') }, h('span', { class: 'mrow-l' }, x.label), h('span', { class: 'mrow-v', 'data-value': x.raw ?? '', 'data-testid': x.testid ?? null }, x.value));
+  return h('div', { class: 'mrow' }, h('span', { class: 'mrow-l' }, x.label), h('span', { class: 'mrow-v', 'data-value': x.raw ?? '', 'data-testid': x.testid ?? null }, x.value));
 }
 
 export function skeleton(rows = 4) {
