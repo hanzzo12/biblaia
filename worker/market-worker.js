@@ -25,6 +25,7 @@ import realSnapshot from '../src/data/market-snapshot.json' with { type: 'json' 
 import realApifySnapshot from '../src/data/market-apify-snapshot.json' with { type: 'json' };
 import { snapshotEntryToMarketData } from '../src/providers/snapshot.js';
 import { apifySnapshotEntryToMarketData } from '../src/providers/apify-snapshot.js';
+import { missionLocations, buildSummaryRow, snapshotLayers, SUMMARY_SCHEMA_VERSION } from '../src/providers/summary.js';
 import { composeMarketData, capitalFor } from '../src/providers/resolve.js';
 import { runRefreshTick, readRefreshState, REFRESH_STATE_KEY } from './refresh.js';
 
@@ -86,6 +87,9 @@ function createCacheApiStore(fallback) {
 }
 
 export const cacheKey = (/** @type {string} */ loc, /** @type {string} */ cur) => `v${MARKET_SCHEMA_VERSION}:numbeo-apify:${loc}:${cur}`;
+/** „ქალაქების სიძვირის“ აწყობილი სია (12 სთ; cron-ის დასრულებისას უქმდება). */
+export const SUMMARY_KEY = `summary:v${SUMMARY_SCHEMA_VERSION}`;
+const SUMMARY_TTL_S = 12 * 3600;
 export const RANKINGS_KEY = `v${MARKET_SCHEMA_VERSION}:numbeo-apify:rankings`;
 
 /** @param {any} md */
@@ -255,6 +259,41 @@ export function createWorker(deps = {}) {
     return json(md, httpStatus, httpStatus === 429 ? { 'Retry-After': '60' } : {});
   }
 
+  /**
+   * GET /api/market/summary — ყველა მისიის ქალაქი ერთ პასუხში; KV-ის ქეში 12 სთ. Apify არ გამოიძახება.
+   * @param {URL} url @param {any} env
+   */
+  async function handleSummary(url, env) {
+    for (const k of url.searchParams.keys()) if (k !== 'v') return apiError(400, 'unknown_parameter', 'დაშვებულია მხოლოდ v პარამეტრი.');
+    const v = url.searchParams.get('v');
+    if (v !== null && v !== String(SUMMARY_SCHEMA_VERSION)) return apiError(400, 'unsupported_version', 'სქემის ვერსია მხარდაჭერილი არ არის.');
+    const cfg = config(env);
+    if (cfg.provider === 'off' || cfg.provider === 'disabled' || cfg.provider === 'none') return json({ schemaVersion: SUMMARY_SCHEMA_VERSION, generatedAt: iso(now()), rows: [] });
+    const store = storeFor(env);
+    const c = await store.get(SUMMARY_KEY);
+    if (c && c.summary && now() < c.expiresAt) return json(c.summary);
+    const locs = missionLocations(normative);
+    // KV-ის ჩანაწერები წინასწარ (ქალაქი + დედაქალაქი, მისიის ვალუტით), შემდეგ სინქრონული აწყობა — მცირე CPU.
+    /** @type {Map<string, any>} */
+    const kv = new Map();
+    const keys = new Set();
+    for (const l of locs) { keys.add(`${l.locationId}|${l.currency}`); const cap = capitalFor(l.locationId); if (cap) keys.add(`${cap.locationId}|${l.currency}`); }
+    await Promise.all([...keys].map(async (k) => {
+      const [id, cur] = k.split('|');
+      const e = await store.get(cacheKey(id, cur));
+      if (e && now() <= e.expiresAt + cfg.staleMax * 1000) kv.set(k, e);
+    }));
+    const rows = locs.map((loc) => buildSummaryRow(loc, (id) => {
+      const e = kv.get(`${id}|${loc.currency}`);
+      const head = e ? [{ src: /** @type {'kv'} */ ('kv'), md: e.data, date: iso(e.storedAt).slice(0, 10) }] : [];
+      return [...head, ...snapshotLayers(snapshot, apifySnapshot, id, /** @type {'EUR'|'USD'} */ (loc.currency))];
+    }));
+    const summary = { schemaVersion: SUMMARY_SCHEMA_VERSION, generatedAt: iso(now()), rows };
+    await store.put(SUMMARY_KEY, { storedAt: now(), expiresAt: now() + SUMMARY_TTL_S * 1000, summary }, SUMMARY_TTL_S);
+    logLine({ evt2: 'summary', rows: rows.length, kvHits: kv.size });
+    return json(summary);
+  }
+
   /** @param {any} cached */
   function staleOf(cached) {
     const md = relabel(cached.data, 'stale');
@@ -297,6 +336,7 @@ export function createWorker(deps = {}) {
     try {
       const r = await runRefreshTick({ env, store: storeFor(env), names, locationCurrencies, fetchFn, now, cfg, cacheKey, rankingsKey: RANKINGS_KEY });
       if (r.action !== 'wait') logLine({ evt2: 'refresh', ...r });
+      if (r.action === 'finished') await storeFor(env).put(SUMMARY_KEY, { storedAt: now(), expiresAt: 0, summary: null }, 60); // სიის ქეში უქმდება
       return r;
     } catch {
       logLine({ evt2: 'refresh', action: 'internal_error' });
@@ -319,6 +359,7 @@ export function createWorker(deps = {}) {
         if (request.method !== 'GET' && request.method !== 'HEAD') return apiError(405, 'method_not_allowed', 'დაშვებულია მხოლოდ GET.', { Allow: 'GET, HEAD' });
         try {
           if (url.pathname === '/api/market/health') return await health(env);
+          if (url.pathname === '/api/market/summary') return await handleSummary(url, env);
           if (url.pathname === '/api/market') return await handleMarket(request, url, env);
         } catch {
           logLine({ reason: 'internal_error' });

@@ -86,3 +86,7 @@
 **წყაროების რიგი (თითო კატეგორიაზე):** KV (cron/live) → Apify-ის ასლი (04.11.2026) → მომხმარებლის ასლი (31.10.2026; ბიუჯეტი მხოლოდ აქ) → დედაქალაქის წესი → `pending_refresh`. კატეგორია, რომელსაც მხოლოდ ინდექსი აქვს (მაგ. Krakow-ის ქირა), ჩანაცვლდება შემდეგი წყაროს რეალური თანხებით.
 
 **Cron-ის დაცვა:** `MARKET_FIRST_REFRESH_AFTER = "2026-12-01"` — ამ თარიღამდე Apify არ გამოიძახება (განთავსებულ Secret-ში ჯერ ძველი, ამოწურული ანგარიშის ტოკენია; ახალი ანგარიშის ≈ $1.85 ნოემბერში არ დაიხარჯოს). დეკემბრიდან ყოველთვიური ხარჯი ≈ $3.16 (ქალაქები ≈ $0.42 + rankings $2.745).
+
+## 8. „ქალაქების სიძვირე“ — `GET /api/market/summary?v=1` (რაუნდი 5)
+
+ყველა მისიის ქალაქი (80) ერთ პასუხში: `{ schemaVersion: 1, generatedAt, rows: [{ locationId, city_ka, country_ka, currency (მისიის), indices { costOfLivingPlusRent, costOfLiving, rent }, rentCentre1br, source: "kv"|"apify-snapshot"|"user-snapshot"|"capital", sourceDate, fallbackFrom? }] }`. თითო ველზე იგივე რიგი (KV → Apify-ის ასლი → მომხმარებლის ასლი → დედაქალაქი); `fallbackFrom` — თუ რომელიმე ველი დედაქალაქიდანაა. KV-ის ქეში `summary:v1` 12 სთ, cron-ის დასრულებისას უქმდება; Apify არ გამოიძახება. კლიენტი: `createMarketClient().summary()` (შეცდომისას `null`) და `marketSummaryFromSnapshots(userSnapshot, apifySnapshot, normativeData)` (file://).

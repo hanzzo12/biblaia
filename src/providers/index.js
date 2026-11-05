@@ -13,6 +13,8 @@ export * from './market-contract.js';
 export { marketDataFromSnapshot, composeMarketData, capitalFor, combinedStatus, CAPITALS } from './resolve.js';
 export { snapshotEntryToMarketData, validateMarketSnapshot, usdToEur, parseRate, formatDateKa } from './snapshot.js';
 export { apifySnapshotEntryToMarketData } from './apify-snapshot.js';
+export { marketSummaryFromSnapshots, validateMarketSummary, missionLocations, SUMMARY_SCHEMA_VERSION } from './summary.js';
+import { validateMarketSummary, SUMMARY_SCHEMA_VERSION } from './summary.js';
 
 export const MARKET_STATUS_LABELS_KA = Object.freeze({
   loading: 'იტვირთება',
@@ -216,5 +218,29 @@ export function createMarketClient(opts = {}) {
       if (o.signal) o.signal.removeEventListener('abort', onAbort);
     }
   }
-  return { get, schemaVersion: MARKET_SCHEMA_VERSION };
+  /**
+   * „ქალაქების სიძვირე“: GET <endpoint>/summary?v=1 → MarketSummary ან null (ნებისმიერი შეცდომისას; არასოდეს ისვრის).
+   * null-ის შემთხვევაში UI იყენებს marketSummaryFromSnapshots(...)-ს.
+   * @param {{ signal?: AbortSignal }} [o] @returns {Promise<import('./summary.js').MarketSummary|null>}
+   */
+  async function summary(o = {}) {
+    if (!fetchImpl) return null;
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), Math.min(timeoutMs, 30000));
+    const onAbort = () => ac.abort();
+    if (o.signal) { if (o.signal.aborted) ac.abort(); else o.signal.addEventListener('abort', onAbort, { once: true }); }
+    try {
+      const base = endpoint.split('?')[0].replace(/\/$/, '');
+      const res = await fetchImpl(`${base}/summary?v=${SUMMARY_SCHEMA_VERSION}`, { method: 'GET', headers: { Accept: 'application/json' }, credentials: 'same-origin', cache: 'no-store', signal: ac.signal });
+      if (!res.ok) return null;
+      const body = JSON.parse(await res.text());
+      return validateMarketSummary(body) ? body : null;
+    } catch {
+      return null;
+    } finally {
+      clearTimeout(timer);
+      if (o.signal) o.signal.removeEventListener('abort', onAbort);
+    }
+  }
+  return { get, summary, schemaVersion: MARKET_SCHEMA_VERSION };
 }

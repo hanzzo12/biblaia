@@ -41,7 +41,7 @@ export function missionPicker(o) {
     opts.forEach((x, j) => x.el.setAttribute('aria-selected', j === i ? 'true' : 'false'));
     if (opts[i]) { input.setAttribute('aria-activedescendant', opts[i].el.id); opts[i].el.scrollIntoView({ block: 'nearest' }); }
   };
-  const pick = (x) => { input.value = x.label; close(); o.onPick(x.m.id); };
+  const pick = (x) => { input.value = x.label; cleared = false; close(); syncClear(); o.onPick(x.m.id); };
   const open = () => {
     const q = norm(input.value === cur?.label ? '' : input.value);
     const terms = q ? q.split(' ') : [];
@@ -69,6 +69,13 @@ export function missionPicker(o) {
     else if (e.key === 'Enter') { if (!list.hidden && opts.length) { e.preventDefault(); pick(opts[active >= 0 ? active : 0].x); } }
     else if (e.key === 'Escape') { close(); }
   });
-  input.addEventListener('blur', () => setTimeout(() => { close(); if (cur && !input.value) input.value = cur.label; }, 150));
-  return h('div', { class: 'field picker' }, h('label', { for: id }, o.label), h('div', { class: 'pk-wrap' }, input, list), live);
+  input.addEventListener('blur', () => setTimeout(() => { close(); if (cur && !input.value && !cleared) input.value = cur.label; syncClear(); }, 150));
+  let cleared = false;
+  const clear = h('button', { type: 'button', class: 'clear-btn pk-clear', 'aria-label': 'გასუფთავება', title: 'გასუფთავება', 'data-testid': 'picker-clear' }, '×');
+  const syncClear = () => { clear.hidden = !input.value; };
+  clear.addEventListener('mousedown', (e) => e.preventDefault());
+  clear.addEventListener('click', () => { cleared = true; input.value = ''; syncClear(); if (o.onClear) o.onClear(); input.focus(); open(); });
+  input.addEventListener('input', syncClear);
+  syncClear();
+  return h('div', { class: 'field picker' }, h('label', { for: id }, o.label), h('div', { class: 'pk-wrap' }, input, clear, list), live);
 }

@@ -5,10 +5,13 @@ const enc = new TextEncoder();
 
 export class PdfPage {
   /** @param {{ geo:any, geoBold:any, lat:any, latBold:any }} fonts @param {number} w @param {number} h */
-  constructor(fonts, w, h) {
+  constructor(fonts, w, h, root = null) {
     this.w = w; this.h = h; this.ops = [];
-    this.fonts = [fonts.geo, fonts.lat, fonts.geoBold, fonts.latBold].map((f, i) => ({ f, key: `F${i + 1}`, used: new Map() }));
+    if (root) { this.fonts = root.fonts; this.root = root; root.pages.push(this); }
+    else { this.fonts = [fonts.geo, fonts.lat, fonts.geoBold, fonts.latBold].map((f, i) => ({ f, key: `F${i + 1}`, used: new Map() })); this.root = this; this.pages = [this]; }
   }
+  /** ახალი გვერდი იმავე ზომით და საერთო ფონტებით */
+  addPage() { return new PdfPage(null, this.w, this.h, this.root); }
   /** სიმბოლოების დაყოფა ფონტების მიხედვით */
   runs(text, bold) {
     const [g, l] = bold ? [this.fonts[2], this.fonts[3]] : [this.fonts[0], this.fonts[1]];
@@ -80,9 +83,11 @@ export class PdfPage {
     const objs = [];
     const add = (body) => { objs.push(body); return objs.length; };
     const ref = (n) => `${n} 0 R`;
-    const catalog = add(null); const pages = add(null); const page = add(null);
+    const catalog = add(null); const pages = add(null);
+    const pageList = this.root.pages;
+    const pageIds = pageList.map(() => add(null));
     const fontRefs = [];
-    for (const F of this.fonts) {
+    for (const F of this.root.fonts) {
       if (!F.used.size) continue;
       const f = F.f; const s = 1000 / f.upem;
       const file = add({ stream: f.ttf, dict: `/Length1 ${f.ttf.length}` });
@@ -98,11 +103,13 @@ export class PdfPage {
       const t0 = add(`<< /Type /Font /Subtype /Type0 /BaseFont /${f.name} /Encoding /Identity-H /DescendantFonts [${ref(cid)}] /ToUnicode ${ref(tu)} >>`);
       fontRefs.push(`/${F.key} ${ref(t0)}`);
     }
-    const content = add({ stream: enc.encode(this.ops.join('\n')), dict: '' });
+    pageList.forEach((pg, i) => {
+      const content = add({ stream: enc.encode(pg.ops.join('\n')), dict: '' });
+      objs[pageIds[i] - 1] = `<< /Type /Page /Parent ${ref(pages)} /MediaBox [0 0 ${pg.w} ${pg.h}] /Resources << /Font << ${fontRefs.join(' ')} >> >> /Contents ${ref(content)} >>`;
+    });
     const info = add(`<< /Title <${utf16hexStr(title)}> /Producer (rotation-calculator) >>`);
     objs[catalog - 1] = `<< /Type /Catalog /Pages ${ref(pages)} /Lang (ka) >>`;
-    objs[pages - 1] = `<< /Type /Pages /Kids [${ref(page)}] /Count 1 >>`;
-    objs[page - 1] = `<< /Type /Page /Parent ${ref(pages)} /MediaBox [0 0 ${this.w} ${this.h}] /Resources << /Font << ${fontRefs.join(' ')} >> >> /Contents ${ref(content)} >>`;
+    objs[pages - 1] = `<< /Type /Pages /Kids [${pageIds.map(ref).join(' ')}] /Count ${pageList.length} >>`;
     const chunks = [enc.encode('%PDF-1.7\n%\xe2\xe3\xcf\xd3\n')];
     let pos = chunks[0].length;
     const offsets = [];

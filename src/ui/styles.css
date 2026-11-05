@@ -244,3 +244,22 @@ table.calc, table.inputs { width: 100%; border-collapse: collapse; font-size: .9
 .mrow { flex-wrap: wrap; }
 .mrow-v { white-space: normal; margin-left: auto; }
 .hero-v .per { font-size: 1rem; font-weight: 400; opacity: .85; white-space: nowrap; }
+.mrow.long .mrow-l { flex: 1 1 60%; font-size: .85em; }
+.chain { margin: -4px 0 16px; padding: 12px 16px; border-radius: 16px; background: var(--soft); border: 1px solid var(--line); }
+.chain-list { list-style: none; margin: 0; padding: 0; }
+.chain-row { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: .9rem; }
+.chain-row:last-child { border-bottom: 0; }
+.chain-sign { color: var(--muted); font-weight: 700; text-align: center; }
+.chain-v { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.chain-row.strong .chain-l { font-weight: 700; }
+.chain-row.strong .chain-v { color: var(--accent); font-size: 1.1rem; font-weight: 700; }
+.chain-v.neg, .chain-row.strong .chain-v.neg { color: var(--err); }
+.rent-card .rb { list-style: none; padding: 0; margin: 6px 0 0; font-size: .82rem; }
+.rent-card .rb li { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; border-top: 1px solid var(--line); color: var(--muted); }
+.rent-card .rb li span:last-child { white-space: nowrap; color: var(--ink); font-weight: 600; }
+.rent-card .rb li.strong span { color: var(--ink); font-weight: 700; }
+.inp-wrap, .pk-wrap { position: relative; display: block; flex: 1 1 auto; min-width: 0; }
+.inp-wrap input, .pk-wrap input { padding-right: 42px; }
+.clear-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); font-size: 1.3rem; line-height: 1; cursor: pointer; }
+.clear-btn:hover { background: var(--line); color: var(--ink); }
+.pk-wrap .pk-clear { top: 24px; }

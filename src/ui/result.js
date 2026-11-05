@@ -1,7 +1,8 @@
 // საფეხური 4: მთავარი — დარჩენილი თანხა ქირისა და სწავლის შემდეგ; დანარჩენი — ბარათებად; დეტალები ერთი ღილაკით.
 import { h, uid } from './dom.js';
 import * as core from '../core/index.js';
-import { livingRemainder, marketList, marketRows, marketNotes } from './market.js';
+import { marketList, marketRows, marketNotes } from './market.js';
+import { computeChain, renderChain, rentBreakdownRows, chainRows, CHAIN_NOTE } from './chain.js';
 
 export const v = (c) => (c && typeof c === 'object' ? c.value ?? null : c ?? null);
 export const fmt = (c, cur) => { const x = v(c); return x == null ? '—' : `${core.formatAmount(x)} ${cur ?? ''}`.trim(); };
@@ -37,9 +38,11 @@ export function resultModel({ r, st, sc, mission, data, personName, md = null, m
   const ins = st.ex.insurance ? (r?.insurance?.perPerson || []).map((p) => ({ name: personName(p.personId), cap: v(p.annualCap), reimb: v(p.reimbursable), entered: p.policyCost != null && v(p.policyCost) != null })) : [];
   const sum = (xs) => { const ok = xs.filter((x) => x != null); return ok.length === xs.length && ok.length ? (ok.reduce((a, b) => a + Math.round(Number(b) * 100), 0) / 100).toFixed(2) : null; };
   const heroVal = noRent ? null : v(r?.remainder?.value);
-  const living = livingRemainder(heroVal, md, st.family.length);
+  const chain = computeChain(r, md, st.family.length, { hasEdu });
+  const living = chain.living;
   return {
-    cur, noRent, hasEdu, undetermined, why, m, ed, ot, ins, md, mdLoading, beds, familyCount: st.family.length, living,
+    cur, noRent, hasEdu, undetermined, why, m, ed, ot, ins, md, mdLoading, beds, familyCount: st.family.length, living, chain,
+    chainRows: chainRows(chain), chainNote: CHAIN_NOTE, rentRows: rentBreakdownRows(chain),
     city: mission?.location_ka ?? '',
     marketRows: marketRows(md, beds, { familyCount: st.family.length }), marketNotes: marketNotes(md),
     insCapTotal: sum(ins.map((p) => p.cap).filter((x) => x != null).length ? ins.map((p) => p.cap).filter((x) => x != null) : [null]), insReimbTotal: ins.some((p) => p.entered) ? sum(ins.filter((p) => p.entered).map((p) => p.reimb)) : null,
@@ -95,15 +98,16 @@ export function renderResult(M, { onPdf, onPrint, onCompare }) {
         ? h('p', { class: 'hero-msg', 'data-testid': 'hero-remainder', 'data-value': '' }, M.noRent ? 'მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს' : (M.missing || 'თანხა ვერ დადგინდა'))
         : h('p', { class: 'hero-v' }, h('span', { 'data-testid': 'hero-remainder', 'data-value': M.hero ?? '' }, M.hero == null ? '—' : `${core.formatAmount(M.hero)} ${cur}`), h('span', { class: 'per' }, ' / თვე')),
       h('p', { class: 'hero-n' }, M.noRent ? '' : 'სხვა ხარჯები (კვება, კომუნალური…) არ აკლდება.')),
-    M.noRent ? null : h('div', { class: 'hero2' },
-      h('span', { class: 'hero2-l' }, 'დარჩენილი თანხა საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)'),
-      h('span', { class: 'hero2-v' + (M.living.value?.startsWith('-') ? ' neg' : ''), 'data-testid': 'remainder-living', 'data-value': M.living.value ?? '' },
-        M.living.value == null ? (M.mdLoading ? '…' : '—') : `${core.formatAmount(M.living.value)} ${cur}`),
-      h('p', { class: 'hero2-n' }, M.living.note ?? (M.hero == null ? 'გამოჩნდება, როცა ზემოთ მოცემული თანხა დადგინდება' : M.mdLoading ? 'ფასები იტვირთება…' : 'ფასები ამჟამად მიუწვდომელია'))),
+    M.noRent || M.hero == null ? null : renderChain(M.chain, cur, { loading: M.mdLoading }),
     M.why ? h('p', { class: 'muted small' }, M.why) : null,
     h('div', { class: 'rcards' },
       card(M.noRent ? 'ყოველთვიური სამივლინებო თანხა (ქირის გარეშე)' : 'ყოველთვიური სამივლინებო თანხა', M.S == null ? '—' : `${core.formatAmount(M.S)} ${cur}`, M.S, M.noRent ? 'ქირის ანაზღაურება არ შედის' : 'ქირის ანაზღაურების ჩათვლით', 'S-card', true),
-      card('ქირის ანაზღაურება', M.noRent ? '—' : fmt(m.F, cur), M.noRent ? null : v(m.F), M.noRent ? 'ქირა არ არის მითითებული' : `თქვენი წილი ქირაში: ${fmt(m.uncoveredRent, cur)}`, 'F'),
+      M.noRent ? card('ქირის ანაზღაურება', '—', null, 'ქირა არ არის მითითებული', 'F')
+        : h('div', { class: 'rcard rent-card', 'data-testid': 'rent-breakdown' },
+          h('span', { class: 'rc-label' }, 'ბინის ქირა თვეში'),
+          h('span', { class: 'rc-value', 'data-value': M.chain.rent.G ?? '' }, fmt(M.chain.rent.G, cur)),
+          h('ul', { class: 'rb' }, M.rentRows.map((x) => h('li', { class: x.strong ? 'strong' : null },
+            h('span', null, x.label), h('span', { 'data-value': x.value ?? '', 'data-testid': x.label.startsWith('სულ') ? 'F-value' : null }, fmt(x.value, cur)))))),
       card('სწავლის ანაზღაურება', M.hasEdu ? fmt(ed.total, cur) : '—', M.hasEdu ? v(ed.total) : null, M.hasEdu ? `თქვენი წილი: ${fmt(ed.personal, cur)}` : 'სწავლის ხარჯი არ არის მითითებული', 'edu')),
     h('span', { hidden: true, 'data-testid': 'S', 'data-value': M.S ?? '' }),
     M.ot.length || M.ins.length ? h('section', { class: 'onetime' },
