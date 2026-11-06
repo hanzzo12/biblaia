@@ -75,3 +75,12 @@ export function clearButton(inp) {
   b.hidden = !inp.value;
   return b;
 }
+
+/** ხატულა: მხოლოდ კოდში ჩაწერილი path-ები (არა მომხმარებლის მონაცემი); aria-hidden. */
+const SVG_NS = 'http://www.w3.org/2000/svg';
+export function icon(paths, cls = 'ico') {
+  const s = document.createElementNS(SVG_NS, 'svg');
+  for (const [k, v] of Object.entries({ viewBox: '0 0 24 24', width: '20', height: '20', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true', focusable: 'false', class: cls })) s.setAttribute(k, v);
+  for (const d of [].concat(paths)) { const p = document.createElementNS(SVG_NS, 'path'); p.setAttribute('d', d); s.appendChild(p); }
+  return s;
+}

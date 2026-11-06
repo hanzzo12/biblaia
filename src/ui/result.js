@@ -1,7 +1,7 @@
 // საფეხური 4: მთავარი — დარჩენილი თანხა ქირისა და სწავლის შემდეგ; დანარჩენი — ბარათებად; დეტალები ერთი ღილაკით.
 import { h, uid } from './dom.js';
 import * as core from '../core/index.js';
-import { marketList, marketRows, marketNotes } from './market.js';
+import { marketTiles, marketRows, marketNotes } from './market.js';
 import { computeChain, renderChain, rentBreakdownRows, chainRows, CHAIN_NOTE } from './chain.js';
 
 export const v = (c) => (c && typeof c === 'object' ? c.value ?? null : c ?? null);
@@ -119,7 +119,7 @@ export function renderResult(M, { onPdf, onPrint, onCompare }) {
         h('li', { class: 'total' }, h('span', null, 'ოჯახის ჯამური წლიური ლიმიტი'), h('strong', null, M.insCapTotal == null ? '—' : `${core.formatAmount(M.insCapTotal)} ${cur} / წელი`)),
         M.insReimbTotal != null ? h('li', { class: 'total' }, h('span', null, 'ანაზღაურდება სულ (შეყვანილი პოლისებით)'), h('strong', null, `${core.formatAmount(M.insReimbTotal)} ${cur}`)) : null)] : null) : null,
     M.city ? h('section', { class: 'mcard mres', 'data-testid': 'market-result', 'aria-live': 'polite' },
-      h('h3', null, `ცხოვრების ღირებულება — ${M.city}`), marketList(M.md, M.beds, { loading: M.mdLoading, familyCount: M.familyCount })) : null,
+      h('h3', null, `ცხოვრების ღირებულება — ${M.city}`), marketTiles(M.md, M.beds, { loading: M.mdLoading, familyCount: M.familyCount })) : null,
     h('div', { class: 'actions no-print' }, pdfBtn, printBtn, detBtn, cmpBtn),
     det,
   ];

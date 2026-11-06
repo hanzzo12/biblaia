@@ -7,88 +7,91 @@ const INK = [30, 41, 59], MUTED = [100, 116, 139], ACCENT = [79, 70, 229], SOFT 
 const DISCLAIMER = 'საინფორმაციო გაანგარიშება — არ წარმოადგენს ოფიციალურ ფინანსურ დოკუმენტს.';
 const today = () => new Date().toISOString().slice(0, 10);
 
+/** ერთი გვერდი: თუ არ ეტევა, შრიფტის მასშტაბი მცირდება, სანამ ჩაეტევა. */
 export async function resultPdf(M) {
   const fonts = await loadPdfFonts();
-  const W = 595.28, H = 841.89, X = 44, CW = W - 2 * X;
+  for (const k of [1, 0.94, 0.88, 0.82, 0.76, 0.7]) {
+    const { p, overflow } = drawResult(fonts, M, k);
+    if (!overflow || k === 0.7) return p.toBytes('როტაციის კალკულატორი — შედეგი');
+  }
+}
+
+function drawResult(fonts, M, k) {
+  const W = 595.28, H = 841.89, X = 42, CW = W - 2 * X, BOTTOM = H - 44;
   const p = new PdfPage(fonts, W, H);
-  let y = 50;
-  p.text('როტაციის კალკულატორი — შედეგი', X, y, { size: 17, bold: true, color: ACCENT });
-  p.text(today(), W - X, y, { size: 9, color: MUTED, align: 'right' });
-  y += 22;
-  // შეყვანილი მონაცემები
-  for (const [k, val] of M.inputs) {
-    p.text(k, X, y, { size: 9, color: MUTED });
-    y = Math.max(p.para(val, X + 130, y, CW - 130, { size: 9 }), y + 12.5);
+  const fs = (n) => n * k;
+  let y = 46;
+  /** ლეიბლი მარცხნივ (გადატანით), მნიშვნელობა მარჯვნივ — არასოდეს გადაფარავს */
+  const row = (label, value, o = {}) => {
+    const size = fs(o.size ?? 8.6); const lh = size * 1.32;
+    const val = String(value ?? '—');
+    const vW = p.width(val, size, true);
+    const lx = X + (o.indent ?? 0);
+    const lw = Math.max(60, W - X - vW - 14 - lx);
+    const lines = p.wrap(String(label), size, lw, !!o.bold);
+    if (o.sign) p.text(o.sign, X + 2, y, { size, bold: true, color: MUTED });
+    lines.forEach((ln, i) => p.text(ln, lx, y + i * lh, { size, bold: !!o.bold, color: o.color ?? INK }));
+    p.text(val, W - X, y, { size: o.vsize ? fs(o.vsize) : size, bold: true, align: 'right', color: o.vcolor ?? INK });
+    y += (lines.length - 1) * lh;
+    if (o.sub) { y += lh * 0.95; y = p.para(o.sub, lx, y, CW - (lx - X), { size: fs(6.8), color: MUTED, lineHeight: fs(8.4) }) - fs(8.4); }
+    y += size * 0.45; p.line(X, y, W - X, y); y += size * 1.3;
+  };
+  const heading = (t) => { y += fs(3); p.text(t, X, y, { size: fs(10.5), bold: true }); y += fs(14); };
+  const note = (t) => { y = p.para(t, X, y, CW, { size: fs(6.8), color: MUTED, lineHeight: fs(8.4) }) + fs(3); };
+
+  p.text('როტაციის კალკულატორი — შედეგი', X, y, { size: fs(16), bold: true, color: ACCENT });
+  p.text(today(), W - X, y, { size: fs(8.5), color: MUTED, align: 'right' });
+  y += fs(20);
+  for (const [kk, val] of M.inputs) {
+    p.text(kk, X, y, { size: fs(8.6), color: MUTED });
+    y = Math.max(p.para(val, X + 128, y, CW - 128, { size: fs(8.6), lineHeight: fs(11) }), y + fs(11.5));
   }
-  y += 6;
+  y += fs(4);
   // მთავარი
-  p.rect(X, y, CW, 64, ACCENT, 10);
-  p.text('დარჩენილი თანხა ქირისა და სწავლის შემდეგ (თვეში)', X + 16, y + 20, { size: 10, color: WHITE });
-  p.text(M.noRent ? 'მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს' : M.hero == null ? '—' : `${formatAmount(M.hero)} ${M.cur}`, X + 16, y + 48, { size: M.noRent ? 13 : 24, bold: true, color: WHITE });
-  y += 72;
+  const hh = fs(58);
+  p.rect(X, y, CW, hh, ACCENT, 10);
+  p.text('დარჩენილი თანხა ქირისა და სწავლის შემდეგ (თვეში)', X + 14, y + fs(18), { size: fs(9.5), color: WHITE });
+  p.text(M.noRent ? 'მიუთითეთ ქირა, რომ დარჩენილი თანხა გამოჩნდეს' : M.hero == null ? '—' : `${formatAmount(M.hero)} ${M.cur}`, X + 14, y + fs(44), { size: fs(M.noRent ? 12 : 22), bold: true, color: WHITE });
+  y += hh + fs(16);
   if (!M.noRent && M.hero != null) {
-    for (const r of M.chainRows) {
-      p.text(r.sign, X + 4, y, { size: 9, color: MUTED, bold: true });
-      p.text(r.label, X + 18, y, { size: r.strong ? 9 : 8.5, bold: !!r.strong });
-      p.text(r.value == null ? '—' : `${formatAmount(r.value)} ${M.cur}`, W - X, y, { size: r.strong ? 9.5 : 8.5, bold: true, align: 'right', color: r.strong ? ACCENT : INK });
-      y += 4; p.line(X, y, W - X, y); y += 9.5;
-    }
-    p.text(M.living.note ? `${M.living.note}. ${M.chainNote}` : M.chainNote, X, y, { size: 7, color: MUTED });
-    y += 14;
+    for (const r of M.chainRows) row(r.label, r.value == null ? '—' : `${formatAmount(r.value)} ${M.cur}`, { sign: r.sign, indent: 14, bold: !!r.strong, vcolor: r.strong ? (String(r.value).startsWith('-') ? [220, 38, 38] : ACCENT) : INK });
+    note(M.living.note ? `${M.living.note}. ${M.chainNote}` : M.chainNote);
   }
+  // ბარათები: S, ქირის ანაზღაურება, სწავლა
   const cards = [
     [M.noRent ? 'სამივლინებო თანხა (ქირის გარეშე)' : 'ყოველთვიური სამივლინებო თანხა', M.S == null ? '—' : `${formatAmount(M.S)} ${M.cur}`, M.noRent ? 'ქირის ანაზღაურება არ შედის' : 'ქირის ანაზღაურების ჩათვლით'],
     ['ქირის ანაზღაურება (F)', M.noRent ? '—' : fmtC(M.m.F, M.cur), M.noRent ? '' : `ქირა ${fmtC(M.chain.rent.G, M.cur)} · T ${fmtC(M.chain.rent.T, M.cur)} · თქვენ ამატებთ ${fmtC(M.chain.rent.extra, M.cur)}`],
     ['სწავლის ანაზღაურება', M.hasEdu ? fmtC(M.ed.total, M.cur) : '—', M.hasEdu ? `თქვენი წილი: ${fmtC(M.ed.personal, M.cur)}` : ''],
   ];
-  const cw = (CW - 16) / 3;
-  cards.forEach(([l, val, sub], i) => {
-    const cx = X + i * (cw + 8);
-    p.rect(cx, y, cw, 70, SOFT, 8);
-    p.para(l, cx + 10, y + 15, cw - 20, { size: 8.5, color: MUTED, lineHeight: 10.5 });
-    p.text(val, cx + 10, y + 44, { size: 13, bold: true });
-    if (sub) p.para(sub, cx + 10, y + 55, cw - 20, { size: 6.8, color: MUTED, lineHeight: 8 });
+  const cw = (CW - 16) / 3; const pad = 9;
+  const lay = cards.map(([l, , sub]) => ({ l: p.wrap(l, fs(8), cw - 2 * pad), s: sub ? p.wrap(sub, fs(6.6), cw - 2 * pad) : [] }));
+  const ch = Math.max(...lay.map((x) => x.l.length * fs(10) + fs(18) + x.s.length * fs(8.2))) + fs(14);
+  y += fs(2);
+  cards.forEach(([, val], i) => {
+    const cx = X + i * (cw + 8); let yy = y + fs(13);
+    p.rect(cx, y, cw, ch, SOFT, 8);
+    lay[i].l.forEach((ln) => { p.text(ln, cx + pad, yy, { size: fs(8), color: MUTED }); yy += fs(10); });
+    yy += fs(6); p.text(val, cx + pad, yy, { size: fs(12.5), bold: true }); yy += fs(11);
+    lay[i].s.forEach((ln) => { p.text(ln, cx + pad, yy, { size: fs(6.6), color: MUTED }); yy += fs(8.2); });
   });
-  y += 84;
-  // ერთჯერადი და დაზღვევა
-  const list = (title, items) => {
-    if (!items.length) return;
-    p.text(title, X, y, { size: 10.5, bold: true }); y += 15;
-    for (const it of items) {
-      p.text(it[0], X, y, { size: 9 });
-      p.text(it[1], W - X, y, { size: 9, bold: true, align: 'right' });
-      if (it[2]) { y += 11; p.text(it[2], X, y, { size: 7.5, color: MUTED }); }
-      y += 6; p.line(X, y, W - X, y); y += 11;
-    }
-    y += 4;
-  };
-  list('ერთჯერადი', M.ot.map((x) => [x.label, x.value, x.sub]));
+  y += ch + fs(16);
+  if (M.ot.length) { heading('ერთჯერადი'); for (const x of M.ot) row(x.label, x.value, { sub: x.sub }); }
   if (M.ins.length) {
-    list('დაზღვევა — წლიური ლიმიტი (მაქსიმუმი, არა გასაცემი თანხა)', [
-      ...M.ins.map((x) => [x.name, x.cap == null ? 'მიუთითეთ ასაკი' : `${formatAmount(x.cap)} ${M.cur} / წელი`, x.entered ? `ანაზღაურდება: ${x.reimb == null ? '—' : formatAmount(x.reimb) + ' ' + M.cur}` : null]),
-      ['ოჯახის ჯამური წლიური ლიმიტი', M.insCapTotal == null ? '—' : `${formatAmount(M.insCapTotal)} ${M.cur} / წელი`, M.insReimbTotal != null ? `ანაზღაურდება სულ: ${formatAmount(M.insReimbTotal)} ${M.cur}` : null],
-    ]);
+    heading('დაზღვევა — წლიური ლიმიტი (მაქსიმუმი, არა გასაცემი თანხა)');
+    for (const x of M.ins) row(x.name, x.cap == null ? 'მიუთითეთ ასაკი' : `${formatAmount(x.cap)} ${M.cur} / წელი`, { sub: x.entered ? `ანაზღაურდება: ${x.reimb == null ? '—' : formatAmount(x.reimb) + ' ' + M.cur}` : null });
+    row('ოჯახის ჯამური წლიური ლიმიტი', M.insCapTotal == null ? '—' : `${formatAmount(M.insCapTotal)} ${M.cur} / წელი`, { bold: true, sub: M.insReimbTotal != null ? `ანაზღაურდება სულ: ${formatAmount(M.insReimbTotal)} ${M.cur}` : null });
   }
-  // ცხოვრების ღირებულება
   if (M.marketRows) {
-    p.text(`ცხოვრების ღირებულება — ${M.city} (საორიენტაციო)`, X, y, { size: 10.5, bold: true }); y += 14;
-    for (const n of M.marketNotes) { p.text(n.text, X, y, { size: 7, color: MUTED }); y += 9.5; }
-    if (M.marketNotes.length) y += 4;
-    for (const r of M.marketRows) { p.text(r.label, X, y, { size: 8.5 }); p.text(r.value, W - X, y, { size: 8.5, bold: true, align: 'right' }); y += 4; p.line(X, y, W - X, y); y += 9.5; }
-    if (M.md?.indices?.costOfLiving != null) { p.text(`ცხოვრების ღირებულების ინდექსი: ${M.md.indices.costOfLiving} (ნიუ-იორკი = 100) · ${M.md.provider?.attribution_ka ?? ''}`, X, y, { size: 7.5, color: MUTED }); y += 12; }
-    y += 4;
+    heading(`ცხოვრების ღირებულება — ${M.city} (საორიენტაციო)`);
+    if (M.marketNotes.length) { note(M.marketNotes.map((n) => n.text).join(' · ')); y += fs(4); }
+    for (const r of M.marketRows) row(r.label, r.value, { size: 8.2 });
+    if (M.md?.indices?.costOfLiving != null) note(`ცხოვრების ღირებულების ინდექსი: ${M.md.indices.costOfLiving} (ნიუ-იორკი = 100) · ${M.md.provider?.attribution_ka ?? ''}`);
   }
-  // როგორ დაითვალა
-  p.text('როგორ დაითვალა', X, y, { size: 10.5, bold: true }); y += 14;
-  for (const r of M.rows) {
-    p.text(r.k, X, y, { size: 9, bold: true, color: ACCENT });
-    p.text(r.label, X + 18, y, { size: 9, color: r.k === 'S' ? ACCENT : INK });
-    p.text(r.text, W - X, y, { size: 9, bold: true, align: 'right', color: r.k === 'S' ? ACCENT : INK });
-    y += 4; p.line(X, y, W - X, y); y += 9.5;
-  }
-  p.text('D = H × A × K × (1 + 7% × C) · T = D × E · S = D − T + F', X, y + 2, { size: 8, color: MUTED });
-  p.text(DISCLAIMER, X, H - 30, { size: 8, color: MUTED });
-  return p.toBytes('როტაციის კალკულატორი — შედეგი');
+  heading('როგორ დაითვალა');
+  for (const r of M.rows) row(`${r.k}   ${r.label}`, r.text, { size: 8.2, color: r.k === 'S' ? ACCENT : INK, vcolor: r.k === 'S' ? ACCENT : INK });
+  note('D = H × A × K × (1 + 7% × C) · T = D × E · S = D − T + F');
+  p.text(DISCLAIMER, X, H - 26, { size: 7.5, color: MUTED });
+  return { p, overflow: y > BOTTOM };
 }
 
 function fmtC(c, cur) { const x = c && typeof c === 'object' ? c.value : c; return x == null ? '—' : `${formatAmount(x)} ${cur}`; }

@@ -62,7 +62,7 @@ async function vienna(page, { rent = '1500', shots = null } = {}) {
   await rows.nth(1).locator('input').fill('8');
   if (shots) await shots('step2');
   await next(page);
-  if (rent !== null) await page.getByTestId('rent').fill(rent);
+  await page.getByTestId('rent').fill(rent ?? ''); // ქირა წინასწარ ივსება Numbeo-თი — ტესტი ცხადად წერს/ასუფთავებს
   await page.getByTestId('edu').first().fill('1000');
   if (shots) await shots('step3');
   await next(page);
@@ -244,8 +244,18 @@ test('ონლაინ: ბაზრის ბარათი, ქირის
   await page.getByTestId('add-family').click(); await page.getByTestId('add-family').click();
   await page.locator('.fam-row').nth(1).locator('select').selectOption('child');
   await next(page);
+  // ქირა ავტომატურად ივსება Numbeo-ს საშუალოთი (3 საძინებელი, 2 ოჯახის წევრი, ვენა ×1.5)
+  assert.equal(await page.getByTestId('rent').inputValue(), '3000.00');
+  await page.getByTestId('rent-prefill-note').waitFor();
+  await page.getByTestId('rent').fill('2000');
   await page.getByTestId('use-market-rent').click();
-  assert.equal(await page.getByTestId('rent').inputValue(), '3000.00', '3 საძინებელი (2 ოჯახის წევრი), ვენა ×1.5');
+  assert.equal(await page.getByTestId('rent').inputValue(), '3000.00', 'Numbeo-ს ფასის დაბრუნება');
+  // ქალაქის შეცვლისას ხელუხლებელი ფასი ახლდება
+  await page.locator('.pill').nth(0).click();
+  await pickMission(page, 'Ljubljana');
+  await page.waitForTimeout(400);
+  await page.locator('.pill').nth(2).click();
+  assert.equal(await page.getByTestId('rent').inputValue(), '2000.00', 'ლიუბლიანა, 3 საძინებელი');
   for (const q of seen) assert.match(q, /^\?location=[A-Z0-9-]+&currency=(EUR|USD)$/);
   assert.deepEqual(errors, []);
   await page.close();
@@ -254,10 +264,12 @@ test('ონლაინ: ბაზრის ბარათი, ქირის
 test('ონლაინ შედეგი: ცხოვრების ღირებულების ბლოკი და ნაშთი საცხოვრებელი ხარჯების შემდეგ', async () => {
   const { page, errors } = await openOnline();
   await vienna(page);
-  await page.getByTestId('market-result').locator('.mrow').first().waitFor();
+  await page.getByTestId('market-result').locator('.tile').first().waitFor();
   const mr = await page.getByTestId('market-result').innerText();
-  assert.match(mr, /ცენტრი 3 000\.00 EUR · გარეუბანი 2 250\.00 EUR/);
-  assert.match(mr, /1 200\.00 EUR \/ 3 750\.00 EUR/);
+  assert.equal(await val(page, '[data-testid="market-result"] [data-testid="market-rent"]'), '3000.00');
+  assert.match(mr, /გარეუბანი 2 250\.00/);
+  assert.equal(await val(page, '[data-testid="market-result"] [data-testid="market-budget"]'), '3750.00');
+  for (const k of ['rent', 'utilities', 'internet', 'groceries', 'restaurants', 'budget', 'index']) assert.equal(await page.locator(`[data-testid="market-result"] [data-tile="${k}"] svg`).count(), 1, k);
   assert.match(mr, /1 EUR = 1\.08 USD/);
   // ოჯახით → ოთხსულიანი ოჯახის შეფასება: 3423.16 − 3750.00
   assert.equal(await val(page, '[data-testid="remainder-living"]'), '-326.84');

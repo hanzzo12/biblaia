@@ -17,6 +17,7 @@ fs.mkdirSync(TMP, { recursive: true });
 const UNAVAILABLE = 'ფასები ამჟამად მიუწვდომელია';
 /** deterministic synthetic 'cost of living + rent' index per location (sorting tests only) */
 const synthIndex = (loc) => (30 + ([...loc].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) % 997, 7) % 60)).toFixed(1);
+const synthRent = (loc) => (1000 + Number(synthIndex(loc)) * 10).toFixed(2);
 const USD_PER_EUR = '1.119954'; // snapshot reference rate used by the UI to convert the school fee (interpretation, not a norm)
 
 let browser, server;
@@ -35,7 +36,7 @@ before(async () => {
         case 'rate_limited': return json(429, { error: 'rate_limited' });
         case 'invalid_json': return json(200, '{"schemaVersion":2, "rent": ');
         default: {
-          const body = marketBodyV2(loc, { currency: cur, status: api.mode, ...api.opts });
+          const body = marketBodyV2(loc, { currency: cur, status: api.mode, ...api.opts, ...(api.rentByLoc ? { centre1: synthRent(loc) } : {}) });
           if (body.indices.costOfLivingPlusRent != null) body.indices.costOfLivingPlusRent = synthIndex(loc);
           return json(200, body);
         }
@@ -104,10 +105,13 @@ test('offline file://: golden Vienna S, rent breakdown, chain, living remainder;
     assert.equal(chain[4][0], 'chain-remainder');
     assert.equal(chain.at(-1)[0], 'remainder-living', 'living remainder is the last chain row');
     // living deduction = family-of-4 budget shown in the page's own market block (spouse + child -> not alone)
-    const mtext = await p.locator('[data-testid="market-result"]').innerText();
-    const m = /ოჯახი 4\)[^\n]*\n?[^\n]*?([\d\s ]+\.\d{2})\s*EUR\s*\/\s*([\d\s ]+\.\d{2})\s*EUR/.exec(mtext);
-    assert.ok(m, `family-4 budget not found in market block:\n${mtext}`);
-    const fam4 = m[2].replace(/[\s ]/g, '');
+    const budget = p.locator('[data-testid="market-result"] .tile[data-tile="budget"]');
+    assert.match(await budget.innerText(), /ოჯახი \(4\)/, 'family budget tile (spouse + child -> not alone)');
+    const fam4 = await budget.getByTestId('market-budget').getAttribute('data-value');
+    assert.match(fam4 ?? '', /^\d+(\.\d+)?$/, `family-4 budget shown: ${fam4}`);
+    for (const t of ['rent', 'utilities', 'internet', 'groceries', 'restaurants', 'budget', 'index']) {
+      assert.equal(await p.locator(`[data-testid="market-result"] .tile[data-tile="${t}"]`).count(), 1, `tile ${t}`);
+    }
     const exp = (Math.round((3423.16327 - Number(fam4)) * 100) / 100).toFixed(2);
     assert.equal(chain.at(-2)[1], fam4, 'deduction row = family-of-4 budget');
     assert.equal(chain.at(-1)[1], exp, `living remainder = 3423.16327 - ${fam4}`);
@@ -125,7 +129,7 @@ for (const mode of ['fresh', 'cached', 'stale', 'partial']) {
     try {
       await s.page.getByTestId('mission').fill('Vienna');
       await s.page.getByTestId('mission').press('Enter');
-      await s.page.locator('.mlist .mrow').first().waitFor({ timeout: 5000 });
+      await s.page.locator('.mcard .tile[data-tile="rent"]').first().waitFor({ timeout: 5000 });
       const mtext = await s.page.locator('.mcard').innerText();
       if (mode === 'partial') {
         assert.equal(await dv(s.page, '[data-testid="market-rent"]'), '', 'missing rent has no value');
@@ -156,7 +160,7 @@ for (const mode of ['not_found', 'network_error', 'disabled', 'rate_limited', 'i
       assert.equal(await line.count(), 1);
       assert.equal((await line.innerText()).trim(), UNAVAILABLE);
       assert.match(await line.getAttribute('class'), /muted/);
-      assert.equal(await s.page.locator('.mcard .mlist').count(), 0, 'no partial price list');
+      assert.equal(await s.page.locator('.mcard .tile').count(), 0, 'no partial price tiles');
       await s.page.getByTestId('next').click();
       await stepPosition(s.page, { family: [] });
       await stepCosts(s.page, { rent: '1500', edu: null });
@@ -519,5 +523,70 @@ test('insurance rows per person with golden annual caps (Vienna: you 40 -> 1663,
     assert.match(await cap('F2'), /864\.00EUR/);
     assert.equal(await h.page.locator('.ins-row input').count(), 3, 'a policy input per person');
     assert.match((await h.page.locator('.ins-total').innerText()).replace(/\s/g, ''), /4031\.00EUR/); // 1663 + 1504 + 864
+  } finally { await h.close(); }
+});
+
+// ---------------------------------------------------------------- round 6: rent prefill, PDF layout
+test('rent prefill: Numbeo centre rent prefilled while untouched, refreshes on city change, never overwrites a typed value', async () => {
+  Object.assign(api, { mode: 'fresh', delayMs: 0, opts: {}, rentByLoc: true });
+  const s = await openServed(browser, server.origin);
+  try {
+    const p = s.page;
+    const toCosts = async (city) => {
+      await p.getByTestId('mission').fill(city); await p.getByTestId('mission').press('Enter');
+      await p.locator('.mcard').first().waitFor(); await p.waitForTimeout(200);
+      await p.getByTestId('next').click();
+      if (!(await p.getByTestId('pos-A2-R5').isChecked())) await p.getByTestId('pos-A2-R5').check({ force: true });
+      await p.getByTestId('next').click();
+    };
+    const back = async (n) => { for (let i = 0; i < n; i++) await p.getByRole('button', { name: '← უკან' }).click(); };
+    await toCosts('Vienna');
+    assert.equal(await p.getByTestId('rent').inputValue(), synthRent('AT-VIENNA'), 'prefilled with Vienna centre 1br (no family)');
+    assert.equal(await p.getByTestId('rent-prefill-note').count(), 1);
+    assert.equal(await p.getByTestId('use-market-rent').count(), 0, 'restore link hidden while untouched');
+    // untouched -> city change refreshes the prefill
+    await back(2); await p.getByTestId('mission').fill('Lyon'); await p.getByTestId('mission').press('Enter'); await p.waitForTimeout(300);
+    await p.getByTestId('next').click(); await p.getByTestId('next').click();
+    assert.equal(await p.getByTestId('rent').inputValue(), synthRent('FR-LYON'), 'prefill follows the new city');
+    // typed value is kept across city changes
+    await p.getByTestId('rent').fill('1500');
+    assert.equal(await p.getByTestId('use-market-rent').count(), 1, 'restore link after editing');
+    assert.equal(await p.getByTestId('rent-prefill-note').count(), 0);
+    await back(2); await p.getByTestId('mission').fill('Vienna'); await p.getByTestId('mission').press('Enter'); await p.waitForTimeout(300);
+    await p.getByTestId('next').click(); await p.getByTestId('next').click();
+    assert.equal(await p.getByTestId('rent').inputValue(), '1500', 'typed rent not overwritten by market data');
+    await p.getByTestId('next').click();
+    assert.equal(await dv(p, '[data-testid="S"]'), '4465.06', 'S from typed rent (hand-derived), market ignored');
+    // restore link puts the market value back
+    await p.getByRole('button', { name: '← უკან' }).click();
+    await p.getByTestId('use-market-rent').click();
+    assert.equal(await p.getByTestId('rent').inputValue(), synthRent('AT-VIENNA'));
+  } finally { api.rentByLoc = false; await s.close(); }
+});
+
+test('result PDF: 1 page, no overlapping label/value text (pdftotext -layout)', async () => {
+  const h = await openOffline();
+  try {
+    await viennaGolden(h.page);
+    const [dl] = await Promise.all([h.page.waitForEvent('download'), h.page.getByTestId('pdf-download').click()]);
+    const file = path.join(TMP, `verifier-layout-${process.pid}.pdf`);
+    await dl.saveAs(file);
+    assert.equal(pdfPages(file), 1);
+    const lines = pdfText(file).replace(/ | /g, ' ').split('\n');
+    const pairs = [
+      ['ქირა თვეში', '1 500.00 EUR'], ['სკოლა/ბაღი თვეში', '1 000.00 EUR'],
+      ['ყოველთვიური სამივლინებო თანხა', '4 985.16 EUR'], ['ბინის ქირა (სრული)', '1 500.00 EUR'],
+      ['სწავლის ანაზღაურება', '938.00 EUR'], ['= დარჩენილი თანხა ქირისა და სწავლის შემდეგ', '3 423.16 EUR'],
+      ['H საბაზისო თანხა', '3 100.00 EUR'], ['K ქვეყნის კოეფიციენტი', '2.06'], ['D პერსონალური თანხა', '4 732.03 EUR'],
+      ['T ბინის წილი თანხაში', '993.73 EUR'], ['F ქირის ანაზღაურება', '1 246.86 EUR'], ['S ყოველთვიური თანხა (D − T + F)', '4 985.16 EUR'],
+    ];
+    const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    for (const [label, value] of pairs) {
+      const re = new RegExp(`${esc(label)}\\s{2,}${esc(value)}\\s*$`);
+      assert.ok(lines.some((l) => re.test(l)), `"${label}" and "${value}" on one line, separated by whitespace`);
+    }
+    const collided = lines.filter((l) => /[ა-ჰ]\d|\d[ა-ჰ]/.test(l));
+    assert.deepEqual(collided, [], 'Georgian letters glued to digits (overlap)');
+    fs.rmSync(file, { force: true });
   } finally { await h.close(); }
 });

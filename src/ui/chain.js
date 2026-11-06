@@ -39,7 +39,7 @@ const neg = (x) => (x != null && String(x).startsWith('-') ? ' neg' : '');
 /** ჯაჭვის სტრიქონები (ეკრანი და PDF) */
 export function chainRows(c) {
   const rows = [
-    { sign: '', label: 'ყოველთვიური სამივლინებო თანხა', value: c.S },
+    { sign: '', label: 'ყოველთვიური სამივლინებო თანხა', short: 'სამივლინებო თანხა', value: c.S },
     { sign: '−', label: 'ბინის ქირა (სრული)', short: 'ქირა', value: c.G },
   ];
   if (c.hasEdu) {
@@ -57,9 +57,9 @@ export function renderChain(c, cur, { loading = false } = {}) {
   return h('section', { class: 'chain', 'data-testid': 'chain', 'aria-label': 'როგორ მივიღეთ დარჩენილი თანხა' },
     h('ol', { class: 'chain-list' }, chainRows(c).map((x) => h('li', { class: 'chain-row' + (x.strong ? ' strong' : '') },
       h('span', { class: 'chain-sign', 'aria-hidden': 'true' }, x.sign),
-      h('span', { class: 'chain-l' }, x.label),
+      h('span', { class: 'chain-l' }, h('span', { class: 'l-long' }, x.label), x.short ? h('span', { class: 'l-short', 'aria-hidden': 'true' }, x.short) : null),
       h('span', { class: 'chain-v' + neg(x.value), 'data-value': x.value ?? '', 'data-testid': x.testid ?? null }, x.value == null && loading ? '…' : money(x.value, cur))))),
-    h('p', { class: 'tiny muted' }, c.living.note ? `${c.living.note}. ${CHAIN_NOTE}` : loading ? 'ფასები იტვირთება…' : 'საცხოვრებელი ხარჯის შეფასება ამ ქალაქისთვის მიუწვდომელია.'));
+    h('p', { class: 'tiny muted' }, c.living.deduction != null ? CHAIN_NOTE : loading ? 'ფასები იტვირთება…' : 'საცხოვრებელი ხარჯის შეფასება მიუწვდომელია.'));
 }
 
 /** ქირის ანაზღაურების დაშლა */

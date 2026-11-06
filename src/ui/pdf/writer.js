@@ -1,6 +1,6 @@
 // მინიმალური PDF ჩამწერი: ერთი გვერდი, TrueType ფონტები (Type0 / Identity-H) ToUnicode-ით — ტექსტი მოინიშნება და კოპირდება.
 const isGeorgian = (cp) => (cp >= 0x10a0 && cp <= 0x10ff) || (cp >= 0x1c90 && cp <= 0x1cbf) || (cp >= 0x2d00 && cp <= 0x2d2f);
-const SUBST = { 0x2116: 'N', 0x2248: '~', 0x2009: ' ', 0x00a0: ' ', 0x202f: ' ' };
+const SUBST = { 0x2116: 'N', 0x2248: '~', 0x00b2: '2', 0x2009: ' ', 0x00a0: ' ', 0x202f: ' ' };
 const enc = new TextEncoder();
 
 export class PdfPage {
@@ -16,7 +16,8 @@ export class PdfPage {
   runs(text, bold) {
     const [g, l] = bold ? [this.fonts[2], this.fonts[3]] : [this.fonts[0], this.fonts[1]];
     const out = [];
-    for (const ch of String(text)) {
+    // ფონტს „²“ არ აქვს: „მ²“ → „კვ.მ“ (სიგანის გაზომვაც იმავე runs()-ით ხდება)
+    for (const ch of String(text).replace(/მ²/g, 'კვ.მ')) {
       let cp = ch.codePointAt(0);
       if (SUBST[cp]) cp = SUBST[cp].codePointAt(0);
       let F = isGeorgian(cp) ? g : l;

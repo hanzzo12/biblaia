@@ -318,3 +318,40 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
 .cchain .cc-v { font-weight: 600; white-space: nowrap; text-align: right; }
 .cchain li.strong .cc-l, .cchain li.strong .cc-v { color: var(--ink); font-weight: 700; }
 .cchain .cc-v.neg { color: var(--err); }
+/* cost-of-living tiles */
+.mtiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.mtiles.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.tile { display: grid; grid-template-columns: 22px minmax(0, 1fr); grid-template-rows: auto auto auto; column-gap: 8px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 9px 10px; min-width: 0; }
+.tile .ico { grid-row: 1 / span 3; align-self: start; color: var(--accent); margin-top: 2px; }
+.tile-v { font-weight: 700; font-size: 1rem; font-variant-numeric: tabular-nums; line-height: 1.25; }
+.tile-l { font-size: .78rem; color: var(--ink); line-height: 1.25; }
+.tile-s { font-size: .7rem; color: var(--muted); line-height: 1.25; }
+.mtiles.compact .tile { padding: 7px 8px; grid-template-columns: 18px minmax(0, 1fr); column-gap: 6px; }
+.mtiles.compact .ico { width: 16px; height: 16px; }
+.mtiles.compact .tile-v { font-size: .86rem; }
+.mtiles.compact .tile-l { font-size: .72rem; }
+.mtiles.compact .tile-s { font-size: .64rem; }
+.mnotes { margin: 6px 0 0; font-size: .7rem; color: var(--muted); }
+.mcard .mtiles-wrap .msource { margin-top: 2px; }
+.csum .c-note2 { min-height: 1.4em; }
+.chain { padding: 8px 14px; }
+.chain-row { padding: 3px 0; font-size: .86rem; }
+.hint-line { margin: 4px 0 0; font-size: .78rem; color: var(--muted); }
+.clegend { font-size: .78rem; }
+/* picker: ქვეყანა — ფონიანი ზოლი, ქალაქი — შეწეული მუქი ტექსტი */
+.pk-group { margin: 6px 0 2px; padding: 5px 10px; background: var(--accent-soft); color: var(--accent); font-size: .72rem; font-weight: 700; letter-spacing: .06em; border-radius: 8px; text-transform: uppercase; }
+.pk-group:first-child { margin-top: 0; }
+.pk-opt { padding: 8px 12px 8px 22px; color: var(--ink); }
+.mtiles { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+@media (max-width: 480px) { .mtiles { grid-template-columns: 1fr 1fr; } }
+.tile-l { font-size: .74rem; color: var(--muted); }
+.tile-v { font-size: .98rem; }
+.chain-l .l-short { display: none; }
+@media (max-width: 600px) { .chain-l .l-long { display: none; } .chain-l .l-short { display: inline; } }
+@media (max-width: 480px) {
+  .tile { grid-template-columns: 18px minmax(0, 1fr); grid-template-rows: auto; row-gap: 2px; padding: 8px; }
+  .tile .ico { grid-row: 1; width: 16px; height: 16px; margin-top: 1px; }
+  .tile-l { grid-column: 2; }
+  .tile-v, .tile-s { grid-column: 1 / -1; }
+  .tile-v { font-size: .92rem; }
+}

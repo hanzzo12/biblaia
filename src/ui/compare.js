@@ -3,7 +3,7 @@
 import { h, replace, uid, clearButton } from './dom.js';
 import * as core from '../core/index.js';
 import { missionPicker, shortName } from './picker.js';
-import { marketList, rentFor, WITH_DATA, marketRows, marketNotes, GROCERIES_LABEL } from './market.js';
+import { marketTiles, rentFor, WITH_DATA, marketRows, marketNotes, GROCERIES_LABEL } from './market.js';
 import { computeChain, chainRows } from './chain.js';
 import { R, mul, div, toFixed2, fromExactString } from '../core/rational.js';
 import { comparePdf, downloadBytes } from './pdf/reports.js';
@@ -41,7 +41,7 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
   window.addEventListener('afterprint', () => document.body.classList.remove('print-compare'));
   const panel = h('div', { class: 'cpanel', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'cmp-title' },
     h('div', { class: 'chead' }, h('h2', { id: 'cmp-title', tabindex: '-1' }, 'შედარება'), h('div', { class: 'chead-actions no-print' }, pdfBtn, printBtn), closeBtn),
-    h('p', { class: 'muted small' }, 'თქვენი თანამდებობითა და ოჯახით. ქირა — Numbeo-ს საშუალო ცენტრში (შეგიძლიათ შეცვალოთ). ვალუტები არ კონვერტირდება.'),
+    h('p', { class: 'muted small clegend' }, 'თქვენი თანამდებობით, ოჯახითა და სწავლით. ქირა — Numbeo-ს საშუალო ცენტრში (შეცვლადი). საცხოვრებელი ხარჯი — Numbeo, ქირისა და სწავლის გარეშე. ≈ — შეფასებული ან კურსით გადაყვანილი. ვალუტები არ იკრიბება.'),
     h('div', { class: 'ctools no-print' }, addBox, sortBox), grid);
   root.append(panel);
   root.hidden = true;
@@ -116,7 +116,7 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
       city: m.location_ka, name: shortName(m),
       remainder: rent == null ? '—' : money(chain.remainder), remainderRaw: rent == null ? null : chain.remainder,
       remLabel: hasEdu && eduOk ? 'დარჩება ქირისა და სწავლის შემდეგ' : 'დარჩება ქირის შემდეგ',
-      remNote: rent == null ? (pending ? 'ფასები იტვირთება…' : 'მიუთითეთ ქირა') : eduConverted ? '≈ სწავლის გადასახადი გადაყვანილია Numbeo-ს კურსით' : hasEdu && !eduOk ? 'სწავლა არ ითვლება (კურსი უცნობია)' : null,
+      remNote: rent == null ? (pending ? 'ფასები იტვირთება…' : 'მიუთითეთ ქირა') : eduConverted ? '≈ სწავლა გადაყვანილია Numbeo-ს კურსით' : hasEdu && !eduOk ? 'სწავლა არ ითვლება (კურსი უცნობია)' : null,
       C: r?.monthly?.C?.value ?? null,
       livingRaw: rent == null ? null : chain.living.value,
       livingText: rent == null || chain.living.value == null ? (pending ? '…' : '—') : money(chain.living.value),
@@ -131,7 +131,7 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
       source: WITH_DATA.has(c.md?.status) ? c.md?.provider?.attribution_ka ?? null : null,
     };
   }
-  const pdfCol = (M) => ({ city: M.city, name: M.name, cur: M.cur, remainder: M.remainder, remNote: M.remNote, living: M.livingText, livingNote: M.chain.living.note,
+  const pdfCol = (M) => ({ city: M.city, name: M.name, cur: M.cur, remainder: M.remainder, remNote: M.remNote, living: M.livingText, livingNote: M.chain.living.estimated ? '≈ ინდექსით შეფასებული' : M.chain.living.kind === 'utilities' ? 'კომუნალური + ინტერნეტი' : null,
     notes: M.notes, S: M.Stext, F: M.F, extra: M.extra, rent: M.rentText, rentLabel: M.rentLabel, market: M.market, index: M.index, source: M.source });
 
   function cardFor(c, i, n) {
@@ -156,7 +156,7 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
         h('p', { class: 'tiny muted c-note', 'data-testid': M.remNote?.startsWith('≈') ? 'edu-converted' : null }, M.remNote ?? ' '),
         h('p', { class: 'c-s-l' }, 'დარჩება საცხოვრებელი ხარჯების შემდეგ (საორიენტაციო)'),
         h('p', { class: 'c-s2' + (String(M.livingRaw ?? '').startsWith('-') ? ' neg' : ''), 'data-testid': 'compare-remainder-living', 'data-value': M.livingRaw ?? '' }, M.livingText),
-        h('p', { class: 'tiny muted c-note2' }, M.chain.living.note ?? ' ')),
+        h('p', { class: 'tiny muted c-note2' }, M.chain.living.estimated ? '≈ ინდექსით შეფასებული' : M.chain.living.kind === 'utilities' ? 'გამოკლებულია კომუნალური + ინტერნეტი' : ' ')),
       h('div', { class: 'cdet' },
         h('div', { class: 'crow' }, h('span', null, M.rent == null ? 'თვიური თანხა (ქირის გარეშე)' : 'თვიური სამივლინებო თანხა'), h('strong', { 'data-testid': 'compare-S', 'data-value': M.S?.value ?? '' }, M.Stext)),
         M.rent == null ? null : h('ol', { class: 'cchain', 'data-testid': 'compare-chain', 'aria-label': 'როგორ მივიღეთ' }, chainRows(M.chain).slice(1).map((x) => h('li', { class: x.strong ? 'strong' : null },
@@ -165,7 +165,7 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
           h('span', { class: 'with-cur' }, h('span', { class: 'inp-wrap' }, rentInp, clearButton(rentInp)), h('span', { class: 'cur' }, M.cur))),
         h('div', { class: 'crow' }, h('span', null, 'რამდენს ანაზღაურებს (F)'), h('strong', null, M.F)),
         h('div', { class: 'crow' }, h('span', null, 'თქვენ ამატებთ ქირაში'), h('strong', null, M.extra)),
-        h('div', { class: 'cmarket' }, marketList(c.md, beds(), { loading: c.loading, source: false, compact: true, familyCount: scenario({}).family.length }))),
+        h('div', { class: 'cmarket' }, marketTiles(c.md, beds(), { loading: c.loading, source: false, compact: true, familyCount: scenario({}).family.length }))),
       h('div', { class: 'cmove no-print' }, left, right));
     // გადათრევა (მაუსი)
     card.addEventListener('dragstart', (e) => { dragId = c.missionId; card.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', c.missionId); } catch { /* */ } });
@@ -202,7 +202,7 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
     const sel = h('select', { id: sid, 'data-testid': 'compare-sort' }, SORTS.map(([v, t]) => h('option', { value: v, selected: v === sort }, t)));
     sel.addEventListener('change', () => { sort = sel.value; render(); sortBox.querySelector('select')?.focus(); });
     replace(sortBox, h('div', { class: 'field' }, h('label', { for: sid }, 'დალაგება'), sel,
-      h('p', { class: 'tiny muted' }, 'სიძვირე — Numbeo-ს „ცხოვრება + ქირა“ ინდექსით (თუ არ არის — ცხოვრების ინდექსით). გადაათრიეთ ბარათი ან გამოიყენეთ ← →.')));
+      h('p', { class: 'tiny muted' }, 'სიძვირე — Numbeo-ს „ცხოვრება + ქირა“ ინდექსით. თანმიმდევრობა — თრევით ან ← →.')));
     const list = ordered();
     replace(grid, list.length ? list.map((c, i) => cardFor(c, i, list.length)) : h('p', { class: 'muted' }, 'დაამატეთ ქალაქი შესადარებლად.'));
     const src = cols.find((c) => WITH_DATA.has(c.md?.status) && c.md?.provider)?.md?.provider;

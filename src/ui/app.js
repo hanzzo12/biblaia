@@ -2,7 +2,7 @@
 import { h, replace, uid, clearButton } from './dom.js';
 import * as core from '../core/index.js';
 import { missionPicker, shortName } from './picker.js';
-import { marketList, suggestBedrooms, rentFor } from './market.js';
+import { marketTiles, suggestBedrooms, rentFor } from './market.js';
 import { createMarketService } from './market-service.js';
 import { renderResult, resultModel } from './result.js';
 import { resultPdf, downloadBytes } from './pdf/reports.js';
@@ -37,7 +37,7 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
   const monthEnd = `${month}-${String(new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()).padStart(2, '0')}`;
   const fresh = () => ({
     step: 1, maxStep: 1, missionId: null, mode: 'annex2', entryId: null, head: false, headTouched: false, ageRaw: '',
-    family: [], nextId: 1, rentRaw: '', rentFromMarket: false, edu: {},
+    family: [], nextId: 1, rentRaw: '', rentFromMarket: false, rentTouched: false, edu: {},
     ex: { insurance: false, baggage: false, broker: false, settlement: false }, policy: {}, bagRaw: '', brokerRaw: '', dailyOverride: false, dailyRaw: '', dailyCur: null,
   });
   let st = fresh();
@@ -93,9 +93,22 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
     const md = await service.get(loc, m.fundingCurrency);
     if (token !== market.token) return; // გვიანი პასუხი სხვა ქალაქისთვის
     market.loading = false; market.md = md;
+    prefillRent();
     refreshMarket();
   }
   let refreshMarket = () => {};
+
+  /** ქირის წინასწარი შევსება Numbeo-ს საშუალოთი (სანამ მომხმარებელი თავად არ შეცვლის). @returns {boolean} შეიცვალა თუ არა */
+  function prefillRent() {
+    if (st.rentTouched) return false;
+    const m = mission(); const md = market.md;
+    const avg = md && m && md.requestedLocationId === m.locationId && md.currency === m.fundingCurrency ? rentFor(md, beds()) : null;
+    if (avg == null) { if (st.rentFromMarket) { st.rentRaw = ''; st.rentFromMarket = false; return true; } return false; }
+    if (st.rentFromMarket && st.rentRaw === avg) return false;
+    st.rentRaw = avg; st.rentFromMarket = true;
+    st.marketRef = { locationId: md.requestedLocationId, providerId: md.provider?.id ?? 'numbeo-apify', metric: `centre_${beds()}br`, fetchedAt: md.fetchedAt ?? null };
+    return true;
+  }
 
   // ---------- ჩარჩო ----------
   const pills = h('ol', { class: 'pills', 'aria-label': 'საფეხურები' });
@@ -148,12 +161,12 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
       const k = m.coefficient;
       replace(info, `ვალუტა ${m.fundingCurrency} · კოეფიციენტი K ${k.k ?? '—'} · ბინის წილი ${k.ePercent != null ? k.ePercent + '%' : '—'}`);
       card.hidden = false;
-      replace(card, h('h3', null, `ცხოვრების ღირებულება — ${m.location_ka}`), marketList(market.md, beds(), { loading: market.loading }));
+      replace(card, h('h3', null, `ცხოვრების ღირებულება — ${m.location_ka}`), marketTiles(market.md, beds(), { loading: market.loading, familyCount: st.family.length }));
     };
     refreshMarket = fill;
     const picker = missionPicker({ data, label: 'საელჩო / საკონსულო / მისია', value: st.missionId, testid: 'mission',
       onClear: () => { st.missionId = null; fill(); },
-      onPick: (id) => { st.missionId = id; st.dailyCur = null; body.querySelector('[data-need]')?.setAttribute('hidden', ''); fill(); loadMarket(); } });
+      onPick: (id) => { st.missionId = id; st.dailyCur = null; if (!st.rentTouched) { st.rentRaw = ''; st.rentFromMarket = false; } body.querySelector('[data-need]')?.setAttribute('hidden', ''); fill(); loadMarket(); } });
     setTimeout(fill, 0);
     if (st.missionId) loadMarket();
     return [...title('სად მიდიხართ?', 'აირჩიეთ დაწესებულება — ჩაწერეთ ქალაქი ან ქვეყანა.'), picker, info, need('ჯერ აირჩიეთ დაწესებულება.'), card];
@@ -216,7 +229,7 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
       h('p', { class: 'label', id: name + '-l' }, 'თანამდებობა'), group,
       need('აირჩიეთ თანამდებობა.'),
       h('div', { class: 'toggle' }, head, h('label', { for: headId }, h('strong', null, 'წარმომადგენლობის ხელმძღვანელი'), h('span', { class: 'muted small' }, 'ქირის ზედმეტის 80% ანაზღაურდება (სხვებს — 50%)'))),
-      h('div', { class: 'field' }, h('label', { for: ageId }, 'თქვენი ასაკი'), age, h('p', { id: ageId + '-h', class: 'muted small' }, 'საჭიროა მხოლოდ დაზღვევის ლიმიტისთვის; შეიძლება დატოვოთ ცარიელი.')),
+      h('div', { class: 'field' }, h('label', { for: ageId }, 'თქვენი ასაკი'), age, h('p', { id: ageId + '-h', class: 'muted small' }, 'მხოლოდ დაზღვევის ლიმიტისთვის (არასავალდებულო).')),
       h('h3', null, 'ოჯახის წევრები, რომლებიც თან მიგყვებათ'), famList, addBtn];
   }
 
@@ -234,19 +247,21 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
   function step3() {
     const m = mission(); const cur = m?.fundingCurrency ?? '';
     const chipBox = h('div', { class: 'chip-box', 'aria-live': 'polite' });
-    const rent = moneyField('ბინის ქირა თვეში', () => st.rentRaw, (v) => { st.rentRaw = v; st.rentFromMarket = false; }, { cur, testid: 'rent', after: chipBox });
-    const fillChip = () => {
+    prefillRent();
+    const rent = moneyField('ბინის ქირა თვეში', () => st.rentRaw, (v) => { st.rentRaw = v; st.rentFromMarket = false; st.rentTouched = true; fillChip(); }, { cur, testid: 'rent', after: chipBox });
+    function fillChip() {
       const avg = rentFor(market.md, beds());
-      if (avg == null || market.md?.currency !== cur) { replace(chipBox); return; }
-      const b = h('button', { type: 'button', class: 'chip', 'data-testid': 'use-market-rent' }, `Numbeo-ს საშუალო (ცენტრი, ${beds()} საძინებელი): ${core.formatAmount(avg)} ${cur} — გამოყენება`);
-      b.addEventListener('click', () => {
-        st.rentRaw = avg; st.rentFromMarket = true;
-        st.marketRef = { locationId: market.md.requestedLocationId, providerId: market.md.provider?.id ?? 'numbeo-apify', metric: `centre_${beds()}br`, fetchedAt: market.md.fetchedAt ?? null };
-        rent.inp.value = avg; rent.inp.dispatchEvent(new Event('change')); rent.inp.focus();
-      });
+      if (st.rentFromMarket) {
+        replace(chipBox, h('p', { class: 'hint-line', 'data-testid': 'rent-prefill-note' }, `საორიენტაციო — Numbeo-ს საშუალო ქირა (ცენტრი, ${beds()} საძ.). თუ ზუსტი ქირა იცით, ჩაწერეთ.`));
+        return;
+      }
+      if (avg == null || market.md?.currency !== cur || !st.rentTouched) { replace(chipBox); return; }
+      const b = h('button', { type: 'button', class: 'linkish', 'data-testid': 'use-market-rent' }, `Numbeo-ს ფასის დაბრუნება (${core.formatAmount(avg)} ${cur})`);
+      b.addEventListener('click', () => { st.rentTouched = false; prefillRent(); syncInp(); fillChip(); rent.inp.focus(); });
       replace(chipBox, b);
-    };
-    refreshMarket = fillChip;
+    }
+    const syncInp = () => { if (rent.inp.value !== st.rentRaw) rent.inp.value = st.rentRaw; const cb = rent.inp.parentElement.querySelector('.clear-btn'); if (cb) cb.hidden = !rent.inp.value; };
+    refreshMarket = () => { if (prefillRent() || st.rentFromMarket) syncInp(); fillChip(); };
     fillChip();
     loadMarket();
     const kids = st.family.filter((f) => f.role === 'child');
@@ -265,7 +280,7 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
     const capSum = known.length ? (known.reduce((a, p) => a + Math.round(Number(p.annualCap.value) * 100), 0) / 100).toFixed(2) : null;
     const unknownNames = persons.filter((p) => p.annualCap?.value == null).map((p) => personName(p.personId));
     const insBox = h('div', { class: 'ins' },
-      h('p', { class: 'small muted' }, 'წლიური ლიმიტი — მაქსიმუმი, რამდენიც ანაზღაურდება პოლისის ფასიდან წელიწადში (არა თვიური და არა გასაცემი თანხა).'),
+      h('p', { class: 'small muted' }, 'წლიური ლიმიტი — მაქსიმუმი, არა გასაცემი თანხა.'),
       persons.map((p) => {
         const nm = personName(p.personId);
         const f = moneyField('პოლისის ფასი წელიწადში (თუ იცით)', () => st.policy[p.personId] ?? '', (x) => { st.policy[p.personId] = x; }, { cur, placeholder: '' });
@@ -281,7 +296,7 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
     overrideLink.addEventListener('click', () => { st.dailyOverride = !st.dailyOverride; replace(body, step3()); body.querySelector('[data-testid="ex-settlement"]')?.focus(); });
     const curSel = h('select', { 'aria-label': 'ნორმის ვალუტა', class: 'cur-sel' }, ['EUR', 'USD'].map((c) => h('option', { value: c, selected: (st.dailyCur || cur) === c }, c)));
     curSel.addEventListener('change', () => { st.dailyCur = curSel.value; });
-    return [...title('ქირა, სწავლა, ხარჯები', 'თვიური თანხები. თუ ქირა ჯერ არ იცით — დატოვეთ ცარიელი.'),
+    return [...title('ქირა, სწავლა, ხარჯები'),
       rent.el,
       kids.length ? h('h3', null, 'სკოლა / ბაღი') : null,
       kids.map((f, i) => moneyField(`სკოლა/ბაღი — თვიური გადასახადი (შვილი ${i + 1}${parseAge(f.ageRaw) != null ? ', ' + parseAge(f.ageRaw) + ' წ.' : ''})`, () => st.edu[f.id] ?? '', (v) => { st.edu[f.id] = v; }, { cur, testid: 'edu' }).el),
