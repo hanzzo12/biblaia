@@ -8,18 +8,16 @@
 
 | ვარიანტი | რა ხდება | ბაზრის ფასები |
 | --- | --- | --- |
-| **ონლაინ (ძირითადი)** — Cloudflare-ზე განთავსებული გვერდი | სრული კალკულატორი + ქირა/კომუნალური/სურსათი/რესტორნები + 5 ქალაქის შედარება | ✅ (Worker → Apify → Numbeo, 30-დღიანი ქეში) |
-| **ოფლაინ ფაილი** — `release/rotation-calculator.html` ორმაგი დაწკაპუნებით | ყველა ოფიციალური გამოთვლა ინტერნეტის გარეშე | ❌ (ფაილს სერვერი არ აქვს) |
+| **ონლაინ (ძირითადი)** — https://rotation-calculator.gizo1212.workers.dev (Cloudflare Worker, GitHub-იდან ავტომატური განთავსება) | სრული კალკულატორი, ქირა/კომუნალური/სურსათი/რესტორნები, შედარება (ლიმიტის გარეშე), „ქალაქების სიძვირე“ | ✅ ქეში (KV) → Apify-ის ასლი 04.11.2026 → მომხმარებლის ასლი 31.10.2026 → დედაქალაქი |
+| **ოფლაინ ფაილი** — `release/rotation-calculator.html` ორმაგი დაწკაპუნებით | ყველა ოფიციალური გამოთვლა ინტერნეტის გარეშე | ✅ ჩაშენებული ასლებიდან (განახლების გარეშე) |
 
-### როგორ ავტვირთო
+### როგორ ავტვირთო / განვაახლო
 
-**უმარტივესი გზა (ბრძანებების გარეშე): Cloudflare Pages + GitHub — [docs/deploy-pages.md](docs/deploy-pages.md).**
-მოკლედ: Workers & Pages → Create application → Pages → Connect to Git → `hanzzo12/biblaia` → Framework preset `None`, Build command `npm run build`, Build output directory `dist/web` → ცვლადები `NODE_VERSION=22`, `APIFY_TOKEN` (Encrypt) → Save and Deploy → Settings → Bindings → KV `MARKET_CACHE` → ხელახალი განთავსება → შემოწმება: `/api/market/health`.
+- **მიმდინარე გზა:** Cloudflare → Workers & Pages → Import a repository (GitHub) → `hanzzo12/biblaia`; Build command `npm run build`, Deploy command `npx wrangler deploy` (კონფიგურაცია `wrangler.jsonc`; KV ავტომატურად იქმნება). Secret `APIFY_TOKEN` — Settings → Variables and Secrets. ყოველი push ფილიალში `ccr-733af0f1-rqqflu` საიტს ავტომატურად განაახლებს. დეტალურად — [docs/deploy-pages.md](docs/deploy-pages.md) (პირველი სექცია).
+- **ბაზრის მონაცემების განახლება:** cron (ყოველ 15 წთ ამოწმებს) თვეში ერთხელ უშვებს Apify-ს (≈ $3.16), პირველად **2026-12-01**-დან (`MARKET_FIRST_REFRESH_AFTER`). მდგომარეობა: `/api/market/health`.
+- სხვა გზები: Pages (ძველი მენიუ) — იგივე დოკუმენტის მეორე ნაწილი; CLI — [docs/deploy.md](docs/deploy.md); ფასების გარეშე ZIP-ის ჩაგდება — `release/pages-upload.zip`.
 
-- ZIP-ის ჩაგდება (drag-and-drop) მხოლოდ `release/pages-upload.zip`-ით და **ფასების გარეშე** (Functions არ ეშვება).
-- დეველოპერებისთვის CLI გზა (Workers, `wrangler.jsonc`): [docs/deploy.md](docs/deploy.md).
-
-ლოკალურად: `.dev.vars.example` → `.dev.vars` (ჩაწერეთ `APIFY_TOKEN`), შემდეგ `npm run pages:dev` (http://localhost:8788) ან `npm run dev` (Workers, http://localhost:8787).
+ლოკალურად: `.dev.vars.example` → `.dev.vars` (ჩაწერეთ `APIFY_TOKEN`), შემდეგ `npm run dev` (http://localhost:8787).
 
 ## რას ითვლის
 
@@ -53,7 +51,7 @@
 - ქეში 30 დღე (Workers KV); ვერ მიღებისას ჩანს ბოლო შენახული ასლი „მოძველებულის“ ნიშნით.
 - **ღირებულება (Apify, 2026-10-30):** $0.01 გაშვებაზე + $0.005 ქალაქზე. ყველა ქალაქის ინდექსები (547) ≈ $2.75 ერთ გაშვებაზე, ერთი ქალაქის ფასები ≈ $0.015. 30-დღიანი ქეშით ≈ $2.75/თვე + ≤ $1.22/თვე 81 ქალაქზე. ინდექსების გამორთვა: `"MARKET_RANKINGS_ENABLED": "false"`.
 - სურსათის „კალათა“ = Numbeo-ს „Markets“ ერთეულების ფასების ჯამი ალკოჰოლისა და თამბაქოს გარეშე (არა თვიური ხარჯი).
-- **რისკი:** Numbeo-ს გამოყენების პირობები კრძალავს ნებართვის გარეშე ავტომატურ ამოკითხვას და მონაცემის ხელახალ გავრცელებას; მესამე მხარის actor ამას არ ცვლის. საჭიროებისას გამორთვა: Pages: Settings → Variables and Secrets → `MARKET_PROVIDER` = `off` (Workers/CLI: `wrangler.jsonc`). დეტალები — `docs/providers.md`.
+- **რისკი:** Numbeo-ს გამოყენების პირობები კრძალავს ნებართვის გარეშე ავტომატურ ამოკითხვას და მონაცემის ხელახალ გავრცელებას; მესამე მხარის actor ამას არ ცვლის. საჭიროებისას გამორთვა: Worker: Settings → Variables and Secrets ან `wrangler.jsonc` → `MARKET_PROVIDER` = `off`. დეტალები — `docs/providers.md`.
 - ბაზრის მაჩვენებლები ბრძანების `K`-ს, `E`-ს, `H`-ს და თქვენს მიერ შეყვანილ ქირას **არ ცვლის**; ქირა გადადის გაანგარიშებაში მხოლოდ ღილაკით „გამოვიყენო დაგეგმილ ქირად“ (სცენარად).
 
 ## პროექტის სტრუქტურა
