@@ -369,6 +369,28 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
   .tile-v, .tile-s { grid-column: 1 / -1; }
   .tile-v { font-size: .92rem; }
 }
+/* cost-of-living icon list (round 7) */
+.ilist { list-style: none; margin: 0; padding: 0; }
+.irow { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; column-gap: 10px; align-items: center; min-height: 46px; padding: 5px 0; border-bottom: 1px solid var(--line); }
+.irow:last-child { border-bottom: 0; }
+.irow .ico { color: var(--accent); width: 18px; height: 18px; }
+.irow-t { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.irow-l { font-size: .9rem; color: var(--ink); }
+.irow-s { font-size: .72rem; color: var(--muted); }
+.irow-v { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; min-width: 7.5em; font-size: .92rem; }
+.ilist.compact .irow { min-height: 52px; column-gap: 8px; grid-template-columns: 16px minmax(0, 1fr) auto; }
+.ilist.compact .ico { width: 15px; height: 15px; }
+.ilist.compact .irow-l { font-size: .8rem; }
+.ilist.compact .irow-s { font-size: .66rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ilist.compact .irow-v { font-size: .82rem; min-width: 0; }
+@media (max-width: 480px) { .irow-v { min-width: 0; } }
+/* ბარათების სექციები ერთ დონეზე (subgrid): სათაური · შეჯამება · დეტალები · ცხოვრების ღირებულება · ← → */
+.cgrid { grid-auto-rows: auto; row-gap: 0; column-gap: 14px; }
+.ccard { display: grid; grid-template-rows: subgrid; grid-row: span 5; row-gap: 0; align-content: start; margin-bottom: 14px; }
+.ccard > .cdet { align-self: start; }
+.ccard > .cmarket { margin-top: 8px; }
+@media (max-width: 700px) { .cgrid { grid-template-rows: repeat(5, auto); } }
+@supports not (grid-template-rows: subgrid) { .ccard { display: block; } }
 
 @media print {
   @page { size: A4 portrait; margin: 10mm 12mm; }
@@ -407,6 +429,12 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
   .mres { margin: 4pt 0; padding: 4pt 8pt; border: 1px solid #999; background: #fff; }
   .mres h3 { margin: 0 0 2pt; }
   .mres .mrow { padding: 1pt 0; font-size: 8pt; }
+  .mres .ilist { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12pt; }
+  .mres .irow { min-height: 0; padding: 1pt 0; column-gap: 4pt; grid-template-columns: 10pt minmax(0, 1fr) auto; }
+  .mres .irow .ico { width: 9pt; height: 9pt; }
+  .mres .irow-l, .mres .irow-v { font-size: 7.5pt; }
+  .mres .irow-s { font-size: 6pt; }
+  .mres .mnotes { font-size: 6.5pt; margin: 2pt 0 0; }
   .mres .msource, .mres .mindex { margin: 1pt 0 0; font-size: 7pt; }
   .formula, .details .small, .details .tiny { margin: 2pt 0; font-size: 7pt; }
   .chain { margin: 0 0 4pt; padding: 3pt 8pt; background: none; border: 1px solid #999; }
@@ -25226,13 +25254,17 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
   };
   function tile(key, label, value, sub2, o = {}) {
     return h(
-      "div",
-      { class: "tile", "data-tile": key, title: o.title ?? null },
+      "li",
+      { class: "irow", "data-tile": key, title: o.title ?? null },
       icon(ICONS[o.icon ?? key]),
-      h("span", { class: "tile-l" }, label),
-      h("span", { class: "tile-v", "data-value": o.raw ?? "", "data-testid": o.testid ?? null }, value),
-      sub2 ? h("span", { class: "tile-s" }, sub2) : null,
-      o.hidden ? h("span", { class: "sr-only" }, o.hidden) : null
+      h(
+        "span",
+        { class: "irow-t" },
+        h("span", { class: "irow-l" }, label),
+        sub2 ? h("span", { class: "irow-s" }, sub2) : null,
+        o.hidden ? h("span", { class: "sr-only" }, o.hidden) : null
+      ),
+      h("span", { class: "irow-v", "data-value": o.raw ?? "", "data-testid": o.testid ?? null }, value)
     );
   }
   function marketTiles(md, beds, { loading = false, compact = false, familyCount = 0, source = true } = {}) {
@@ -25257,19 +25289,19 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       tile("internet", "ინტერნეტი", m(avg(u.internet)), "თვეში", { icon: "wifi", raw: avg(u.internet) }),
       tile("groceries", "სურსათი", m(g.basketItemsSum), "15 პროდუქტის ერთ. ფასი · არა თვიური", { icon: "cart", raw: g.basketItemsSum, title: GROCERIES_LABEL, hidden: GROCERIES_LABEL }),
       tile("restaurants", "რესტორანი", m(avg(r.inexpensiveMeal)), `ბიუჯეტური · 2 პირზე ${avg(r.midRangeForTwo) != null ? formatAmount(avg(r.midRangeForTwo)) : "—"}`, { icon: "food", raw: avg(r.inexpensiveMeal) }),
-      b ? tile("budget", "თვიური ხარჯი", m(bud), `${alone ? "1 პირი" : "ოჯახი (4)"} · ქირის გარეშე${est ? " · ≈ ინდექსით" : ""}`, {
+      tile("budget", "თვიური ხარჯი", m(bud), `${alone ? "1 პირი" : "ოჯახი (4)"} · ქირის გარეშე${est ? " · ≈ ინდექსით" : ""}`, {
         icon: "wallet",
         raw: bud,
         testid: compact ? null : "market-budget",
-        hidden: `1 პირი: ${m(avg(b.single))}; ოჯახი 4: ${m(avg(b.family4))}`
-      }) : null,
-      md.indices?.costOfLiving != null ? tile("index", "ინდექსი", String(md.indices.costOfLiving), `ცხოვრება${md.indices.costOfLivingPlusRent != null ? ` · +ქირა ${md.indices.costOfLivingPlusRent}` : ""} · ნიუ-იორკი = 100`, { icon: "chart", raw: md.indices.costOfLiving }) : null
+        hidden: b ? `1 პირი: ${m(avg(b.single))}; ოჯახი 4: ${m(avg(b.family4))}` : null
+      }),
+      tile("index", "ინდექსი", md.indices?.costOfLiving != null ? String(md.indices.costOfLiving) : "—", `ცხოვრება${md.indices?.costOfLivingPlusRent != null ? ` · +ქირა ${md.indices.costOfLivingPlusRent}` : ""} · ნიუ-იორკი = 100`, { icon: "chart", raw: md.indices?.costOfLiving ?? null })
     ].filter(Boolean);
     const small = [...notes.map((n) => n.text), source && md.provider ? null : null].filter(Boolean);
     return h(
       "div",
       { class: "mtiles-wrap" },
-      h("div", { class: "mtiles" + (compact ? " compact" : "") }, tiles),
+      h("ul", { class: "ilist" + (compact ? " compact" : "") }, tiles),
       small.length ? h("p", { class: "mnotes" }, small.join(" · ")) : null,
       source && md.provider ? h(
         "p",
@@ -26401,9 +26433,9 @@ ${pos}
             h("span", { class: "with-cur" }, h("span", { class: "inp-wrap" }, rentInp, clearButton(rentInp)), h("span", { class: "cur" }, M.cur))
           ),
           h("div", { class: "crow" }, h("span", null, "რამდენს ანაზღაურებს (F)"), h("strong", null, M.F)),
-          h("div", { class: "crow" }, h("span", null, "თქვენ ამატებთ ქირაში"), h("strong", null, M.extra)),
-          h("div", { class: "cmarket" }, marketTiles(c.md, beds(), { loading: c.loading, source: false, compact: true, familyCount: scenario({}).family.length }))
+          h("div", { class: "crow" }, h("span", null, "თქვენ ამატებთ ქირაში"), h("strong", null, M.extra))
         ),
+        h("div", { class: "cmarket" }, marketTiles(c.md, beds(), { loading: c.loading, source: false, compact: true, familyCount: scenario({}).family.length })),
         h("div", { class: "cmove no-print" }, left, right)
       );
       card2.addEventListener("dragstart", (e) => {
@@ -27218,7 +27250,7 @@ ${pos}
     appVersion: true ? "1.0.0" : "dev",
     rulesVersion: true ? "01-82/supplied-pdf-2026-10-28" : normative_data_default.rulesVersion,
     dataSha: true ? "c255047429996242175a8a5a7ebc09a81bc2e7a7df943644e34e373a255af846" : "unknown",
-    buildDate: true ? "2026-11-06" : "dev"
+    buildDate: true ? "2026-11-07" : "dev"
   };
   var online = location.protocol === "http:" || location.protocol === "https:";
   var client = online ? createMarketClient({ endpoint: "/api/market", timeoutMs: 1e5 }) : null;
