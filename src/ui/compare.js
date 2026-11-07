@@ -164,8 +164,8 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
         h('div', { class: 'rent-in' }, h('label', { for: rid }, `ქირა (${M.rentLabel})`),
           h('span', { class: 'with-cur' }, h('span', { class: 'inp-wrap' }, rentInp, clearButton(rentInp)), h('span', { class: 'cur' }, M.cur))),
         h('div', { class: 'crow' }, h('span', null, 'რამდენს ანაზღაურებს (F)'), h('strong', null, M.F)),
-        h('div', { class: 'crow' }, h('span', null, 'თქვენ ამატებთ ქირაში'), h('strong', null, M.extra)),
-        h('div', { class: 'cmarket' }, marketTiles(c.md, beds(), { loading: c.loading, source: false, compact: true, familyCount: scenario({}).family.length }))),
+        h('div', { class: 'crow' }, h('span', null, 'თქვენ ამატებთ ქირაში'), h('strong', null, M.extra))),
+      h('div', { class: 'cmarket' }, marketTiles(c.md, beds(), { loading: c.loading, source: false, compact: true, familyCount: scenario({}).family.length })),
       h('div', { class: 'cmove no-print' }, left, right));
     // გადათრევა (მაუსი)
     card.addEventListener('dragstart', (e) => { dragId = c.missionId; card.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', c.missionId); } catch { /* */ } });

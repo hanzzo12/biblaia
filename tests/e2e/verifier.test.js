@@ -105,12 +105,12 @@ test('offline file://: golden Vienna S, rent breakdown, chain, living remainder;
     assert.equal(chain[4][0], 'chain-remainder');
     assert.equal(chain.at(-1)[0], 'remainder-living', 'living remainder is the last chain row');
     // living deduction = family-of-4 budget shown in the page's own market block (spouse + child -> not alone)
-    const budget = p.locator('[data-testid="market-result"] .tile[data-tile="budget"]');
+    const budget = p.locator('[data-testid="market-result"] .irow[data-tile="budget"]');
     assert.match(await budget.innerText(), /ოჯახი \(4\)/, 'family budget tile (spouse + child -> not alone)');
     const fam4 = await budget.getByTestId('market-budget').getAttribute('data-value');
     assert.match(fam4 ?? '', /^\d+(\.\d+)?$/, `family-4 budget shown: ${fam4}`);
     for (const t of ['rent', 'utilities', 'internet', 'groceries', 'restaurants', 'budget', 'index']) {
-      assert.equal(await p.locator(`[data-testid="market-result"] .tile[data-tile="${t}"]`).count(), 1, `tile ${t}`);
+      assert.equal(await p.locator(`[data-testid="market-result"] .irow[data-tile="${t}"]`).count(), 1, `tile ${t}`);
     }
     const exp = (Math.round((3423.16327 - Number(fam4)) * 100) / 100).toFixed(2);
     assert.equal(chain.at(-2)[1], fam4, 'deduction row = family-of-4 budget');
@@ -129,7 +129,7 @@ for (const mode of ['fresh', 'cached', 'stale', 'partial']) {
     try {
       await s.page.getByTestId('mission').fill('Vienna');
       await s.page.getByTestId('mission').press('Enter');
-      await s.page.locator('.mcard .tile[data-tile="rent"]').first().waitFor({ timeout: 5000 });
+      await s.page.locator('.mcard .irow[data-tile="rent"]').first().waitFor({ timeout: 5000 });
       const mtext = await s.page.locator('.mcard').innerText();
       if (mode === 'partial') {
         assert.equal(await dv(s.page, '[data-testid="market-rent"]'), '', 'missing rent has no value');
@@ -160,7 +160,7 @@ for (const mode of ['not_found', 'network_error', 'disabled', 'rate_limited', 'i
       assert.equal(await line.count(), 1);
       assert.equal((await line.innerText()).trim(), UNAVAILABLE);
       assert.match(await line.getAttribute('class'), /muted/);
-      assert.equal(await s.page.locator('.mcard .tile').count(), 0, 'no partial price tiles');
+      assert.equal(await s.page.locator('.mcard .irow').count(), 0, 'no partial price tiles');
       await s.page.getByTestId('next').click();
       await stepPosition(s.page, { family: [] });
       await stepCosts(s.page, { rent: '1500', edu: null });

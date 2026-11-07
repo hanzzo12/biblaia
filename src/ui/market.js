@@ -120,12 +120,11 @@ const ICONS = {
   chart: ['M3 3v18h18', 'M7 15l4-4 3 3 6-7'],
 };
 function tile(key, label, value, sub, o = {}) {
-  return h('div', { class: 'tile', 'data-tile': key, title: o.title ?? null },
+  return h('li', { class: 'irow', 'data-tile': key, title: o.title ?? null },
     icon(ICONS[o.icon ?? key]),
-    h('span', { class: 'tile-l' }, label),
-    h('span', { class: 'tile-v', 'data-value': o.raw ?? '', 'data-testid': o.testid ?? null }, value),
-    sub ? h('span', { class: 'tile-s' }, sub) : null,
-    o.hidden ? h('span', { class: 'sr-only' }, o.hidden) : null);
+    h('span', { class: 'irow-t' }, h('span', { class: 'irow-l' }, label), sub ? h('span', { class: 'irow-s' }, sub) : null,
+      o.hidden ? h('span', { class: 'sr-only' }, o.hidden) : null),
+    h('span', { class: 'irow-v', 'data-value': o.raw ?? '', 'data-testid': o.testid ?? null }, value));
 }
 
 /** ცხოვრების ღირებულების ფილები. compact — შედარების ბარათისთვის. */
@@ -147,13 +146,13 @@ export function marketTiles(md, beds, { loading = false, compact = false, family
     tile('internet', 'ინტერნეტი', m(avg(u.internet)), 'თვეში', { icon: 'wifi', raw: avg(u.internet) }),
     tile('groceries', 'სურსათი', m(g.basketItemsSum), '15 პროდუქტის ერთ. ფასი · არა თვიური', { icon: 'cart', raw: g.basketItemsSum, title: GROCERIES_LABEL, hidden: GROCERIES_LABEL }),
     tile('restaurants', 'რესტორანი', m(avg(r.inexpensiveMeal)), `ბიუჯეტური · 2 პირზე ${avg(r.midRangeForTwo) != null ? formatAmount(avg(r.midRangeForTwo)) : '—'}`, { icon: 'food', raw: avg(r.inexpensiveMeal) }),
-    b ? tile('budget', 'თვიური ხარჯი', m(bud), `${alone ? '1 პირი' : 'ოჯახი (4)'} · ქირის გარეშე${est ? ' · ≈ ინდექსით' : ''}`, { icon: 'wallet', raw: bud, testid: compact ? null : 'market-budget',
-      hidden: `1 პირი: ${m(avg(b.single))}; ოჯახი 4: ${m(avg(b.family4))}` }) : null,
-    md.indices?.costOfLiving != null ? tile('index', 'ინდექსი', String(md.indices.costOfLiving), `ცხოვრება${md.indices.costOfLivingPlusRent != null ? ` · +ქირა ${md.indices.costOfLivingPlusRent}` : ''} · ნიუ-იორკი = 100`, { icon: 'chart', raw: md.indices.costOfLiving }) : null,
+    tile('budget', 'თვიური ხარჯი', m(bud), `${alone ? '1 პირი' : 'ოჯახი (4)'} · ქირის გარეშე${est ? ' · ≈ ინდექსით' : ''}`, { icon: 'wallet', raw: bud, testid: compact ? null : 'market-budget',
+      hidden: b ? `1 პირი: ${m(avg(b.single))}; ოჯახი 4: ${m(avg(b.family4))}` : null }),
+    tile('index', 'ინდექსი', md.indices?.costOfLiving != null ? String(md.indices.costOfLiving) : '—', `ცხოვრება${md.indices?.costOfLivingPlusRent != null ? ` · +ქირა ${md.indices.costOfLivingPlusRent}` : ''} · ნიუ-იორკი = 100`, { icon: 'chart', raw: md.indices?.costOfLiving ?? null }),
   ].filter(Boolean);
   const small = [...notes.map((n) => n.text), source && md.provider ? null : null].filter(Boolean);
   return h('div', { class: 'mtiles-wrap' },
-    h('div', { class: 'mtiles' + (compact ? ' compact' : '') }, tiles),
+    h('ul', { class: 'ilist' + (compact ? ' compact' : '') }, tiles),
     small.length ? h('p', { class: 'mnotes' }, small.join(' · ')) : null,
     source && md.provider ? h('p', { class: 'msource' },
       md.provider.sourceUrl ? h('a', { href: md.provider.sourceUrl, rel: 'noopener noreferrer', target: '_blank' }, md.provider.attribution_ka || 'წყარო: Numbeo.com') : (md.provider.attribution_ka || ''),

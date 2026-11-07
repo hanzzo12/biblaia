@@ -264,7 +264,7 @@ test('ონლაინ: ბაზრის ბარათი, ქირის
 test('ონლაინ შედეგი: ცხოვრების ღირებულების ბლოკი და ნაშთი საცხოვრებელი ხარჯების შემდეგ', async () => {
   const { page, errors } = await openOnline();
   await vienna(page);
-  await page.getByTestId('market-result').locator('.tile').first().waitFor();
+  await page.getByTestId('market-result').locator('.irow').first().waitFor();
   const mr = await page.getByTestId('market-result').innerText();
   assert.equal(await val(page, '[data-testid="market-result"] [data-testid="market-rent"]'), '3000.00');
   assert.match(mr, /გარეუბანი 2 250\.00/);

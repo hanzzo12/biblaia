@@ -35,6 +35,12 @@
   .mres { margin: 4pt 0; padding: 4pt 8pt; border: 1px solid #999; background: #fff; }
   .mres h3 { margin: 0 0 2pt; }
   .mres .mrow { padding: 1pt 0; font-size: 8pt; }
+  .mres .ilist { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12pt; }
+  .mres .irow { min-height: 0; padding: 1pt 0; column-gap: 4pt; grid-template-columns: 10pt minmax(0, 1fr) auto; }
+  .mres .irow .ico { width: 9pt; height: 9pt; }
+  .mres .irow-l, .mres .irow-v { font-size: 7.5pt; }
+  .mres .irow-s { font-size: 6pt; }
+  .mres .mnotes { font-size: 6.5pt; margin: 2pt 0 0; }
   .mres .msource, .mres .mindex { margin: 1pt 0 0; font-size: 7pt; }
   .formula, .details .small, .details .tiny { margin: 2pt 0; font-size: 7pt; }
   .chain { margin: 0 0 4pt; padding: 3pt 8pt; background: none; border: 1px solid #999; }

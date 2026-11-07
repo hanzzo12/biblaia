@@ -355,3 +355,25 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
   .tile-v, .tile-s { grid-column: 1 / -1; }
   .tile-v { font-size: .92rem; }
 }
+/* cost-of-living icon list (round 7) */
+.ilist { list-style: none; margin: 0; padding: 0; }
+.irow { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; column-gap: 10px; align-items: center; min-height: 46px; padding: 5px 0; border-bottom: 1px solid var(--line); }
+.irow:last-child { border-bottom: 0; }
+.irow .ico { color: var(--accent); width: 18px; height: 18px; }
+.irow-t { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.irow-l { font-size: .9rem; color: var(--ink); }
+.irow-s { font-size: .72rem; color: var(--muted); }
+.irow-v { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; min-width: 7.5em; font-size: .92rem; }
+.ilist.compact .irow { min-height: 52px; column-gap: 8px; grid-template-columns: 16px minmax(0, 1fr) auto; }
+.ilist.compact .ico { width: 15px; height: 15px; }
+.ilist.compact .irow-l { font-size: .8rem; }
+.ilist.compact .irow-s { font-size: .66rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ilist.compact .irow-v { font-size: .82rem; min-width: 0; }
+@media (max-width: 480px) { .irow-v { min-width: 0; } }
+/* ბარათების სექციები ერთ დონეზე (subgrid): სათაური · შეჯამება · დეტალები · ცხოვრების ღირებულება · ← → */
+.cgrid { grid-auto-rows: auto; row-gap: 0; column-gap: 14px; }
+.ccard { display: grid; grid-template-rows: subgrid; grid-row: span 5; row-gap: 0; align-content: start; margin-bottom: 14px; }
+.ccard > .cdet { align-self: start; }
+.ccard > .cmarket { margin-top: 8px; }
+@media (max-width: 700px) { .cgrid { grid-template-rows: repeat(5, auto); } }
+@supports not (grid-template-rows: subgrid) { .ccard { display: block; } }
