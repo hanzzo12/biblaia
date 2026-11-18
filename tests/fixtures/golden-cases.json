@@ -1236,6 +1236,42 @@
       "expected": {"H_EUR": "3100", "H_USD": "3495", "Q_percent": "7", "L_EUR": "690", "L_USD": "750", "eduExcessRate": "0.8", "brokerRateHead": "0.8", "brokerRateOther": "0.5", "settlementDays": "60", "settlementPerMember": "0.1"},
       "derivation": "order pts 3, 7, 8, 32, 33; Annex 1 art. 3",
       "status": "direct-rule"
+    },
+    {
+      "id": "T-0407-VIE",
+      "kind": "monthly-with-education",
+      "edition": "01-407",
+      "ruleRefs": ["Order №01-407 pt 1(b): Order №01-82 pt 3 H_EUR = 5000 (in force 2027-01-01)", "Order №01-407 new Annex 2 row 5 (counsellor 65%)", "Order №01-407 new Annex 4 row 1 (Austria K 1.543, E 20)", "Annex 1 art. 3", "Order №01-82 pts 32-33"],
+      "description": "NEW edition (from 2027-01-01). Vienna, A2-R5 65%, spouse + child, non-head, rent 1500 EUR, school 1000 EUR.",
+      "inputs": {"missionId": "M-A5-R1", "positionEntryId": "A2-R5", "H": "5000", "currency": "EUR", "A_percent": "65", "K": "1.543", "E_percent": "20", "C": 2, "isHead": false, "G": "1500", "educationExpenses": ["1000"]},
+      "expected": {
+        "D": {"exact": "5716.815", "display": "5716.82"},
+        "T": {"exact": "1143.363", "display": "1143.36"},
+        "F": {"exact": "1321.6815", "display": "1321.68"},
+        "S": {"exact": "5895.1335", "display": "5895.13"},
+        "educationReimbursement": {"exact": "938", "display": "938.00"},
+        "remainderAfterRentAndEducation": {"exact": "4333.1335", "display": "4333.13"}
+      },
+      "derivation": "D = 5000 x 0.65 x 1.543 x 1.14 = 3250 x 1.543 = 5014.75 x 1.14 = 5716.815; T = 5716.815 x 0.20 = 1143.363; G - T = 356.637, 0.5 x = 178.3185 <= T; F = 1321.6815; S = 5716.815 - 1143.363 + 1321.6815 = 5895.1335; edu = 690 + 0.8 x 310 = 938; remainder = 5895.1335 + 938 - 1500 - 1000 = 4333.1335",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-0407-WAS",
+      "kind": "monthly-with-education",
+      "edition": "01-407",
+      "ruleRefs": ["Order №01-407: H_USD = 5600 (in force 2027-01-01)", "Order №01-407 new Annex 4 row 40 (USA Washington K 1.572, E 29)", "Annex 1 art. 3 (d.g.b)", "Order №01-82 pts 32-33 (USD limit 750)"],
+      "description": "NEW edition. Washington embassy, A2-R5 65%, spouse + child, non-head, rent 5049.17 USD, school 1119.95 USD (1000 EUR at the UI reference rate 1.119954 — the conversion is an interpretation; the input here is the USD amount).",
+      "inputs": {"missionId": "M-A6-R4", "positionEntryId": "A2-R5", "H": "5600", "currency": "USD", "A_percent": "65", "K": "1.572", "E_percent": "29", "C": 2, "isHead": false, "G": "5049.17", "educationExpenses": ["1119.95"]},
+      "expected": {
+        "D": {"exact": "6523.1712", "display": "6523.17"},
+        "T": {"exact": "1891.719648", "display": "1891.72"},
+        "F": {"exact": "3470.444824", "display": "3470.44"},
+        "S": {"exact": "8101.896376", "display": "8101.90"},
+        "educationReimbursement": {"exact": "1045.96", "display": "1045.96"},
+        "remainderAfterRentAndEducation": {"exact": "2978.736376", "display": "2978.74"}
+      },
+      "derivation": "D = 5600 x 0.65 x 1.572 x 1.14 = 3640 x 1.572 = 5722.08 x 1.14 = 6523.1712; T = x 0.29 = 1891.719648; G - T = 3157.450352, 0.5 x = 1578.725176 <= T (not capped, unlike the old edition); F = 3470.444824; S = 6523.1712 - 1891.719648 + 3470.444824 = 8101.896376; edu = 750 + 0.8 x 369.95 = 1045.96; remainder = 8101.896376 + 1045.96 - 5049.17 - 1119.95 = 2978.736376",
+      "status": "direct-rule"
     }
   ]
 }

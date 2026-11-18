@@ -27,7 +27,7 @@ const K_BASIS = new Set(['city-row', 'country-row', 'none']);
 const DEC_RE = /^\d+(\.\d+)?$/;
 // Expected counts as found in the supplied PDF (see docs/data-schema.md).
 const EXPECTED = {
-  annex2: 9, annex3: 8, annex4: 69,
+  annex2: 7, annex3: 7, annex4: 69, // Order №01-407 Annexes 2–4 (from 2027-01-01)
   missionsA5: 44, missionsA6: 38,
   insA7: 44, insA8: 38, bagA9: 44, bagA10: 38,
 };
@@ -128,6 +128,26 @@ for (const b of data.baseAmounts) {
   ref(src, b.sourceRef, `baseAmounts ${b.id}.sourceRef`);
 }
 check(new Set(data.baseAmounts.map((b) => b.currency)).size === 2, 'baseAmounts: one per currency (EUR, USD)');
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+for (const b of data.baseAmounts) {
+  if (b.effectiveFrom !== undefined) check(DATE_RE.test(b.effectiveFrom), `baseAmounts ${b.id}: effectiveFrom YYYY-MM-DD`);
+  if (b.previous !== undefined) {
+    if (check(isObj(b.previous), `baseAmounts ${b.id}: previous must be an object`)) {
+      posDec(b.previous.amount, `baseAmounts ${b.id}.previous.amount`);
+      check(DATE_RE.test(b.previous.until || ''), `baseAmounts ${b.id}: previous.until YYYY-MM-DD`);
+      ref(src, b.previous.sourceRef, `baseAmounts ${b.id}.previous.sourceRef`);
+      if (b.effectiveFrom) check(b.previous.until < b.effectiveFrom, `baseAmounts ${b.id}: previous.until must precede effectiveFrom`);
+    }
+  }
+}
+// Order №01-407 (2026-11-17): H = 5000 EUR / 5600 USD from 2027-01-01; Annex 2–4 replacement text not supplied
+const hOf = (c) => data.baseAmounts.find((b) => b.currency === c);
+check(hOf('EUR')?.amount === '5000' && hOf('USD')?.amount === '5600', 'T-DATA-H-01-407: H = 5000 EUR / 5600 USD (Order №01-407 pt 1(b))');
+check(hOf('EUR')?.effectiveFrom === '2027-01-01' && hOf('USD')?.effectiveFrom === '2027-01-01', 'T-DATA-H-01-407: effectiveFrom 2027-01-01 (Order №01-407 pt 2)');
+check(hOf('EUR')?.previous?.amount === '3100' && hOf('USD')?.previous?.amount === '3495', 'T-DATA-H-PREVIOUS: previous H 3100 EUR / 3495 USD kept');
+const replaced = data.sourceReferences.filter((r) => r.replacedBy && r.replacementTextSupplied === false);
+if (replaced.length) check(data.dataGaps.some((g) => g.id === 'GAP-ANNEX-2-3-4-01-407'), 'replaced annexes without supplied text need dataGaps.GAP-ANNEX-2-3-4-01-407');
+for (const r of replaced) ref(src, r.replacedBy, `sourceReferences ${r.id}.replacedBy`);
 for (const p of data.parameters) {
   posDec(p.value, `parameters ${p.id}.value`);
   ref(src, p.sourceRef, `parameters ${p.id}.sourceRef`);
@@ -250,7 +270,9 @@ for (const [k, v] of Object.entries(EXPECTED)) check(counts[k] === v, `count ${k
 const rawMap = { 2: 'annex2', 3: 'annex3', 4: 'annex4', 5: 'missionsA5', 6: 'missionsA6', 7: 'insA7', 8: 'insA8', 9: 'bagA9', 10: 'bagA10' };
 const removedRaw = [];
 for (const [n, key] of Object.entries(rawMap)) {
-  const p = join(ROOT, 'sources', 'extracted', `annex${String(n).padStart(2, '0')}.raw.json`);
+  const p = Number(n) <= 3
+    ? join(ROOT, 'sources', 'extracted', `order-01-407-annex${n}.raw.json`)
+    : join(ROOT, 'sources', 'extracted', `annex${String(n).padStart(2, '0')}.raw.json`);
   if (!existsSync(p)) { warnings.push(`raw extract ${p} not found; raw count check skipped`); continue; }
   const raw = JSON.parse(readFileSync(p, 'utf8'));
   check(raw.counts.effectiveEntries === counts[key], `annex ${n}: normalized count ${counts[key]} != raw effective entries ${raw.counts.effectiveEntries}`);
@@ -298,7 +320,10 @@ const kOf = (id) => kcoef.get(mission(id)?.costCoefficientId)?.k;
 const insOf = (id, band) => ins.get(mission(id)?.insuranceCapId)?.bands?.[band];
 const bagOf = (id) => bag.get(mission(id)?.baggageCapId)?.amount;
 const known = [
-  ['T-DATA-IRAN-K', kOf('M-A6-R15') === '1.89', 'Iran K = 1.89 (Annex 4 row 22)'],
+  ['T-DATA-IRAN-K', kOf('M-A6-R15') === '1.291', 'Iran K = 1.291 (Order №01-407 Annex 4 row 53)'],
+  ['T-DATA-IRAN-K-HISTORY', (data.history?.costCoefficients || []).find((k) => k.id === data.history?.missionCostCoefficientIds?.['M-A6-R15'])?.k === '1.89', 'previous Iran K = 1.89 (Order №01-82 Annex 4 row 22) kept in history'],
+  ['T-DATA-01407-K-US', kOf('M-A6-R4') === '1.572' && kOf('M-A6-R5') === '1.787' && kOf('M-A6-R28') === '1.787', 'Washington 1.572, New York 1.787 (city rows)'],
+  ['T-DATA-01407-POS', !profiles.get('annex2')?.entries.some((e) => e.id === 'A2-R8' || e.id === 'A2-R9') && !profiles.get('annex3')?.entries.some((e) => e.id === 'A3-R8'), 'referent/driver rows removed by Order №01-407'],
   ['T-DATA-ODESA-INS', insOf('M-A6-R29', '40-44') === '734', 'Odesa insurance 40-44 = 734 USD (Annex 8 row 25)'],
   ['T-DATA-KYIV-INS', insOf('M-A6-R26', '40-44') === '1137', 'Kyiv insurance 40-44 = 1137 USD (Annex 8 row 22)'],
   ['T-DATA-LYON-BAG', bagOf('M-A5-R44') === '1950', 'Lyon baggage = 1950 EUR (Annex 9 row 43)'],

@@ -69,7 +69,29 @@ const bagFor = (annex, row) => data.baggageCaps.filter((x) => x.annex === annex 
 const kFor = (row) => data.costCoefficients.filter((x) => x.annex4Row === row);
 const missionFor = (annex, row) => data.missions.filter((x) => x.annex === annex && x.rowNo === row);
 
+/** Previous edition (Order №01-82 before №01-407), rebuilt from `history` — the golden data checks were read from that PDF. */
+function previousEdition(cur) {
+  const d = structuredClone(cur);
+  const hh = d.history;
+  if (!hh) return d;
+  d.baseAmounts = d.baseAmounts.map((b) => ({ ...b, amount: b.previous ? b.previous.amount : b.amount, effectiveFrom: null, previous: null }));
+  d.positionProfiles = hh.positionProfiles;
+  d.costCoefficients = hh.costCoefficients;
+  d.missions = d.missions.map((m) => ({ ...m, costCoefficientId: hh.missionCostCoefficientIds[m.id] ?? null }));
+  delete d.history;
+  return d;
+}
+const data0182 = previousEdition(data);
+const OLD = {
+  data: data0182,
+  kRows: byId(data0182.costCoefficients),
+  missions: byId(data0182.missions),
+  kFor: (row) => data0182.costCoefficients.filter((x) => x.annex4Row === row),
+  missionFor: (annex, row) => data0182.missions.filter((x) => x.annex === annex && x.rowNo === row),
+};
+
 export {
+  data0182, OLD,
   ROOT, data, golden, goldenCase, layoutPages, BAND_KEYS, DECIMAL, decEq,
   pageTokens, pageHasMultiset, pageHasSequence,
   missions, ins, bag, kRows, insFor, bagFor, kFor, missionFor,

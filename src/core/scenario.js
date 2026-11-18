@@ -268,6 +268,7 @@ export function validateScenario(scenario, data) {
     amount(`${p}.amount`, a.amount); date(`${p}.issueDate`, a.issueDate);
     if (!(Number.isInteger(a.months) && a.months >= 1 && a.months <= 120)) e(`${p}.months`, 'MONTHS', 'თვეების რაოდენობა — მთელი რიცხვი 1–120.');
     bool(`${p}.ministerOrder22`, a.ministerOrder22);
+    bool(`${p}.coefficientReduction261`, a.coefficientReduction261);
   });
   list('extras', scenario.extras).forEach((x, i) => {
     const p = `extras[${i}]`;

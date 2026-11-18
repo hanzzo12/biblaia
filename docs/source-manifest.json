@@ -1116,6 +1116,56 @@
         ]
       },
       "limitations": "Numbeo-ს სალიცენზიო პირობები ცალკე არ შემოწმებულა; [039] ვატიკანი = რომის მონაცემი; [014] ტრაპიზონი და [067] ჰავანა ნაწილობრივია; სტუტგარტი, სტრასბურგი, დონეცკი ფაილში არ არის."
+    },
+    {
+      "fileName": "sources/original/order-01-407-2026-11-17-matsne-7047773-0.pdf",
+      "sha256": "8da8d677492c0646f0e8ccd0f5e745191a28028b0fd670d71af5bd3393f61e91",
+      "sizeBytes": 48680,
+      "pages": 1,
+      "role": "საგარეო საქმეთა მინისტრის 2026 წლის 17 ნოემბრის ბრძანება №01-407 — №01-82-ში ცვლილება: პ.3 (H = 5000 EUR / 5600 USD), პ.26¹, პ.26², დანართები №2–№4 „თანდართული სახით“",
+      "edition": {
+        "matsneDocumentId": "7047773",
+        "effectiveDate": "2027-01-01",
+        "effectiveDateSource": "ბრძანების პ.2: „ბრძანება ამოქმედდეს 2027 წლის 1 იანვრიდან“"
+      },
+      "suppliedBy": "მომხმარებელი (ატვირთვა), 2026-11-18",
+      "derived": [
+        "sources/extracted/order-01-407.layout.txt"
+      ],
+      "limitations": "დანართები PDF-ში არ არის; მოწოდებულია ცალკე (იხ. ქვემოთ). მომხმარებლის გადაწყვეტილებით ახალი ნორმები გამოიყენება 2027-01-01-მდე პერიოდზეც (OQ-35)."
+    },
+    {
+      "fileName": "sources/original/order-01-407-annex2.docx",
+      "sha256": "b2e91b832241e7f2ca0c106eef7f7f9ae34fd8f253640b6c4cc8afc4bed360cc",
+      "sizeBytes": 13157,
+      "role": "№01-407 — დანართი №2 (7 სტრიქონი)",
+      "suppliedBy": "მომხმარებელი, 2026-11-18",
+      "derived": [
+        "sources/extracted/order-01-407-annex2.raw.json (scripts/extract-order-01-407.py)"
+      ]
+    },
+    {
+      "fileName": "sources/original/order-01-407-annex3.docx",
+      "sha256": "2514f5eefcef11faa6012f78615e39c5d8e084bba33b6711ff768cb4e47dd167",
+      "sizeBytes": 13102,
+      "role": "№01-407 — დანართი №3 (7 სტრიქონი)",
+      "suppliedBy": "მომხმარებელი, 2026-11-18",
+      "derived": [
+        "sources/extracted/order-01-407-annex3.raw.json (scripts/extract-order-01-407.py)"
+      ]
+    },
+    {
+      "fileName": "sources/extracted/order-01-407-annex4.raw.json",
+      "sha256": "3ac9dba3e2acfd216c429a85198bda091bff5ab1623471268ff0323cdacc3b7c",
+      "sizeBytes": 37889,
+      "role": "№01-407 — დანართი №4 (69 სტრიქონი, K/E) — მომხმარებლის სამუშაო წიგნის მხოლოდ „დანართი N4“ ფურცლის ამონაწერი",
+      "originalWorkbook": {
+        "name": "matsne-7047773-0.xlsx (user upload, 2026-11-18)",
+        "sha256": "b61fc8339369ad5e579fa775fb67b339110c027ad55d390ea6cb44a8983e9537",
+        "stored": false,
+        "privacy": "სამუშაო წიგნის მეორე ფურცელი შეიცავს თანამშრომელთა პერსონალურ მონაცემებს — არ ინახება, არ იკითხება და არ გამოიყენება."
+      },
+      "suppliedBy": "მომხმარებელი, 2026-11-18"
     }
   ],
   "namedInTaskButNotSupplied": [

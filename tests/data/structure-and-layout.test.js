@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 // Structural invariants of the normative data and a full cross-check against the PDF text layer.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -88,12 +89,26 @@ test('PDF text layer: every insurance row\'s 12 values occur on its page', () =>
 });
 
 test('PDF text layer: every K/E row\'s values occur on its page (raw comma form accepted)', () => {
-  for (const r of data.costCoefficients) {
+  // rows taken from the supplied PDF: the current ones with a page, and the previous edition kept in `history`
+  const pdfRows = [...data.costCoefficients.filter((r) => r.page != null), ...(data.history?.costCoefficients || [])];
+  assert.ok(pdfRows.length >= 69);
+  for (const r of pdfRows) {
     const toks = S.pageTokens(r.page);
     const kOk = toks.some((t) => S.decEq(t, r.k) && /^\d+[.,]\d+$/.test(t)) || toks.includes(r.k);
     assert.ok(kOk, `${r.id} K ${r.k} not on p.${r.page}`);
     assert.ok(toks.includes(r.ePercent), `${r.id} E ${r.ePercent} not on p.${r.page}`);
     assert.ok(toks.includes(String(r.annex4Row)), `${r.id} row number not on p.${r.page}`);
+  }
+});
+
+test('Order №01-407 Annex 4 rows match the workbook-sheet extract (K 3 decimals, E integer)', () => {
+  const raw = JSON.parse(readFileSync(new URL('../../sources/extracted/order-01-407-annex4.raw.json', import.meta.url), 'utf8'));
+  const rows = raw.rows.filter((r) => r.cells[0] && r.cells[0].type === 'int');
+  for (const k of data.costCoefficients.filter((x) => x.sourceRef === 'SRC-01407-A4')) {
+    const r = rows.find((x) => x.cells[0].value === k.annex4Row);
+    assert.ok(r, k.id);
+    assert.ok(S.decEq(String(r.cells[2].value), k.k), `${k.id} K`);
+    assert.equal(String(r.cells[3].value), k.ePercent, `${k.id} E`);
   }
 });
 

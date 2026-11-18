@@ -3,7 +3,9 @@
 import { R, ZERO, add, sub, mul, div, min, max, sum, isZero, gt, toFixed2, toExactString, toDecimalString } from './rational.js';
 import { parseDecimalInput } from './decimal.js';
 import { isValidDate, compareDates, addDays, addMonths, monthKey, monthEnd, segmentPeriod, ageOn, withinOpen, overlapDays, daysInclusive, daysInMonthOf } from './calendar.js';
-import { getIndex, dailyRateForMission } from './lookup.js';
+import { getIndex, dailyRateForMission, baseAmountInfo } from './lookup.js';
+
+const datesMode0 = (sc) => sc.period?.mode === 'dates' && isValidDate(sc.period.start) && isValidDate(sc.period.end);
 import { emptyScenario, validateScenario, SCENARIO_SCHEMA_VERSION } from './scenario.js';
 import { DEPENDENT_STATUSES, EXTRA_RULES, EXTRA_CATEGORIES, SETTLEMENT_EXCLUSIONS, ROLES } from './enums.js';
 import {
@@ -76,7 +78,16 @@ export function calculate(scenarioIn, data) {
   if (!sc.missionId) ctx.missing('missionId', 'აირჩიეთ დაწესებულება (ქვეყანა/ქალაქი).');
   const cur = mission?.fundingCurrency ?? null;
   const location = mission ? ix.locations.get(mission.locationId) : null;
-  const H = cur ? ix.base.get(cur)?.amount ?? null : null;
+  const hInfo = cur ? baseAmountInfo(data, cur) : null;
+  const H = hInfo?.amount ?? null;
+  if (hInfo?.effectiveFrom) {
+    const before = datesMode0(sc) && compareDates(sc.period.start, hInfo.effectiveFrom) < 0;
+    const prevTxt = hInfo.previous ? ` (მანამდე ${hInfo.previous.amount} ${cur}, ${hInfo.previous.until}-მდე)` : '';
+    (before ? ctx.warn : ctx.info)('H_EFFECTIVE_FROM', `საბაზისო თანხა H = ${hInfo.amount} ${cur} (ბრძანება №01-407) მოქმედებს ${hInfo.effectiveFrom}-დან${prevTxt}; გამოთვლა ახალი თანხით ხდება მომხმარებლის გადაწყვეტილებით${before ? ' — პერიოდი ამ თარიღამდე იწყება' : ''}.`, ['R-H-001', 'R-EFF-001'], 'period');
+  }
+  if (data.dataGaps?.some((g) => g.id === 'GAP-ANNEX-2-3-4-01-407')) {
+    ctx.warn('ANNEX_2_3_4_REPLACED', 'ბრძანება №01-407 დანართებს №2, №3 და №4 ცვლის (2027-01-01-დან), მაგრამ ახალი ტექსტი მოწოდებული არ არის: A, K და E აღებულია წინა მოწოდებული დანართებიდან და შეიძლება შეიცვალოს.', ['R-POS-A2', 'R-POS-A3', 'R-K-001', 'R-K-026-2'], null);
+  }
   const kRow = mission?.costCoefficientId ? ix.k.get(mission.costCoefficientId) : null;
   if (mission && !kRow) {
     ctx.warn('K_UNDETERMINED', 'ამ დაწესებულებისთვის დანართ №4-ში K/E სტრიქონი არ არის — K, E და ყოველთვიური თანხა დაუდგენელია.', ['R-K-001'], 'missionId');
@@ -300,7 +311,8 @@ export function calculate(scenarioIn, data) {
     G0 == null ? 'ქირა არ არის შეყვანილი (ცარიელი ≠ 0).' : isZero(G0) ? 'ქირა არ არის (G = 0).' : (sc.rent.basis === 'actual' ? 'ფაქტობრივი ქირა.' : 'დაგეგმილი/საბაზრო ქირა — სცენარი.'),
     ['R-RENT-UNKNOWN', 'R-RENT-CURRENCY'], { basis: sc.rent.basis });
   const monthly = {
-    H: comp('H', 'parameter', 'საბაზისო თანხა (H)', H, cur, H ? 'calculated' : 'undetermined', H ? `ბრძანება პ.3 (${cur})` : 'დაწესებულება არ არის არჩეული.', ['R-H-001', 'R-CUR-001']),
+    H: comp('H', 'parameter', 'საბაზისო თანხა (H)', H, cur, H ? 'calculated' : 'undetermined', H ? `ბრძანება პ.3 (${cur})${hInfo.effectiveFrom ? `, №01-407 — ${hInfo.effectiveFrom}-დან` : ''}` : 'დაწესებულება არ არის არჩეული.', ['R-H-001', 'R-CUR-001'],
+      { effectiveFrom: hInfo?.effectiveFrom ?? null, previous: hInfo?.previous ?? null }),
     A: comp('A', 'parameter', 'თანამდებობრივი მაჩვენებელი (A, %)', A, null, A != null ? pos0.status : 'undetermined',
       pos0.entry ? `${mode === 'annex3' ? 'დანართი №3' : 'დანართი №2'}, სტრ. ${pos0.entry.rowNo}` : 'თანამდებობა არ არის არჩეული.', pos0.rules, { entryId: pos0.entry?.id ?? null }, 'raw'),
     K: comp('K', 'parameter', 'ქვეყნის/ქალაქის კოეფიციენტი (K)', kRow?.k ?? null, null, kSt,
@@ -333,8 +345,8 @@ export function calculate(scenarioIn, data) {
         if (isValidDate(p?.to)) cuts.push(addDays(p.to, 1));
       }
     }
-    if (compareDates(sc.period.start, '2025-09-23') < 0) {
-      ctx.warn('EDITION_PERIOD', 'პერიოდი იწყება მიმდინარე H-ის (№01-770, გამოქვ. 23.09.2025) გამოქვეყნებამდე; წინა რედაქცია მოწოდებული არ არის — შედეგი შეიძლება არ შეესაბამებოდეს იმ დროის ნორმებს.', ['R-EFF-001'], 'period.start');
+    if (hInfo?.previous && compareDates(sc.period.start, '2025-09-23') < 0) {
+      ctx.warn('EDITION_PERIOD', 'პერიოდი იწყება 23.09.2025-მდე (№01-770); იმ დროის რედაქცია მოწოდებული არ არის — შედეგი შეიძლება არ შეესაბამებოდეს იმ დროის ნორმებს.', ['R-EFF-001'], 'period.start');
     }
     if (sc.rent.changes.length || family.some((m) => m.from || m.to)) {
       ctx.info('FAMILY_CHANGE_NOTICE', 'ქირის ან ოჯახის შემადგენლობის ცვლილებისას ცნობა წარედგინება სამ დღეში (დ1 მ.4, პირველი პ.6).', ['R-FAM-CHANGE-NOTICE'], null);
@@ -709,7 +721,9 @@ export function calculate(scenarioIn, data) {
         overlap = rentAdvanceEnds.some((end) => compareDates(a.issueDate, end) < 0);
         if (Number.isInteger(a.months)) rentAdvanceEnds.push(addMonths(a.issueDate, a.months));
       } else if (rentAdvanceEnds.length) overlap = true;
-      if (overlap) ctx.error('ADV_SECOND_BEFORE_REPAYMENT', 'ქირის ავანსი ხელმეორედ გაიცემა მხოლოდ წინა ავანსის სრულად დაბრუნების შემდეგ (პ.26).', ['R-ADV-RENT'], `${id}.issueDate`);
+      if (overlap && a.coefficientReduction261) {
+        ctx.warn('ADV_REPEAT_26_1', 'პ.26¹: ავანსი წინას დაბრუნებამდე — დასაშვებია პ.27(გ)-ის შემთხვევაში, როცა კოეფიციენტის ცვლილებით ანაზღაურება მცირდება; დასადასტურებელია.', ['R-ADV-026-1', 'R-ADV-RENT'], `${id}.coefficientReduction261`);
+      } else if (overlap) ctx.error('ADV_SECOND_BEFORE_REPAYMENT', 'ქირის ავანსი ხელმეორედ გაიცემა მხოლოდ წინა ავანსის სრულად დაბრუნების შემდეგ (პ.26), გარდა პ.26¹-ის შემთხვევისა.', ['R-ADV-RENT', 'R-ADV-026-1'], `${id}.issueDate`);
     }
     const amount = amt(a.amount);
     const months = Number.isInteger(a.months) ? a.months : null;

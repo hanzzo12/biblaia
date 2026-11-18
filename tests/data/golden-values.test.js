@@ -1,7 +1,10 @@
 // Normative data vs values the independent verifier read from the PDF (tests/fixtures/golden-cases.json).
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import * as S from './_support.js';
+import * as S0 from './_support.js';
+
+// golden values were read from the PDF of the previous edition (Order №01-82 before №01-407)
+const S = { ...S0, ...S0.OLD };
 
 const one = (arr, what) => {
   assert.equal(arr.length, 1, `${what}: expected exactly one entry, got ${arr.length}`);

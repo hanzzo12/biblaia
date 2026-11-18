@@ -105,3 +105,12 @@ node scripts/validate-data.mjs [ფაილი]     # 0 = OK, 1 = შეცდ�
 - `normalizations[]`-ს დაემატა `field`.
 - `locations[]` — `marketFallbackLocationId` / `marketFallbackNote` (მხოლოდ ვატიკანი).
 - `mission.type` მნიშვნელობების სია უცვლელია; კომბინირებული დაწესებულება (საელჩო + წარმომადგენლობა) ერთი ჩანაწერია `type: "embassy"`-ით, რადგან დანართი №5/6 მას ერთ სტრიქონად ასახელებს.
+
+## 6. ბრძანება №01-407 (2026-11-17, ამოქმედება 2027-01-01)
+
+- `rulesVersion: "01-82/01-407-2027-01-01"`; `edition.amendment01407` — რა გამოიყენება.
+- `baseAmounts[]`: `amount` = 5000 EUR / 5600 USD, `effectiveFrom: "2027-01-01"`, `sourceRef: "SRC-ORDER-01-407"`, `note`, `previous: { amount, until: "2026-12-31", sourceRef, citation }` (3100 / 3495). ბირთვი: `baseAmountInfo(data, currency)`.
+- `positionProfiles` — №01-407-ის დანართები №2 და №3 (თითო 7 სტრიქონი; `sourceRef: SRC-01407-A2/A3`); ID-ები `A2-R1…R7`, `A3-R1…R7` უცვლელია (A3-R7-ის სათაურიდან ამოღებულია „რეფერენტი“, იხ. `notes`). ამოღებული: `A2-R8` (რეფერენტი), `A2-R9` (მძღოლი), `A3-R8` (მძღოლი) → `removedEntries` (`id`, `percent`).
+- `costCoefficients` — №01-407-ის დანართი №4 (69): ID `K-A4N-R<n>` (ახალი რიგითობა — ძველი `K-A4-R<n>` სხვა ქვეყანას ნიშნავს და აღარ გამოიყენება), `sheetRow`, `page: null`. მისიების მიბმა თავიდან: ქალაქის სტრიქონი → ქვეყნის სტრიქონი → null.
+- `history` — წინა რედაქცია: `positionProfiles`, `costCoefficients` (`K-A4-R<n>`), `missionCostCoefficientIds` (მისია → ძველი K ID). UI-ში არ ირჩევა; ტესტებში გამოიყენება ძველ ეტალონებთან შესადარებლად.
+- `sourceReferences`: `SRC-ORDER-01-407`, `SRC-01407-A2`, `SRC-01407-A3`, `SRC-01407-A4`; `SRC-ANNEX2/3/4` → `replacedBy`, `replacedFrom`.

@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { calculate, insuranceBand } from '../../src/core/index.js';
 import * as F from '../../src/core/formulas.js';
 import { eq, R, toFixed2 } from '../../src/core/rational.js';
-import { DATA, golden, goldenOfKind, assertGolden, synthData, synthScenario, compExact, parseExact } from './_core-helpers.mjs';
+import { DATA, DATA_0182, golden, goldenOfKind, assertGolden, synthData, synthScenario, compExact, parseExact } from './_core-helpers.mjs';
 
 test('golden rent cases (T-RENT-*) through calculate with D = 1000', () => {
   for (const c of goldenOfKind('rent')) {
@@ -47,15 +47,15 @@ test('golden monthly cases (Vienna, Kyiv, Washington, positions) through calcula
   }
 });
 
-test('T-MON-KYV-01 and T-MON-VIE-01 with the real normative data', () => {
+test('T-MON-KYV-01 and T-MON-VIE-01 with the previous-edition data (H 3495/3100, Order №01-82 Annex 4)', () => {
   const kyiv = golden('T-MON-KYV-01').expected;
   const r = calculate({ schemaVersion: 1, missionId: 'M-A6-R26', position: { mode: 'annex2', entryId: 'A2-R6' }, status: { rentHead: 'not-head' },
-    family: [{ id: 'F1', role: 'spouse', status: 'regular', age: 35 }], rent: { amount: '2500', basis: 'actual', changes: [] } }, DATA);
+    family: [{ id: 'F1', role: 'spouse', status: 'regular', age: 35 }], rent: { amount: '2500', basis: 'actual', changes: [] } }, DATA_0182);
   assert.equal(r.currency, 'USD');
   for (const k of ['D', 'T', 'F', 'S']) assertGolden(r.monthly[k], kyiv[k], `Kyiv ${k}`);
   const vie = golden('T-MON-VIE-01').expected;
   const v = calculate({ schemaVersion: 1, missionId: 'M-A5-R1', position: { mode: 'annex2', entryId: 'A2-R5' }, status: { rentHead: 'not-head' },
-    family: [{ id: 'F1', role: 'spouse', status: 'regular', age: 35 }, { id: 'F2', role: 'child', status: 'regular', age: 7 }], rent: { amount: '1500' } }, DATA);
+    family: [{ id: 'F1', role: 'spouse', status: 'regular', age: 35 }, { id: 'F2', role: 'child', status: 'regular', age: 7 }], rent: { amount: '1500' } }, DATA_0182);
   for (const k of ['D', 'T', 'F', 'S']) assertGolden(v.monthly[k], vie[k], `Vienna ${k}`);
   assert.equal(v.completeness, 'complete');
 });
@@ -80,13 +80,27 @@ test('T-FAM-01: higher category receives the supplement, the other C = 0 and G =
 test('T-POS-03: annex 2 vs annex 3 position percentages from data', () => {
   const c = golden('T-POS-03');
   for (const mode of ['annex2', 'annex3']) {
-    const prof = DATA.positionProfiles.find((p) => p.id === mode);
+    const prof = DATA_0182.positionProfiles.find((p) => p.id === mode);
     for (const [title, pctV] of Object.entries(c.expected[mode])) {
       const e = prof.entries.find((x) => x.positions_ka.includes(title));
       assert.ok(e, `${mode} ${title}`);
       assert.equal(e.percent, pctV, `${mode} ${title}`);
     }
   }
+});
+
+test('Order №01-407: Annex 2/3 without referent and driver (A2-R8, A2-R9, A3-R8 removed)', () => {
+  const ids = DATA.positionProfiles.flatMap((p) => p.entries.map((e) => e.id));
+  for (const id of ['A2-R8', 'A2-R9', 'A3-R8']) {
+    assert.ok(!ids.includes(id), id);
+    assert.ok(DATA.removedEntries.some((r) => r.id === id), `${id} listed in removedEntries`);
+  }
+  const a2 = DATA.positionProfiles.find((p) => p.id === 'annex2').entries;
+  assert.deepEqual(a2.map((e) => e.percent), ['100', '80', '75', '70', '65', '60', '55']);
+  assert.match(a2[2].title_ka, /ადმინისტრაციული მენეჯერი, რომელიც დროებით\/მუდმივად ასრულებს/);
+  assert.deepEqual(DATA.positionProfiles.find((p) => p.id === 'annex3').entries.map((e) => e.percent), ['100', '75', '70', '65', '60', '55', '50']);
+  const r = calculate({ schemaVersion: 1, missionId: 'M-A5-R1', position: { mode: 'annex2', entryId: 'A2-R8' } }, DATA);
+  assert.ok(r.errors.some((e) => e.code === 'POSITION_UNKNOWN'));
 });
 
 test('golden education cases', () => {
@@ -289,7 +303,7 @@ test('T-FX-01 forecast rate is labelled and never a settlement rate; T-ANN-01 va
 });
 
 test('golden data spot checks (K/E, institutions, counts, baggage, parameters)', () => {
-  const k = (row) => DATA.costCoefficients.find((x) => x.annex4Row === row);
+  const k = (row) => DATA_0182.costCoefficients.find((x) => x.annex4Row === row);
   const ke1 = golden('T-DATA-KE-01');
   assert.equal(k(22).k, ke1.expected.K); assert.equal(k(22).ePercent, ke1.expected.E_percent);
   for (const x of golden('T-DATA-KE-02').expected.rows) { assert.ok(eq(k(x.row).k, x.K), `K row ${x.row}`); assert.equal(k(x.row).ePercent, x.E, `E row ${x.row}`); }
@@ -309,7 +323,7 @@ test('golden data spot checks (K/E, institutions, counts, baggage, parameters)',
   assert.equal(vat.monthly.K.status, 'undetermined'); assert.equal(vat.monthly.S.value, null); assert.equal(vat.completeness, 'incomplete');
   assert.ok(!DATA.missions.some((m) => ['RS', 'ME'].includes(m.countryId)));
   const ke3 = golden('T-DATA-KE-03').expected;
-  const keOf = (id) => { const m = DATA.missions.find((x) => x.id === id); const kk = DATA.costCoefficients.find((x) => x.id === m.costCoefficientId); return { K: kk.k, E: kk.ePercent }; };
+  const keOf = (id) => { const m = DATA_0182.missions.find((x) => x.id === id); const kk = DATA_0182.costCoefficients.find((x) => x.id === m.costCoefficientId); return { K: kk.k, E: kk.ePercent }; };
   assert.deepEqual(keOf('M-A6-R4'), ke3.washingtonEmbassy); assert.deepEqual(keOf('M-A6-R5'), ke3.newYorkUNMission); assert.deepEqual(keOf('M-A6-R28'), ke3.newYorkConsulate);
   assert.ok(parseExact('1') && true);
 });

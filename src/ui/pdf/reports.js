@@ -90,6 +90,7 @@ function drawResult(fonts, M, k) {
   heading('როგორ დაითვალა');
   for (const r of M.rows) row(`${r.k}   ${r.label}`, r.text, { size: 8.2, color: r.k === 'S' ? ACCENT : INK, vcolor: r.k === 'S' ? ACCENT : INK });
   note('D = H × A × K × (1 + 7% × C) · T = D × E · S = D − T + F');
+  if (M.baseNote) note(M.baseNote);
   p.text(DISCLAIMER, X, H - 26, { size: 7.5, color: MUTED });
   return { p, overflow: y > BOTTOM };
 }
@@ -98,7 +99,7 @@ function fmtC(c, cur) { const x = c && typeof c === 'object' ? c.value : c; retu
 
 /** cards: [{ city, name, cur, remainder, remNote, living, livingNote, S, F, extra, rentLabel, rent, market: [[label, value]], index, notes, source }] — 6 ქალაქი გვერდზე */
 export const COMPARE_PER_PAGE = 6;
-export async function comparePdf(cards) {
+export async function comparePdf(cards, { baseNote = null } = {}) {
   const fonts = await loadPdfFonts();
   const W = 841.89, H = 595.28, X = 30, CW = W - 2 * X;
   let p = null;
@@ -142,9 +143,10 @@ export async function comparePdf(cards) {
       y += maxH + 2; p.line(X, y - 5, W - X, y - 5); y += 3;
     }
     const nts = [...new Set(chunk.flatMap((c) => c.notes || []))];
-    nts.slice(0, 4).forEach((t, k) => p.text(t, X, H - 74 + k * 9, { size: 6.8, color: MUTED }));
+    nts.slice(0, 4).forEach((t, k) => p.text(t, X, H - 88 + k * 9, { size: 6.8, color: MUTED }));
     const src = chunk.find((c) => c.source)?.source;
     if (src) p.text(src, X, H - 34, { size: 7, color: MUTED });
+    if (baseNote) p.text(baseNote, X, H - 46, { size: 7, color: MUTED });
     p.text(DISCLAIMER, X, H - 22, { size: 7.5, color: MUTED });
   });
   return p.root.toBytes('როტაციის კალკულატორი — შედარება');

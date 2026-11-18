@@ -228,10 +228,13 @@ test('Vatican: K/E undetermined, insurance and baggage still resolved (P-8)', ()
   assert.equal(r.oneTimeReimbursements.baggage.reimbursable.value, '1650.00');
 });
 
-test('real data: Bari city row (E 21) beats Italy (E 22); Geneva records OQ-09; Odesa ≠ Kyiv insurance', () => {
+test('real data (Order №01-407 Annex 4): Bari and Rome use their city rows; Geneva records OQ-09; Odesa ≠ Kyiv insurance', () => {
   const base = { schemaVersion: 1, position: { mode: 'annex2', entryId: 'A2-R2' }, status: { rentHead: 'head' }, rent: { amount: '0' }, employee: { age: 42 } };
   const bari = calculate({ ...base, missionId: 'M-A5-R39' }, DATA);
-  assert.equal(bari.monthly.E.value, '21');
+  assert.equal(bari.monthly.E.value, '22');
+  assert.equal(bari.inputsUsed.coefficientId, 'K-A4N-R11');
+  assert.equal(bari.inputsUsed.coefficientBasis, 'city-row');
+  assert.equal(calculate({ ...base, missionId: 'M-A5-R15' }, DATA).inputsUsed.coefficientId, 'K-A4N-R10', 'Rome embassy → Rome city row');
   const gen = calculate({ ...base, missionId: 'M-A5-R35' }, DATA);
   assert.ok(gen.assumptions.some((a) => a.openQuestion === 'OQ-09'));
   const ins = (id) => calculate({ ...base, missionId: id, insurance: [{ personId: 'EMP', policyCost: '5000', alreadyReimbursed: '0' }] }, DATA).insurance.perPerson[0].reimbursable.value;
@@ -268,7 +271,7 @@ test('lookup helpers: names, ISO, market location, currency, explicit no-data K'
   assert.equal(v.marketFallback.locationId, 'IT-ROME');
   assert.equal(v.marketFallback.matchStatus, 'nearest-city-fallback');
   const w = resolveMission(DATA, 'M-A6-R4');
-  assert.equal(w.fundingCurrency, 'USD'); assert.equal(w.marketLocationId, 'US-WASHINGTON'); assert.equal(w.coefficient.k, '2.185');
+  assert.equal(w.fundingCurrency, 'USD'); assert.equal(w.marketLocationId, 'US-WASHINGTON'); assert.equal(w.coefficient.k, '1.572');
   assert.equal(resolveMission(DATA, 'nope'), null);
   assert.ok(listCountries(DATA).some((c) => c.id === 'AT' && c.missionCount === 1));
   assert.ok(!listCountries(DATA).some((c) => c.id === 'RS'), 'Serbia has no mission');

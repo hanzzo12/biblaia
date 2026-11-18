@@ -113,20 +113,20 @@ test('ოფლაინ file://: ვენის სცენარი ოთ�
   const { page, external, errors } = await openPage();
   const shots = SHOTS ? (n) => page.screenshot({ path: path.join(SHOTS, `d-${n}.png`), fullPage: true }) : null;
   await vienna(page, { shots });
-  assert.equal(await val(page, '[data-testid="hero-remainder"]'), '3423.16');
-  assert.equal(await val(page, '[data-testid="S"]'), '4985.16');
+  assert.equal(await val(page, '[data-testid="hero-remainder"]'), '4333.13');
+  assert.equal(await val(page, '[data-testid="S"]'), '5895.13');
   assert.equal(await val(page, '[data-testid="edu"] .rc-value'), '938.00');
-  assert.equal(await val(page, '[data-testid="F-value"]'), '1246.86');
+  assert.equal(await val(page, '[data-testid="F-value"]'), '1321.68');
   // ჯაჭვი = ბირთვის r.remainder ზუსტად
-  assert.equal(await val(page, '[data-testid="chain-remainder"]'), '3423.16');
+  assert.equal(await val(page, '[data-testid="chain-remainder"]'), '4333.13');
   const rb = page.getByTestId('rent-breakdown');
-  assert.match(await rb.innerText(), /ბინის ძირითადი წილი \(T\)\s+993\.73 EUR/);
-  assert.match(await rb.innerText(), /თქვენ ამატებთ\s+253\.14 EUR/);
+  assert.match(await rb.innerText(), /ბინის ძირითადი წილი \(T\)\s+1 143\.36 EUR/);
+  assert.match(await rb.innerText(), /თქვენ ამატებთ\s+178\.32 EUR/);
   // ოფლაინ: ჩაშენებული ასლი (შენახული მონაცემი), EUR-ში
   assert.match(await page.getByTestId('market-result').innerText(), /შენახული მონაცემი · \d{2}\.\d{2}\.\d{4}/);
   assert.match(await val(page, '[data-testid="remainder-living"]'), /^-?\d+\.\d{2}$/);
   await page.getByTestId('how').click();
-  assert.equal(await val(page, 'tr[data-component="D"] td'), '4732.03');
+  assert.equal(await val(page, 'tr[data-component="D"] td'), '5716.82');
   assert.deepEqual(external, []);
   assert.deepEqual(errors, []);
   const text = await page.locator('body').innerText();
@@ -138,7 +138,9 @@ test('ოფლაინ file://: ვენის სცენარი ოთ�
   const pdfFile = await dl.path();
   assert.match(readFileSync(pdfFile, 'latin1').slice(0, 8), /^%PDF-/);
   const info = pdfInfo(pdfFile);
-  if (info) { assert.equal(info.pages, 1); assert.match(info.text, /3 423\.16 EUR/); assert.match(info.text, /დარჩენილი თანხა/); }
+  if (info) { assert.equal(info.pages, 1); assert.match(info.text, /4 333\.13 EUR/); assert.match(info.text, /დარჩენილი თანხა/); assert.match(info.text, /01-407/); }
+  // საბაზისო თანხის შენიშვნა (ბრძანება №01-407) — ციფრები და თარიღი მონაცემებიდან
+  assert.match(await page.getByTestId('base-note').innerText(), /№01-407.*5 000 EUR \/ 5 600 USD.*2027 წლის 1 იანვრიდან/);
   if (SHOTS) await dl.saveAs(path.join(SHOTS, 'result.pdf'));
   // ბეჭდვა: ერთი A4 გვერდი
   await page.emulateMedia({ media: 'print' });
@@ -172,6 +174,7 @@ test('ელჩი → ხელმძღვანელი ავტომა�
   await next(page);
   await page.getByTestId('pos-A2-R1').check();
   assert.equal(await page.getByTestId('head').isChecked(), true);
+  assert.equal(await page.locator('[data-testid="position"] input[type=radio]').count(), 7, 'დანართი №2 — 7 სტრიქონი (მონაცემებიდან)');
   await next(page);
   await page.getByTestId('rent').fill('3000');
   await next(page);
@@ -271,14 +274,14 @@ test('ონლაინ შედეგი: ცხოვრების ღი�
   assert.equal(await val(page, '[data-testid="market-result"] [data-testid="market-budget"]'), '3750.00');
   for (const k of ['rent', 'utilities', 'internet', 'groceries', 'restaurants', 'budget', 'index']) assert.equal(await page.locator(`[data-testid="market-result"] [data-tile="${k}"] svg`).count(), 1, k);
   assert.match(mr, /1 EUR = 1\.08 USD/);
-  // ოჯახით → ოთხსულიანი ოჯახის შეფასება: 3423.16 − 3750.00
-  assert.equal(await val(page, '[data-testid="remainder-living"]'), '-326.84');
+  // ოჯახით → ოთხსულიანი ოჯახის შეფასება: 4333.13 − 3750.00
+  assert.equal(await val(page, '[data-testid="remainder-living"]'), '583.13');
   assert.match(await page.getByTestId('chain').innerText(), /ოთხსულიანი ოჯახის/);
   assert.match(await page.getByTestId('chain').innerText(), /ქირა ზემოთ ერთხელ აკლდება/);
-  assert.equal(await val(page, '[data-testid="hero-remainder"]'), '3423.16', 'ოფიციალური ნაწილი არ იცვლება');
+  assert.equal(await val(page, '[data-testid="hero-remainder"]'), '4333.13', 'ოფიციალური ნაწილი არ იცვლება');
   const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('pdf-download').click()]);
   const info = pdfInfo(await dl.path());
-  if (info) { assert.equal(info.pages, 1); assert.match(info.text, /−326\.84 EUR|-326\.84 EUR/); assert.match(info.text, /ცხოვრების ღირებულება/); }
+  if (info) { assert.equal(info.pages, 1); assert.match(info.text, /583\.13 EUR/); assert.match(info.text, /ცხოვრების ღირებულება/); }
   if (SHOTS) { await page.screenshot({ path: path.join(SHOTS, 'd-step4-online.png'), fullPage: true }); await dl.saveAs(path.join(SHOTS, 'result-online.pdf')); }
   assert.deepEqual(errors, []);
   await page.close();
@@ -293,19 +296,19 @@ test('შედარება: EUR + USD ბარათები გვერ�
   await page.waitForTimeout(800);
   const cards = page.locator('.ccard');
   assert.equal(await cards.count(), 2);
-  assert.equal(await cards.nth(0).getByTestId('compare-S').getAttribute('data-value'), '4985.16');
-  assert.equal(await cards.nth(0).getByTestId('compare-remainder-living').getAttribute('data-value'), '-326.84');
+  assert.equal(await cards.nth(0).getByTestId('compare-S').getAttribute('data-value'), '5895.13');
+  assert.equal(await cards.nth(0).getByTestId('compare-remainder-living').getAttribute('data-value'), '583.13');
   assert.match(await cards.nth(1).getByTestId('compare-remainder-living').getAttribute('data-value'), /^-?\d+\.\d{2}$/);
   assert.match(await cards.nth(1).innerText(), /გამოკლებულია კომუნალური/);
   const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('compare-pdf').click()]);
   const cinfo = pdfInfo(await dl.path());
-  if (cinfo) { assert.equal(cinfo.pages, 1); assert.match(cinfo.text, /ვაშინგტონი/); assert.match(cinfo.text, /3 423\.16 EUR/); }
+  if (cinfo) { assert.equal(cinfo.pages, 1); assert.match(cinfo.text, /ვაშინგტონი/); assert.match(cinfo.text, /4 333\.13 EUR/); }
   if (SHOTS) await dl.saveAs(path.join(SHOTS, 'compare.pdf'));
   assert.match(await cards.nth(1).innerText(), /USD/);
   assert.match(await cards.nth(1).getByTestId('compare-S').getAttribute('data-value'), /^\d+\.\d{2}$/);
   assert.match(await cards.nth(1).innerText(), /Numbeo, ცენტრი, 3 საძინებელი/);
   assert.match(await cards.nth(0).innerText(), /დარჩება ქირისა და სწავლის შემდეგ/);
-  assert.equal(await cards.nth(0).getByTestId('compare-remainder').getAttribute('data-value'), '3423.16');
+  assert.equal(await cards.nth(0).getByTestId('compare-remainder').getAttribute('data-value'), '4333.13');
   // სწავლა ითვლება ყველა ქალაქში: USD ბარათზე — გადაყვანილი Numbeo-ს კურსით
   assert.match(await cards.nth(1).innerText(), /დარჩება ქირისა და სწავლის შემდეგ/);
   assert.equal(await cards.nth(1).getByTestId('edu-converted').count(), 1);

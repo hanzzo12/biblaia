@@ -77,11 +77,11 @@ async function stepCosts(page, { rent = '1500', edu = '1000' } = {}) {
   await page.getByTestId('next').click();
   await page.getByTestId('hero-remainder').waitFor();
 }
-/** Golden T-MON-VIE-01/02: Vienna, Annex 2 counsellor 65%, spouse + child, non-head, G 1500, school 1000 */
+/** Golden T-0407-VIE (Order №01-407 edition; T-MON-VIE-01/02 for the previous edition): Vienna, Annex 2 counsellor 65%, spouse + child, non-head, G 1500, school 1000 */
 async function viennaGolden(page) {
   await stepMission(page); await stepPosition(page); await stepCosts(page);
 }
-/** Same, no family, no school: hand-derived S = 4465.0555 -> 4465.06 (D 4150.9, T 871.689, F 1185.8445) */
+/** Same, no family, no school (Order №01-407 edition): D = 5000 x 0.65 x 1.543 = 5014.75, T 1002.95, F = T + 0.5 x 497.05 = 1251.475, S = 5263.275 -> 5263.28 */
 async function viennaMin(page, rent = '1500') {
   await stepMission(page); await stepPosition(page, { family: [] }); await stepCosts(page, { rent, edu: null });
 }
@@ -92,16 +92,20 @@ test('offline file://: golden Vienna S, rent breakdown, chain, living remainder;
   try {
     await viennaGolden(h.page);
     const p = h.page;
-    assert.equal(await dv(p, '[data-testid="S"]'), '4985.16');
-    assert.equal(await remainder(p), '3423.16', 'hero shows the remainder first');
-    assert.equal(await dv(p, '[data-testid="F-value"]'), '1246.86');
+    assert.equal(await dv(p, '[data-testid="S"]'), '5895.13');
+    assert.equal(await remainder(p), '4333.13', 'hero shows the remainder first');
+    assert.equal(await dv(p, '[data-testid="F-value"]'), '1321.68');
+    const note = (await p.getByTestId('base-note').innerText()).replace(/[\u00a0\u202f]/g, ' ');
+    assert.match(note, /5 000 EUR \/ 5 600 USD/, `base note: ${note}`);
+    assert.match(note, /2027 წლის 1 იანვრიდან/);
+    assert.match(note, /№\s?01-407/);
     assert.equal(await cardVal(p, 'edu'), '938.00');
-    // rent breakdown, hand-derived: G 1500, T 993.72546, F - T = 253.13727, F 1246.86273, own share 1500 - F = 253.13727
+    // rent breakdown, hand-derived (Order №01-407): G 1500, T 1143.363, F - T = 178.3185, F 1321.6815, own share 1500 - F = 178.3185
     const rb = await p.$$eval('[data-testid="rent-breakdown"] [data-value]', (els) => els.map((e) => e.getAttribute('data-value')));
-    assert.deepEqual(rb, ['1500.00', '993.73', '253.14', '1246.86', '253.14']);
+    assert.deepEqual(rb, ['1500.00', '1143.36', '178.32', '1321.68', '178.32']);
     // chain: S - G - school + reimbursement = remainder; last row = living remainder
     const chain = await p.$$eval('[data-testid="chain"] .chain-v', (els) => els.map((e) => [e.getAttribute('data-testid'), e.getAttribute('data-value')]));
-    assert.deepEqual(chain.slice(0, 5).map((x) => x[1]), ['4985.16', '1500.00', '1000.00', '938.00', '3423.16']);
+    assert.deepEqual(chain.slice(0, 5).map((x) => x[1]), ['5895.13', '1500.00', '1000.00', '938.00', '4333.13']);
     assert.equal(chain[4][0], 'chain-remainder');
     assert.equal(chain.at(-1)[0], 'remainder-living', 'living remainder is the last chain row');
     // living deduction = family-of-4 budget shown in the page's own market block (spouse + child -> not alone)
@@ -112,9 +116,9 @@ test('offline file://: golden Vienna S, rent breakdown, chain, living remainder;
     for (const t of ['rent', 'utilities', 'internet', 'groceries', 'restaurants', 'budget', 'index']) {
       assert.equal(await p.locator(`[data-testid="market-result"] .irow[data-tile="${t}"]`).count(), 1, `tile ${t}`);
     }
-    const exp = (Math.round((3423.16327 - Number(fam4)) * 100) / 100).toFixed(2);
+    const exp = (Math.round((4333.1335 - Number(fam4)) * 100) / 100).toFixed(2);
     assert.equal(chain.at(-2)[1], fam4, 'deduction row = family-of-4 budget');
-    assert.equal(chain.at(-1)[1], exp, `living remainder = 3423.16327 - ${fam4}`);
+    assert.equal(chain.at(-1)[1], exp, `living remainder = 4333.1335 - ${fam4}`);
     assert.deepEqual(h.blockedRequests, [], 'no external request attempted');
     assert.deepEqual(h.unexpectedConsoleErrors(), []);
     assert.deepEqual(h.pageErrors, []);
@@ -141,7 +145,7 @@ for (const mode of ['fresh', 'cached', 'stale', 'partial']) {
       await s.page.getByTestId('next').click();
       await stepPosition(s.page, { family: [] });
       await stepCosts(s.page, { rent: '1500', edu: null });
-      assert.equal(await dv(s.page, '[data-testid="S"]'), '4465.06');
+      assert.equal(await dv(s.page, '[data-testid="S"]'), '5263.28');
       assert.deepEqual(s.blockedRequests, []);
     } finally { await s.close(); }
   });
@@ -164,7 +168,7 @@ for (const mode of ['not_found', 'network_error', 'disabled', 'rate_limited', 'i
       await s.page.getByTestId('next').click();
       await stepPosition(s.page, { family: [] });
       await stepCosts(s.page, { rent: '1500', edu: null });
-      assert.equal(await dv(s.page, '[data-testid="S"]'), '4465.06');
+      assert.equal(await dv(s.page, '[data-testid="S"]'), '5263.28');
       assert.equal(await s.page.getByTestId('use-market-rent').count(), 0, 'no market button without data');
     } finally { await s.close(); }
   });
@@ -180,15 +184,15 @@ test('served: market data never changes S; rent enters G only via use-market-ren
     await s.page.getByTestId('use-market-rent').waitFor({ timeout: 5000 });
     assert.equal(await s.page.getByTestId('rent').inputValue(), '1500', 'market arrival kept typed rent');
     await s.page.getByTestId('next').click();
-    assert.equal(await dv(s.page, '[data-testid="S"]'), '4465.06', 'S from typed rent');
+    assert.equal(await dv(s.page, '[data-testid="S"]'), '5263.28', 'S from typed rent');
     // back to step 3 and use the market price (C = 0 -> 1 bedroom -> 1700)
     await s.page.getByRole('button', { name: '← უკან' }).click();
     assert.equal(await s.page.getByTestId('rent').inputValue(), '1500');
     await s.page.getByTestId('use-market-rent').click();
     assert.equal(await s.page.getByTestId('rent').inputValue(), '1700');
     await s.page.getByTestId('next').click();
-    // G 1700: F = 871.689 + 0.5 x 828.311 = 1285.8445; S = 4150.9 - 871.689 + 1285.8445 = 4565.0555
-    assert.equal(await dv(s.page, '[data-testid="S"]'), '4565.06');
+    // G 1700: F = 1002.95 + 0.5 x 697.05 = 1351.475; S = 5014.75 - 1002.95 + 1351.475 = 5363.275 -> 5363.28
+    assert.equal(await dv(s.page, '[data-testid="S"]'), '5363.28');
   } finally { await s.close(); }
 });
 
@@ -236,14 +240,14 @@ function expectedCard(missionId, rent, eduEur = '1000') {
   return { cur, fee, r: calculate(sc, DATA) };
 }
 
-test('Washington card, hand-derived: rent 5049.17 USD, school 1000 EUR -> S 7243.14, F 3168.87, remainder 2119.98 USD', () => {
-  // D = 3495 x 0.65 x 2.185 x 1.14 = 5658.702075; T = 1584.436581; 0.5 x (5049.17 - T) > T -> F = 2T = 3168.873162
-  // S = D + T = 7243.138656; fee 1000 x 1.119954 = 1119.95 USD; edu = 750 + 0.8 x 369.95 = 1045.96
-  // remainder = 7243.138656 + 1045.96 - 5049.17 - 1119.95 = 2119.978656
+test('Washington card, hand-derived (Order №01-407): rent 5049.17 USD, school 1000 EUR -> S 8101.90, F 3470.44, remainder 2978.74 USD', () => {
+  // D = 5600 x 0.65 x 1.572 x 1.14 = 6523.1712; T = x 0.29 = 1891.719648; 0.5 x (5049.17 - T) = 1578.725176 <= T -> F = 3470.444824
+  // S = 6523.1712 - 1891.719648 + 3470.444824 = 8101.896376; fee 1000 x 1.119954 = 1119.95 USD; edu = 750 + 0.8 x 369.95 = 1045.96
+  // remainder = 8101.896376 + 1045.96 - 5049.17 - 1119.95 = 2978.736376
   const { cur, fee, r } = expectedCard('M-A6-R4', '5049.17');
   assert.equal(cur, 'USD'); assert.equal(fee, '1119.95');
-  assert.equal(r.monthly.S.value, '7243.14'); assert.equal(r.monthly.F.value, '3168.87');
-  assert.equal(r.education.total.value, '1045.96'); assert.equal(r.remainder.value.value, '2119.98');
+  assert.equal(r.monthly.S.value, '8101.90'); assert.equal(r.monthly.F.value, '3470.44');
+  assert.equal(r.education.total.value, '1045.96'); assert.equal(r.remainder.value.value, '2978.74');
 });
 
 test('comparison: 8 cities accepted, EUR/USD never summed, cards = calculate(); sort, arrows, 2-page PDF for 7', { timeout: 90000 }, async () => {
@@ -281,8 +285,8 @@ test('comparison: 8 cities accepted, EUR/USD never summed, cards = calculate(); 
       assert.equal(await card.getByTestId('compare-chain').count(), 1);
       sValues.push(Number(r.monthly.S.value));
     }
-    assert.equal(await p.locator('[data-col="M-A5-R1"] [data-testid="compare-remainder"]').getAttribute('data-value'), '3423.16', 'Vienna card = golden');
-    assert.equal(await p.locator('[data-col="M-A6-R4"] [data-testid="compare-remainder"]').getAttribute('data-value'), '2119.98', 'Washington card = hand-derived');
+    assert.equal(await p.locator('[data-col="M-A5-R1"] [data-testid="compare-remainder"]').getAttribute('data-value'), '4333.13', 'Vienna card = golden');
+    assert.equal(await p.locator('[data-col="M-A6-R4"] [data-testid="compare-remainder"]').getAttribute('data-value'), '2978.74', 'Washington card = hand-derived');
     assert.equal(curs.size, 2, 'mixed EUR/USD present');
     const flat = (await p.locator('.cpanel').innerText()).replace(/\s/g, '');
     assert.ok(!flat.includes(sValues.reduce((a, b) => a + b, 0).toFixed(2)), 'no cross-currency total');
@@ -395,11 +399,11 @@ test('print values equal screen values; PDF text contains the golden amounts', a
     await h.page.emulateMedia({ media: 'print' });
     assert.deepEqual(await grab(), screen);
     const visible = await h.page.$$eval(RESULT_SEL, (els) => els.filter((e) => e.getClientRects().length).map((e) => e.getAttribute('data-value')));
-    for (const v of ['4985.16', '1246.86', '938.00', '3423.16']) assert.ok(visible.includes(v), `${v} visible in print`);
+    for (const v of ['5895.13', '1321.68', '938.00', '4333.13']) assert.ok(visible.includes(v), `${v} visible in print`);
     const pdf = path.join(TMP, `verifier-print-${process.pid}.pdf`);
     await h.page.pdf({ path: pdf, format: 'A4' });
     const flat = pdfText(pdf).replace(/\s/g, '');
-    for (const v of ['4985.16', '1246.86', '938.00', '3423.16']) assert.ok(flat.includes(v), `PDF contains ${v}`);
+    for (const v of ['5895.13', '1321.68', '938.00', '4333.13']) assert.ok(flat.includes(v), `PDF contains ${v}`);
     fs.rmSync(pdf, { force: true });
   } finally { await h.close(); }
 });
@@ -460,13 +464,13 @@ test('PDF download: 1 page, text contains the remainder; print emulation = 1 pag
     assert.equal(fs.readFileSync(file).subarray(0, 5).toString(), '%PDF-');
     assert.equal(pdfPages(file), 1, 'downloaded PDF must be one page');
     const flat = pdfText(file).replace(/\s/g, '');
-    assert.ok(flat.includes('3423.16'), 'downloaded PDF contains the remainder 3423.16');
-    assert.ok(flat.includes('4985.16'), 'downloaded PDF contains S 4985.16');
+    assert.ok(flat.includes('4333.13'), 'downloaded PDF contains the remainder 4333.13');
+    assert.ok(flat.includes('5895.13'), 'downloaded PDF contains S 5895.13');
     await h.page.emulateMedia({ media: 'print' });
     const printed = path.join(TMP, `verifier-print1-${process.pid}.pdf`);
     await h.page.pdf({ path: printed, format: 'A4', preferCSSPageSize: true });
     assert.equal(pdfPages(printed), 1, 'browser print must fit on one page');
-    assert.ok(pdfText(printed).replace(/\s/g, '').includes('3423.16'));
+    assert.ok(pdfText(printed).replace(/\s/g, '').includes('4333.13'));
     for (const f of [file, printed]) fs.rmSync(f, { force: true });
   } finally { await h.close(); }
 });
@@ -556,7 +560,7 @@ test('rent prefill: Numbeo centre rent prefilled while untouched, refreshes on c
     await p.getByTestId('next').click(); await p.getByTestId('next').click();
     assert.equal(await p.getByTestId('rent').inputValue(), '1500', 'typed rent not overwritten by market data');
     await p.getByTestId('next').click();
-    assert.equal(await dv(p, '[data-testid="S"]'), '4465.06', 'S from typed rent (hand-derived), market ignored');
+    assert.equal(await dv(p, '[data-testid="S"]'), '5263.28', 'S from typed rent (hand-derived), market ignored');
     // restore link puts the market value back
     await p.getByRole('button', { name: '← უკან' }).click();
     await p.getByTestId('use-market-rent').click();
@@ -575,10 +579,10 @@ test('result PDF: 1 page, no overlapping label/value text (pdftotext -layout)', 
     const lines = pdfText(file).replace(/ | /g, ' ').split('\n');
     const pairs = [
       ['ქირა თვეში', '1 500.00 EUR'], ['სკოლა/ბაღი თვეში', '1 000.00 EUR'],
-      ['ყოველთვიური სამივლინებო თანხა', '4 985.16 EUR'], ['ბინის ქირა (სრული)', '1 500.00 EUR'],
-      ['სწავლის ანაზღაურება', '938.00 EUR'], ['= დარჩენილი თანხა ქირისა და სწავლის შემდეგ', '3 423.16 EUR'],
-      ['H საბაზისო თანხა', '3 100.00 EUR'], ['K ქვეყნის კოეფიციენტი', '2.06'], ['D პერსონალური თანხა', '4 732.03 EUR'],
-      ['T ბინის წილი თანხაში', '993.73 EUR'], ['F ქირის ანაზღაურება', '1 246.86 EUR'], ['S ყოველთვიური თანხა (D − T + F)', '4 985.16 EUR'],
+      ['ყოველთვიური სამივლინებო თანხა', '5 895.13 EUR'], ['ბინის ქირა (სრული)', '1 500.00 EUR'],
+      ['სწავლის ანაზღაურება', '938.00 EUR'], ['= დარჩენილი თანხა ქირისა და სწავლის შემდეგ', '4 333.13 EUR'],
+      ['H საბაზისო თანხა', '5 000.00 EUR'], ['K ქვეყნის კოეფიციენტი', '1.543'], ['D პერსონალური თანხა', '5 716.82 EUR'],
+      ['T ბინის წილი თანხაში', '1 143.36 EUR'], ['F ქირის ანაზღაურება', '1 321.68 EUR'], ['S ყოველთვიური თანხა (D − T + F)', '5 895.13 EUR'],
     ];
     const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     for (const [label, value] of pairs) {

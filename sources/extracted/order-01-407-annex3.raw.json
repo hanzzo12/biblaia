@@ -1,0 +1,82 @@
+{
+ "annex": 3,
+ "order": "№01-407 of 2026-11-17 (in force 2027-01-01)",
+ "sourceFile": "sources/original/order-01-407-annex3.docx",
+ "sha256": "2514f5eefcef11faa6012f78615e39c5d8e084bba33b6711ff768cb4e47dd167",
+ "heading": [
+  "დანართი N3",
+  "საქართველოს საგარეო საქმეთა სამინისტროს იმ მოსამსახურეთა თანამდებობრივი მაჩვენებლები, რომლებსაც გრძელვადიანი სამსახურებრივი მივლინება უნაზღაურდებათ როტაციის წესით სამუშაო მივლინების ხარჯების ანაზღაურების წესის შესაბამისად"
+ ],
+ "extractedWith": "zipfile + word/document.xml table cells (w:tr/w:tc/w:t)",
+ "counts": {
+  "printedRows": 7,
+  "distinctRowNumbers": 7,
+  "removedRows": 0,
+  "effectiveEntries": 7
+ },
+ "rows": [
+  {
+   "rowNo": 1,
+   "cells": {
+    "title": "მინისტრის პირველი მოადგილე და მოადგილე; სამინისტროს დირექტორატის დირექტორი, დეპარტამენტის უფროსი; მინისტრის კაბინეტის უფროსი, საგანგებო დავალებათა ელჩი",
+    "percent": "100"
+   },
+   "flags": [],
+   "page": null
+  },
+  {
+   "rowNo": 2,
+   "cells": {
+    "title": "დირექტორატის დირექტორის მოადგილე, დეპარტამენტის უფროსის მოადგილე",
+    "percent": "75"
+   },
+   "flags": [],
+   "page": null
+  },
+  {
+   "rowNo": 3,
+   "cells": {
+    "title": "სამმართველოს უფროსი",
+    "percent": "70"
+   },
+   "flags": [],
+   "page": null
+  },
+  {
+   "rowNo": 4,
+   "cells": {
+    "title": "მრჩეველი",
+    "percent": "65"
+   },
+   "flags": [],
+   "page": null
+  },
+  {
+   "rowNo": 5,
+   "cells": {
+    "title": "პირველი მდივანი",
+    "percent": "60"
+   },
+   "flags": [],
+   "page": null
+  },
+  {
+   "rowNo": 6,
+   "cells": {
+    "title": "მეორე მდივანი",
+    "percent": "55"
+   },
+   "flags": [],
+   "page": null
+  },
+  {
+   "rowNo": 7,
+   "cells": {
+    "title": "მესამე მდივანი, ატაშე, უსაფრთხოების ოფიცერი",
+    "percent": "50"
+   },
+   "flags": [],
+   "page": null
+  }
+ ]
+}

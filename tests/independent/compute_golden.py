@@ -264,6 +264,9 @@ def run_case(c: dict):
         cur = inp["currency"]
         edu = sum((education(fr(p), cur) for p in inp["educationExpenses"]), Fr(0))
         paid = sum((fr(p) for p in inp["educationExpenses"]), Fr(0))
+        for key in ("D", "T", "F"):
+            if key in exp:
+                check_money(cid, key, res[key], exp[key])
         check_money(cid, "S", res["S"], exp["S"])
         check_money(cid, "educationReimbursement", edu, exp["educationReimbursement"])
         check_money(cid, "remainderAfterRentAndEducation", res["S"] + edu - fr(inp["G"]) - paid,

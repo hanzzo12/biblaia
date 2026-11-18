@@ -7,7 +7,27 @@ import fs from 'node:fs';
 import { calculate, emptyScenario, emptyFamilyMember, insuranceBand } from '../../src/core/index.js';
 
 const ROOT = new URL('../../', import.meta.url);
-const DATA = JSON.parse(fs.readFileSync(new URL('src/data/normative-data.json', ROOT), 'utf8'));
+const CURRENT = JSON.parse(fs.readFileSync(new URL('src/data/normative-data.json', ROOT), 'utf8'));
+/**
+ * The golden values below were derived from Order №01-82 as supplied (before Order №01-407). They are run against
+ * that previous edition, rebuilt from `history` (old H, old Annexes 2–4). The old expected numbers are unchanged.
+ */
+function previousEdition(cur) {
+  const d = structuredClone(cur);
+  const h = d.history;
+  if (!h) return d;
+  d.baseAmounts = d.baseAmounts.map((b) => ({ ...b, amount: b.previous ? b.previous.amount : b.amount, effectiveFrom: null, previous: null }));
+  d.positionProfiles = h.positionProfiles;
+  d.costCoefficients = h.costCoefficients;
+  d.missions = d.missions.map((m) => {
+    const kid = h.missionCostCoefficientIds[m.id] ?? null;
+    const k = h.costCoefficients.find((x) => x.id === kid);
+    return { ...m, costCoefficientId: kid, costCoefficientBasis: k ? (k.scope === 'city' ? 'city-row' : 'country-row') : 'none' };
+  });
+  delete d.history;
+  return d;
+}
+const DATA = previousEdition(CURRENT);
 const GOLDEN = JSON.parse(fs.readFileSync(new URL('tests/fixtures/golden-cases.json', ROOT), 'utf8'));
 const G = (id) => {
   const c = GOLDEN.cases.find((x) => x.id === id);
@@ -399,4 +419,29 @@ test('T-ANN-01 vacation month is conditional, not merged', () => {
   const v = r.oneTimeAllowances.vacationMonth;
   expectComp(v, G('T-ANN-01').expected.vacationAmountConditional, 'vacation amount');
   assert.equal(v.status, 'scenario');
+});
+
+// ---------------------------------------------------------------- Order №01-407 (in force 2027-01-01): NEW edition, current data
+test('T-0407-VIE / T-0407-WAS: new-edition golden through the core with the current data', () => {
+  for (const id of ['T-0407-VIE', 'T-0407-WAS']) {
+    const c = G(id), i = c.inputs;
+    const s = scen({ mission: i.missionId, entry: i.positionEntryId, rent: i.G, family: [member('F1', { role: 'spouse', age: 40 }), member('F2', { age: 8 })] });
+    s.period = { mode: 'full-month', month: '2027-01' };
+    s.education = [{ memberId: 'F2', tuition: i.educationExpenses[0] }];
+    const r = run(s, CURRENT);
+    assert.equal(r.currency, i.currency);
+    for (const k of ['H', 'K', 'E']) expectComp(r.monthly[k], i[k === 'E' ? 'E_percent' : k], `${id} ${k}`);
+    for (const k of ['D', 'T', 'F', 'S']) expectComp(r.monthly[k], c.expected[k], `${id} ${k}`);
+    expectComp(r.education.total, c.expected.educationReimbursement, `${id} edu`);
+    expectComp(r.remainder.value, c.expected.remainderAfterRentAndEducation, `${id} remainder`);
+  }
+});
+
+test('new edition: removed Annex 2 rows (referent A2-R8, driver A2-R9) are not selectable; old edition kept them', () => {
+  const ids = (d, mode) => d.positionProfiles.find((p) => p.id === mode).entries.map((e) => e.id);
+  assert.deepEqual(ids(CURRENT, 'annex2'), ['A2-R1', 'A2-R2', 'A2-R3', 'A2-R4', 'A2-R5', 'A2-R6', 'A2-R7']);
+  assert.deepEqual(ids(CURRENT, 'annex3'), ['A3-R1', 'A3-R2', 'A3-R3', 'A3-R4', 'A3-R5', 'A3-R6', 'A3-R7']);
+  assert.ok(ids(DATA, 'annex2').includes('A2-R9') && ids(DATA, 'annex3').includes('A3-R8'), 'previous edition intact');
+  const r = run(scen({ entry: 'A2-R8', rent: '1500' }), CURRENT);
+  assert.equal(r.monthly.D.exact, null, 'removed position gives no D');
 });

@@ -143,3 +143,17 @@ export function dailyRateForMission(data, missionId) {
   return { id: r.id, amount: r.amount, currency: r.currency, basis: city ? 'city' : 'country', countryId: r.countryId, locationId: r.locationId ?? null,
     edition: r.edition ?? null, sourceRef: r.sourceRef ?? null, row: r.row ?? null };
 }
+
+/**
+ * Base amount H for a funding currency with its effective date and the previous value
+ * (Order №01-407: 5000 EUR / 5600 USD from 2027-01-01; previously 3100 / 3495).
+ * @returns {{ id: string, amount: string, currency: string, effectiveFrom: string|null, sourceRef: string|null, citation: string|null, note: string|null,
+ *            previous: { amount: string, until: string, sourceRef: string|null, citation: string|null } | null } | null}
+ */
+export function baseAmountInfo(data, currency) {
+  const b = idx(data).base.get(currency);
+  if (!b) return null;
+  return { id: b.id, amount: b.amount, currency: b.currency, effectiveFrom: b.effectiveFrom ?? null, sourceRef: b.sourceRef ?? null,
+    citation: b.citation ?? null, note: b.note ?? null,
+    previous: b.previous ? { amount: b.previous.amount, until: b.previous.until, sourceRef: b.previous.sourceRef ?? null, citation: b.previous.citation ?? null } : null };
+}

@@ -23,6 +23,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW = os.path.join(ROOT, "sources", "extracted")
 PDF_REL = "sources/original/rotation_sources.pdf"
 D211_REL = "sources/original/decree211-matsne-3649787-28.pdf"
+O407_REL = "sources/original/order-01-407-2026-11-17-matsne-7047773-0.pdf"
+O407_EFFECTIVE = "2027-01-01"
 D211_RAW = os.path.join(ROOT, "sources", "extracted", "decree211-annex1.raw.json")
 # Decree №211 Annex 1, column 2 (currency name as printed) → ISO 4217
 CURRENCY_ISO = {
@@ -514,6 +516,25 @@ def main():
                 latestAmendmentNoted=am,
                 verification="supplied-working-copy-only")
            for (i, t, a, p, am) in SOURCE_REFS]
+    for r in src:
+        if r["id"] in ("SRC-ANNEX2", "SRC-ANNEX3", "SRC-ANNEX4"):
+            r.update(replacedBy="SRC-01407-A%s" % r["id"][-1], replacedFrom=O407_EFFECTIVE, replacementTextSupplied=True,
+                     replacementNote="ჩანაცვლებულია №01-407-ით (2027-01-01-დან); წინა მნიშვნელობები — `history`-ში.")
+    src.append(dict(id="SRC-ORDER-01-407", title="საქართველოს საგარეო საქმეთა მინისტრის 2026 წლის 17 ნოემბრის ბრძანება №01-407 — №01-82 ბრძანებაში ცვლილება",
+                    annex=None, pages=[1, 1], file=O407_REL, sha256=sha256(os.path.join(ROOT, O407_REL)),
+                    latestAmendmentNoted="itself (amends pt 3, adds pts 26¹ and 26², replaces Annexes 2–4; in force 2027-01-01 per its pt 2)",
+                    effectiveFrom=O407_EFFECTIVE,
+                    verification="user-supplied matsne PDF (doc 7047773, '0'); Annex 2–4 attachments not included"))
+    a4sha = json.load(open(os.path.join(RAW, "order-01-407-annex4.raw.json"), encoding="utf-8"))["sha256"]
+    for n, f, title, sh in (
+        (2, "sources/original/order-01-407-annex2.docx", "ბრძანება №01-407 — დანართი №2 (თანამდებობრივი მაჩვენებლები, 2027-01-01-დან)", None),
+        (3, "sources/original/order-01-407-annex3.docx", "ბრძანება №01-407 — დანართი №3 (ცენტრალური აპარატი, 2027-01-01-დან)", None),
+        (4, "sources/extracted/order-01-407-annex4.raw.json", "ბრძანება №01-407 — დანართი №4 (K და E, 2027-01-01-დან)", None),
+    ):
+        src.append(dict(id="SRC-01407-A%d" % n, title=title, annex=n, pages=[1, 1], file=f, sha256=sha256(os.path.join(ROOT, f)),
+                        latestAmendmentNoted="Order №01-407 of 2026-11-17 (in force 2027-01-01)", effectiveFrom=O407_EFFECTIVE,
+                        verification=("user-supplied DOCX attachment" if n < 4 else
+                                      "extract of the 'დანართი N4' sheet of the user-supplied workbook (workbook sha256 %s); the workbook's other sheet contains personal data and is not used" % a4sha)))
     src.append(dict(id="SRC-DECREE211-A1", title="საქართველოს მთავრობის 2017 წლის 25 აპრილის №211 დადგენილება, დანართი №1 — სადღეღამისო ნორმები",
                     annex=None, pages=[8, 16], file=D211_REL, sha256=sha256(os.path.join(ROOT, D211_REL)),
                     latestAmendmentNoted="Annex 1: №470 of 2022-09-28 (also №91 of 2020-02-10)",
@@ -679,6 +700,87 @@ def main():
         for c in coll:
             assert cnt.get(c["id"]) == 1, ("cap row not used exactly once", c["id"], cnt.get(c["id"]))
 
+    # ==== Order №01-407 (2026-11-17, in force 2027-01-01): new Annexes 2, 3 and 4, applied now (user decision).
+    # The previously supplied annex values are kept under `history`.
+    history = dict(note="Values of Order №01-82 Annexes 2–4 as in the supplied working copy (2026-10-28), replaced by Order №01-407 from 2027-01-01.",
+                   positionProfiles=profiles, costCoefficients=kcoef,
+                   missionCostCoefficientIds={m["id"]: m["costCoefficientId"] for m in missions})
+    o407 = {n: json.load(open(os.path.join(RAW, "order-01-407-annex%d.raw.json" % n), encoding="utf-8")) for n in (2, 3)}
+    a4n = json.load(open(os.path.join(RAW, "order-01-407-annex4.raw.json"), encoding="utf-8"))
+    A3_POS_407 = dict(A3_POS)
+    A3_POS_407[7] = ["მესამე მდივანი", "ატაშე", "უსაფრთხოების ოფიცერი"]
+    removed_pos = []
+    new_profiles = []
+    for n, pos, notes_map in ((2, A2_POS, A2_NOTES), (3, A3_POS_407, {})):
+        old = {e["rowNo"]: e for e in next(p for p in profiles if p["id"] == "annex%d" % n)["entries"]}
+        entries = []
+        for r in o407[n]["rows"]:
+            t = norm_label(r["cells"]["title"])
+            note = notes_map.get(r["rowNo"])
+            o = old.get(r["rowNo"])
+            if o and o["title_ka"] != t:
+                note = ((note + " ") if note else "") + "Title changed by Order №01-407 (was: '%s')." % o["title_ka"]
+            if o and o["percent"] != r["cells"]["percent"]:
+                note = ((note + " ") if note else "") + "Percent changed by Order №01-407 (was %s)." % o["percent"]
+            entries.append(dict(id="A%d-R%d" % (n, r["rowNo"]), rowNo=r["rowNo"], title_ka=t, positions_ka=pos[r["rowNo"]],
+                                percent=dec(r["cells"]["percent"]), sourceRef="SRC-01407-A%d" % n, page=None, notes=note))
+        for rn, o in sorted(old.items()):
+            if rn not in {e["rowNo"] for e in entries}:
+                removed_pos.append(dict(annex=n, rowNo=rn, id=o["id"], rawLabel=o["title_ka"], percent=o["percent"], sourceRef="SRC-01407-A%d" % n,
+                                        note="Row removed by Order №01-407 (from 2027-01-01); the position is no longer listed and cannot be selected."))
+        prof = next(p for p in profiles if p["id"] == "annex%d" % n)
+        new_profiles.append(dict(prof, sourceRef="SRC-01407-A%d" % n, entries=entries,
+                                 title_ka=prof["title_ka"] + " (ბრძანება №01-407, 2027-01-01-დან)"))
+    assert "ადმინისტრაციული მენეჯერი, რომელიც დროებით/მუდმივად ასრულებს სხვა" in new_profiles[0]["entries"][2]["title_ka"], "Annex 2 row 3 wording"
+
+    country_by_name = {off: cid for (cid, ka, en, off) in COUNTRIES}
+    loc_by = {}
+    for (lid, cc, ka, en, alt, region) in LOCATIONS:
+        for nm in [ka] + list(alt):
+            loc_by[(cc, nm.replace("–", "-"))] = lid
+    new_k = []
+    for r in a4n["rows"]:
+        c = r["cells"]
+        if not c[0] or c[0].get("type") != "int":
+            continue
+        n = c[0]["value"]
+        label = re.sub(r"\s+", " ", c[1]["value"]).strip().replace("–", "-")
+        m = re.match(r"^(.*?)\s*\(?ქ\.\s*(.+?)\)?$", label)
+        cpart, city = (m.group(1).strip(), m.group(2).strip()) if m else (label, None)
+        cid = "US" if cpart == "აშშ" else country_by_name.get(cpart)
+        assert cid, ("unknown Annex 4 country", label)
+        lids = None
+        if city:
+            lid = loc_by.get((cid, city))
+            assert lid, ("unknown Annex 4 city", label)
+            lids = [lid]
+        kq = str(Decimal(str(c[2]["value"])).quantize(Decimal("0.001")))  # number format #,##0.000
+        new_k.append(dict(id="K-A4N-R%d" % n, annex4Row=n, rawLabel=re.sub(r"\s+", " ", c[1]["value"]).strip(), countryId=cid,
+                          locationIds=lids, scope="city" if lids else "country", k=dec(kq), ePercent=dec(str(int(c[3]["value"]))),
+                          sourceRef="SRC-01407-A4", page=None, sheetRow=r["row"],
+                          notes=("K printed as %s (cell format 0.000)." % c[2]["value"]) if kq != str(c[2]["value"]) else None))
+    assert len(new_k) == 69, len(new_k)
+    k_changes = []
+    for m in missions:
+        city = next((k for k in new_k if k["locationIds"] and m["locationId"] in k["locationIds"]), None)
+        country = next((k for k in new_k if k["countryId"] == m["countryId"] and not k["locationIds"]), None)
+        k = city or country
+        old_id = m["costCoefficientId"]
+        old = next((x for x in kcoef if x["id"] == old_id), None)
+        m["costCoefficientId"] = k["id"] if k else None
+        m["costCoefficientBasis"] = "city-row" if city else "country-row" if country else "none"
+        if m["notes"]:
+            m["notes"] = " ".join(x for x in re.split(r"(?<=\.)\s+", m["notes"]) if "Annex 4" not in x and "row 6" not in x) or None
+        if not k:
+            m["notes"] = ((m["notes"] + " ") if m["notes"] else "") + "Order №01-407 Annex 4 has no row for this institution's country/city: K/E undetermined."
+        k_changes.append(dict(mission=m["id"], old=old and (old["k"], old["ePercent"], old["scope"]), new=k and (k["k"], k["ePercent"], k["scope"])))
+    lost = [c for c in k_changes if c["old"] and not c["new"]]
+    gained = [c for c in k_changes if c["new"] and not c["old"]]
+    basis_changed = [c["mission"] for c in k_changes if c["old"] and c["new"] and c["old"][2] != c["new"][2]]
+    profiles, kcoef = new_profiles, new_k
+    for x in removed_pos:
+        removed.append(x)
+
     locations = []
     for (lid, cc, ka, en, alt, region) in LOCATIONS:
         d = dict(id=lid, countryId=cc, name_ka=ka, name_en=en, altNames=alt, region=region)
@@ -716,17 +818,31 @@ def main():
 
     data = dict(
         schemaVersion=1,
-        rulesVersion="01-82/supplied-pdf-2026-10-28",
+        rulesVersion="01-82/01-407-2027-01-01",
         edition=dict(
             note="Order №01-82 of 2018-04-05 with Annexes 1–10 as contained in the supplied combined working copy (compiled 2026-10-28). Amendment annotations are reproduced as printed; effective dates of individual norms are not asserted.",
-            latestAmendmentSeen="№01-317 of 2026-08-13",
+            latestAmendmentSeen="№01-407 of 2026-11-17 (in force 2027-01-01)",
+            amendment01407=dict(
+                sourceRef="SRC-ORDER-01-407", effectiveFrom=O407_EFFECTIVE,
+                applied=["pt 3: H = 5000 EUR / 5600 USD (applied to all calculations per user decision; in force 2027-01-01)",
+                         "pt 26¹ (repeat rent advance under pt 27(c) when a coefficient change reduces the allowance) — informational",
+                         "pt 26² (yearly recalculation of K and E from UN data, October–October) — informational"],
+                annexes=["Annex 2 (7 rows; 'რეფერენტი' and 'მძღოლი' removed) and Annex 3 (7 rows; 'რეფერენტი' and 'მძღოლი' removed) from the user-supplied DOCX attachments",
+                         "Annex 4 (69 rows) from the 'დანართი N4' sheet of the user-supplied workbook (sources/extracted/order-01-407-annex4.raw.json); applied to all calculations per user decision; previous values under `history`"],
+            ),
             verification="supplied-working-copy-only",
             fullConsolidationVerified=False,
         ),
         sourceReferences=src,
         baseAmounts=[
-            dict(id="H-EUR", currency="EUR", amount="3100", sourceRef="SRC-ORDER", point="3", citation="საბაზისო თანხა 3100 ევრო (№01-770, 2025-09-17)"),
-            dict(id="H-USD", currency="USD", amount="3495", sourceRef="SRC-ORDER", point="3", citation="საბაზისო თანხა 3495 აშშ დოლარი (№01-770, 2025-09-17)"),
+            dict(id="H-EUR", currency="EUR", amount="5000", effectiveFrom=O407_EFFECTIVE, sourceRef="SRC-ORDER-01-407", point="3",
+                 citation="საბაზისო თანხა 5000 ევრო (№01-407, 2026-11-17, ამოქმედდება 2027-01-01)",
+                 note="მომხმარებლის გადაწყვეტილებით ახალი თანხა გამოიყენება ყველა გამოთვლაში; ნორმა მოქმედებს 2027-01-01-დან.",
+                 previous=dict(amount="3100", until="2026-12-31", sourceRef="SRC-ORDER", citation="საბაზისო თანხა 3100 ევრო (№01-770, 2025-09-17)")),
+            dict(id="H-USD", currency="USD", amount="5600", effectiveFrom=O407_EFFECTIVE, sourceRef="SRC-ORDER-01-407", point="3",
+                 citation="საბაზისო თანხა 5600 აშშ დოლარი (№01-407, 2026-11-17, ამოქმედდება 2027-01-01)",
+                 note="მომხმარებლის გადაწყვეტილებით ახალი თანხა გამოიყენება ყველა გამოთვლაში; ნორმა მოქმედებს 2027-01-01-დან.",
+                 previous=dict(amount="3495", until="2026-12-31", sourceRef="SRC-ORDER", citation="საბაზისო თანხა 3495 აშშ დოლარი (№01-770, 2025-09-17)")),
         ],
         parameters=[dict(id=i, value=dec(v), unit=u, sourceRef=s, point=p, citation=c, notes=n)
                     for (i, v, u, s, p, c, n) in PARAMETERS],
@@ -750,11 +866,14 @@ def main():
         ],
         removedEntries=removed,
         normalizations=norms,
+        history=history,
     )
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1)
         f.write("\n")
+    print("01-407: K links lost %s, gained %s, basis changed %s; removed positions %s"
+          % ([c["mission"] for c in lost], [c["mission"] for c in gained], basis_changed, [x["id"] for x in removed_pos]))
     print("missions %d (EUR %d, USD %d), K rows %d, insurance %d, baggage %d, locations %d, countries %d, normalizations %d"
           % (len(missions), sum(m["annex"] == 5 for m in missions), sum(m["annex"] == 6 for m in missions),
              len(kcoef), len(ins), len(bag), len(locations), len(countries), len(norms)))

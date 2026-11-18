@@ -8,6 +8,24 @@ import { emptyScenario, emptyFamilyMember } from '../../src/core/index.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const DATA = JSON.parse(readFileSync(join(ROOT, 'src', 'data', 'normative-data.json'), 'utf8'));
+/**
+ * The previous edition (Order №01-82 as supplied, before Order №01-407): old H, old Annexes 2–4 from
+ * `history`. The tester's golden values were computed on it.
+ */
+export const DATA_0182 = (() => {
+  const d = structuredClone(DATA);
+  const h = d.history;
+  d.baseAmounts = d.baseAmounts.map((b) => ({ ...b, amount: b.previous ? b.previous.amount : b.amount, effectiveFrom: null, previous: null }));
+  d.positionProfiles = h.positionProfiles;
+  d.costCoefficients = h.costCoefficients;
+  d.missions = d.missions.map((m) => {
+    const kid = h.missionCostCoefficientIds[m.id] ?? null;
+    const k = h.costCoefficients.find((x) => x.id === kid);
+    return { ...m, costCoefficientId: kid, costCoefficientBasis: k ? (k.scope === 'city' ? 'city-row' : 'country-row') : 'none' };
+  });
+  delete d.history;
+  return d;
+})();
 export const GOLDEN = JSON.parse(readFileSync(join(ROOT, 'tests', 'fixtures', 'golden-cases.json'), 'utf8'));
 export const golden = (id) => {
   const c = GOLDEN.cases.find((x) => x.id === id);

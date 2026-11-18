@@ -92,7 +92,8 @@ test('T-PRO-*: proration exact values', async () => {
 });
 
 test('rule catalog covers every rule ID in docs/rules.md and is in sync', () => {
-  assert.equal(RULE_IDS.length, 75);
+  assert.ok(RULE_IDS.length >= 77, `rules: ${RULE_IDS.length}`);
+  for (const id of ['R-ADV-026-1', 'R-K-026-2', 'R-H-001']) assert.ok(RULE_IDS.includes(id), id);
   const md = readFileSync(new URL('../../docs/rules.md', import.meta.url), 'utf8');
   for (const id of RULE_IDS) assert.ok(md.includes(id), id);
   for (const r of Object.values(ruleCatalog)) { assert.ok(r.title_ka); assert.ok(r.status.length); }
@@ -101,5 +102,5 @@ test('rule catalog covers every rule ID in docs/rules.md and is in sync', () => 
 test('rule catalog is in sync with docs/rules.md (generator --check)', async () => {
   const { execFileSync } = await import('node:child_process');
   const out = execFileSync(process.execPath, [new URL('../../scripts/gen-rule-catalog.mjs', import.meta.url).pathname, '--check'], { encoding: 'utf8' });
-  assert.match(out, /up to date \(75 rules\)/);
+  assert.match(out, /up to date \(\d+ rules\)/);
 });

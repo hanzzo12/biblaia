@@ -7,6 +7,7 @@ import { marketTiles, rentFor, WITH_DATA, marketRows, marketNotes, GROCERIES_LAB
 import { computeChain, chainRows } from './chain.js';
 import { R, mul, div, toFixed2, fromExactString } from '../core/rational.js';
 import { comparePdf, downloadBytes } from './pdf/reports.js';
+import { baseNoteText } from './result.js';
 
 const SORTS = [['mine', 'ჩემი თანმიმდევრობა'], ['asc', 'იაფიდან ძვირისკენ'], ['desc', 'ძვირიდან იაფისკენ']];
 /** რანჟირების მაჩვენებელი: Numbeo „ცხოვრება + ქირა“ ინდექსი, თუ არა — ცხოვრების ინდექსი */
@@ -34,7 +35,7 @@ export function mountCompare(root, { data, service, scenario, calc, beds, parseM
   const printBtn = h('button', { type: 'button', class: 'btn ghost small', 'data-testid': 'compare-print' }, 'ბეჭდვა');
   pdfBtn.addEventListener('click', async () => {
     pdfBtn.disabled = true;
-    try { downloadBytes(await comparePdf(ordered().map((c) => pdfCol(colModel(c)))), `rotacia-shedareba-${new Date().toISOString().slice(0, 10)}.pdf`); }
+    try { downloadBytes(await comparePdf(ordered().map((c) => pdfCol(colModel(c))), { baseNote: baseNoteText(data) }), `rotacia-shedareba-${new Date().toISOString().slice(0, 10)}.pdf`); }
     catch (e) { console.error(e); } finally { pdfBtn.disabled = false; }
   });
   printBtn.addEventListener('click', () => { document.body.classList.add('print-compare'); window.print(); });

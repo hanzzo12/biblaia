@@ -377,3 +377,4 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
 .ccard > .cmarket { margin-top: 8px; }
 @media (max-width: 700px) { .cgrid { grid-template-rows: repeat(5, auto); } }
 @supports not (grid-template-rows: subgrid) { .ccard { display: block; } }
+.base-note { margin: 10px 0 0; font-size: .76rem; color: var(--muted); }

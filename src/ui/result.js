@@ -42,7 +42,7 @@ export function resultModel({ r, st, sc, mission, data, personName, md = null, m
   const living = chain.living;
   return {
     cur, noRent, hasEdu, undetermined, why, m, ed, ot, ins, md, mdLoading, beds, familyCount: st.family.length, living, chain,
-    chainRows: chainRows(chain), chainNote: CHAIN_NOTE, rentRows: rentBreakdownRows(chain),
+    chainRows: chainRows(chain), chainNote: CHAIN_NOTE, rentRows: rentBreakdownRows(chain), baseNote: baseNoteText(data),
     city: mission?.location_ka ?? '',
     marketRows: marketRows(md, beds, { familyCount: st.family.length }), marketNotes: marketNotes(md),
     insCapTotal: sum(ins.map((p) => p.cap).filter((x) => x != null).length ? ins.map((p) => p.cap).filter((x) => x != null) : [null]), insReimbTotal: ins.some((p) => p.entered) ? sum(ins.filter((p) => p.entered).map((p) => p.reimb)) : null,
@@ -78,6 +78,7 @@ export function renderResult(M, { onPdf, onPrint, onCompare }) {
     h('table', { class: 'calc' }, h('tbody', null, M.rows.map((x) => h('tr', { 'data-component': x.k },
       h('th', { scope: 'row' }, h('span', { class: 'sym' }, x.k), ' ', x.label), h('td', { 'data-value': x.raw ?? '' }, x.text))))),
     h('p', { class: 'formula' }, 'D = H × A × K × (1 + 7% × C) · T = D × E · S = D − T + F'),
+    M.baseNote ? h('p', { class: 'tiny muted' }, `H: ${M.baseNote}`) : null,
     M.hasEdu ? h('p', { class: 'small' }, `სწავლა: ანაზღაურდება თვეში ${cur === 'USD' ? '750 USD' : '690 EUR'}-მდე სრულად, ზედმეტის 80%.`) : null,
     h('p', { class: 'tiny muted' }, 'თანხები ითვლება ზუსტად და მრგვალდება 2 ათწილადამდე.'));
   const detBtn = h('button', { type: 'button', class: 'btn ghost', 'aria-expanded': 'false', 'aria-controls': detId, 'data-testid': 'how' }, 'როგორ დაითვალა');
@@ -122,5 +123,20 @@ export function renderResult(M, { onPdf, onPrint, onCompare }) {
       h('h3', null, `ცხოვრების ღირებულება — ${M.city}`), marketTiles(M.md, M.beds, { loading: M.mdLoading, familyCount: M.familyCount })) : null,
     h('div', { class: 'actions no-print' }, pdfBtn, printBtn, detBtn, cmpBtn),
     det,
+    M.baseNote ? h('p', { class: 'base-note', 'data-testid': 'base-note' }, M.baseNote) : null,
   ];
+}
+
+const MONTHS_FROM = ['იანვრიდან', 'თებერვლიდან', 'მარტიდან', 'აპრილიდან', 'მაისიდან', 'ივნისიდან', 'ივლისიდან', 'აგვისტოდან', 'სექტემბრიდან', 'ოქტომბრიდან', 'ნოემბრიდან', 'დეკემბრიდან'];
+const intAmount = (x) => { const s = core.formatAmount(x); return s.endsWith('.00') ? s.slice(0, -3) : s; };
+/** საბაზისო თანხის შენიშვნა (ბრძანება №01-407) — რიცხვები და თარიღი core.baseAmountInfo-დან; თუ არ არის — null. */
+export function baseNoteText(data) {
+  const info = typeof core.baseAmountInfo === 'function' ? (c) => core.baseAmountInfo(data, c)
+    : (c) => (data.baseAmounts || []).find((b) => b.currency === c) || null; // სარეზერვო: იგივე ნორმატიული ჩანაწერი
+  const e = info('EUR'); const u = info('USD');
+  if (!e?.amount || !u?.amount || !e.effectiveFrom) return null;
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(e.effectiveFrom);
+  const when = m ? `${m[1]} წლის ${Number(m[3])} ${MONTHS_FROM[Number(m[2]) - 1]}` : e.effectiveFrom;
+  const order = e.orderRef ?? e.order ?? (/№\s?[\d-]+/.exec(e.citation ?? '')?.[0]?.replace(/\s/, '') || '№01-407');
+  return `გაანგარიშება ეფუძნება ბრძანება ${order}-ით განსაზღვრულ საბაზისო თანხას (${intAmount(e.amount)} EUR / ${intAmount(u.amount)} USD), რომელიც ამოქმედდება ${when}.`;
 }
