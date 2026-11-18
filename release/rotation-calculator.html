@@ -391,6 +391,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
 .ccard > .cmarket { margin-top: 8px; }
 @media (max-width: 700px) { .cgrid { grid-template-rows: repeat(5, auto); } }
 @supports not (grid-template-rows: subgrid) { .ccard { display: block; } }
+.base-note { margin: 10px 0 0; font-size: .76rem; color: var(--muted); }
 
 @media print {
   @page { size: A4 portrait; margin: 10mm 12mm; }
@@ -523,10 +524,23 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
   // src/data/normative-data.json
   var normative_data_default = {
     schemaVersion: 1,
-    rulesVersion: "01-82/supplied-pdf-2026-10-28",
+    rulesVersion: "01-82/01-407-2027-01-01",
     edition: {
       note: "Order №01-82 of 2018-04-05 with Annexes 1–10 as contained in the supplied combined working copy (compiled 2026-10-28). Amendment annotations are reproduced as printed; effective dates of individual norms are not asserted.",
-      latestAmendmentSeen: "№01-317 of 2026-08-13",
+      latestAmendmentSeen: "№01-407 of 2026-11-17 (in force 2027-01-01)",
+      amendment01407: {
+        sourceRef: "SRC-ORDER-01-407",
+        effectiveFrom: "2027-01-01",
+        applied: [
+          "pt 3: H = 5000 EUR / 5600 USD (applied to all calculations per user decision; in force 2027-01-01)",
+          "pt 26¹ (repeat rent advance under pt 27(c) when a coefficient change reduces the allowance) — informational",
+          "pt 26² (yearly recalculation of K and E from UN data, October–October) — informational"
+        ],
+        annexes: [
+          "Annex 2 (7 rows; 'რეფერენტი' and 'მძღოლი' removed) and Annex 3 (7 rows; 'რეფერენტი' and 'მძღოლი' removed) from the user-supplied DOCX attachments",
+          "Annex 4 (69 rows) from the 'დანართი N4' sheet of the user-supplied workbook (sources/extracted/order-01-407-annex4.raw.json); applied to all calculations per user decision; previous values under `history`"
+        ]
+      },
       verification: "supplied-working-copy-only",
       fullConsolidationVerified: false
     },
@@ -568,7 +582,11 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         file: "sources/original/rotation_sources.pdf",
         sha256: "7ccfcaaa100f06b870d5037238c8e99bfebb750a7cfc9348767fc9a09dcf8717",
         latestAmendmentNoted: "№01-317 of 2026-08-13",
-        verification: "supplied-working-copy-only"
+        verification: "supplied-working-copy-only",
+        replacedBy: "SRC-01407-A2",
+        replacedFrom: "2027-01-01",
+        replacementTextSupplied: true,
+        replacementNote: "ჩანაცვლებულია №01-407-ით (2027-01-01-დან); წინა მნიშვნელობები — `history`-ში."
       },
       {
         id: "SRC-ANNEX3",
@@ -581,7 +599,11 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         file: "sources/original/rotation_sources.pdf",
         sha256: "7ccfcaaa100f06b870d5037238c8e99bfebb750a7cfc9348767fc9a09dcf8717",
         latestAmendmentNoted: "№01-770 of 2025-09-17",
-        verification: "supplied-working-copy-only"
+        verification: "supplied-working-copy-only",
+        replacedBy: "SRC-01407-A3",
+        replacedFrom: "2027-01-01",
+        replacementTextSupplied: true,
+        replacementNote: "ჩანაცვლებულია №01-407-ით (2027-01-01-დან); წინა მნიშვნელობები — `history`-ში."
       },
       {
         id: "SRC-ANNEX4",
@@ -594,7 +616,11 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         file: "sources/original/rotation_sources.pdf",
         sha256: "7ccfcaaa100f06b870d5037238c8e99bfebb750a7cfc9348767fc9a09dcf8717",
         latestAmendmentNoted: "№01-43 of 2026-02-09",
-        verification: "supplied-working-copy-only"
+        verification: "supplied-working-copy-only",
+        replacedBy: "SRC-01407-A4",
+        replacedFrom: "2027-01-01",
+        replacementTextSupplied: true,
+        replacementNote: "ჩანაცვლებულია №01-407-ით (2027-01-01-დან); წინა მნიშვნელობები — `history`-ში."
       },
       {
         id: "SRC-ANNEX5",
@@ -675,6 +701,62 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         verification: "supplied-working-copy-only"
       },
       {
+        id: "SRC-ORDER-01-407",
+        title: "საქართველოს საგარეო საქმეთა მინისტრის 2026 წლის 17 ნოემბრის ბრძანება №01-407 — №01-82 ბრძანებაში ცვლილება",
+        annex: null,
+        pages: [
+          1,
+          1
+        ],
+        file: "sources/original/order-01-407-2026-11-17-matsne-7047773-0.pdf",
+        sha256: "8da8d677492c0646f0e8ccd0f5e745191a28028b0fd670d71af5bd3393f61e91",
+        latestAmendmentNoted: "itself (amends pt 3, adds pts 26¹ and 26², replaces Annexes 2–4; in force 2027-01-01 per its pt 2)",
+        effectiveFrom: "2027-01-01",
+        verification: "user-supplied matsne PDF (doc 7047773, '0'); Annex 2–4 attachments not included"
+      },
+      {
+        id: "SRC-01407-A2",
+        title: "ბრძანება №01-407 — დანართი №2 (თანამდებობრივი მაჩვენებლები, 2027-01-01-დან)",
+        annex: 2,
+        pages: [
+          1,
+          1
+        ],
+        file: "sources/original/order-01-407-annex2.docx",
+        sha256: "b2e91b832241e7f2ca0c106eef7f7f9ae34fd8f253640b6c4cc8afc4bed360cc",
+        latestAmendmentNoted: "Order №01-407 of 2026-11-17 (in force 2027-01-01)",
+        effectiveFrom: "2027-01-01",
+        verification: "user-supplied DOCX attachment"
+      },
+      {
+        id: "SRC-01407-A3",
+        title: "ბრძანება №01-407 — დანართი №3 (ცენტრალური აპარატი, 2027-01-01-დან)",
+        annex: 3,
+        pages: [
+          1,
+          1
+        ],
+        file: "sources/original/order-01-407-annex3.docx",
+        sha256: "2514f5eefcef11faa6012f78615e39c5d8e084bba33b6711ff768cb4e47dd167",
+        latestAmendmentNoted: "Order №01-407 of 2026-11-17 (in force 2027-01-01)",
+        effectiveFrom: "2027-01-01",
+        verification: "user-supplied DOCX attachment"
+      },
+      {
+        id: "SRC-01407-A4",
+        title: "ბრძანება №01-407 — დანართი №4 (K და E, 2027-01-01-დან)",
+        annex: 4,
+        pages: [
+          1,
+          1
+        ],
+        file: "sources/extracted/order-01-407-annex4.raw.json",
+        sha256: "3ac9dba3e2acfd216c429a85198bda091bff5ab1623471268ff0323cdacc3b7c",
+        latestAmendmentNoted: "Order №01-407 of 2026-11-17 (in force 2027-01-01)",
+        effectiveFrom: "2027-01-01",
+        verification: "extract of the 'დანართი N4' sheet of the user-supplied workbook (workbook sha256 b61fc8339369ad5e579fa775fb67b339110c027ad55d390ea6cb44a8983e9537); the workbook's other sheet contains personal data and is not used"
+      },
+      {
         id: "SRC-DECREE211-A1",
         title: "საქართველოს მთავრობის 2017 წლის 25 აპრილის №211 დადგენილება, დანართი №1 — სადღეღამისო ნორმები",
         annex: null,
@@ -692,18 +774,34 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       {
         id: "H-EUR",
         currency: "EUR",
-        amount: "3100",
-        sourceRef: "SRC-ORDER",
+        amount: "5000",
+        effectiveFrom: "2027-01-01",
+        sourceRef: "SRC-ORDER-01-407",
         point: "3",
-        citation: "საბაზისო თანხა 3100 ევრო (№01-770, 2025-09-17)"
+        citation: "საბაზისო თანხა 5000 ევრო (№01-407, 2026-11-17, ამოქმედდება 2027-01-01)",
+        note: "მომხმარებლის გადაწყვეტილებით ახალი თანხა გამოიყენება ყველა გამოთვლაში; ნორმა მოქმედებს 2027-01-01-დან.",
+        previous: {
+          amount: "3100",
+          until: "2026-12-31",
+          sourceRef: "SRC-ORDER",
+          citation: "საბაზისო თანხა 3100 ევრო (№01-770, 2025-09-17)"
+        }
       },
       {
         id: "H-USD",
         currency: "USD",
-        amount: "3495",
-        sourceRef: "SRC-ORDER",
+        amount: "5600",
+        effectiveFrom: "2027-01-01",
+        sourceRef: "SRC-ORDER-01-407",
         point: "3",
-        citation: "საბაზისო თანხა 3495 აშშ დოლარი (№01-770, 2025-09-17)"
+        citation: "საბაზისო თანხა 5600 აშშ დოლარი (№01-407, 2026-11-17, ამოქმედდება 2027-01-01)",
+        note: "მომხმარებლის გადაწყვეტილებით ახალი თანხა გამოიყენება ყველა გამოთვლაში; ნორმა მოქმედებს 2027-01-01-დან.",
+        previous: {
+          amount: "3495",
+          until: "2026-12-31",
+          sourceRef: "SRC-ORDER",
+          citation: "საბაზისო თანხა 3495 აშშ დოლარი (№01-770, 2025-09-17)"
+        }
       }
     ],
     parameters: [
@@ -900,9 +998,9 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
     positionProfiles: [
       {
         id: "annex2",
-        title_ka: "დანართი №2 — საზღვარგარეთ როტაციით მივლინებულ მოსამსახურეთა თანამდებობრივი მაჩვენებლები",
+        title_ka: "დანართი №2 — საზღვარგარეთ როტაციით მივლინებულ მოსამსახურეთა თანამდებობრივი მაჩვენებლები (ბრძანება №01-407, 2027-01-01-დან)",
         appliesTo: "staff posted on rotation (Order pt 1(b))",
-        sourceRef: "SRC-ANNEX2",
+        sourceRef: "SRC-01407-A2",
         entries: [
           {
             id: "A2-R1",
@@ -914,8 +1012,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "საერთაშორისო ორგანიზაციასთან საქართველოს წარმომადგენელი"
             ],
             percent: "100",
-            sourceRef: "SRC-ANNEX2",
-            page: 13,
+            sourceRef: "SRC-01407-A2",
+            page: null,
             notes: null
           },
           {
@@ -927,8 +1025,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "კონსული - საკონსულო დაწესებულების ხელმძღვანელი"
             ],
             percent: "80",
-            sourceRef: "SRC-ANNEX2",
-            page: 13,
+            sourceRef: "SRC-01407-A2",
+            page: null,
             notes: "'კონსული-საკონსულო დაწესებულების ხელმძღვანელი' = consul who heads a consular post (80%); a consul who is not head of post is row 4 (70%)."
           },
           {
@@ -942,8 +1040,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "ადმინისტრაციული მენეჯერი, რომელიც დროებით/მუდმივად ასრულებს სხვა საქართველოს დიპლომატიურ წარმომადგენლობებსა და საკონსულო დაწესებულებებში ადმინისტრაციული მენეჯერის მოვალეობას"
             ],
             percent: "75",
-            sourceRef: "SRC-ANNEX2",
-            page: 13,
+            sourceRef: "SRC-01407-A2",
+            page: null,
             notes: "Administrative manager performing the duties in another mission: Annex 2 row 3 applies during that period (Order pt 20², added by №01-317 of 2026-08-13). Source text has the typo 'საერთშორისო'."
           },
           {
@@ -955,8 +1053,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "კონსული"
             ],
             percent: "70",
-            sourceRef: "SRC-ANNEX2",
-            page: 13,
+            sourceRef: "SRC-01407-A2",
+            page: null,
             notes: null
           },
           {
@@ -969,8 +1067,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "ვიცე-კონსული"
             ],
             percent: "65",
-            sourceRef: "SRC-ANNEX2",
-            page: 13,
+            sourceRef: "SRC-01407-A2",
+            page: null,
             notes: "Ordinary administrative manager: 65%. See row 3 for the pt 20² case."
           },
           {
@@ -982,8 +1080,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "მეორე მდივანი"
             ],
             percent: "60",
-            sourceRef: "SRC-ANNEX2",
-            page: 13,
+            sourceRef: "SRC-01407-A2",
+            page: null,
             notes: null
           },
           {
@@ -996,41 +1094,17 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "უსაფრთხოების ოფიცერი"
             ],
             percent: "55",
-            sourceRef: "SRC-ANNEX2",
-            page: 13,
-            notes: null
-          },
-          {
-            id: "A2-R8",
-            rowNo: 8,
-            title_ka: "რეფერენტი",
-            positions_ka: [
-              "რეფერენტი"
-            ],
-            percent: "50",
-            sourceRef: "SRC-ANNEX2",
-            page: 13,
-            notes: null
-          },
-          {
-            id: "A2-R9",
-            rowNo: 9,
-            title_ka: "მძღოლი",
-            positions_ka: [
-              "მძღოლი"
-            ],
-            percent: "40",
-            sourceRef: "SRC-ANNEX2",
-            page: 13,
+            sourceRef: "SRC-01407-A2",
+            page: null,
             notes: null
           }
         ]
       },
       {
         id: "annex3",
-        title_ka: "დანართი №3 — ცენტრალური აპარატის მოსამსახურეთა თანამდებობრივი მაჩვენებლები",
+        title_ka: "დანართი №3 — ცენტრალური აპარატის მოსამსახურეთა თანამდებობრივი მაჩვენებლები (ბრძანება №01-407, 2027-01-01-დან)",
         appliesTo: "HQ staff on long-term assignment abroad under Order pt 37 (independent mode)",
-        sourceRef: "SRC-ANNEX3",
+        sourceRef: "SRC-01407-A3",
         entries: [
           {
             id: "A3-R1",
@@ -1045,8 +1119,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "საგანგებო დავალებათა ელჩი"
             ],
             percent: "100",
-            sourceRef: "SRC-ANNEX3",
-            page: 14,
+            sourceRef: "SRC-01407-A3",
+            page: null,
             notes: null
           },
           {
@@ -1058,8 +1132,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "დეპარტამენტის უფროსის მოადგილე"
             ],
             percent: "75",
-            sourceRef: "SRC-ANNEX3",
-            page: 14,
+            sourceRef: "SRC-01407-A3",
+            page: null,
             notes: null
           },
           {
@@ -1070,8 +1144,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "სამმართველოს უფროსი"
             ],
             percent: "70",
-            sourceRef: "SRC-ANNEX3",
-            page: 14,
+            sourceRef: "SRC-01407-A3",
+            page: null,
             notes: null
           },
           {
@@ -1082,8 +1156,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "მრჩეველი"
             ],
             percent: "65",
-            sourceRef: "SRC-ANNEX3",
-            page: 14,
+            sourceRef: "SRC-01407-A3",
+            page: null,
             notes: null
           },
           {
@@ -1094,8 +1168,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "პირველი მდივანი"
             ],
             percent: "60",
-            sourceRef: "SRC-ANNEX3",
-            page: 14,
+            sourceRef: "SRC-01407-A3",
+            page: null,
             notes: null
           },
           {
@@ -1106,36 +1180,23 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
               "მეორე მდივანი"
             ],
             percent: "55",
-            sourceRef: "SRC-ANNEX3",
-            page: 14,
+            sourceRef: "SRC-01407-A3",
+            page: null,
             notes: null
           },
           {
             id: "A3-R7",
             rowNo: 7,
-            title_ka: "მესამე მდივანი, ატაშე, რეფერენტი, უსაფრთხოების ოფიცერი",
+            title_ka: "მესამე მდივანი, ატაშე, უსაფრთხოების ოფიცერი",
             positions_ka: [
               "მესამე მდივანი",
               "ატაშე",
-              "რეფერენტი",
               "უსაფრთხოების ოფიცერი"
             ],
             percent: "50",
-            sourceRef: "SRC-ANNEX3",
-            page: 14,
-            notes: null
-          },
-          {
-            id: "A3-R8",
-            rowNo: 8,
-            title_ka: "მძღოლი",
-            positions_ka: [
-              "მძღოლი"
-            ],
-            percent: "40",
-            sourceRef: "SRC-ANNEX3",
-            page: 14,
-            notes: null
+            sourceRef: "SRC-01407-A3",
+            page: null,
+            notes: "Title changed by Order №01-407 (was: 'მესამე მდივანი, ატაშე, რეფერენტი, უსაფრთხოების ოფიცერი')."
           }
         ]
       }
@@ -2322,917 +2383,988 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
     ],
     costCoefficients: [
       {
-        id: "K-A4-R1",
+        id: "K-A4N-R1",
         annex4Row: 1,
-        rawLabel: "ავსტრალიის თანამეგობრობა",
-        countryId: "AU",
-        locationIds: null,
-        scope: "country",
-        k: "2.007",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R2",
-        annex4Row: 2,
         rawLabel: "ავსტრიის რესპუბლიკა",
         countryId: "AT",
         locationIds: null,
         scope: "country",
-        k: "2.06",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
+        k: "1.543",
+        ePercent: "20",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 4,
         notes: null
       },
       {
-        id: "K-A4-R3",
-        annex4Row: 3,
-        rawLabel: "არგენტინის რესპუბლიკა",
-        countryId: "AR",
-        locationIds: null,
-        scope: "country",
-        k: "1.800",
-        ePercent: "24",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R4",
-        annex4Row: 4,
-        rawLabel: "აზერბაიჯანის რესპუბლიკა",
-        countryId: "AZ",
-        locationIds: null,
-        scope: "country",
-        k: "1.600",
-        ePercent: "24",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R5",
-        annex4Row: 5,
-        rawLabel: "აშშ ქ. ვაშინგტონი",
-        countryId: "US",
-        locationIds: [
-          "US-WASHINGTON"
-        ],
-        scope: "city",
-        k: "2.185",
-        ePercent: "28",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R6",
-        annex4Row: 6,
-        rawLabel: "აშშ ქ. ნიუ-იორკი",
-        countryId: "US",
-        locationIds: [
-          "US-NEW-YORK"
-        ],
-        scope: "city",
-        k: "2.65",
-        ePercent: "32",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R7",
-        annex4Row: 7,
-        rawLabel: "ბელარუსის რესპუბლიკა",
-        countryId: "BY",
-        locationIds: null,
-        scope: "country",
-        k: "1.700",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R8",
-        annex4Row: 8,
+        id: "K-A4N-R2",
+        annex4Row: 2,
         rawLabel: "ბელგიის სამეფო",
         countryId: "BE",
         locationIds: null,
         scope: "country",
-        k: "2.050",
+        k: "1.489",
         ePercent: "18",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 5,
         notes: null
       },
       {
-        id: "K-A4-R9",
-        annex4Row: 9,
-        rawLabel: "ბრაზილიის ფედერაციული რესპუბლიკა",
-        countryId: "BR",
-        locationIds: null,
-        scope: "country",
-        k: "1.873",
-        ePercent: "32",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R10",
-        annex4Row: 10,
+        id: "K-A4N-R3",
+        annex4Row: 3,
         rawLabel: "ბულგარეთის რესპუბლიკა",
         countryId: "BG",
         locationIds: null,
         scope: "country",
-        k: "1.714",
-        ePercent: "14",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
+        k: "1.345",
+        ePercent: "21",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 6,
         notes: null
       },
       {
-        id: "K-A4-R11",
-        annex4Row: 11,
+        id: "K-A4N-R4",
+        annex4Row: 4,
         rawLabel: "გერმანიის ფედერაციული რესპუბლიკა",
         countryId: "DE",
         locationIds: null,
         scope: "country",
-        k: "1.993",
-        ePercent: "28",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: "K printed displaced within its cell (see raw notes); value unchanged."
+        k: "1.419",
+        ePercent: "23",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 7,
+        notes: null
       },
       {
-        id: "K-A4-R12",
-        annex4Row: 12,
+        id: "K-A4N-R5",
+        annex4Row: 5,
         rawLabel: "დანიის სამეფო",
         countryId: "DK",
         locationIds: null,
         scope: "country",
-        k: "2.200",
-        ePercent: "26",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
+        k: "1.712",
+        ePercent: "27",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 8,
         notes: null
       },
       {
-        id: "K-A4-R13",
-        annex4Row: 13,
+        id: "K-A4N-R6",
+        annex4Row: 6,
         rawLabel: "დიდი ბრიტანეთისა და ჩრდილოეთ ირლანდიის გაერთიანებული სამეფო",
         countryId: "GB",
         locationIds: null,
         scope: "country",
-        k: "2.4",
-        ePercent: "30",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
+        k: "1.798",
+        ePercent: "31",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 9,
         notes: null
       },
       {
-        id: "K-A4-R14",
-        annex4Row: 14,
-        rawLabel: "ეგვიპტის არაბთა რესპუბლიკა",
-        countryId: "EG",
-        locationIds: null,
-        scope: "country",
-        k: "1.800",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R15",
-        annex4Row: 15,
-        rawLabel: "ეთიოპიის ფედერაციული დემოკრატიული რესპუბლიკა",
-        countryId: "ET",
-        locationIds: null,
-        scope: "country",
-        k: "1.962",
-        ePercent: "18",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R16",
-        annex4Row: 16,
+        id: "K-A4N-R7",
+        annex4Row: 7,
         rawLabel: "ესპანეთის სამეფო",
         countryId: "ES",
         locationIds: null,
         scope: "country",
-        k: "1.900",
+        k: "1.320",
         ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 10,
+        notes: "K printed as 1.32 (cell format 0.000)."
       },
       {
-        id: "K-A4-R17",
-        annex4Row: 17,
+        id: "K-A4N-R8",
+        annex4Row: 8,
         rawLabel: "ესტონეთის რესპუბლიკა",
         countryId: "EE",
         locationIds: null,
         scope: "country",
-        k: "1.773",
-        ePercent: "20",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
+        k: "1.463",
+        ePercent: "19",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 11,
         notes: null
       },
       {
-        id: "K-A4-R18",
-        annex4Row: 18,
+        id: "K-A4N-R9",
+        annex4Row: 9,
         rawLabel: "თურქეთის რესპუბლიკა",
         countryId: "TR",
         locationIds: null,
         scope: "country",
-        k: "1.773",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
+        k: "1.348",
+        ePercent: "18",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 12,
         notes: null
       },
       {
-        id: "K-A4-R19",
-        annex4Row: 19,
-        rawLabel: "თურქმენეთი",
-        countryId: "TM",
-        locationIds: null,
-        scope: "country",
-        k: "1.600",
-        ePercent: "11",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R20",
-        annex4Row: 20,
-        rawLabel: "იაპონია",
-        countryId: "JP",
-        locationIds: null,
-        scope: "country",
-        k: "2.56",
-        ePercent: "29",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R21",
-        annex4Row: 21,
-        rawLabel: "იორდანიის ჰაშიმიტური სამეფო",
-        countryId: "JO",
-        locationIds: null,
-        scope: "country",
-        k: "1.805",
-        ePercent: "17",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R22",
-        annex4Row: 22,
-        rawLabel: "ირანის ისლამური რესპუბლიკა",
-        countryId: "IR",
-        locationIds: null,
-        scope: "country",
-        k: "1.89",
-        ePercent: "24",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R23",
-        annex4Row: 23,
-        rawLabel: "ისრაელის სახელმწიფო",
-        countryId: "IL",
-        locationIds: null,
-        scope: "country",
-        k: "2.1",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R24",
-        annex4Row: 24,
-        rawLabel: "იტალიის რესპუბლიკა",
+        id: "K-A4N-R10",
+        annex4Row: 10,
+        rawLabel: "იტალიის რესპუბლიკა ქ.რომი",
         countryId: "IT",
-        locationIds: null,
-        scope: "country",
-        k: "2.000",
-        ePercent: "22",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R25",
-        annex4Row: 25,
-        rawLabel: "ინდოეთის რესპუბლიკა",
-        countryId: "IN",
-        locationIds: null,
-        scope: "country",
-        k: "1.588",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 15,
-        notes: null
-      },
-      {
-        id: "K-A4-R26",
-        annex4Row: 26,
-        rawLabel: "ინდონეზიის რესპუბლიკა",
-        countryId: "ID",
-        locationIds: null,
-        scope: "country",
-        k: "1.817",
-        ePercent: "27",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R27",
-        annex4Row: 27,
-        rawLabel: "ირლანდია",
-        countryId: "IE",
-        locationIds: null,
-        scope: "country",
-        k: "2.4",
-        ePercent: "30",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R28",
-        annex4Row: 28,
-        rawLabel: "კვიპროსის რესპუბლიკა",
-        countryId: "CY",
-        locationIds: null,
-        scope: "country",
-        k: "1.800",
-        ePercent: "20",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R29",
-        annex4Row: 29,
-        rawLabel: "კანადა",
-        countryId: "CA",
-        locationIds: null,
-        scope: "country",
-        k: "2.00",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R30",
-        annex4Row: 30,
-        rawLabel: "კატარის სახელმწიფო",
-        countryId: "QA",
-        locationIds: null,
-        scope: "country",
-        k: "2.0",
-        ePercent: "30",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R31",
-        annex4Row: 31,
-        rawLabel: "კორეის რესპუბლიკა",
-        countryId: "KR",
-        locationIds: null,
-        scope: "country",
-        k: "2.280",
-        ePercent: "25",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R32",
-        annex4Row: 32,
-        rawLabel: "ლატვიის რესპუბლიკა",
-        countryId: "LV",
-        locationIds: null,
-        scope: "country",
-        k: "1.870",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R33",
-        annex4Row: 33,
-        rawLabel: "ლიეტუვას რესპუბლიკა",
-        countryId: "LT",
-        locationIds: null,
-        scope: "country",
-        k: "1.814",
-        ePercent: "19",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R34",
-        annex4Row: 34,
-        rawLabel: "მალაიზია",
-        countryId: "MY",
-        locationIds: null,
-        scope: "country",
-        k: "1.571",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R35",
-        annex4Row: 35,
-        rawLabel: "მექსიკის შეერთებული შტატები",
-        countryId: "MX",
-        locationIds: null,
-        scope: "country",
-        k: "1.80",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R36",
-        annex4Row: 36,
-        rawLabel: "მოლდოვას რესპუბლიკა",
-        countryId: "MD",
-        locationIds: null,
-        scope: "country",
-        k: "1.500",
-        ePercent: "26",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R37",
-        annex4Row: 37,
-        rawLabel: "ნიდერლანდების სამეფო",
-        countryId: "NL",
-        locationIds: null,
-        scope: "country",
-        k: "2.000",
-        ePercent: "25",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R38",
-        annex4Row: 38,
-        rawLabel: "ნორვეგიის სამეფო",
-        countryId: "NO",
-        locationIds: null,
-        scope: "country",
-        k: "2.200",
-        ePercent: "26",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R39",
-        annex4Row: 39,
-        rawLabel: "პოლონეთის რესპუბლიკა",
-        countryId: "PL",
-        locationIds: null,
-        scope: "country",
-        k: "2.100",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R40",
-        annex4Row: 40,
-        rawLabel: "პორტუგალიის რესპუბლიკა",
-        countryId: "PT",
-        locationIds: null,
-        scope: "country",
-        k: "1.701",
-        ePercent: "22",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R41",
-        annex4Row: 41,
-        rawLabel: "რუსეთის ფედერაცია",
-        countryId: "RU",
-        locationIds: null,
-        scope: "country",
-        k: "1.983",
-        ePercent: "26",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R42",
-        annex4Row: 42,
-        rawLabel: "რუმინეთი",
-        countryId: "RO",
-        locationIds: null,
-        scope: "country",
-        k: "1.800",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R43",
-        annex4Row: 43,
-        rawLabel: "საბერძნეთის რესპუბლიკა",
-        countryId: "GR",
-        locationIds: null,
-        scope: "country",
-        k: "1.95",
-        ePercent: "19",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R44",
-        annex4Row: 44,
-        rawLabel: "სამხრეთ აფრიკის რესპუბლიკა",
-        countryId: "ZA",
-        locationIds: null,
-        scope: "country",
-        k: "1.900",
-        ePercent: "19",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R45",
-        annex4Row: 45,
-        rawLabel: "საუდის არაბეთის სამეფო",
-        countryId: "SA",
-        locationIds: null,
-        scope: "country",
-        k: "1.900",
-        ePercent: "19",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R46",
-        annex4Row: 46,
-        rawLabel: "საფრანგეთის რესპუბლიკა",
-        countryId: "FR",
-        locationIds: null,
-        scope: "country",
-        k: "2.100",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R47",
-        annex4Row: 47,
-        rawLabel: "სლოვაკეთის რესპუბლიკა",
-        countryId: "SK",
-        locationIds: null,
-        scope: "country",
-        k: "1.800",
-        ePercent: "20",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R48",
-        annex4Row: 48,
-        rawLabel: "სლოვენიის რესპუბლიკა",
-        countryId: "SI",
-        locationIds: null,
-        scope: "country",
-        k: "1.800",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R49",
-        annex4Row: 49,
-        rawLabel: "სომხეთის რესპუბლიკა",
-        countryId: "AM",
-        locationIds: null,
-        scope: "country",
-        k: "1.600",
-        ePercent: "24",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R50",
-        annex4Row: 50,
-        rawLabel: "უზბეკეთის რესპუბლიკა",
-        countryId: "UZ",
-        locationIds: null,
-        scope: "country",
-        k: "1.600",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R51",
-        annex4Row: 51,
-        rawLabel: "უკრაინა",
-        countryId: "UA",
-        locationIds: null,
-        scope: "country",
-        k: "1.890",
-        ePercent: "28",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R52",
-        annex4Row: 52,
-        rawLabel: "უნგრეთი",
-        countryId: "HU",
-        locationIds: null,
-        scope: "country",
-        k: "1.867",
-        ePercent: "24",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R53",
-        annex4Row: 53,
-        rawLabel: "ფინეთის რესპუბლიკა",
-        countryId: "FI",
-        locationIds: null,
-        scope: "country",
-        k: "2.200",
-        ePercent: "19",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R54",
-        annex4Row: 54,
-        rawLabel: "ქუვეითის სახელმწიფო",
-        countryId: "KW",
-        locationIds: null,
-        scope: "country",
-        k: "1.900",
-        ePercent: "20",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R55",
-        annex4Row: 55,
-        rawLabel: "ყაზახეთის რესპუბლიკა",
-        countryId: "KZ",
-        locationIds: null,
-        scope: "country",
-        k: "1.600",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 16,
-        notes: null
-      },
-      {
-        id: "K-A4-R56",
-        annex4Row: 56,
-        rawLabel: "შვედეთის სამეფო",
-        countryId: "SE",
-        locationIds: null,
-        scope: "country",
-        k: "2.200",
-        ePercent: "26",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: null
-      },
-      {
-        id: "K-A4-R57",
-        annex4Row: 57,
-        rawLabel: "შვეიცარიის კონფედერაცია",
-        countryId: "CH",
-        locationIds: null,
-        scope: "country",
-        k: "2.2",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: null
-      },
-      {
-        id: "K-A4-R58",
-        annex4Row: 58,
-        rawLabel: "ჩეხეთის რესპუბლიკა",
-        countryId: "CZ",
-        locationIds: null,
-        scope: "country",
-        k: "1.896",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: null
-      },
-      {
-        id: "K-A4-R59",
-        annex4Row: 59,
-        rawLabel: "ჩინეთის სახალხო რესპუბლიკა",
-        countryId: "CN",
-        locationIds: null,
-        scope: "country",
-        k: "1.888",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: null
-      },
-      {
-        id: "K-A4-R60",
-        annex4Row: 60,
-        rawLabel: "კუბის რესპუბლიკა",
-        countryId: "CU",
-        locationIds: null,
-        scope: "country",
-        k: "1.630",
-        ePercent: "26",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: null
-      },
-      {
-        id: "K-A4-R61",
-        annex4Row: 61,
-        rawLabel: "სერბეთის რესპუბლიკა (ქ. ბელგრადი)",
-        countryId: "RS",
         locationIds: [
-          "RS-BELGRADE"
+          "IT-ROME"
         ],
         scope: "city",
-        k: "1.95",
-        ePercent: "19",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: "No institution in Annexes 5/6 is located in Serbia; this row alone establishes neither a mission, its funding currency nor insurance/baggage caps."
+        k: "1.281",
+        ePercent: "22",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 13,
+        notes: null
       },
       {
-        id: "K-A4-R62",
-        annex4Row: 62,
-        rawLabel: "არაბთა გაერთიანებული საამიროები",
-        countryId: "AE",
-        locationIds: null,
-        scope: "country",
-        k: "1.960",
-        ePercent: "25",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: "Row number printed as '62.'."
-      },
-      {
-        id: "K-A4-R63",
-        annex4Row: 63,
-        rawLabel: "ვიეტნამის სოციალისტური რესპუბლიკა",
-        countryId: "VN",
-        locationIds: null,
-        scope: "country",
-        k: "1.470",
-        ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: "Row number printed as '63.'."
-      },
-      {
-        id: "K-A4-R64",
-        annex4Row: 64,
-        rawLabel: "აშშ ქ. სან-ფრანცისკო",
-        countryId: "US",
-        locationIds: [
-          "US-SAN-FRANCISCO"
-        ],
-        scope: "city",
-        k: "2.65",
-        ePercent: "32",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: "Row number printed as '64.'."
-      },
-      {
-        id: "K-A4-R65",
-        annex4Row: 65,
-        rawLabel: "იტალიის რესპუბლიკა ქ. ბარი",
+        id: "K-A4N-R11",
+        annex4Row: 11,
+        rawLabel: "იტალიის რესპუბლიკა ქ.ბარი",
         countryId: "IT",
         locationIds: [
           "IT-BARI"
         ],
         scope: "city",
-        k: "2.000",
-        ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
+        k: "1.281",
+        ePercent: "22",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 14,
         notes: null
       },
       {
-        id: "K-A4-R66",
-        annex4Row: 66,
-        rawLabel: "ხორვატიის რესპუბლიკა",
-        countryId: "HR",
-        locationIds: null,
-        scope: "country",
-        k: "1.791",
-        ePercent: "22",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: "Row number printed as '66.'."
-      },
-      {
-        id: "K-A4-R67",
-        annex4Row: 67,
+        id: "K-A4N-R12",
+        annex4Row: 12,
         rawLabel: "იტალიის რესპუბლიკა ქ. მილანი",
         countryId: "IT",
         locationIds: [
           "IT-MILAN"
         ],
         scope: "city",
-        k: "2.000",
+        k: "1.281",
         ePercent: "22",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: "Row number printed as '67.'."
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 15,
+        notes: null
       },
       {
-        id: "K-A4-R68",
-        annex4Row: 68,
-        rawLabel: "საფრანგეთის რესპუბლიკა ქ. ლიონი",
-        countryId: "FR",
-        locationIds: [
-          "FR-LYON"
-        ],
-        scope: "city",
-        k: "2.100",
+        id: "K-A4N-R13",
+        annex4Row: 13,
+        rawLabel: "ირლანდია",
+        countryId: "IE",
+        locationIds: null,
+        scope: "country",
+        k: "1.533",
+        ePercent: "25",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 16,
+        notes: null
+      },
+      {
+        id: "K-A4N-R14",
+        annex4Row: 14,
+        rawLabel: "კვიპროსის რესპუბლიკა",
+        countryId: "CY",
+        locationIds: null,
+        scope: "country",
+        k: "1.302",
+        ePercent: "17",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 17,
+        notes: null
+      },
+      {
+        id: "K-A4N-R15",
+        annex4Row: 15,
+        rawLabel: "ლატვიის რესპუბლიკა",
+        countryId: "LV",
+        locationIds: null,
+        scope: "country",
+        k: "1.432",
+        ePercent: "14",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 18,
+        notes: null
+      },
+      {
+        id: "K-A4N-R16",
+        annex4Row: 16,
+        rawLabel: "ლიეტუვას რესპუბლიკა",
+        countryId: "LT",
+        locationIds: null,
+        scope: "country",
+        k: "1.359",
+        ePercent: "18",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 19,
+        notes: null
+      },
+      {
+        id: "K-A4N-R17",
+        annex4Row: 17,
+        rawLabel: "მოლდოვას რესპუბლიკა",
+        countryId: "MD",
+        locationIds: null,
+        scope: "country",
+        k: "1.319",
+        ePercent: "18",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 20,
+        notes: null
+      },
+      {
+        id: "K-A4N-R18",
+        annex4Row: 18,
+        rawLabel: "ნიდერლანდების სამეფო",
+        countryId: "NL",
+        locationIds: null,
+        scope: "country",
+        k: "1.478",
+        ePercent: "24",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 21,
+        notes: null
+      },
+      {
+        id: "K-A4N-R19",
+        annex4Row: 19,
+        rawLabel: "ნორვეგიის სამეფო",
+        countryId: "NO",
+        locationIds: null,
+        scope: "country",
+        k: "1.497",
+        ePercent: "27",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 22,
+        notes: null
+      },
+      {
+        id: "K-A4N-R20",
+        annex4Row: 20,
+        rawLabel: "პოლონეთის რესპუბლიკა",
+        countryId: "PL",
+        locationIds: null,
+        scope: "country",
+        k: "1.388",
         ePercent: "23",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: "Row number printed as '68.'."
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 23,
+        notes: null
       },
       {
-        id: "K-A4-R69",
-        annex4Row: 69,
-        rawLabel: "პოლონეთის რესპუბლიკა ქ. კრაკოვი",
+        id: "K-A4N-R21",
+        annex4Row: 21,
+        rawLabel: "პოლონეთის რესპუბლიკა ქ.კრაკოვი",
         countryId: "PL",
         locationIds: [
           "PL-KRAKOW"
         ],
         scope: "city",
-        k: "2.100",
+        k: "1.388",
+        ePercent: "23",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 24,
+        notes: null
+      },
+      {
+        id: "K-A4N-R22",
+        annex4Row: 22,
+        rawLabel: "პორტუგალიის რესპუბლიკა",
+        countryId: "PT",
+        locationIds: null,
+        scope: "country",
+        k: "1.351",
         ePercent: "21",
-        sourceRef: "SRC-ANNEX4",
-        page: 17,
-        notes: "Row number printed as '69.'."
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 25,
+        notes: null
+      },
+      {
+        id: "K-A4N-R23",
+        annex4Row: 23,
+        rawLabel: "რუმინეთი",
+        countryId: "RO",
+        locationIds: null,
+        scope: "country",
+        k: "1.314",
+        ePercent: "20",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 26,
+        notes: null
+      },
+      {
+        id: "K-A4N-R24",
+        annex4Row: 24,
+        rawLabel: "საბერძნეთის რესპუბლიკა",
+        countryId: "GR",
+        locationIds: null,
+        scope: "country",
+        k: "1.368",
+        ePercent: "19",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 27,
+        notes: null
+      },
+      {
+        id: "K-A4N-R25",
+        annex4Row: 25,
+        rawLabel: "სერბეთის რესპუბლიკა (ქ.ბელგრადი)",
+        countryId: "RS",
+        locationIds: [
+          "RS-BELGRADE"
+        ],
+        scope: "city",
+        k: "1.368",
+        ePercent: "19",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 28,
+        notes: null
+      },
+      {
+        id: "K-A4N-R26",
+        annex4Row: 26,
+        rawLabel: "საფრანგეთის რესპუბლიკა",
+        countryId: "FR",
+        locationIds: null,
+        scope: "country",
+        k: "1.541",
+        ePercent: "27",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 29,
+        notes: null
+      },
+      {
+        id: "K-A4N-R27",
+        annex4Row: 27,
+        rawLabel: "საფრანგეთის რესპუბლიკა ქ.ლიონი",
+        countryId: "FR",
+        locationIds: [
+          "FR-LYON"
+        ],
+        scope: "city",
+        k: "1.541",
+        ePercent: "27",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 30,
+        notes: null
+      },
+      {
+        id: "K-A4N-R28",
+        annex4Row: 28,
+        rawLabel: "სლოვაკეთის რესპუბლიკა",
+        countryId: "SK",
+        locationIds: null,
+        scope: "country",
+        k: "1.397",
+        ePercent: "17",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 31,
+        notes: null
+      },
+      {
+        id: "K-A4N-R29",
+        annex4Row: 29,
+        rawLabel: "სლოვენიის რესპუბლიკა",
+        countryId: "SI",
+        locationIds: null,
+        scope: "country",
+        k: "1.433",
+        ePercent: "15",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 32,
+        notes: null
+      },
+      {
+        id: "K-A4N-R30",
+        annex4Row: 30,
+        rawLabel: "უნგრეთი",
+        countryId: "HU",
+        locationIds: null,
+        scope: "country",
+        k: "1.482",
+        ePercent: "19",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 33,
+        notes: null
+      },
+      {
+        id: "K-A4N-R31",
+        annex4Row: 31,
+        rawLabel: "შვედეთის სამეფო",
+        countryId: "SE",
+        locationIds: null,
+        scope: "country",
+        k: "1.413",
+        ePercent: "29",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 34,
+        notes: null
+      },
+      {
+        id: "K-A4N-R32",
+        annex4Row: 32,
+        rawLabel: "ფინეთის რესპუბლიკა",
+        countryId: "FI",
+        locationIds: null,
+        scope: "country",
+        k: "1.439",
+        ePercent: "25",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 35,
+        notes: null
+      },
+      {
+        id: "K-A4N-R33",
+        annex4Row: 33,
+        rawLabel: "შვეიცარიის კონფედერაცია",
+        countryId: "CH",
+        locationIds: null,
+        scope: "country",
+        k: "1.842",
+        ePercent: "23",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 36,
+        notes: null
+      },
+      {
+        id: "K-A4N-R34",
+        annex4Row: 34,
+        rawLabel: "ჩეხეთის რესპუბლიკა",
+        countryId: "CZ",
+        locationIds: null,
+        scope: "country",
+        k: "1.469",
+        ePercent: "20",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 37,
+        notes: null
+      },
+      {
+        id: "K-A4N-R35",
+        annex4Row: 35,
+        rawLabel: "ხორვატიის რესპუბლიკა",
+        countryId: "HR",
+        locationIds: null,
+        scope: "country",
+        k: "1.385",
+        ePercent: "9",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 38,
+        notes: null
+      },
+      {
+        id: "K-A4N-R36",
+        annex4Row: 36,
+        rawLabel: "ავსტრალიის თანამეგობრობა",
+        countryId: "AU",
+        locationIds: null,
+        scope: "country",
+        k: "1.370",
+        ePercent: "29",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 39,
+        notes: "K printed as 1.37 (cell format 0.000)."
+      },
+      {
+        id: "K-A4N-R37",
+        annex4Row: 37,
+        rawLabel: "აზერბაიჯანის რესპუბლიკა",
+        countryId: "AZ",
+        locationIds: null,
+        scope: "country",
+        k: "1.328",
+        ePercent: "17",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 40,
+        notes: null
+      },
+      {
+        id: "K-A4N-R38",
+        annex4Row: 38,
+        rawLabel: "არაბთა გაერთიანებული საამიროები",
+        countryId: "AE",
+        locationIds: null,
+        scope: "country",
+        k: "1.527",
+        ePercent: "26",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 41,
+        notes: null
+      },
+      {
+        id: "K-A4N-R39",
+        annex4Row: 39,
+        rawLabel: "არგენტინის რესპუბლიკა",
+        countryId: "AR",
+        locationIds: null,
+        scope: "country",
+        k: "1.375",
+        ePercent: "28",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 42,
+        notes: null
+      },
+      {
+        id: "K-A4N-R40",
+        annex4Row: 40,
+        rawLabel: "აშშ ქ.ვაშინგტონი",
+        countryId: "US",
+        locationIds: [
+          "US-WASHINGTON"
+        ],
+        scope: "city",
+        k: "1.572",
+        ePercent: "29",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 43,
+        notes: null
+      },
+      {
+        id: "K-A4N-R41",
+        annex4Row: 41,
+        rawLabel: "აშშ ქ.ნიუ–იორკი",
+        countryId: "US",
+        locationIds: [
+          "US-NEW-YORK"
+        ],
+        scope: "city",
+        k: "1.787",
+        ePercent: "34",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 44,
+        notes: null
+      },
+      {
+        id: "K-A4N-R42",
+        annex4Row: 42,
+        rawLabel: "აშშ ქ. სან-ფრანცისკო",
+        countryId: "US",
+        locationIds: [
+          "US-SAN-FRANCISCO"
+        ],
+        scope: "city",
+        k: "1.828",
+        ePercent: "31",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 45,
+        notes: null
+      },
+      {
+        id: "K-A4N-R43",
+        annex4Row: 43,
+        rawLabel: "ბელარუსის რესპუბლიკა",
+        countryId: "BY",
+        locationIds: null,
+        scope: "country",
+        k: "1.446",
+        ePercent: "18",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 46,
+        notes: null
+      },
+      {
+        id: "K-A4N-R44",
+        annex4Row: 44,
+        rawLabel: "ბრაზილიის ფედერაციული რესპუბლიკა",
+        countryId: "BR",
+        locationIds: null,
+        scope: "country",
+        k: "1.272",
+        ePercent: "22",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 47,
+        notes: null
+      },
+      {
+        id: "K-A4N-R45",
+        annex4Row: 45,
+        rawLabel: "ეგვიპტის არაბთა რესპუბლიკა",
+        countryId: "EG",
+        locationIds: null,
+        scope: "country",
+        k: "1.270",
+        ePercent: "20",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 48,
+        notes: "K printed as 1.27 (cell format 0.000)."
+      },
+      {
+        id: "K-A4N-R46",
+        annex4Row: 46,
+        rawLabel: "ეთიოპიის ფედერაციული დემოკრატიული რესპუბლიკა",
+        countryId: "ET",
+        locationIds: null,
+        scope: "country",
+        k: "1.352",
+        ePercent: "23",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 49,
+        notes: null
+      },
+      {
+        id: "K-A4N-R47",
+        annex4Row: 47,
+        rawLabel: "ვიეტნამის სოციალისტური რესპუბლიკა",
+        countryId: "VN",
+        locationIds: null,
+        scope: "country",
+        k: "1.207",
+        ePercent: "20",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 50,
+        notes: null
+      },
+      {
+        id: "K-A4N-R48",
+        annex4Row: 48,
+        rawLabel: "თურქმენეთი",
+        countryId: "TM",
+        locationIds: null,
+        scope: "country",
+        k: "1.729",
+        ePercent: "9",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 51,
+        notes: null
+      },
+      {
+        id: "K-A4N-R49",
+        annex4Row: 49,
+        rawLabel: "იაპონია",
+        countryId: "JP",
+        locationIds: null,
+        scope: "country",
+        k: "1.478",
+        ePercent: "22",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 52,
+        notes: null
+      },
+      {
+        id: "K-A4N-R50",
+        annex4Row: 50,
+        rawLabel: "იორდანიის ჰაშიმიტური სამეფო",
+        countryId: "JO",
+        locationIds: null,
+        scope: "country",
+        k: "1.345",
+        ePercent: "19",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 53,
+        notes: null
+      },
+      {
+        id: "K-A4N-R51",
+        annex4Row: 51,
+        rawLabel: "ინდოეთის რესპუბლიკა",
+        countryId: "IN",
+        locationIds: null,
+        scope: "country",
+        k: "1.277",
+        ePercent: "15",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 54,
+        notes: null
+      },
+      {
+        id: "K-A4N-R52",
+        annex4Row: 52,
+        rawLabel: "ინდონეზიის რესპუბლიკა",
+        countryId: "ID",
+        locationIds: null,
+        scope: "country",
+        k: "1.284",
+        ePercent: "25",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 55,
+        notes: null
+      },
+      {
+        id: "K-A4N-R53",
+        annex4Row: 53,
+        rawLabel: "ირანის ისლამური რესპუბლიკა",
+        countryId: "IR",
+        locationIds: null,
+        scope: "country",
+        k: "1.291",
+        ePercent: "18",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 56,
+        notes: null
+      },
+      {
+        id: "K-A4N-R54",
+        annex4Row: 54,
+        rawLabel: "ისრაელის სახელმწიფო",
+        countryId: "IL",
+        locationIds: null,
+        scope: "country",
+        k: "1.650",
+        ePercent: "29",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 57,
+        notes: "K printed as 1.65 (cell format 0.000)."
+      },
+      {
+        id: "K-A4N-R55",
+        annex4Row: 55,
+        rawLabel: "კანადა",
+        countryId: "CA",
+        locationIds: null,
+        scope: "country",
+        k: "1.456",
+        ePercent: "21",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 58,
+        notes: null
+      },
+      {
+        id: "K-A4N-R56",
+        annex4Row: 56,
+        rawLabel: "კატარის სახელმწიფო",
+        countryId: "QA",
+        locationIds: null,
+        scope: "country",
+        k: "1.416",
+        ePercent: "28",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 59,
+        notes: null
+      },
+      {
+        id: "K-A4N-R57",
+        annex4Row: 57,
+        rawLabel: "კუბის რესპუბლიკა",
+        countryId: "CU",
+        locationIds: null,
+        scope: "country",
+        k: "1.462",
+        ePercent: "22",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 60,
+        notes: null
+      },
+      {
+        id: "K-A4N-R58",
+        annex4Row: 58,
+        rawLabel: "კორეის რესპუბლიკა",
+        countryId: "KR",
+        locationIds: null,
+        scope: "country",
+        k: "1.405",
+        ePercent: "18",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 61,
+        notes: null
+      },
+      {
+        id: "K-A4N-R59",
+        annex4Row: 59,
+        rawLabel: "მალაიზია",
+        countryId: "MY",
+        locationIds: null,
+        scope: "country",
+        k: "1.495",
+        ePercent: "15",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 62,
+        notes: null
+      },
+      {
+        id: "K-A4N-R60",
+        annex4Row: 60,
+        rawLabel: "მექსიკის შეერთებული შტატები",
+        countryId: "MX",
+        locationIds: null,
+        scope: "country",
+        k: "1.526",
+        ePercent: "24",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 63,
+        notes: null
+      },
+      {
+        id: "K-A4N-R61",
+        annex4Row: 61,
+        rawLabel: "რუსეთის ფედერაცია",
+        countryId: "RU",
+        locationIds: null,
+        scope: "country",
+        k: "1.603",
+        ePercent: "19",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 64,
+        notes: null
+      },
+      {
+        id: "K-A4N-R62",
+        annex4Row: 62,
+        rawLabel: "სამხრეთ აფრიკის რესპუბლიკა",
+        countryId: "ZA",
+        locationIds: null,
+        scope: "country",
+        k: "1.270",
+        ePercent: "18",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 65,
+        notes: "K printed as 1.27 (cell format 0.000)."
+      },
+      {
+        id: "K-A4N-R63",
+        annex4Row: 63,
+        rawLabel: "სომხეთის რესპუბლიკა",
+        countryId: "AM",
+        locationIds: null,
+        scope: "country",
+        k: "1.328",
+        ePercent: "24",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 66,
+        notes: null
+      },
+      {
+        id: "K-A4N-R64",
+        annex4Row: 64,
+        rawLabel: "საუდის არაბეთის სამეფო",
+        countryId: "SA",
+        locationIds: null,
+        scope: "country",
+        k: "1.482",
+        ePercent: "23",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 67,
+        notes: null
+      },
+      {
+        id: "K-A4N-R65",
+        annex4Row: 65,
+        rawLabel: "უზბეკეთის რესპუბლიკა",
+        countryId: "UZ",
+        locationIds: null,
+        scope: "country",
+        k: "1.355",
+        ePercent: "16",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 68,
+        notes: null
+      },
+      {
+        id: "K-A4N-R66",
+        annex4Row: 66,
+        rawLabel: "უკრაინა",
+        countryId: "UA",
+        locationIds: null,
+        scope: "country",
+        k: "1.272",
+        ePercent: "17",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 69,
+        notes: null
+      },
+      {
+        id: "K-A4N-R67",
+        annex4Row: 67,
+        rawLabel: "ქუვეითის სახელმწიფო",
+        countryId: "KW",
+        locationIds: null,
+        scope: "country",
+        k: "1.514",
+        ePercent: "17",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 70,
+        notes: null
+      },
+      {
+        id: "K-A4N-R68",
+        annex4Row: 68,
+        rawLabel: "ყაზახეთის რესპუბლიკა",
+        countryId: "KZ",
+        locationIds: null,
+        scope: "country",
+        k: "1.337",
+        ePercent: "20",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 71,
+        notes: null
+      },
+      {
+        id: "K-A4N-R69",
+        annex4Row: 69,
+        rawLabel: "ჩინეთის სახალხო რესპუბლიკა",
+        countryId: "CN",
+        locationIds: null,
+        scope: "country",
+        k: "1.509",
+        ePercent: "27",
+        sourceRef: "SRC-01407-A4",
+        page: null,
+        sheetRow: 72,
+        notes: null
       }
     ],
     missions: [
@@ -3248,7 +3380,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "AT-VIENNA",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R2",
+        costCoefficientId: "K-A4N-R1",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R1",
         baggageCapId: "BAG-A9-R1",
@@ -3269,7 +3401,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "BE-BRUSSELS",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R8",
+        costCoefficientId: "K-A4N-R2",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R2",
         baggageCapId: "BAG-A9-R2",
@@ -3290,7 +3422,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "BG-SOFIA",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R10",
+        costCoefficientId: "K-A4N-R3",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R3",
         baggageCapId: "BAG-A9-R3",
@@ -3311,7 +3443,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "DE-BERLIN",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R11",
+        costCoefficientId: "K-A4N-R4",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R4",
         baggageCapId: "BAG-A9-R4",
@@ -3332,7 +3464,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "DK-COPENHAGEN",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R12",
+        costCoefficientId: "K-A4N-R5",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R5",
         baggageCapId: "BAG-A9-R5",
@@ -3353,7 +3485,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "GB-LONDON",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R13",
+        costCoefficientId: "K-A4N-R6",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R38",
         baggageCapId: "BAG-A9-R6",
@@ -3374,14 +3506,14 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "FR-STRASBOURG",
         locationBasis: "inferred-seat",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R46",
+        costCoefficientId: "K-A4N-R26",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R6",
         baggageCapId: "BAG-A9-R7",
         status: "listed-in-supplied-annex",
         sourceRef: "SRC-ANNEX5",
         page: 19,
-        notes: "Seat of the Council of Europe is Strasbourg (not Paris). Annex 4 has no Strasbourg row; France country-wide row 46 used (Lyon has its own row 68)."
+        notes: "Seat of the Council of Europe is Strasbourg (not Paris)."
       },
       {
         id: "M-A5-R8",
@@ -3395,7 +3527,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "ES-MADRID",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R16",
+        costCoefficientId: "K-A4N-R7",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R7",
         baggageCapId: "BAG-A9-R8",
@@ -3416,7 +3548,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "ES-BARCELONA",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R16",
+        costCoefficientId: "K-A4N-R7",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R29",
         baggageCapId: "BAG-A9-R30",
@@ -3437,7 +3569,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "EE-TALLINN",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R17",
+        costCoefficientId: "K-A4N-R8",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R8",
         baggageCapId: "BAG-A9-R9",
@@ -3458,7 +3590,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "TR-ANKARA",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R18",
+        costCoefficientId: "K-A4N-R9",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R9",
         baggageCapId: "BAG-A9-R10",
@@ -3479,7 +3611,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "TR-ISTANBUL",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R18",
+        costCoefficientId: "K-A4N-R9",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R10",
         baggageCapId: "BAG-A9-R11",
@@ -3500,7 +3632,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "TR-TRABZON",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R18",
+        costCoefficientId: "K-A4N-R9",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R11",
         baggageCapId: "BAG-A9-R12",
@@ -3521,7 +3653,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "IE-DUBLIN",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R27",
+        costCoefficientId: "K-A4N-R13",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R36",
         baggageCapId: "BAG-A9-R37",
@@ -3542,8 +3674,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "IT-ROME",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R24",
-        costCoefficientBasis: "country-row",
+        costCoefficientId: "K-A4N-R10",
+        costCoefficientBasis: "city-row",
         insuranceCapId: "INS-A7-R12",
         baggageCapId: "BAG-A9-R13",
         status: "listed-in-supplied-annex",
@@ -3563,7 +3695,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "CY-NICOSIA",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R28",
+        costCoefficientId: "K-A4N-R14",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R13",
         baggageCapId: "BAG-A9-R14",
@@ -3584,7 +3716,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "LV-RIGA",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R32",
+        costCoefficientId: "K-A4N-R15",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R14",
         baggageCapId: "BAG-A9-R15",
@@ -3605,7 +3737,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "LT-VILNIUS",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R33",
+        costCoefficientId: "K-A4N-R16",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R15",
         baggageCapId: "BAG-A9-R16",
@@ -3626,7 +3758,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "MD-CHISINAU",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R36",
+        costCoefficientId: "K-A4N-R17",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R31",
         baggageCapId: "BAG-A9-R32",
@@ -3647,7 +3779,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "BE-BRUSSELS",
         locationBasis: "inferred-seat",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R8",
+        costCoefficientId: "K-A4N-R2",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R16",
         baggageCapId: "BAG-A9-R17",
@@ -3668,7 +3800,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "NL-THE-HAGUE",
         locationBasis: "inferred-seat",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R37",
+        costCoefficientId: "K-A4N-R18",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R17",
         baggageCapId: "BAG-A9-R18",
@@ -3689,7 +3821,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "NO-OSLO",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R38",
+        costCoefficientId: "K-A4N-R19",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R33",
         baggageCapId: "BAG-A9-R34",
@@ -3710,7 +3842,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "PL-WARSAW",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R39",
+        costCoefficientId: "K-A4N-R20",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R18",
         baggageCapId: "BAG-A9-R19",
@@ -3731,7 +3863,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "PT-LISBON",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R40",
+        costCoefficientId: "K-A4N-R22",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R19",
         baggageCapId: "BAG-A9-R20",
@@ -3752,7 +3884,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "RO-BUCHAREST",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R42",
+        costCoefficientId: "K-A4N-R23",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R20",
         baggageCapId: "BAG-A9-R21",
@@ -3773,7 +3905,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "GR-ATHENS",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R43",
+        costCoefficientId: "K-A4N-R24",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R21",
         baggageCapId: "BAG-A9-R22",
@@ -3794,7 +3926,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "FR-PARIS",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R46",
+        costCoefficientId: "K-A4N-R26",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R22",
         baggageCapId: "BAG-A9-R23",
@@ -3815,7 +3947,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "SK-BRATISLAVA",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R47",
+        costCoefficientId: "K-A4N-R28",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R23",
         baggageCapId: "BAG-A9-R24",
@@ -3836,7 +3968,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "SI-LJUBLJANA",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R48",
+        costCoefficientId: "K-A4N-R29",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R35",
         baggageCapId: "BAG-A9-R36",
@@ -3857,7 +3989,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "HU-BUDAPEST",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R52",
+        costCoefficientId: "K-A4N-R30",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R24",
         baggageCapId: "BAG-A9-R25",
@@ -3878,7 +4010,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "GR-THESSALONIKI",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R43",
+        costCoefficientId: "K-A4N-R24",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R25",
         baggageCapId: "BAG-A9-R26",
@@ -3899,7 +4031,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "DE-FRANKFURT",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R11",
+        costCoefficientId: "K-A4N-R4",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R34",
         baggageCapId: "BAG-A9-R35",
@@ -3920,7 +4052,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "SE-STOCKHOLM",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R56",
+        costCoefficientId: "K-A4N-R31",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R26",
         baggageCapId: "BAG-A9-R27",
@@ -3941,7 +4073,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "CH-BERN",
         locationBasis: "inferred-seat",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R57",
+        costCoefficientId: "K-A4N-R33",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R30",
         baggageCapId: "BAG-A9-R31",
@@ -3962,7 +4094,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "CH-GENEVA",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R57",
+        costCoefficientId: "K-A4N-R33",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R32",
         baggageCapId: "BAG-A9-R33",
@@ -3983,7 +4115,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "CZ-PRAGUE",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R58",
+        costCoefficientId: "K-A4N-R34",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R27",
         baggageCapId: "BAG-A9-R28",
@@ -4011,7 +4143,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         status: "listed-in-supplied-annex",
         sourceRef: "SRC-ANNEX5",
         page: 20,
-        notes: "Annex 4 has no Holy See/Vatican row. Whether the Italy row 24 applies depends on the embassy's actual seat (Rome or Vatican City), which the supplied sources do not establish: K/E left undetermined (null)."
+        notes: "Whether the Italy row 24 applies depends on the embassy's actual seat (Rome or Vatican City), which the supplied sources do not establish: K/E left undetermined (null). Order №01-407 Annex 4 has no row for this institution's country/city: K/E undetermined."
       },
       {
         id: "M-A5-R38",
@@ -4025,7 +4157,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "FI-HELSINKI",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R53",
+        costCoefficientId: "K-A4N-R32",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R37",
         baggageCapId: "BAG-A9-R38",
@@ -4046,14 +4178,14 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "IT-BARI",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R65",
+        costCoefficientId: "K-A4N-R11",
         costCoefficientBasis: "city-row",
         insuranceCapId: "INS-A7-R39",
         baggageCapId: "BAG-A9-R39",
         status: "listed-in-supplied-annex",
         sourceRef: "SRC-ANNEX5",
         page: 20,
-        notes: "City-specific Annex 4 row 65 (E = 21) takes priority over the Italy country row 24 (E = 22)."
+        notes: null
       },
       {
         id: "M-A5-R41",
@@ -4067,7 +4199,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "DE-STUTTGART",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R11",
+        costCoefficientId: "K-A4N-R4",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R41",
         baggageCapId: "BAG-A9-R40",
@@ -4088,7 +4220,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "HR-ZAGREB",
         locationBasis: "inferred-capital",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R66",
+        costCoefficientId: "K-A4N-R35",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A7-R42",
         baggageCapId: "BAG-A9-R41",
@@ -4109,7 +4241,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "IT-MILAN",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R67",
+        costCoefficientId: "K-A4N-R12",
         costCoefficientBasis: "city-row",
         insuranceCapId: "INS-A7-R43",
         baggageCapId: "BAG-A9-R42",
@@ -4130,7 +4262,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "FR-LYON",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R68",
+        costCoefficientId: "K-A4N-R27",
         costCoefficientBasis: "city-row",
         insuranceCapId: "INS-A7-R44",
         baggageCapId: "BAG-A9-R43",
@@ -4151,7 +4283,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "PL-KRAKOW",
         locationBasis: "source-explicit",
         fundingCurrency: "EUR",
-        costCoefficientId: "K-A4-R69",
+        costCoefficientId: "K-A4N-R21",
         costCoefficientBasis: "city-row",
         insuranceCapId: "INS-A7-R45",
         baggageCapId: "BAG-A9-R44",
@@ -4172,7 +4304,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "AU-CANBERRA",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R1",
+        costCoefficientId: "K-A4N-R36",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R1",
         baggageCapId: "BAG-A10-R1",
@@ -4193,7 +4325,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "AR-BUENOS-AIRES",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R3",
+        costCoefficientId: "K-A4N-R39",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R3",
         baggageCapId: "BAG-A10-R4",
@@ -4214,7 +4346,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "AZ-BAKU",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R4",
+        costCoefficientId: "K-A4N-R37",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R2",
         baggageCapId: "BAG-A10-R2",
@@ -4235,14 +4367,14 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "US-WASHINGTON",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R5",
+        costCoefficientId: "K-A4N-R40",
         costCoefficientBasis: "city-row",
         insuranceCapId: "INS-A8-R4",
         baggageCapId: "BAG-A10-R5",
         status: "listed-in-supplied-annex",
         sourceRef: "SRC-ANNEX6",
         page: 21,
-        notes: "Annex 4 has only city rows for the US (Washington 5, New York 6, San Francisco 64); the embassy is linked to Washington."
+        notes: null
       },
       {
         id: "M-A6-R5",
@@ -4256,7 +4388,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "US-NEW-YORK",
         locationBasis: "inferred-seat",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R6",
+        costCoefficientId: "K-A4N-R41",
         costCoefficientBasis: "city-row",
         insuranceCapId: "INS-A8-R7",
         baggageCapId: "BAG-A10-R8",
@@ -4277,7 +4409,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "BY-MINSK",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R7",
+        costCoefficientId: "K-A4N-R43",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R5",
         baggageCapId: "BAG-A10-R6",
@@ -4298,7 +4430,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "BR-BRASILIA",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R9",
+        costCoefficientId: "K-A4N-R44",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R6",
         baggageCapId: "BAG-A10-R7",
@@ -4319,7 +4451,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "EG-CAIRO",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R14",
+        costCoefficientId: "K-A4N-R45",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R8",
         baggageCapId: "BAG-A10-R9",
@@ -4340,7 +4472,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "TM-ASHGABAT",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R19",
+        costCoefficientId: "K-A4N-R48",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R9",
         baggageCapId: "BAG-A10-R12",
@@ -4361,7 +4493,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "JP-TOKYO",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R20",
+        costCoefficientId: "K-A4N-R49",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R10",
         baggageCapId: "BAG-A10-R13",
@@ -4382,7 +4514,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "JO-AMMAN",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R21",
+        costCoefficientId: "K-A4N-R50",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R11",
         baggageCapId: "BAG-A10-R14",
@@ -4403,7 +4535,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "IL-TEL-AVIV",
         locationBasis: "inferred-seat",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R23",
+        costCoefficientId: "K-A4N-R54",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R14",
         baggageCapId: "BAG-A10-R18",
@@ -4424,7 +4556,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "IN-NEW-DELHI",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R25",
+        costCoefficientId: "K-A4N-R51",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R12",
         baggageCapId: "BAG-A10-R15",
@@ -4445,7 +4577,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "ID-JAKARTA",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R26",
+        costCoefficientId: "K-A4N-R52",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R29",
         baggageCapId: "BAG-A10-R16",
@@ -4466,7 +4598,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "IR-TEHRAN",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R22",
+        costCoefficientId: "K-A4N-R53",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R13",
         baggageCapId: "BAG-A10-R17",
@@ -4487,7 +4619,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "QA-DOHA",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R30",
+        costCoefficientId: "K-A4N-R56",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R30",
         baggageCapId: "BAG-A10-R20",
@@ -4508,7 +4640,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "CA-OTTAWA",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R29",
+        costCoefficientId: "K-A4N-R55",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R15",
         baggageCapId: "BAG-A10-R19",
@@ -4529,7 +4661,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "KR-SEOUL",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R31",
+        costCoefficientId: "K-A4N-R58",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R16",
         baggageCapId: "BAG-A10-R22",
@@ -4550,7 +4682,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "MY-KUALA-LUMPUR",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R34",
+        costCoefficientId: "K-A4N-R59",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R33",
         baggageCapId: "BAG-A10-R23",
@@ -4571,7 +4703,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "MX-MEXICO-CITY",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R35",
+        costCoefficientId: "K-A4N-R60",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R17",
         baggageCapId: "BAG-A10-R24",
@@ -4592,7 +4724,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "RU-MOSCOW",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R41",
+        costCoefficientId: "K-A4N-R61",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R18",
         baggageCapId: "BAG-A10-R25",
@@ -4613,7 +4745,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "ZA-PRETORIA",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R44",
+        costCoefficientId: "K-A4N-R62",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R19",
         baggageCapId: "BAG-A10-R26",
@@ -4634,7 +4766,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "AM-YEREVAN",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R49",
+        costCoefficientId: "K-A4N-R63",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R20",
         baggageCapId: "BAG-A10-R27",
@@ -4655,7 +4787,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "SA-RIYADH",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R45",
+        costCoefficientId: "K-A4N-R64",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R34",
         baggageCapId: "BAG-A10-R28",
@@ -4676,7 +4808,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "UZ-TASHKENT",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R50",
+        costCoefficientId: "K-A4N-R65",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R21",
         baggageCapId: "BAG-A10-R29",
@@ -4697,7 +4829,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "UA-KYIV",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R51",
+        costCoefficientId: "K-A4N-R66",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R22",
         baggageCapId: "BAG-A10-R30",
@@ -4718,7 +4850,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "KW-KUWAIT-CITY",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R54",
+        costCoefficientId: "K-A4N-R67",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R23",
         baggageCapId: "BAG-A10-R31",
@@ -4739,7 +4871,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "US-NEW-YORK",
         locationBasis: "source-explicit",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R6",
+        costCoefficientId: "K-A4N-R41",
         costCoefficientBasis: "city-row",
         insuranceCapId: "INS-A8-R24",
         baggageCapId: "BAG-A10-R36",
@@ -4760,7 +4892,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "UA-ODESA",
         locationBasis: "source-explicit",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R51",
+        costCoefficientId: "K-A4N-R66",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R25",
         baggageCapId: "BAG-A10-R37",
@@ -4781,7 +4913,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "UA-DONETSK",
         locationBasis: "source-explicit",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R51",
+        costCoefficientId: "K-A4N-R66",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R31",
         baggageCapId: "BAG-A10-R35",
@@ -4802,7 +4934,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "AZ-GANJA",
         locationBasis: "source-explicit",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R4",
+        costCoefficientId: "K-A4N-R37",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R32",
         baggageCapId: "BAG-A10-R34",
@@ -4823,7 +4955,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "KZ-ASTANA",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R55",
+        costCoefficientId: "K-A4N-R68",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R26",
         baggageCapId: "BAG-A10-R32",
@@ -4844,7 +4976,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "CN-BEIJING",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R59",
+        costCoefficientId: "K-A4N-R69",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R27",
         baggageCapId: "BAG-A10-R33",
@@ -4865,7 +4997,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "CU-HAVANA",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R60",
+        costCoefficientId: "K-A4N-R57",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R35",
         baggageCapId: "BAG-A10-R21",
@@ -4886,7 +5018,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "ET-ADDIS-ABABA",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R15",
+        costCoefficientId: "K-A4N-R46",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R28",
         baggageCapId: "BAG-A10-R10",
@@ -4907,7 +5039,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "AE-ABU-DHABI",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R62",
+        costCoefficientId: "K-A4N-R38",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R36",
         baggageCapId: "BAG-A10-R3",
@@ -4928,7 +5060,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "VN-HANOI",
         locationBasis: "inferred-capital",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R63",
+        costCoefficientId: "K-A4N-R47",
         costCoefficientBasis: "country-row",
         insuranceCapId: "INS-A8-R37",
         baggageCapId: "BAG-A10-R11",
@@ -4949,7 +5081,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         locationId: "US-SAN-FRANCISCO",
         locationBasis: "source-explicit",
         fundingCurrency: "USD",
-        costCoefficientId: "K-A4-R64",
+        costCoefficientId: "K-A4N-R42",
         costCoefficientBasis: "city-row",
         insuranceCapId: "INS-A8-R38",
         baggageCapId: "BAG-A10-R38",
@@ -9074,6 +9206,33 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         page: 26,
         sourceRef: "SRC-ANNEX7",
         note: "Removed row (ამოღებულია); not selectable, no data derived from it."
+      },
+      {
+        annex: 2,
+        rowNo: 8,
+        id: "A2-R8",
+        rawLabel: "რეფერენტი",
+        percent: "50",
+        sourceRef: "SRC-01407-A2",
+        note: "Row removed by Order №01-407 (from 2027-01-01); the position is no longer listed and cannot be selected."
+      },
+      {
+        annex: 2,
+        rowNo: 9,
+        id: "A2-R9",
+        rawLabel: "მძღოლი",
+        percent: "40",
+        sourceRef: "SRC-01407-A2",
+        note: "Row removed by Order №01-407 (from 2027-01-01); the position is no longer listed and cannot be selected."
+      },
+      {
+        annex: 3,
+        rowNo: 8,
+        id: "A3-R8",
+        rawLabel: "მძღოლი",
+        percent: "40",
+        sourceRef: "SRC-01407-A3",
+        note: "Row removed by Order №01-407 (from 2027-01-01); the position is no longer listed and cannot be selected."
       }
     ],
     normalizations: [
@@ -9221,7 +9380,1252 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         normalized: "საქართველოს საელჩო საუდის არაბეთის სამეფოში და საქართველოს წარმომადგენლობა ისლამური თანამშრომლობის ორგანიზაციაში (OIC",
         reason: "Label cell split by the page break; both parts joined."
       }
-    ]
+    ],
+    history: {
+      note: "Values of Order №01-82 Annexes 2–4 as in the supplied working copy (2026-10-28), replaced by Order №01-407 from 2027-01-01.",
+      positionProfiles: [
+        {
+          id: "annex2",
+          title_ka: "დანართი №2 — საზღვარგარეთ როტაციით მივლინებულ მოსამსახურეთა თანამდებობრივი მაჩვენებლები",
+          appliesTo: "staff posted on rotation (Order pt 1(b))",
+          sourceRef: "SRC-ANNEX2",
+          entries: [
+            {
+              id: "A2-R1",
+              rowNo: 1,
+              title_ka: "საგანგებო და სრულუფლებიანი ელჩი, საერთაშორისო ორგანიზაციასთან საქართველოს მუდმივი წარმომადგენელი/საერთაშორისო ორგანიზაციასთან საქართველოს წარმომადგენელი",
+              positions_ka: [
+                "საგანგებო და სრულუფლებიანი ელჩი",
+                "საერთაშორისო ორგანიზაციასთან საქართველოს მუდმივი წარმომადგენელი",
+                "საერთაშორისო ორგანიზაციასთან საქართველოს წარმომადგენელი"
+              ],
+              percent: "100",
+              sourceRef: "SRC-ANNEX2",
+              page: 13,
+              notes: null
+            },
+            {
+              id: "A2-R2",
+              rowNo: 2,
+              title_ka: "გენერალური კონსული, კონსული-საკონსულო დაწესებულების ხელმძღვანელი",
+              positions_ka: [
+                "გენერალური კონსული",
+                "კონსული - საკონსულო დაწესებულების ხელმძღვანელი"
+              ],
+              percent: "80",
+              sourceRef: "SRC-ANNEX2",
+              page: 13,
+              notes: "'კონსული-საკონსულო დაწესებულების ხელმძღვანელი' = consul who heads a consular post (80%); a consul who is not head of post is row 4 (70%)."
+            },
+            {
+              id: "A2-R3",
+              rowNo: 3,
+              title_ka: "საგანგებო და სრულუფლებიანი დესპანი, საერთაშორისო ორგანიზაციასთან საქართველოს მუდმივი წარმომადგენლის მოადგილე/საერთშორისო ორგანიზაციასთან საქართველოს წარმომადგენლის მოადგილე, ადმინისტრაციული მენეჯერი, რომელიც დროებით/მუდმივად ასრულებს სხვა საქართველოს დიპლომატიურ წარმომადგენლობებსა და საკონსულო დაწესებულებებში ადმინისტრაციული მენეჯერის მოვალეობას",
+              positions_ka: [
+                "საგანგებო და სრულუფლებიანი დესპანი",
+                "საერთაშორისო ორგანიზაციასთან საქართველოს მუდმივი წარმომადგენლის მოადგილე",
+                "საერთაშორისო ორგანიზაციასთან საქართველოს წარმომადგენლის მოადგილე",
+                "ადმინისტრაციული მენეჯერი, რომელიც დროებით/მუდმივად ასრულებს სხვა საქართველოს დიპლომატიურ წარმომადგენლობებსა და საკონსულო დაწესებულებებში ადმინისტრაციული მენეჯერის მოვალეობას"
+              ],
+              percent: "75",
+              sourceRef: "SRC-ANNEX2",
+              page: 13,
+              notes: "Administrative manager performing the duties in another mission: Annex 2 row 3 applies during that period (Order pt 20², added by №01-317 of 2026-08-13). Source text has the typo 'საერთშორისო'."
+            },
+            {
+              id: "A2-R4",
+              rowNo: 4,
+              title_ka: "უფროსი მრჩეველი, კონსული",
+              positions_ka: [
+                "უფროსი მრჩეველი",
+                "კონსული"
+              ],
+              percent: "70",
+              sourceRef: "SRC-ANNEX2",
+              page: 13,
+              notes: null
+            },
+            {
+              id: "A2-R5",
+              rowNo: 5,
+              title_ka: "მრჩეველი, ადმინისტრაციული მენეჯერი, ვიცე-კონსული",
+              positions_ka: [
+                "მრჩეველი",
+                "ადმინისტრაციული მენეჯერი",
+                "ვიცე-კონსული"
+              ],
+              percent: "65",
+              sourceRef: "SRC-ANNEX2",
+              page: 13,
+              notes: "Ordinary administrative manager: 65%. See row 3 for the pt 20² case."
+            },
+            {
+              id: "A2-R6",
+              rowNo: 6,
+              title_ka: "პირველი მდივანი, მეორე მდივანი",
+              positions_ka: [
+                "პირველი მდივანი",
+                "მეორე მდივანი"
+              ],
+              percent: "60",
+              sourceRef: "SRC-ANNEX2",
+              page: 13,
+              notes: null
+            },
+            {
+              id: "A2-R7",
+              rowNo: 7,
+              title_ka: "მესამე მდივანი, ატაშე, უსაფრთხოების ოფიცერი",
+              positions_ka: [
+                "მესამე მდივანი",
+                "ატაშე",
+                "უსაფრთხოების ოფიცერი"
+              ],
+              percent: "55",
+              sourceRef: "SRC-ANNEX2",
+              page: 13,
+              notes: null
+            },
+            {
+              id: "A2-R8",
+              rowNo: 8,
+              title_ka: "რეფერენტი",
+              positions_ka: [
+                "რეფერენტი"
+              ],
+              percent: "50",
+              sourceRef: "SRC-ANNEX2",
+              page: 13,
+              notes: null
+            },
+            {
+              id: "A2-R9",
+              rowNo: 9,
+              title_ka: "მძღოლი",
+              positions_ka: [
+                "მძღოლი"
+              ],
+              percent: "40",
+              sourceRef: "SRC-ANNEX2",
+              page: 13,
+              notes: null
+            }
+          ]
+        },
+        {
+          id: "annex3",
+          title_ka: "დანართი №3 — ცენტრალური აპარატის მოსამსახურეთა თანამდებობრივი მაჩვენებლები",
+          appliesTo: "HQ staff on long-term assignment abroad under Order pt 37 (independent mode)",
+          sourceRef: "SRC-ANNEX3",
+          entries: [
+            {
+              id: "A3-R1",
+              rowNo: 1,
+              title_ka: "მინისტრის პირველი მოადგილე და მოადგილე; სამინისტროს დირექტორატის დირექტორი, დეპარტამენტის უფროსი; მინისტრის კაბინეტის უფროსი, საგანგებო დავალებათა ელჩი",
+              positions_ka: [
+                "მინისტრის პირველი მოადგილე",
+                "მინისტრის მოადგილე",
+                "სამინისტროს დირექტორატის დირექტორი",
+                "დეპარტამენტის უფროსი",
+                "მინისტრის კაბინეტის უფროსი",
+                "საგანგებო დავალებათა ელჩი"
+              ],
+              percent: "100",
+              sourceRef: "SRC-ANNEX3",
+              page: 14,
+              notes: null
+            },
+            {
+              id: "A3-R2",
+              rowNo: 2,
+              title_ka: "დირექტორატის დირექტორის მოადგილე, დეპარტამენტის უფროსის მოადგილე",
+              positions_ka: [
+                "დირექტორატის დირექტორის მოადგილე",
+                "დეპარტამენტის უფროსის მოადგილე"
+              ],
+              percent: "75",
+              sourceRef: "SRC-ANNEX3",
+              page: 14,
+              notes: null
+            },
+            {
+              id: "A3-R3",
+              rowNo: 3,
+              title_ka: "სამმართველოს უფროსი",
+              positions_ka: [
+                "სამმართველოს უფროსი"
+              ],
+              percent: "70",
+              sourceRef: "SRC-ANNEX3",
+              page: 14,
+              notes: null
+            },
+            {
+              id: "A3-R4",
+              rowNo: 4,
+              title_ka: "მრჩეველი",
+              positions_ka: [
+                "მრჩეველი"
+              ],
+              percent: "65",
+              sourceRef: "SRC-ANNEX3",
+              page: 14,
+              notes: null
+            },
+            {
+              id: "A3-R5",
+              rowNo: 5,
+              title_ka: "პირველი მდივანი",
+              positions_ka: [
+                "პირველი მდივანი"
+              ],
+              percent: "60",
+              sourceRef: "SRC-ANNEX3",
+              page: 14,
+              notes: null
+            },
+            {
+              id: "A3-R6",
+              rowNo: 6,
+              title_ka: "მეორე მდივანი",
+              positions_ka: [
+                "მეორე მდივანი"
+              ],
+              percent: "55",
+              sourceRef: "SRC-ANNEX3",
+              page: 14,
+              notes: null
+            },
+            {
+              id: "A3-R7",
+              rowNo: 7,
+              title_ka: "მესამე მდივანი, ატაშე, რეფერენტი, უსაფრთხოების ოფიცერი",
+              positions_ka: [
+                "მესამე მდივანი",
+                "ატაშე",
+                "რეფერენტი",
+                "უსაფრთხოების ოფიცერი"
+              ],
+              percent: "50",
+              sourceRef: "SRC-ANNEX3",
+              page: 14,
+              notes: null
+            },
+            {
+              id: "A3-R8",
+              rowNo: 8,
+              title_ka: "მძღოლი",
+              positions_ka: [
+                "მძღოლი"
+              ],
+              percent: "40",
+              sourceRef: "SRC-ANNEX3",
+              page: 14,
+              notes: null
+            }
+          ]
+        }
+      ],
+      costCoefficients: [
+        {
+          id: "K-A4-R1",
+          annex4Row: 1,
+          rawLabel: "ავსტრალიის თანამეგობრობა",
+          countryId: "AU",
+          locationIds: null,
+          scope: "country",
+          k: "2.007",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R2",
+          annex4Row: 2,
+          rawLabel: "ავსტრიის რესპუბლიკა",
+          countryId: "AT",
+          locationIds: null,
+          scope: "country",
+          k: "2.06",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R3",
+          annex4Row: 3,
+          rawLabel: "არგენტინის რესპუბლიკა",
+          countryId: "AR",
+          locationIds: null,
+          scope: "country",
+          k: "1.800",
+          ePercent: "24",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R4",
+          annex4Row: 4,
+          rawLabel: "აზერბაიჯანის რესპუბლიკა",
+          countryId: "AZ",
+          locationIds: null,
+          scope: "country",
+          k: "1.600",
+          ePercent: "24",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R5",
+          annex4Row: 5,
+          rawLabel: "აშშ ქ. ვაშინგტონი",
+          countryId: "US",
+          locationIds: [
+            "US-WASHINGTON"
+          ],
+          scope: "city",
+          k: "2.185",
+          ePercent: "28",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R6",
+          annex4Row: 6,
+          rawLabel: "აშშ ქ. ნიუ-იორკი",
+          countryId: "US",
+          locationIds: [
+            "US-NEW-YORK"
+          ],
+          scope: "city",
+          k: "2.65",
+          ePercent: "32",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R7",
+          annex4Row: 7,
+          rawLabel: "ბელარუსის რესპუბლიკა",
+          countryId: "BY",
+          locationIds: null,
+          scope: "country",
+          k: "1.700",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R8",
+          annex4Row: 8,
+          rawLabel: "ბელგიის სამეფო",
+          countryId: "BE",
+          locationIds: null,
+          scope: "country",
+          k: "2.050",
+          ePercent: "18",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R9",
+          annex4Row: 9,
+          rawLabel: "ბრაზილიის ფედერაციული რესპუბლიკა",
+          countryId: "BR",
+          locationIds: null,
+          scope: "country",
+          k: "1.873",
+          ePercent: "32",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R10",
+          annex4Row: 10,
+          rawLabel: "ბულგარეთის რესპუბლიკა",
+          countryId: "BG",
+          locationIds: null,
+          scope: "country",
+          k: "1.714",
+          ePercent: "14",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R11",
+          annex4Row: 11,
+          rawLabel: "გერმანიის ფედერაციული რესპუბლიკა",
+          countryId: "DE",
+          locationIds: null,
+          scope: "country",
+          k: "1.993",
+          ePercent: "28",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: "K printed displaced within its cell (see raw notes); value unchanged."
+        },
+        {
+          id: "K-A4-R12",
+          annex4Row: 12,
+          rawLabel: "დანიის სამეფო",
+          countryId: "DK",
+          locationIds: null,
+          scope: "country",
+          k: "2.200",
+          ePercent: "26",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R13",
+          annex4Row: 13,
+          rawLabel: "დიდი ბრიტანეთისა და ჩრდილოეთ ირლანდიის გაერთიანებული სამეფო",
+          countryId: "GB",
+          locationIds: null,
+          scope: "country",
+          k: "2.4",
+          ePercent: "30",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R14",
+          annex4Row: 14,
+          rawLabel: "ეგვიპტის არაბთა რესპუბლიკა",
+          countryId: "EG",
+          locationIds: null,
+          scope: "country",
+          k: "1.800",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R15",
+          annex4Row: 15,
+          rawLabel: "ეთიოპიის ფედერაციული დემოკრატიული რესპუბლიკა",
+          countryId: "ET",
+          locationIds: null,
+          scope: "country",
+          k: "1.962",
+          ePercent: "18",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R16",
+          annex4Row: 16,
+          rawLabel: "ესპანეთის სამეფო",
+          countryId: "ES",
+          locationIds: null,
+          scope: "country",
+          k: "1.900",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R17",
+          annex4Row: 17,
+          rawLabel: "ესტონეთის რესპუბლიკა",
+          countryId: "EE",
+          locationIds: null,
+          scope: "country",
+          k: "1.773",
+          ePercent: "20",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R18",
+          annex4Row: 18,
+          rawLabel: "თურქეთის რესპუბლიკა",
+          countryId: "TR",
+          locationIds: null,
+          scope: "country",
+          k: "1.773",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R19",
+          annex4Row: 19,
+          rawLabel: "თურქმენეთი",
+          countryId: "TM",
+          locationIds: null,
+          scope: "country",
+          k: "1.600",
+          ePercent: "11",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R20",
+          annex4Row: 20,
+          rawLabel: "იაპონია",
+          countryId: "JP",
+          locationIds: null,
+          scope: "country",
+          k: "2.56",
+          ePercent: "29",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R21",
+          annex4Row: 21,
+          rawLabel: "იორდანიის ჰაშიმიტური სამეფო",
+          countryId: "JO",
+          locationIds: null,
+          scope: "country",
+          k: "1.805",
+          ePercent: "17",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R22",
+          annex4Row: 22,
+          rawLabel: "ირანის ისლამური რესპუბლიკა",
+          countryId: "IR",
+          locationIds: null,
+          scope: "country",
+          k: "1.89",
+          ePercent: "24",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R23",
+          annex4Row: 23,
+          rawLabel: "ისრაელის სახელმწიფო",
+          countryId: "IL",
+          locationIds: null,
+          scope: "country",
+          k: "2.1",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R24",
+          annex4Row: 24,
+          rawLabel: "იტალიის რესპუბლიკა",
+          countryId: "IT",
+          locationIds: null,
+          scope: "country",
+          k: "2.000",
+          ePercent: "22",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R25",
+          annex4Row: 25,
+          rawLabel: "ინდოეთის რესპუბლიკა",
+          countryId: "IN",
+          locationIds: null,
+          scope: "country",
+          k: "1.588",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 15,
+          notes: null
+        },
+        {
+          id: "K-A4-R26",
+          annex4Row: 26,
+          rawLabel: "ინდონეზიის რესპუბლიკა",
+          countryId: "ID",
+          locationIds: null,
+          scope: "country",
+          k: "1.817",
+          ePercent: "27",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R27",
+          annex4Row: 27,
+          rawLabel: "ირლანდია",
+          countryId: "IE",
+          locationIds: null,
+          scope: "country",
+          k: "2.4",
+          ePercent: "30",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R28",
+          annex4Row: 28,
+          rawLabel: "კვიპროსის რესპუბლიკა",
+          countryId: "CY",
+          locationIds: null,
+          scope: "country",
+          k: "1.800",
+          ePercent: "20",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R29",
+          annex4Row: 29,
+          rawLabel: "კანადა",
+          countryId: "CA",
+          locationIds: null,
+          scope: "country",
+          k: "2.00",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R30",
+          annex4Row: 30,
+          rawLabel: "კატარის სახელმწიფო",
+          countryId: "QA",
+          locationIds: null,
+          scope: "country",
+          k: "2.0",
+          ePercent: "30",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R31",
+          annex4Row: 31,
+          rawLabel: "კორეის რესპუბლიკა",
+          countryId: "KR",
+          locationIds: null,
+          scope: "country",
+          k: "2.280",
+          ePercent: "25",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R32",
+          annex4Row: 32,
+          rawLabel: "ლატვიის რესპუბლიკა",
+          countryId: "LV",
+          locationIds: null,
+          scope: "country",
+          k: "1.870",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R33",
+          annex4Row: 33,
+          rawLabel: "ლიეტუვას რესპუბლიკა",
+          countryId: "LT",
+          locationIds: null,
+          scope: "country",
+          k: "1.814",
+          ePercent: "19",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R34",
+          annex4Row: 34,
+          rawLabel: "მალაიზია",
+          countryId: "MY",
+          locationIds: null,
+          scope: "country",
+          k: "1.571",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R35",
+          annex4Row: 35,
+          rawLabel: "მექსიკის შეერთებული შტატები",
+          countryId: "MX",
+          locationIds: null,
+          scope: "country",
+          k: "1.80",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R36",
+          annex4Row: 36,
+          rawLabel: "მოლდოვას რესპუბლიკა",
+          countryId: "MD",
+          locationIds: null,
+          scope: "country",
+          k: "1.500",
+          ePercent: "26",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R37",
+          annex4Row: 37,
+          rawLabel: "ნიდერლანდების სამეფო",
+          countryId: "NL",
+          locationIds: null,
+          scope: "country",
+          k: "2.000",
+          ePercent: "25",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R38",
+          annex4Row: 38,
+          rawLabel: "ნორვეგიის სამეფო",
+          countryId: "NO",
+          locationIds: null,
+          scope: "country",
+          k: "2.200",
+          ePercent: "26",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R39",
+          annex4Row: 39,
+          rawLabel: "პოლონეთის რესპუბლიკა",
+          countryId: "PL",
+          locationIds: null,
+          scope: "country",
+          k: "2.100",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R40",
+          annex4Row: 40,
+          rawLabel: "პორტუგალიის რესპუბლიკა",
+          countryId: "PT",
+          locationIds: null,
+          scope: "country",
+          k: "1.701",
+          ePercent: "22",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R41",
+          annex4Row: 41,
+          rawLabel: "რუსეთის ფედერაცია",
+          countryId: "RU",
+          locationIds: null,
+          scope: "country",
+          k: "1.983",
+          ePercent: "26",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R42",
+          annex4Row: 42,
+          rawLabel: "რუმინეთი",
+          countryId: "RO",
+          locationIds: null,
+          scope: "country",
+          k: "1.800",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R43",
+          annex4Row: 43,
+          rawLabel: "საბერძნეთის რესპუბლიკა",
+          countryId: "GR",
+          locationIds: null,
+          scope: "country",
+          k: "1.95",
+          ePercent: "19",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R44",
+          annex4Row: 44,
+          rawLabel: "სამხრეთ აფრიკის რესპუბლიკა",
+          countryId: "ZA",
+          locationIds: null,
+          scope: "country",
+          k: "1.900",
+          ePercent: "19",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R45",
+          annex4Row: 45,
+          rawLabel: "საუდის არაბეთის სამეფო",
+          countryId: "SA",
+          locationIds: null,
+          scope: "country",
+          k: "1.900",
+          ePercent: "19",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R46",
+          annex4Row: 46,
+          rawLabel: "საფრანგეთის რესპუბლიკა",
+          countryId: "FR",
+          locationIds: null,
+          scope: "country",
+          k: "2.100",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R47",
+          annex4Row: 47,
+          rawLabel: "სლოვაკეთის რესპუბლიკა",
+          countryId: "SK",
+          locationIds: null,
+          scope: "country",
+          k: "1.800",
+          ePercent: "20",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R48",
+          annex4Row: 48,
+          rawLabel: "სლოვენიის რესპუბლიკა",
+          countryId: "SI",
+          locationIds: null,
+          scope: "country",
+          k: "1.800",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R49",
+          annex4Row: 49,
+          rawLabel: "სომხეთის რესპუბლიკა",
+          countryId: "AM",
+          locationIds: null,
+          scope: "country",
+          k: "1.600",
+          ePercent: "24",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R50",
+          annex4Row: 50,
+          rawLabel: "უზბეკეთის რესპუბლიკა",
+          countryId: "UZ",
+          locationIds: null,
+          scope: "country",
+          k: "1.600",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R51",
+          annex4Row: 51,
+          rawLabel: "უკრაინა",
+          countryId: "UA",
+          locationIds: null,
+          scope: "country",
+          k: "1.890",
+          ePercent: "28",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R52",
+          annex4Row: 52,
+          rawLabel: "უნგრეთი",
+          countryId: "HU",
+          locationIds: null,
+          scope: "country",
+          k: "1.867",
+          ePercent: "24",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R53",
+          annex4Row: 53,
+          rawLabel: "ფინეთის რესპუბლიკა",
+          countryId: "FI",
+          locationIds: null,
+          scope: "country",
+          k: "2.200",
+          ePercent: "19",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R54",
+          annex4Row: 54,
+          rawLabel: "ქუვეითის სახელმწიფო",
+          countryId: "KW",
+          locationIds: null,
+          scope: "country",
+          k: "1.900",
+          ePercent: "20",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R55",
+          annex4Row: 55,
+          rawLabel: "ყაზახეთის რესპუბლიკა",
+          countryId: "KZ",
+          locationIds: null,
+          scope: "country",
+          k: "1.600",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 16,
+          notes: null
+        },
+        {
+          id: "K-A4-R56",
+          annex4Row: 56,
+          rawLabel: "შვედეთის სამეფო",
+          countryId: "SE",
+          locationIds: null,
+          scope: "country",
+          k: "2.200",
+          ePercent: "26",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: null
+        },
+        {
+          id: "K-A4-R57",
+          annex4Row: 57,
+          rawLabel: "შვეიცარიის კონფედერაცია",
+          countryId: "CH",
+          locationIds: null,
+          scope: "country",
+          k: "2.2",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: null
+        },
+        {
+          id: "K-A4-R58",
+          annex4Row: 58,
+          rawLabel: "ჩეხეთის რესპუბლიკა",
+          countryId: "CZ",
+          locationIds: null,
+          scope: "country",
+          k: "1.896",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: null
+        },
+        {
+          id: "K-A4-R59",
+          annex4Row: 59,
+          rawLabel: "ჩინეთის სახალხო რესპუბლიკა",
+          countryId: "CN",
+          locationIds: null,
+          scope: "country",
+          k: "1.888",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: null
+        },
+        {
+          id: "K-A4-R60",
+          annex4Row: 60,
+          rawLabel: "კუბის რესპუბლიკა",
+          countryId: "CU",
+          locationIds: null,
+          scope: "country",
+          k: "1.630",
+          ePercent: "26",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: null
+        },
+        {
+          id: "K-A4-R61",
+          annex4Row: 61,
+          rawLabel: "სერბეთის რესპუბლიკა (ქ. ბელგრადი)",
+          countryId: "RS",
+          locationIds: [
+            "RS-BELGRADE"
+          ],
+          scope: "city",
+          k: "1.95",
+          ePercent: "19",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: "No institution in Annexes 5/6 is located in Serbia; this row alone establishes neither a mission, its funding currency nor insurance/baggage caps."
+        },
+        {
+          id: "K-A4-R62",
+          annex4Row: 62,
+          rawLabel: "არაბთა გაერთიანებული საამიროები",
+          countryId: "AE",
+          locationIds: null,
+          scope: "country",
+          k: "1.960",
+          ePercent: "25",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: "Row number printed as '62.'."
+        },
+        {
+          id: "K-A4-R63",
+          annex4Row: 63,
+          rawLabel: "ვიეტნამის სოციალისტური რესპუბლიკა",
+          countryId: "VN",
+          locationIds: null,
+          scope: "country",
+          k: "1.470",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: "Row number printed as '63.'."
+        },
+        {
+          id: "K-A4-R64",
+          annex4Row: 64,
+          rawLabel: "აშშ ქ. სან-ფრანცისკო",
+          countryId: "US",
+          locationIds: [
+            "US-SAN-FRANCISCO"
+          ],
+          scope: "city",
+          k: "2.65",
+          ePercent: "32",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: "Row number printed as '64.'."
+        },
+        {
+          id: "K-A4-R65",
+          annex4Row: 65,
+          rawLabel: "იტალიის რესპუბლიკა ქ. ბარი",
+          countryId: "IT",
+          locationIds: [
+            "IT-BARI"
+          ],
+          scope: "city",
+          k: "2.000",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: null
+        },
+        {
+          id: "K-A4-R66",
+          annex4Row: 66,
+          rawLabel: "ხორვატიის რესპუბლიკა",
+          countryId: "HR",
+          locationIds: null,
+          scope: "country",
+          k: "1.791",
+          ePercent: "22",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: "Row number printed as '66.'."
+        },
+        {
+          id: "K-A4-R67",
+          annex4Row: 67,
+          rawLabel: "იტალიის რესპუბლიკა ქ. მილანი",
+          countryId: "IT",
+          locationIds: [
+            "IT-MILAN"
+          ],
+          scope: "city",
+          k: "2.000",
+          ePercent: "22",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: "Row number printed as '67.'."
+        },
+        {
+          id: "K-A4-R68",
+          annex4Row: 68,
+          rawLabel: "საფრანგეთის რესპუბლიკა ქ. ლიონი",
+          countryId: "FR",
+          locationIds: [
+            "FR-LYON"
+          ],
+          scope: "city",
+          k: "2.100",
+          ePercent: "23",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: "Row number printed as '68.'."
+        },
+        {
+          id: "K-A4-R69",
+          annex4Row: 69,
+          rawLabel: "პოლონეთის რესპუბლიკა ქ. კრაკოვი",
+          countryId: "PL",
+          locationIds: [
+            "PL-KRAKOW"
+          ],
+          scope: "city",
+          k: "2.100",
+          ePercent: "21",
+          sourceRef: "SRC-ANNEX4",
+          page: 17,
+          notes: "Row number printed as '69.'."
+        }
+      ],
+      missionCostCoefficientIds: {
+        "M-A5-R1": "K-A4-R2",
+        "M-A5-R2": "K-A4-R8",
+        "M-A5-R3": "K-A4-R10",
+        "M-A5-R4": "K-A4-R11",
+        "M-A5-R5": "K-A4-R12",
+        "M-A5-R6": "K-A4-R13",
+        "M-A5-R7": "K-A4-R46",
+        "M-A5-R8": "K-A4-R16",
+        "M-A5-R9": "K-A4-R16",
+        "M-A5-R10": "K-A4-R17",
+        "M-A5-R11": "K-A4-R18",
+        "M-A5-R12": "K-A4-R18",
+        "M-A5-R13": "K-A4-R18",
+        "M-A5-R14": "K-A4-R27",
+        "M-A5-R15": "K-A4-R24",
+        "M-A5-R16": "K-A4-R28",
+        "M-A5-R17": "K-A4-R32",
+        "M-A5-R18": "K-A4-R33",
+        "M-A5-R19": "K-A4-R36",
+        "M-A5-R20": "K-A4-R8",
+        "M-A5-R21": "K-A4-R37",
+        "M-A5-R22": "K-A4-R38",
+        "M-A5-R23": "K-A4-R39",
+        "M-A5-R24": "K-A4-R40",
+        "M-A5-R25": "K-A4-R42",
+        "M-A5-R26": "K-A4-R43",
+        "M-A5-R27": "K-A4-R46",
+        "M-A5-R28": "K-A4-R47",
+        "M-A5-R29": "K-A4-R48",
+        "M-A5-R30": "K-A4-R52",
+        "M-A5-R31": "K-A4-R43",
+        "M-A5-R32": "K-A4-R11",
+        "M-A5-R33": "K-A4-R56",
+        "M-A5-R34": "K-A4-R57",
+        "M-A5-R35": "K-A4-R57",
+        "M-A5-R36": "K-A4-R58",
+        "M-A5-R37": null,
+        "M-A5-R38": "K-A4-R53",
+        "M-A5-R39": "K-A4-R65",
+        "M-A5-R41": "K-A4-R11",
+        "M-A5-R42": "K-A4-R66",
+        "M-A5-R43": "K-A4-R67",
+        "M-A5-R44": "K-A4-R68",
+        "M-A5-R45": "K-A4-R69",
+        "M-A6-R1": "K-A4-R1",
+        "M-A6-R2": "K-A4-R3",
+        "M-A6-R3": "K-A4-R4",
+        "M-A6-R4": "K-A4-R5",
+        "M-A6-R5": "K-A4-R6",
+        "M-A6-R6": "K-A4-R7",
+        "M-A6-R7": "K-A4-R9",
+        "M-A6-R8": "K-A4-R14",
+        "M-A6-R9": "K-A4-R19",
+        "M-A6-R10": "K-A4-R20",
+        "M-A6-R11": "K-A4-R21",
+        "M-A6-R12": "K-A4-R23",
+        "M-A6-R13": "K-A4-R25",
+        "M-A6-R14": "K-A4-R26",
+        "M-A6-R15": "K-A4-R22",
+        "M-A6-R16": "K-A4-R30",
+        "M-A6-R17": "K-A4-R29",
+        "M-A6-R18": "K-A4-R31",
+        "M-A6-R19": "K-A4-R34",
+        "M-A6-R20": "K-A4-R35",
+        "M-A6-R21": "K-A4-R41",
+        "M-A6-R22": "K-A4-R44",
+        "M-A6-R23": "K-A4-R49",
+        "M-A6-R24": "K-A4-R45",
+        "M-A6-R25": "K-A4-R50",
+        "M-A6-R26": "K-A4-R51",
+        "M-A6-R27": "K-A4-R54",
+        "M-A6-R28": "K-A4-R6",
+        "M-A6-R29": "K-A4-R51",
+        "M-A6-R30": "K-A4-R51",
+        "M-A6-R31": "K-A4-R4",
+        "M-A6-R32": "K-A4-R55",
+        "M-A6-R33": "K-A4-R59",
+        "M-A6-R34": "K-A4-R60",
+        "M-A6-R35": "K-A4-R15",
+        "M-A6-R36": "K-A4-R62",
+        "M-A6-R37": "K-A4-R63",
+        "M-A6-R38": "K-A4-R64"
+      }
+    }
   };
 
   // src/providers/market-contract.js
@@ -22826,6 +24230,20 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       row: r.row ?? null
     };
   }
+  function baseAmountInfo(data, currency) {
+    const b = idx(data).base.get(currency);
+    if (!b) return null;
+    return {
+      id: b.id,
+      amount: b.amount,
+      currency: b.currency,
+      effectiveFrom: b.effectiveFrom ?? null,
+      sourceRef: b.sourceRef ?? null,
+      citation: b.citation ?? null,
+      note: b.note ?? null,
+      previous: b.previous ? { amount: b.previous.amount, until: b.previous.until, sourceRef: b.previous.sourceRef ?? null, citation: b.previous.citation ?? null } : null
+    };
+  }
 
   // src/core/enums.js
   var freeze = (o) => Object.freeze(o);
@@ -23228,6 +24646,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       date(`${p}.issueDate`, a.issueDate);
       if (!(Number.isInteger(a.months) && a.months >= 1 && a.months <= 120)) e(`${p}.months`, "MONTHS", "თვეების რაოდენობა — მთელი რიცხვი 1–120.");
       bool(`${p}.ministerOrder22`, a.ministerOrder22);
+      bool(`${p}.coefficientReduction261`, a.coefficientReduction261);
     });
     list("extras", scenario.extras).forEach((x, i) => {
       const p = `extras[${i}]`;
@@ -23377,6 +24796,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
   }
 
   // src/core/calculate.js
+  var datesMode0 = (sc) => sc.period?.mode === "dates" && isValidDate(sc.period.start) && isValidDate(sc.period.end);
   var RANK = { calculated: 0, not_applicable: 0, scenario: 1, unconfirmed: 2, undetermined: 3 };
   var worst = (...ss) => ss.filter(Boolean).reduce((a, b) => RANK[b] > RANK[a] ? b : a, "calculated");
   var amt = (v2) => {
@@ -23448,7 +24868,16 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
     if (!sc.missionId) ctx.missing("missionId", "აირჩიეთ დაწესებულება (ქვეყანა/ქალაქი).");
     const cur = mission?.fundingCurrency ?? null;
     const location2 = mission ? ix.locations.get(mission.locationId) : null;
-    const H = cur ? ix.base.get(cur)?.amount ?? null : null;
+    const hInfo = cur ? baseAmountInfo(data, cur) : null;
+    const H = hInfo?.amount ?? null;
+    if (hInfo?.effectiveFrom) {
+      const before = datesMode0(sc) && compareDates(sc.period.start, hInfo.effectiveFrom) < 0;
+      const prevTxt = hInfo.previous ? ` (მანამდე ${hInfo.previous.amount} ${cur}, ${hInfo.previous.until}-მდე)` : "";
+      (before ? ctx.warn : ctx.info)("H_EFFECTIVE_FROM", `საბაზისო თანხა H = ${hInfo.amount} ${cur} (ბრძანება №01-407) მოქმედებს ${hInfo.effectiveFrom}-დან${prevTxt}; გამოთვლა ახალი თანხით ხდება მომხმარებლის გადაწყვეტილებით${before ? " — პერიოდი ამ თარიღამდე იწყება" : ""}.`, ["R-H-001", "R-EFF-001"], "period");
+    }
+    if (data.dataGaps?.some((g) => g.id === "GAP-ANNEX-2-3-4-01-407")) {
+      ctx.warn("ANNEX_2_3_4_REPLACED", "ბრძანება №01-407 დანართებს №2, №3 და №4 ცვლის (2027-01-01-დან), მაგრამ ახალი ტექსტი მოწოდებული არ არის: A, K და E აღებულია წინა მოწოდებული დანართებიდან და შეიძლება შეიცვალოს.", ["R-POS-A2", "R-POS-A3", "R-K-001", "R-K-026-2"], null);
+    }
     const kRow = mission?.costCoefficientId ? ix.k.get(mission.costCoefficientId) : null;
     if (mission && !kRow) {
       ctx.warn("K_UNDETERMINED", "ამ დაწესებულებისთვის დანართ №4-ში K/E სტრიქონი არ არის — K, E და ყოველთვიური თანხა დაუდგენელია.", ["R-K-001"], "missionId");
@@ -23678,7 +25107,17 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       { basis: sc.rent.basis }
     );
     const monthly = {
-      H: comp("H", "parameter", "საბაზისო თანხა (H)", H, cur, H ? "calculated" : "undetermined", H ? `ბრძანება პ.3 (${cur})` : "დაწესებულება არ არის არჩეული.", ["R-H-001", "R-CUR-001"]),
+      H: comp(
+        "H",
+        "parameter",
+        "საბაზისო თანხა (H)",
+        H,
+        cur,
+        H ? "calculated" : "undetermined",
+        H ? `ბრძანება პ.3 (${cur})${hInfo.effectiveFrom ? `, №01-407 — ${hInfo.effectiveFrom}-დან` : ""}` : "დაწესებულება არ არის არჩეული.",
+        ["R-H-001", "R-CUR-001"],
+        { effectiveFrom: hInfo?.effectiveFrom ?? null, previous: hInfo?.previous ?? null }
+      ),
       A: comp(
         "A",
         "parameter",
@@ -23742,8 +25181,8 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
           if (isValidDate(p?.to)) cuts.push(addDays(p.to, 1));
         }
       }
-      if (compareDates(sc.period.start, "2025-09-23") < 0) {
-        ctx.warn("EDITION_PERIOD", "პერიოდი იწყება მიმდინარე H-ის (№01-770, გამოქვ. 23.09.2025) გამოქვეყნებამდე; წინა რედაქცია მოწოდებული არ არის — შედეგი შეიძლება არ შეესაბამებოდეს იმ დროის ნორმებს.", ["R-EFF-001"], "period.start");
+      if (hInfo?.previous && compareDates(sc.period.start, "2025-09-23") < 0) {
+        ctx.warn("EDITION_PERIOD", "პერიოდი იწყება 23.09.2025-მდე (№01-770); იმ დროის რედაქცია მოწოდებული არ არის — შედეგი შეიძლება არ შეესაბამებოდეს იმ დროის ნორმებს.", ["R-EFF-001"], "period.start");
       }
       if (sc.rent.changes.length || family.some((m) => m.from || m.to)) {
         ctx.info("FAMILY_CHANGE_NOTICE", "ქირის ან ოჯახის შემადგენლობის ცვლილებისას ცნობა წარედგინება სამ დღეში (დ1 მ.4, პირველი პ.6).", ["R-FAM-CHANGE-NOTICE"], null);
@@ -24236,7 +25675,9 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
           overlap = rentAdvanceEnds.some((end) => compareDates(a.issueDate, end) < 0);
           if (Number.isInteger(a.months)) rentAdvanceEnds.push(addMonths(a.issueDate, a.months));
         } else if (rentAdvanceEnds.length) overlap = true;
-        if (overlap) ctx.error("ADV_SECOND_BEFORE_REPAYMENT", "ქირის ავანსი ხელმეორედ გაიცემა მხოლოდ წინა ავანსის სრულად დაბრუნების შემდეგ (პ.26).", ["R-ADV-RENT"], `${id}.issueDate`);
+        if (overlap && a.coefficientReduction261) {
+          ctx.warn("ADV_REPEAT_26_1", "პ.26¹: ავანსი წინას დაბრუნებამდე — დასაშვებია პ.27(გ)-ის შემთხვევაში, როცა კოეფიციენტის ცვლილებით ანაზღაურება მცირდება; დასადასტურებელია.", ["R-ADV-026-1", "R-ADV-RENT"], `${id}.coefficientReduction261`);
+        } else if (overlap) ctx.error("ADV_SECOND_BEFORE_REPAYMENT", "ქირის ავანსი ხელმეორედ გაიცემა მხოლოდ წინა ავანსის სრულად დაბრუნების შემდეგ (პ.26), გარდა პ.26¹-ის შემთხვევისა.", ["R-ADV-RENT", "R-ADV-026-1"], `${id}.issueDate`);
       }
       const amount = amt(a.amount);
       const months = Number.isInteger(a.months) ? a.months : null;
@@ -24495,9 +25936,10 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
     },
     "R-H-001": {
       "title_ka": "საბაზისო თანხა H",
-      "source": "პ.3 (გვ.3); დ1 მ.2(ა)",
+      "source": "№01-407 პ.1(ბ), პ.2 (`sources/original/order-01-407-2026-11-17-matsne-7047773-0.pdf`); №01-82 პ.3; დ1 მ.2(ა)",
       "status": [
-        "direct-quote"
+        "direct-quote",
+        "technical-policy"
       ]
     },
     "R-D-001": {
@@ -24669,14 +26111,14 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
     },
     "R-POS-A2": {
       "title_ka": "დანართი №2 რეჟიმი (როტაციით მივლინებული)",
-      "source": "პ.1(ბ); დანართი №2",
+      "source": "`sources/original/order-01-407-annex2.docx`",
       "status": [
         "direct-quote"
       ]
     },
     "R-POS-A3": {
       "title_ka": "დანართი №3 რეჟიმი (ცენტრალური აპარატი) და პ.37–39",
-      "source": null,
+      "source": "`sources/original/order-01-407-annex3.docx`",
       "status": [
         "direct-quote",
         "interpretation"
@@ -24707,7 +26149,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
     },
     "R-K-001": {
       "title_ka": "K/E-ის შერჩევა",
-      "source": "დანართი №4 (გვ.15–18)",
+      "source": "`sources/extracted/order-01-407-annex4.raw.json` (მხოლოდ „დანართი N4“ ფურცელი). წინა მნიშვნელობები — `history.costCoefficients`",
       "status": [
         "direct-quote",
         "interpretation"
@@ -24885,6 +26327,22 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       "status": [
         "direct-quote",
         "interpretation"
+      ]
+    },
+    "R-ADV-026-1": {
+      "title_ka": "ავანსის ხელმეორედ გაცემა დაბრუნებამდე (პ.26¹)",
+      "source": "№01-407 პ.1(გ)",
+      "status": [
+        "direct-quote",
+        "conditional-manual"
+      ]
+    },
+    "R-K-026-2": {
+      "title_ka": "K და E-ის ყოველწლიური გადაანგარიშება (პ.26²)",
+      "source": "№01-407 პ.1(გ)",
+      "status": [
+        "direct-quote",
+        "informational"
       ]
     },
     "R-ADV-027": {
@@ -25515,6 +26973,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       chainRows: chainRows(chain),
       chainNote: CHAIN_NOTE,
       rentRows: rentBreakdownRows(chain),
+      baseNote: baseNoteText(data),
       city: mission?.location_ka ?? "",
       marketRows: marketRows(md, beds, { familyCount: st.family.length }),
       marketNotes: marketNotes(md),
@@ -25567,6 +27026,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         h("td", { "data-value": x.raw ?? "" }, x.text)
       )))),
       h("p", { class: "formula" }, "D = H × A × K × (1 + 7% × C) · T = D × E · S = D − T + F"),
+      M.baseNote ? h("p", { class: "tiny muted" }, `H: ${M.baseNote}`) : null,
       M.hasEdu ? h("p", { class: "small" }, `სწავლა: ანაზღაურდება თვეში ${cur === "USD" ? "750 USD" : "690 EUR"}-მდე სრულად, ზედმეტის 80%.`) : null,
       h("p", { class: "tiny muted" }, "თანხები ითვლება ზუსტად და მრგვალდება 2 ათწილადამდე.")
     );
@@ -25644,8 +27104,24 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         marketTiles(M.md, M.beds, { loading: M.mdLoading, familyCount: M.familyCount })
       ) : null,
       h("div", { class: "actions no-print" }, pdfBtn, printBtn, detBtn, cmpBtn),
-      det
+      det,
+      M.baseNote ? h("p", { class: "base-note", "data-testid": "base-note" }, M.baseNote) : null
     ];
+  }
+  var MONTHS_FROM = ["იანვრიდან", "თებერვლიდან", "მარტიდან", "აპრილიდან", "მაისიდან", "ივნისიდან", "ივლისიდან", "აგვისტოდან", "სექტემბრიდან", "ოქტომბრიდან", "ნოემბრიდან", "დეკემბრიდან"];
+  var intAmount = (x) => {
+    const s = formatAmount(x);
+    return s.endsWith(".00") ? s.slice(0, -3) : s;
+  };
+  function baseNoteText(data) {
+    const info = typeof baseAmountInfo === "function" ? (c) => baseAmountInfo(data, c) : (c) => (data.baseAmounts || []).find((b) => b.currency === c) || null;
+    const e = info("EUR");
+    const u = info("USD");
+    if (!e?.amount || !u?.amount || !e.effectiveFrom) return null;
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(e.effectiveFrom);
+    const when = m ? `${m[1]} წლის ${Number(m[3])} ${MONTHS_FROM[Number(m[2]) - 1]}` : e.effectiveFrom;
+    const order = e.orderRef ?? e.order ?? (/№\s?[\d-]+/.exec(e.citation ?? "")?.[0]?.replace(/\s/, "") || "№01-407");
+    return `გაანგარიშება ეფუძნება ბრძანება ${order}-ით განსაზღვრულ საბაზისო თანხას (${intAmount(e.amount)} EUR / ${intAmount(u.amount)} USD), რომელიც ამოქმედდება ${when}.`;
   }
 
   // src/ui/pdf/writer.js
@@ -26103,6 +27579,7 @@ ${pos}
     heading("როგორ დაითვალა");
     for (const r of M.rows) row(`${r.k}   ${r.label}`, r.text, { size: 8.2, color: r.k === "S" ? ACCENT : INK, vcolor: r.k === "S" ? ACCENT : INK });
     note("D = H × A × K × (1 + 7% × C) · T = D × E · S = D − T + F");
+    if (M.baseNote) note(M.baseNote);
     p.text(DISCLAIMER, X, H - 26, { size: 7.5, color: MUTED });
     return { p, overflow: y > BOTTOM };
   }
@@ -26111,7 +27588,7 @@ ${pos}
     return x == null ? "—" : `${formatAmount(x)} ${cur}`;
   }
   var COMPARE_PER_PAGE = 6;
-  async function comparePdf(cards) {
+  async function comparePdf(cards, { baseNote = null } = {}) {
     const fonts = await loadPdfFonts();
     const W = 841.89, H = 595.28, X = 30, CW = W - 2 * X;
     let p = null;
@@ -26158,9 +27635,10 @@ ${pos}
         y += 3;
       }
       const nts = [...new Set(chunk.flatMap((c) => c.notes || []))];
-      nts.slice(0, 4).forEach((t, k) => p.text(t, X, H - 74 + k * 9, { size: 6.8, color: MUTED }));
+      nts.slice(0, 4).forEach((t, k) => p.text(t, X, H - 88 + k * 9, { size: 6.8, color: MUTED }));
       const src = chunk.find((c) => c.source)?.source;
       if (src) p.text(src, X, H - 34, { size: 7, color: MUTED });
+      if (baseNote) p.text(baseNote, X, H - 46, { size: 7, color: MUTED });
       p.text(DISCLAIMER, X, H - 22, { size: 7.5, color: MUTED });
     });
     return p.root.toBytes("როტაციის კალკულატორი — შედარება");
@@ -26229,7 +27707,7 @@ ${pos}
     pdfBtn.addEventListener("click", async () => {
       pdfBtn.disabled = true;
       try {
-        downloadBytes(await comparePdf(ordered().map((c) => pdfCol(colModel(c)))), `rotacia-shedareba-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.pdf`);
+        downloadBytes(await comparePdf(ordered().map((c) => pdfCol(colModel(c))), { baseNote: baseNoteText(data) }), `rotacia-shedareba-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.pdf`);
       } catch (e) {
         console.error(e);
       } finally {
@@ -26536,9 +28014,7 @@ ${pos}
     4: ["უფროსი მრჩეველი / კონსული"],
     5: ["მრჩეველი / ადმინისტრაციული მენეჯერი / ვიცე-კონსული"],
     6: ["პირველი / მეორე მდივანი"],
-    7: ["მესამე მდივანი / ატაშე / უსაფრთხოების ოფიცერი"],
-    8: ["რეფერენტი"],
-    9: ["მძღოლი"]
+    7: ["მესამე მდივანი / ატაშე / უსაფრთხოების ოფიცერი"]
   };
   function parseMoney(raw) {
     const r = parseDecimalInput(String(raw ?? ""));
@@ -27248,9 +28724,9 @@ ${pos}
   // src/ui/main.js
   var meta = {
     appVersion: true ? "1.0.0" : "dev",
-    rulesVersion: true ? "01-82/supplied-pdf-2026-10-28" : normative_data_default.rulesVersion,
-    dataSha: true ? "c255047429996242175a8a5a7ebc09a81bc2e7a7df943644e34e373a255af846" : "unknown",
-    buildDate: true ? "2026-11-07" : "dev"
+    rulesVersion: true ? "01-82/01-407-2027-01-01" : normative_data_default.rulesVersion,
+    dataSha: true ? "71528968da24e188bcae8ff9d761c3884a616cf2c00593191e13c5e1126ee016" : "unknown",
+    buildDate: true ? "2026-11-18" : "dev"
   };
   var online = location.protocol === "http:" || location.protocol === "https:";
   var client = online ? createMarketClient({ endpoint: "/api/market", timeoutMs: 1e5 }) : null;
