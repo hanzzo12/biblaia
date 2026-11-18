@@ -1,0 +1,1780 @@
+{
+ "note": "Only sheet \"დანართი N4\" extracted. The workbook also has a sheet with personal staff data, which is deliberately NOT stored.",
+ "sourceFile": "matsne-7047773-0.xlsx (user upload, 2026-11-18)",
+ "sha256": "b61fc8339369ad5e579fa775fb67b339110c027ad55d390ea6cb44a8983e9537",
+ "sheet": "დანართი N4",
+ "rows": [
+  {
+   "row": 1,
+   "cells": [
+    null,
+    null,
+    null,
+    {
+     "value": "დანართი N4",
+     "number_format": "General",
+     "type": "str"
+    }
+   ]
+  },
+  {
+   "row": 2,
+   "cells": [
+    {
+     "value": "ადგილსამყოფელი  ქვეყნის/ქალაქის სიძვირის ადაპტირებული კოეფიციენტი",
+     "number_format": "General",
+     "type": "str"
+    },
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "row": 3,
+   "cells": [
+    null,
+    {
+     "value": "ადგილსამყოფელი ქვეყნის/ქალაქის ჩამონათვალი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "სიძვირის ადაპტირებული კოეფიციენტი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "ბინის ქირის წილი (%)",
+     "number_format": "General",
+     "type": "str"
+    }
+   ]
+  },
+  {
+   "row": 4,
+   "cells": [
+    {
+     "value": 1,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ავსტრიის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.543",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 20,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 5,
+   "cells": [
+    {
+     "value": 2,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ბელგიის სამეფო ",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.489",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 18,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 6,
+   "cells": [
+    {
+     "value": 3,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ბულგარეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.345",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 21,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 7,
+   "cells": [
+    {
+     "value": 4,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " გერმანიის ფედერაციული რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.419",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 23,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 8,
+   "cells": [
+    {
+     "value": 5,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " დანიის სამეფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.712",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 27,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 9,
+   "cells": [
+    {
+     "value": 6,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " დიდი ბრიტანეთისა და ჩრდილოეთ ირლანდიის გაერთიანებული სამეფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.798",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 31,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 10,
+   "cells": [
+    {
+     "value": 7,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ესპანეთის სამეფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.32",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 23,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 11,
+   "cells": [
+    {
+     "value": 8,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ესტონეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.463",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 19,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 12,
+   "cells": [
+    {
+     "value": 9,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " თურქეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.348",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 18,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 13,
+   "cells": [
+    {
+     "value": 10,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " იტალიის რესპუბლიკა ქ.რომი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.281",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 22,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 14,
+   "cells": [
+    {
+     "value": 11,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": "იტალიის რესპუბლიკა ქ.ბარი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.281",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 22,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 15,
+   "cells": [
+    {
+     "value": 12,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": "იტალიის რესპუბლიკა  ქ. მილანი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.281",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 22,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 16,
+   "cells": [
+    {
+     "value": 13,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ირლანდია",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.533",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 25,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 17,
+   "cells": [
+    {
+     "value": 14,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " კვიპროსის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.302",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 17,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 18,
+   "cells": [
+    {
+     "value": 15,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ლატვიის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.432",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 14,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 19,
+   "cells": [
+    {
+     "value": 16,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ლიეტუვას რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.359",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 18,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 20,
+   "cells": [
+    {
+     "value": 17,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " მოლდოვას რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.319",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 18,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 21,
+   "cells": [
+    {
+     "value": 18,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ნიდერლანდების სამეფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.478",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 24,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 22,
+   "cells": [
+    {
+     "value": 19,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ნორვეგიის სამეფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.497",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 27,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 23,
+   "cells": [
+    {
+     "value": 20,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " პოლონეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.388",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 23,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 24,
+   "cells": [
+    {
+     "value": 21,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": "პოლონეთის რესპუბლიკა ქ.კრაკოვი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.388",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 23,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 25,
+   "cells": [
+    {
+     "value": 22,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " პორტუგალიის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.351",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 21,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 26,
+   "cells": [
+    {
+     "value": 23,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " რუმინეთი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.314",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 20,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 27,
+   "cells": [
+    {
+     "value": 24,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " საბერძნეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.368",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 19,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 28,
+   "cells": [
+    {
+     "value": 25,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": "სერბეთის რესპუბლიკა (ქ.ბელგრადი)",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.368",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 19,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 29,
+   "cells": [
+    {
+     "value": 26,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " საფრანგეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.541",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 27,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 30,
+   "cells": [
+    {
+     "value": 27,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": "საფრანგეთის რესპუბლიკა ქ.ლიონი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.541",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 27,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 31,
+   "cells": [
+    {
+     "value": 28,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " სლოვაკეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.397",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 17,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 32,
+   "cells": [
+    {
+     "value": 29,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " სლოვენიის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.433",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 15,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 33,
+   "cells": [
+    {
+     "value": 30,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " უნგრეთი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.482",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 19,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 34,
+   "cells": [
+    {
+     "value": 31,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " შვედეთის სამეფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.413",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 29,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 35,
+   "cells": [
+    {
+     "value": 32,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ფინეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.439",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 25,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 36,
+   "cells": [
+    {
+     "value": 33,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " შვეიცარიის კონფედერაცია",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.842",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 23,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 37,
+   "cells": [
+    {
+     "value": 34,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ჩეხეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.469",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 20,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 38,
+   "cells": [
+    {
+     "value": 35,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ხორვატიის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.385",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 9,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 39,
+   "cells": [
+    {
+     "value": 36,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ავსტრალიის თანამეგობრობა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.37",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 29,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 40,
+   "cells": [
+    {
+     "value": 37,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " აზერბაიჯანის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.328",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 17,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 41,
+   "cells": [
+    {
+     "value": 38,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " არაბთა გაერთიანებული საამიროები",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.527",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 26,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 42,
+   "cells": [
+    {
+     "value": 39,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " არგენტინის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.375",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 28,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 43,
+   "cells": [
+    {
+     "value": 40,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " აშშ  ქ.ვაშინგტონი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.572",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 29,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 44,
+   "cells": [
+    {
+     "value": 41,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " აშშ  ქ.ნიუ–იორკი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.787",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 34,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 45,
+   "cells": [
+    {
+     "value": 42,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": "აშშ  ქ. სან-ფრანცისკო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.828",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 31,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 46,
+   "cells": [
+    {
+     "value": 43,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ბელარუსის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.446",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 18,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 47,
+   "cells": [
+    {
+     "value": 44,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ბრაზილიის ფედერაციული რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.272",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 22,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 48,
+   "cells": [
+    {
+     "value": 45,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ეგვიპტის არაბთა რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.27",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 20,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 49,
+   "cells": [
+    {
+     "value": 46,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ეთიოპიის ფედერაციული დემოკრატიული რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.352",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 23,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 50,
+   "cells": [
+    {
+     "value": 47,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ვიეტნამის სოციალისტური რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.207",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 20,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 51,
+   "cells": [
+    {
+     "value": 48,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " თურქმენეთი",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.729",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 9,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 52,
+   "cells": [
+    {
+     "value": 49,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " იაპონია",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.478",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 22,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 53,
+   "cells": [
+    {
+     "value": 50,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " იორდანიის ჰაშიმიტური სამეფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.345",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 19,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 54,
+   "cells": [
+    {
+     "value": 51,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ინდოეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.277",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 15,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 55,
+   "cells": [
+    {
+     "value": 52,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ინდონეზიის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.284",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 25,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 56,
+   "cells": [
+    {
+     "value": 53,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ირანის ისლამური რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.291",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 18,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 57,
+   "cells": [
+    {
+     "value": 54,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ისრაელის სახელმწიფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.65",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 29,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 58,
+   "cells": [
+    {
+     "value": 55,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " კანადა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.456",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 21,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 59,
+   "cells": [
+    {
+     "value": 56,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " კატარის სახელმწიფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.416",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 28,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 60,
+   "cells": [
+    {
+     "value": 57,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " კუბის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.462",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 22,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 61,
+   "cells": [
+    {
+     "value": 58,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " კორეის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.405",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 18,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 62,
+   "cells": [
+    {
+     "value": 59,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " მალაიზია",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.495",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 15,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 63,
+   "cells": [
+    {
+     "value": 60,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " მექსიკის შეერთებული შტატები",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.526",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 24,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 64,
+   "cells": [
+    {
+     "value": 61,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": "რუსეთის ფედერაცია",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.603",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 19,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 65,
+   "cells": [
+    {
+     "value": 62,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " სამხრეთ აფრიკის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.27",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 18,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 66,
+   "cells": [
+    {
+     "value": 63,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " სომხეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.328",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 24,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 67,
+   "cells": [
+    {
+     "value": 64,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " საუდის არაბეთის სამეფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.482",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 23,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 68,
+   "cells": [
+    {
+     "value": 65,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " უზბეკეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.355",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 16,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 69,
+   "cells": [
+    {
+     "value": 66,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " უკრაინა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.272",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 17,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 70,
+   "cells": [
+    {
+     "value": 67,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ქუვეითის სახელმწიფო",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.514",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 17,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 71,
+   "cells": [
+    {
+     "value": 68,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ყაზახეთის რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.337",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 20,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  },
+  {
+   "row": 72,
+   "cells": [
+    {
+     "value": 69,
+     "number_format": "General",
+     "type": "int"
+    },
+    {
+     "value": " ჩინეთის სახალხო რესპუბლიკა",
+     "number_format": "General",
+     "type": "str"
+    },
+    {
+     "value": "1.509",
+     "number_format": "_(* #,##0.000_);_(* \\(#,##0.000\\);_(* \"-\"??_);_(@_)",
+     "type": "float"
+    },
+    {
+     "value": 27,
+     "number_format": "_(* #,##0_);_(* \\(#,##0\\);_(* \"-\"??_);_(@_)",
+     "type": "int"
+    }
+   ]
+  }
+ ]
+}
