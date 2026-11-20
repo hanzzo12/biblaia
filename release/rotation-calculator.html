@@ -407,6 +407,38 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
 .ctable thead th.num { max-width: 110px; }
 .ctable .row-note { white-space: normal; max-width: 150px; }
 
+/* ძველი / ახალი წესის შედარება */
+.editions { margin: 18px 0 8px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+.editions h3 { margin: 0 0 10px; }
+.etable { border-collapse: collapse; width: 100%; font-size: .9rem; }
+.etable th, .etable td { padding: 8px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: bottom; }
+.etable .num { text-align: right; white-space: nowrap; }
+.etable thead th { font-weight: 600; }
+.etable thead .ed-old, .etable thead .ed-new { vertical-align: top; }
+.etable .ed-t, .etable .ed-w, .etable .ed-a { display: block; }
+.etable .ed-t { font-size: .95rem; }
+.etable .ed-w { font-size: .8rem; font-weight: 700; color: var(--accent); }
+.etable .ed-old .ed-w { color: var(--muted); }
+.etable .ed-a { font-size: .72rem; font-weight: 400; color: var(--muted); white-space: normal; }
+.etable td:nth-child(3), .etable thead .ed-new { background: var(--accent-soft); }
+.etable tr.strong th, .etable tr.strong td { font-weight: 700; }
+.etable .diff.pos { color: var(--ok); }
+.etable .diff.neg { color: var(--err); }
+@media (max-width: 600px) {
+  .editions { padding: 12px 10px; }
+  .editions .table-scroll { overflow: visible; border: 0; }
+  .etable, .etable thead, .etable tbody { display: block; }
+  .etable { font-size: .82rem; }
+  .etable tr { display: grid; grid-template-columns: 1fr 1fr .8fr; }
+  .etable thead th:first-child { display: none; }
+  .etable th, .etable td { padding: 6px 4px; }
+  .etable tbody th { grid-column: 1 / -1; border-bottom: 0; padding: 8px 4px 0; }
+  .etable thead th.num, .etable thead th { white-space: normal; min-width: 0; }
+  .etable .ed-w { font-size: .7rem; }
+  .etable td.num { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+  .etable .ed-a { display: none; }
+}
+
 @media print {
   @page { size: A4 portrait; margin: 10mm 12mm; }
   @page land { size: A4 landscape; margin: 8mm 10mm; }
@@ -433,6 +465,27 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
   a { color: #000; text-decoration: none; }
   body { font-size: 8.5pt; }
   .inputs th, .inputs td, .calc th, .calc td { padding: 1pt 4pt; font-size: 8pt; }
+  .editions { margin: 4pt 0; padding: 3pt 8pt; border: 1px solid #999; border-radius: 0; break-inside: avoid; }
+  .editions h3 { margin: 0 0 2pt; }
+  .editions .table-scroll { border: 0; overflow: visible; }
+  .etable { font-size: 7.8pt; }
+  .etable th, .etable td { padding: .4pt 4pt; }
+  .details p.small, .details p.tiny:last-child { display: none; } /* სწავლის/დამრგვალების შენიშვნები — PDF-ში და ეკრანზე რჩება */
+  .etable { table-layout: fixed; width: 100%; }
+  .etable thead th:first-child { width: 40%; }
+  .etable thead th:last-child { width: 14%; }
+  .etable thead th.num { white-space: normal; }
+  .etable tbody th { font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .etable .ed-t, .etable .ed-w { display: inline; font-size: 7.8pt; }
+  .etable .ed-w::before { content: ' · '; }
+  .etable .ed-a { display: none; }
+  .etable td:nth-child(3), .etable thead .ed-new { background: none; }
+  .editions .tiny { margin: 1pt 0 0; font-size: 7pt; }
+  .details .calc, .details .calc tbody { display: block; width: 100%; }
+  .details .calc tbody { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14pt; }
+  .details .calc tr { display: flex; justify-content: space-between; gap: 6pt; border-bottom: 1px solid #ddd; }
+  .details .calc th, .details .calc td { border: 0; }
+  .base-note { display: none !important; } /* იგივე ტექსტი „როგორ დაითვალა“-შია (H: …) */
   .hero { padding: 4pt 8pt; margin: 4pt 0; }
   .hero-v { font-size: 16pt; margin: 2pt 0 0; }
   .hero-l, .hero-n { font-size: 8pt; margin: 0; }
@@ -782,6 +835,18 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         sha256: "7eb2073e7d318f9c2102e6d1627b5ba849e43bb5bb83a85b3fd82d4563a9d91d",
         latestAmendmentNoted: "Annex 1: №470 of 2022-09-28 (also №91 of 2020-02-10)",
         verification: "user-supplied matsne consolidated preview (doc 3649787, '28'); effective date not stated"
+      },
+      {
+        id: "SRC-FIN-PRACTICE",
+        title: "ფინანსური სამსახურის გაანგარიშების ცხრილი (xlsx, მომხმარებლის მიერ მოწოდებული 2026-11-20) — მზრუნველობის ქვეშ მყოფზე თვიური დანამატი",
+        annex: null,
+        pages: [
+          1,
+          1
+        ],
+        file: "(not stored: contains personal data)",
+        sha256: "54e7a69db25d3caca9c078f9e53c24d4a9608018078aea307bafdd9d142afe59",
+        verification: "spreadsheet logic only (G = count × 210 × 12); normative basis not verified — user instruction 2026-11-20"
       }
     ],
     baseAmounts: [
@@ -1007,6 +1072,15 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         point: "note after pt 43",
         citation: "სრულწლოვანი შვილი/გერი ზოგადსაგანმანათლებლო დაწესებულებაში სწავლის დასრულებამდე, სრულწლოვანების მიღწევიდან არაუმეტეს 1 წლის განმავლობაში",
         notes: null
+      },
+      {
+        id: "GUARDIANSHIP-MONTHLY-AMOUNT",
+        value: "210",
+        unit: "per-person-per-month (funding currency)",
+        sourceRef: "SRC-FIN-PRACTICE",
+        point: "block „მზრუნველობა“",
+        citation: "„დანამატი ერთი თვის“ 210 × „მზრუნველობის ქვეშ მყოფთა რ-ბა“; წლიური = × 12 (ფინანსური სამსახურის ცხრილის ლოგიკა)",
+        notes: "ნორმატიული საფუძველი გადაუმოწმებელია; გამოიყენება მომხმარებლის მითითებით. ვალუტა — დაწესებულების დაფინანსების ვალუტა (ცხრილში ევროს მისია)."
       }
     ],
     positionProfiles: [
@@ -24163,6 +24237,26 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       previous: b.previous ? { amount: b.previous.amount, until: b.previous.until, sourceRef: b.previous.sourceRef ?? null, citation: b.previous.citation ?? null } : null
     };
   }
+  var prevById = /* @__PURE__ */ new WeakMap();
+  function previousEditionData(data) {
+    const h2 = data?.history;
+    if (!h2?.positionProfiles || !h2?.costCoefficients || !h2?.missionCostCoefficientIds) return null;
+    let prev = prevById.get(data);
+    if (!prev) {
+      prev = {
+        ...data,
+        rulesVersion: `${data.rulesVersion}#previous`,
+        edition: { ...data.edition, previous: true, until: data.baseAmounts.find((b) => b.previous)?.previous?.until ?? null },
+        baseAmounts: data.baseAmounts.map((b) => b.previous ? { ...b, amount: b.previous.amount, effectiveFrom: void 0, until: b.previous.until, sourceRef: b.previous.sourceRef ?? b.sourceRef, citation: b.previous.citation ?? b.citation, note: null, previous: void 0 } : b),
+        positionProfiles: h2.positionProfiles,
+        costCoefficients: h2.costCoefficients,
+        missions: data.missions.map((m) => ({ ...m, costCoefficientId: h2.missionCostCoefficientIds[m.id] ?? null })),
+        history: null
+      };
+      prevById.set(data, prev);
+    }
+    return prev;
+  }
 
   // src/core/enums.js
   var freeze = (o) => Object.freeze(o);
@@ -24749,19 +24843,19 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
     };
   }
   function comp(id, category, label_ka, value, currency, status, reason_ka, ruleIds, inputsUsed = {}, kind = "money") {
-    let v2 = null, exact = null;
+    let v2 = null, exact2 = null;
     if (value != null && status !== "undetermined") {
       if (kind === "raw") {
         v2 = String(value);
-        exact = String(value);
+        exact2 = String(value);
       } else {
         const r = R(value);
         v2 = toFixed2(r);
-        exact = toDecimalString2(r) ?? toExactString(r);
+        exact2 = toDecimalString2(r) ?? toExactString(r);
       }
     }
     if (v2 === null && status !== "not_applicable") status = "undetermined";
-    return { id, category, label_ka, value: v2, exact, currency: kind === "raw" ? null : currency, status, reason_ka: reason_ka || "", ruleIds, inputsUsed };
+    return { id, category, label_ka, value: v2, exact: exact2, currency: kind === "raw" ? null : currency, status, reason_ka: reason_ka || "", ruleIds, inputsUsed };
   }
   var rat3 = (c) => c && c.exact != null ? fromExact(c.exact) : null;
   function fromExact(s) {
@@ -25245,8 +25339,20 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         ["R-EDU-LIMIT", "R-EDU-EXCESS"]
       ) : null
     };
+    const guardPer = param("GUARDIANSHIP-MONTHLY-AMOUNT");
+    const guardCount = family.filter((m) => m.status === "guardianship" || m.status === "care").length;
+    const guardMonthlyR = guardCount && guardPer && cur ? mul(R(guardPer), R(String(guardCount))) : ZERO;
+    const guardSt = guardCount ? cur ? "scenario" : "undetermined" : "not_applicable";
+    const guardReason = guardCount ? `${guardCount} × ${guardPer} ${cur ?? ""} თვეში — ფინანსური სამსახურის გაანგარიშების ლოგიკით; ნორმატიული საფუძველი გადაუმოწმებელია.` : "მეურვეობის/მზრუნველობის ქვეშ მყოფი არ არის.";
+    const guardianship = {
+      count: guardCount,
+      perPerson: guardPer,
+      monthly: comp("guardianship.monthly", "monthly", "მზრუნველობის დანამატი (თვეში)", guardMonthlyR, cur, guardSt, guardReason, ["R-GUARD-PRACTICE"]),
+      annual: comp("guardianship.annual", "monthly", "მზრუნველობის დანამატი (წელიწადში)", guardMonthlyR == null ? null : mul(guardMonthlyR, R("12")), cur, guardSt, "თვიური × 12", ["R-GUARD-PRACTICE"])
+    };
+    if (guardCount) ctx.assume("GUARDIANSHIP_PRACTICE", `მზრუნველობის ქვეშ მყოფზე ${guardPer} თვეში — ფინანსური სამსახურის ცხრილის ლოგიკა (მომხმარებლის მითითებით); ბრძანებაში ეს თანხა ნაპოვნი არ არის.`, ["R-GUARD-PRACTICE"], "OQ-36");
     const sForRemainder = rat3(fm.S);
-    const remR = sForRemainder != null && G0 != null && eduTotalR != null && eduExpenseR != null ? sub(add(sForRemainder, eduTotalR), add(G0, eduExpenseR)) : null;
+    const remR = sForRemainder != null && G0 != null && eduTotalR != null && eduExpenseR != null && guardMonthlyR != null ? sub(add(add(sForRemainder, eduTotalR), guardMonthlyR), add(G0, eduExpenseR)) : null;
     const remainder = {
       value: comp(
         "remainder",
@@ -25254,11 +25360,11 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         "ნაშთი ქირისა და განათლების ხარჯის შემდეგ (თვეში)",
         remR,
         cur,
-        worst(fm.S.status, g0Comp.status, education.total.status, education.expense.status),
-        "S + განათლების ანაზღაურება − ქირა G − განათლების ხარჯი. სხვა ხარჯები (დაზღვევა, მგზავრობა, ცხოვრება) არ აკლდება; უარყოფითი ნაჩვენებია როგორც არის.",
-        ["R-S-001", "R-RENT-UNCOVERED", "R-EDU-EXCESS"]
+        worst(fm.S.status, g0Comp.status, education.total.status, education.expense.status, guardCount ? guardSt : "calculated"),
+        "S + განათლების ანაზღაურება + მზრუნველობის დანამატი − ქირა G − განათლების ხარჯი. სხვა ხარჯები (დაზღვევა, მგზავრობა, ცხოვრება) არ აკლდება; უარყოფითი ნაჩვენებია როგორც არის.",
+        ["R-S-001", "R-RENT-UNCOVERED", "R-EDU-EXCESS", ...guardCount ? ["R-GUARD-PRACTICE"] : []]
       ),
-      terms: { S: fm.S, educationReimbursement: education.total, G: g0Comp, educationExpense: education.expense }
+      terms: { S: fm.S, educationReimbursement: education.total, guardianship: guardianship.monthly, G: g0Comp, educationExpense: education.expense }
     };
     const insRow = mission?.insuranceCapId ? ix.ins.get(mission.insuranceCapId) : null;
     const persons = [{ id: "EMP", label: "მოსამსახურე", member: null }, ...family.map((m) => ({ id: m.id, label: m.label ?? ROLES[m.role] ?? m.id, member: m }))];
@@ -25789,6 +25895,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       periodSegments,
       periodTotal,
       education,
+      guardianship,
       remainder,
       insurance: { perPerson },
       oneTimeAllowances: { settlement, vacationMonth, retention19 },
@@ -26356,6 +26463,13 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         "interpretation"
       ]
     },
+    "R-GUARD-PRACTICE": {
+      "title_ka": "მზრუნველობის ქვეშ მყოფზე თვიური დანამატი (ფინანსური პრაქტიკა)",
+      "source": "`SRC-FIN-PRACTICE`, პარამეტრი `GUARDIANSHIP-MONTHLY-AMOUNT`",
+      "status": [
+        "scenario"
+      ]
+    },
     "R-ORD-001": {
       "title_ka": "დანართების დამტკიცება (ინსტრუქცია, №2–№10)",
       "source": "1 (ა–კ)",
@@ -26758,8 +26872,10 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
     const eduE = hasEdu ? ex(ed.expense) : ZERO;
     const eduR = hasEdu ? ex(ed.total) : ZERO;
     const eduPersonal = eduE != null && eduR != null ? sub(eduE, eduR) : null;
+    const hasGuard = (r?.guardianship?.count ?? 0) > 0;
+    const guard = hasGuard ? ex(r.guardianship.monthly) : ZERO;
     const remainder = ex(r?.remainder?.value);
-    const check = S != null && G != null && eduE != null && eduR != null ? add(sub(sub(S, G), eduE), eduR) : null;
+    const check = S != null && G != null && eduE != null && eduR != null && guard != null ? add(add(sub(sub(S, G), eduE), eduR), guard) : null;
     const matches2 = remainder != null && check != null && eq(remainder, check);
     if (remainder != null && check != null && !matches2) console.warn("chain mismatch", toFixed2(check), toFixed2(remainder));
     const living = livingRemainder(remainder, md, familyCount);
@@ -26770,6 +26886,10 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       eduExpense: fx(eduE),
       eduReimb: fx(eduR),
       hasEdu,
+      hasGuard,
+      guard: fx(guard),
+      guardAnnual: hasGuard ? fx(ex(r.guardianship.annual)) : null,
+      guardCount: r?.guardianship?.count ?? 0,
       remainder: fx(remainder),
       matches: matches2,
       living,
@@ -26780,9 +26900,10 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
   var neg = (x) => x != null && String(x).startsWith("-") ? " neg" : "";
   function chainRows(c) {
     const rows = [
-      { sign: "", label: "ყოველთვიური სამივლინებო თანხა", short: "სამივლინებო თანხა", value: c.S },
-      { sign: "−", label: "ბინის ქირა (სრული)", short: "ქირა", value: c.G }
+      { sign: "", label: "ყოველთვიური სამივლინებო თანხა", short: "სამივლინებო თანხა", value: c.S }
     ];
+    if (c.hasGuard) rows.push({ sign: "+", label: `მზრუნველობის დანამატი (${c.guardCount} × 210 თვეში${c.guardAnnual ? `, წელიწადში ${formatAmount(c.guardAnnual)}` : ""}; ფინანსური სამსახურის პრაქტიკა)`, short: "მზრუნველობის დანამატი", value: c.guard, testid: "chain-guardianship" });
+    rows.push({ sign: "−", label: "ბინის ქირა (სრული)", short: "ქირა", value: c.G });
     if (c.hasEdu) {
       rows.push({ sign: "−", label: "სწავლის გადასახადი (სრული)", short: "სწავლის გადასახადი", value: c.eduExpense });
       rows.push({ sign: "+", label: "სწავლის ანაზღაურება", short: "სწავლის ანაზღაურება", value: c.eduReimb });
@@ -26826,7 +26947,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
     return x == null ? "—" : `${formatAmount(x)} ${cur ?? ""}`.trim();
   };
   var ROLE_KA = { spouse: "მეუღლე", child: "შვილი", guardianship: "მეურვეობის ქვეშ მყოფი" };
-  function resultModel({ r, st, sc, mission, data, personName, md = null, mdLoading = false, beds = 1 }) {
+  function resultModel({ r, rOld = null, st, sc, mission, data, personName, md = null, mdLoading = false, beds = 1 }) {
     const cur = r?.currency ?? mission?.fundingCurrency ?? "";
     const m = r?.monthly || {};
     const ed = r?.education || {};
@@ -26894,6 +27015,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
       rentRows: rentBreakdownRows(chain),
       baseNote: baseNoteText(data),
       city: mission?.location_ka ?? "",
+      editions: editionsModel(r, rOld, cur, noRent),
       marketRows: marketRows(md, beds, { familyCount: st.family.length }),
       marketNotes: marketNotes(md),
       insCapTotal: sum2(ins.map((p) => p.cap).filter((x) => x != null).length ? ins.map((p) => p.cap).filter((x) => x != null) : [null]),
@@ -26922,6 +27044,74 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         ["სკოლა/ბაღი თვეში", hasEdu ? sc.education.map((e) => fmt(e.tuition, cur)).join(", ") : "—"]
       ]
     };
+  }
+  var exact = (c) => {
+    if (c == null || typeof c !== "object") return c == null ? null : R(c);
+    if (c.exact) return /^-?\d+(\/\d+)?$/.test(c.exact) ? fromExactString(c.exact) : R(c.exact);
+    return c.value != null ? R(c.value) : null;
+  };
+  var signedText = (x) => x == null ? "" : /^-/.test(x) ? formatAmount(x) : /^0(\.0+)?$/.test(x) ? formatAmount(x) : `+${formatAmount(x)}`;
+  function editionsModel(r, rOld, cur, noRent) {
+    if (!r || !rOld) return null;
+    const pick = (res) => {
+      const m2 = res.monthly || {};
+      const S = noRent ? m2.DminusT : m2.S;
+      return { H: v(m2.H), K: v(m2.K), E: v(m2.E), S: v(S), Sx: exact(S), rem: noRent ? null : v(res.remainder?.value), remx: noRent ? null : exact(res.remainder?.value) };
+    };
+    const o = pick(rOld), n = pick(r);
+    const d = (a, b) => a != null && b != null ? toFixed2(sub(b, a)) : null;
+    const y = (x) => x != null ? toFixed2(mul(x, R("12"))) : null;
+    const m = (x) => x == null ? "—" : `${formatAmount(x)} ${cur}`;
+    const rows = [
+      { key: "H", label: "საბაზისო თანხა (H)", old: o.H == null ? "—" : m(o.H), new: n.H == null ? "—" : m(n.H), oldRaw: o.H, newRaw: n.H, diff: null },
+      { key: "K", label: "ქვეყნის კოეფიციენტი (K)", old: o.K ?? "—", new: n.K ?? "—", oldRaw: o.K, newRaw: n.K, diff: null },
+      { key: "E", label: "ბინის წილი (E)", old: o.E == null ? "—" : `${o.E}%`, new: n.E == null ? "—" : `${n.E}%`, oldRaw: o.E, newRaw: n.E, diff: null },
+      { key: "S", label: noRent ? "ყოველთვიური თანხა (ქირის გარეშე)" : "ყოველთვიური სამივლინებო თანხა", old: m(o.S), new: m(n.S), oldRaw: o.S, newRaw: n.S, diff: d(o.Sx, n.Sx), strong: true }
+    ];
+    if (!noRent) rows.push({ key: "rem", label: "დარჩენილი ქირისა და სწავლის შემდეგ", old: m(o.rem), new: m(n.rem), oldRaw: o.rem, newRaw: n.rem, diff: d(o.remx, n.remx) });
+    const oy = y(o.Sx), ny = y(n.Sx);
+    rows.push({ key: "Sy", label: "სამივლინებო თანხა წელიწადში (× 12)", old: m(oy), new: m(ny), oldRaw: oy, newRaw: ny, diff: o.Sx != null && n.Sx != null ? toFixed2(mul(sub(n.Sx, o.Sx), R("12"))) : null });
+    return {
+      oldTitle: "მოქმედი წესი",
+      oldWhen: "2026 წლის 31 დეკემბრამდე",
+      oldAct: "ბრძანება №01-82 (ძველი დანართები №2–4)",
+      newTitle: "ახალი წესი",
+      newWhen: "2027 წლის 1 იანვრიდან",
+      newAct: "ბრძანება №01-407 (ახალი დანართები №2–4)",
+      rows,
+      oldAvailable: o.S != null,
+      note: "ზემოთ ნაჩვენები თანხები დათვლილია ახალი წესით (2027 წლის 1 იანვრიდან). ქირა, ოჯახი და სწავლა ორივე სვეტში ერთნაირია."
+    };
+  }
+  function renderEditions(E) {
+    if (!E) return null;
+    const val = (t, raw, testid) => h("td", { class: "num", "data-value": raw ?? "", "data-testid": testid ?? null }, t);
+    return h(
+      "section",
+      { class: "editions", "data-testid": "editions", "aria-label": "ძველი და ახალი წესის შედარება" },
+      h("h3", null, "ძველი და ახალი წესის შედარება"),
+      h("div", { class: "table-scroll" }, h(
+        "table",
+        { class: "etable" },
+        h("thead", null, h(
+          "tr",
+          null,
+          h("th", { scope: "col" }, ""),
+          h("th", { scope: "col", class: "num ed-old" }, h("span", { class: "ed-t" }, E.oldTitle), h("span", { class: "ed-w" }, E.oldWhen), h("span", { class: "ed-a" }, E.oldAct)),
+          h("th", { scope: "col", class: "num ed-new" }, h("span", { class: "ed-t" }, E.newTitle), h("span", { class: "ed-w" }, E.newWhen), h("span", { class: "ed-a" }, E.newAct)),
+          h("th", { scope: "col", class: "num" }, "სხვაობა")
+        )),
+        h("tbody", null, E.rows.map((x) => h(
+          "tr",
+          { class: x.strong ? "strong" : null, "data-edition-row": x.key },
+          h("th", { scope: "row" }, x.label),
+          val(x.old, x.oldRaw, `edition-old-${x.key}`),
+          val(x.new, x.newRaw, `edition-new-${x.key}`),
+          h("td", { class: "num diff" + (x.diff && x.diff.startsWith("-") ? " neg" : x.diff ? " pos" : ""), "data-value": x.diff ?? "", "data-testid": `edition-diff-${x.key}` }, signedText(x.diff))
+        )))
+      )),
+      h("p", { class: "tiny muted" }, E.oldAvailable ? E.note : "ძველი წესით ამ დაწესებულებისთვის თანხა ვერ დადგინდა.")
+    );
   }
   function card(label, value, raw, sub2, testid, big = false) {
     return h(
@@ -26991,6 +27181,7 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
         card("სწავლის ანაზღაურება", M.hasEdu ? fmt(ed.total, cur) : "—", M.hasEdu ? v(ed.total) : null, M.hasEdu ? `თქვენი წილი: ${fmt(ed.personal, cur)}` : "სწავლის ხარჯი არ არის მითითებული", "edu")
       ),
       h("span", { hidden: true, "data-testid": "S", "data-value": M.S ?? "" }),
+      renderEditions(M.editions),
       M.ot.length || M.ins.length ? h(
         "section",
         { class: "onetime" },
@@ -27477,6 +27668,36 @@ ${pos}
       });
     });
     y += ch + fs(16);
+    if (M.editions) {
+      const E = M.editions;
+      heading("ძველი და ახალი წესის შედარება");
+      const c1 = X + CW * 0.55, c2 = X + CW * 0.8, c3 = W - X;
+      const sz = fs(7.6);
+      p.text(E.oldTitle, c1, y, { size: fs(7.2), bold: true, color: INK, align: "right" });
+      p.text(E.newTitle, c2, y, { size: fs(7.2), bold: true, color: ACCENT, align: "right" });
+      p.text("სხვაობა", c3, y, { size: fs(7.2), bold: true, color: MUTED, align: "right" });
+      y += fs(9);
+      p.text(E.oldWhen, c1, y, { size: fs(6.4), color: MUTED, align: "right" });
+      p.text(E.newWhen, c2, y, { size: fs(6.4), bold: true, color: ACCENT, align: "right" });
+      const par = E.rows.filter((r) => ["H", "K", "E"].includes(r.key));
+      y += fs(8.5);
+      p.text(par.map((r) => r.key).join(" · "), X, y, { size: fs(6.4), color: MUTED });
+      p.text(par.map((r) => r.old).join(" · "), c1, y, { size: fs(6.4), color: MUTED, align: "right" });
+      p.text(par.map((r) => r.new).join(" · "), c2, y, { size: fs(6.4), color: MUTED, align: "right" });
+      y += fs(4);
+      p.line(X, y, W - X, y);
+      y += fs(10);
+      for (const r of E.rows.filter((x) => !["H", "K", "E"].includes(x.key))) {
+        p.text(r.label, X, y, { size: sz, bold: !!r.strong });
+        p.text(String(r.old), c1, y, { size: sz, bold: !!r.strong, align: "right" });
+        p.text(String(r.new), c2, y, { size: sz, bold: true, align: "right", color: ACCENT });
+        if (r.diff != null) p.text(/^-/.test(r.diff) ? formatAmount(r.diff) : `+${formatAmount(r.diff)}`, c3, y, { size: sz, bold: true, align: "right", color: /^-/.test(r.diff) ? [220, 38, 38] : [5, 150, 105] });
+        y += sz * 0.45;
+        p.line(X, y, W - X, y);
+        y += sz * 1.3;
+      }
+      note(`${E.oldAct} · ${E.newAct}. ${E.oldAvailable ? E.note : "ძველი წესით თანხა ვერ დადგინდა."}`);
+    }
     if (M.ot.length) {
       heading("ერთჯერადი");
       for (const x of M.ot) row(x.label, x.value, { sub: x.sub });
@@ -28415,7 +28636,16 @@ ${pos}
       refreshMarket = () => {
         if (st.step === 4) replace(body, step4());
       };
-      const M = resultModel({ r, st, sc, mission: m ? { ...m, shortName: shortName(m) } : null, data, personName, md: market.md, mdLoading: market.loading, beds: beds() });
+      const prevData = previousEditionData ? previousEditionData(data) : null;
+      const rOld = prevData ? (() => {
+        try {
+          return calculate(sc, prevData);
+        } catch (e) {
+          console.error(e);
+          return null;
+        }
+      })() : null;
+      const M = resultModel({ r, rOld, st, sc, mission: m ? { ...m, shortName: shortName(m) } : null, data, personName, md: market.md, mdLoading: market.loading, beds: beds() });
       return renderResult(M, {
         onPrint: () => window.print(),
         onCompare: () => compare.open(),
@@ -28709,7 +28939,7 @@ ${pos}
   var meta = {
     appVersion: true ? "1.0.0" : "dev",
     rulesVersion: true ? "01-82/01-407-2027-01-01" : normative_data_default.rulesVersion,
-    dataSha: true ? "71528968da24e188bcae8ff9d761c3884a616cf2c00593191e13c5e1126ee016" : "unknown",
+    dataSha: true ? "10a43de7af667c44644a10029b58ef39087ccbe2f9714e6caca18f349c64652d" : "unknown",
     buildDate: true ? "2026-11-20" : "dev"
   };
   var online = location.protocol === "http:" || location.protocol === "https:";
