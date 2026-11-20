@@ -54,7 +54,7 @@
   .mres .mrow.long .mrow-l { font-size: 7pt; }
   /* ქალაქების ცხრილის ბეჭდვა — ლანდშაფტი, სათაური მეორდება */
   body.print-cities #app, body.print-cities .overlay { display: none !important; }
-  body.print-cities #cities { display: block !important; page: land; border: 0; padding: 0; }
+  body.print-cities #cities { display: block !important; page: land; border: 0; padding: 0; width: auto; margin-left: 0; }
   body.print-cities .ctl, body.print-cities .ctable td.cb, body.print-cities .ctable th:first-child { display: none !important; }
   body.print-cities .table-scroll { overflow: visible; border: 0; }
   body.print-cities .ctable { min-width: 0; font-size: 7.5pt; }

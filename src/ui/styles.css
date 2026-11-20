@@ -378,3 +378,17 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
 @media (max-width: 700px) { .cgrid { grid-template-rows: repeat(5, auto); } }
 @supports not (grid-template-rows: subgrid) { .ccard { display: block; } }
 .base-note { margin: 10px 0 0; font-size: .76rem; color: var(--muted); }
+.ctable .row-note { display: block; font-size: .68rem; font-weight: 400; color: var(--muted); }
+.ctable td.strong.neg { color: var(--err); }
+.ctable td.num.neg { color: var(--err); }
+.ctable .eur { display: block; font-size: .68rem; font-weight: 400; color: var(--muted); }
+.ctable .small-idx { font-size: .74rem; color: var(--muted); }
+.ctable .est { color: var(--muted); }
+.ctl .field { min-width: 200px; flex: 1 1 200px; }
+/* ქალაქების ცხრილი ფართოა — ბარათი ეკრანზე უფრო განიერია, რომ „დარჩება ხელზე" ჰორიზონტალური გადახვევის გარეშე ჩანდეს */
+.cities-card { --cw: min(1240px, calc(100vw - 48px)); width: var(--cw); margin-left: calc((100% - var(--cw)) / 2); }
+@media (max-width: 600px) { .cities-card { --cw: 100%; } }
+.ctable th, .ctable td { padding: 7px 7px; }
+.ctable thead th { white-space: normal; overflow-wrap: normal; vertical-align: bottom; line-height: 1.25; }
+.ctable thead th.num { max-width: 110px; }
+.ctable .row-note { white-space: normal; max-width: 150px; }

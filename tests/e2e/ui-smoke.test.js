@@ -231,14 +231,16 @@ test('XSS: ტექსტი HTML-ად არ სრულდება', asyn
   await page.close();
 });
 
-test('ონლაინ: ბაზრის ბარათი, ქირის ჩიპი, რბოლისგან დაცვა', async () => {
+test('ონლაინ: ქირის წინასწარი შევსება, რბოლისგან დაცვა', async () => {
   const { page, seen, errors } = await openOnline({ delays: { 'AT-VIENNA': 700 } });
+  // ნაბიჯ 1-ზე ფასების ბარათი აღარ ჩანს; რბოლისგან დაცვა — ქირის წინასწარ შევსებით
   await pickMission(page, 'Vienna');
-  await page.locator('.market-load').waitFor();
   await pickMission(page, 'Ljubljana');
+  assert.equal(await page.locator('.mcard').count(), 0, 'ნაბიჯ 1-ზე ფასები არ ჩანს');
+  await next(page); await page.getByTestId('pos-A2-R5').check(); await next(page);
   await page.waitForTimeout(1200);
-  assert.equal(await val(page, '[data-testid="market-rent"]'), '1000.00', 'ლიუბლიანა, არა ვენა');
-  assert.match(await page.locator('.mcard').innerText(), /ნიუ-იორკი = 100/);
+  assert.equal(await page.getByTestId('rent').inputValue(), '1000.00', 'ლიუბლიანა (1 საძ.), არა ვენა');
+  await page.locator('.pill').nth(0).click();
   await pickMission(page, 'Vienna');
   await page.waitForTimeout(900);
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'd-step1-online.png'), fullPage: true });
@@ -357,27 +359,51 @@ test('შედარება: 7 ქალაქი, დალაგება �
   await page.close();
 });
 
-test('ქალაქების სიძვირე: ცხრილი, დალაგება, მონიშვნა, PDF', async () => {
+test('ქალაქების სიძვირე: დარჩება ხელზე (K, E + Numbeo), პროფილი, დალაგება, მონიშვნა, PDF', async () => {
   const { page, errors, external } = await openPage();
+  // პროფილი კალკულატორიდან: ვენა, პირველი/მეორე მდივანი 60%, მარტო — შედეგის გვერდის ციფრებთან შესადარებლად
+  await pickMission(page, 'Vienna'); await next(page);
+  await page.getByTestId('pos-A2-R6').check(); await next(page); await next(page);
+  await page.getByTestId('hero-remainder').waitFor();
+  const resAfterRent = await val(page, '[data-testid="hero-remainder"]');
+  const resLeft = await val(page, '[data-testid="remainder-living"]');
   await page.getByTestId('cities-tab').click();
   const rows = page.locator('[data-testid="cities-table"] tbody tr');
   await rows.first().waitFor();
   assert.ok(await rows.count() >= 70, `rows ${await rows.count()}`);
-  const first = await rows.first().locator('th').innerText();
-  await page.getByTestId('cities-sort').selectOption('desc');
-  const vals = (await page.locator('[data-testid="cities-table"] tbody td.strong').evaluateAll((els) => els.map((e) => e.getAttribute('data-value')))).filter(Boolean).map(Number);
-  for (let i = 1; i < vals.length; i++) assert.ok(vals[i - 1] >= vals[i], 'desc');
+  assert.equal(await page.getByTestId('cities-profile-position').inputValue(), 'A2-R6');
+  assert.equal(await page.getByTestId('cities-profile-family').inputValue(), '0');
+  const vie = page.locator('tr[data-location="AT-VIENNA"]');
+  assert.equal(await vie.getByTestId('cities-col-left').getAttribute('data-value'), resLeft, 'იგივე, რაც შედეგის გვერდზე');
+  assert.match(await vie.innerText(), new RegExp(resAfterRent.replace(/\B(?=(\d{3})+(?!\d))/g, ' ').replace('.', '\\.')));
+  // ნაგულისხმევი: მეტი რჩება ხელზე → ნაკლები (EUR საფუძველზე), უცნობი — ბოლოში
+  // რიგი: სრული შეფასება → მხოლოდ კომუნალური (data-partial) → მონაცემის გარეშე; თითოეულ ჯგუფში data-eur-ით
+  const cells = async () => page.locator('[data-testid="cities-col-left"]').evaluateAll((els) => els.map((e) => ({ eur: e.getAttribute('data-eur') === '' ? null : Number(e.getAttribute('data-eur')), partial: e.getAttribute('data-partial') === '1' })));
+  const tier = (c) => (c.eur == null ? 2 : c.partial ? 1 : 0);
+  const checkOrder = (cs, dir) => {
+    for (let i = 1; i < cs.length; i++) {
+      assert.ok(tier(cs[i - 1]) <= tier(cs[i]), 'ჯგუფების რიგი');
+      if (tier(cs[i - 1]) === tier(cs[i]) && tier(cs[i]) < 2) assert.ok(dir === 'desc' ? cs[i - 1].eur >= cs[i].eur : cs[i - 1].eur <= cs[i].eur, dir);
+    }
+  };
+  const first = await cells();
+  checkOrder(first, 'desc');
+  assert.ok(!first[0].partial, 'ნაწილობრივი მონაცემის ქალაქი პირველი არ არის');
+  await page.getByTestId('cities-sort').selectOption('left-asc');
+  checkOrder(await cells(), 'asc');
+  // პროფილის შეცვლა გადაითვლის
+  await page.getByTestId('cities-profile-family').selectOption('2');
+  assert.notEqual(await vie.getByTestId('cities-col-left').getAttribute('data-value'), resLeft);
   await rows.nth(0).locator('input[type=checkbox]').check();
   await rows.nth(2).locator('input[type=checkbox]').check();
   await page.getByTestId('cities-only-selected').check();
   assert.equal(await rows.count(), 2);
   await page.getByTestId('cities-only-selected').uncheck();
-  await page.getByTestId('cities-sort').selectOption('alpha');
-  assert.equal(await rows.first().locator('th').innerText(), first);
+  await page.getByTestId('cities-sort').selectOption('left-desc');
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'd-cities.png') });
   const [dl] = await Promise.all([page.waitForEvent('download'), page.getByTestId('cities-pdf').click()]);
   const info = pdfInfo(await dl.path());
-  if (info) { assert.ok(info.pages >= 3); assert.match(info.text, /ქალაქების სიძვირე/); }
+  if (info) { assert.ok(info.pages >= 3); assert.match(info.text, /ქალაქების სიძვირე/); assert.match(info.text, /დარჩება ხელზე/); }
   if (SHOTS) await dl.saveAs(path.join(SHOTS, 'cities.pdf'));
   await page.setViewportSize({ width: 375, height: 800 });
   const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

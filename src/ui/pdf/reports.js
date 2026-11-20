@@ -161,24 +161,25 @@ function fit(p, t, w, size, bold) {
 }
 
 /** ქალაქების სიძვირის ცხრილი — A4 ლანდშაფტი, მრავალგვერდიანი, სათაურის სტრიქონი მეორდება */
-export async function citiesPdf(rows, { sortLabel = '' } = {}) {
+export async function citiesPdf(rows, { sortLabel = '', legend = '' } = {}) {
   const fonts = await loadPdfFonts();
   const W = 841.89, H = 595.28, X = 30;
-  const cols = [['ქალაქი', 104], ['ქვეყანა', 118], ['ცხოვრება + ქირა', 72], ['ცხოვრება', 56], ['ქირა (ინდ.)', 58], ['ქირა ცენტრში, 1 საძ.', 92], ['ვალუტა', 44], ['K', 52], ['წყარო / თარიღი', 186]];
-  const per = 30; const n = Math.max(1, Math.ceil(rows.length / per));
+  const cols = [['ქალაქი', 88], ['ქვეყანა', 96], ['S', 62], ['ქირა', 58], ['საცხ. ხარჯი', 64], ['დარჩება ხელზე', 116], ['ქირის შემდეგ', 64], ['K', 38], ['E', 34], ['ინდ.', 34], ['ვალ.', 38]];
+  const per = 28; const n = Math.max(1, Math.ceil(rows.length / per));
   let p = null;
   for (let pi = 0; pi < n; pi++) {
     p = p ? p.addPage() : new PdfPage(fonts, W, H);
     p.text('ქალაქების სიძვირე', X, 36, { size: 15, bold: true, color: ACCENT });
     p.text(`${today()} · გვერდი ${pi + 1}/${n}`, W - X, 36, { size: 8.5, color: MUTED, align: 'right' });
-    p.text(`ინდექსები: Numbeo, ნიუ-იორკი = 100. ${sortLabel}`, X, 51, { size: 7.5, color: MUTED });
-    let y = 70; let x = X;
+    p.text(sortLabel, X, 50, { size: 7.5, color: MUTED });
+    const ly = p.para(legend, X, 61, W - 2 * X, { size: 6.6, color: MUTED, lineHeight: 8 });
+    let y = ly + 10; let x = X;
     p.rect(X, y - 11, W - 2 * X, 16, SOFT, 3);
     for (const [t, w] of cols) { p.text(t, x + 3, y, { size: 7.5, bold: true }); x += w; }
     y += 15;
     for (const r of rows.slice(pi * per, pi * per + per)) {
       x = X;
-      r.cells.forEach((v2, k) => { p.text(fit(p, String(v2 ?? '—'), cols[k][1] - 6, 7.8, k === 0), x + 3, y, { size: 7.8, bold: k === 0 }); x += cols[k][1]; });
+      r.cells.forEach((v2, k) => { p.text(fit(p, String(v2 ?? '—'), cols[k][1] - 6, 7.6, k === 0 || k === 5), x + 3, y, { size: 7.6, bold: k === 0 || k === 5, color: k === 5 && String(v2).startsWith('-') ? [220, 38, 38] : k === 5 ? ACCENT : INK }); x += cols[k][1]; });
       y += 4; p.line(X, y, W - X, y); y += 11;
     }
     p.text('წყარო: Numbeo.com (მოპოვებულია Apify-ის მეშვეობით / შენახული ასლები). ' + DISCLAIMER, X, H - 20, { size: 7, color: MUTED });

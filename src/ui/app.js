@@ -152,14 +152,12 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
   // ---------- 1. მისია ----------
   function step1() {
     const info = h('p', { class: 'info-line', 'data-testid': 'mission-info' });
-    const card = h('section', { class: 'mcard', 'aria-live': 'polite' });
+    // ფასების ბარათი აქ აღარ ჩანს (ხელფასში ერევათ) — მონაცემი ფონზე იტვირთება ქირის შევსებისა და შედეგისთვის
     const fill = () => {
       const m = mission();
-      if (!m) { replace(info); replace(card); card.hidden = true; return; }
+      if (!m) { replace(info); return; }
       const k = m.coefficient;
       replace(info, `ვალუტა ${m.fundingCurrency} · კოეფიციენტი K ${k.k ?? '—'} · ბინის წილი ${k.ePercent != null ? k.ePercent + '%' : '—'}`);
-      card.hidden = false;
-      replace(card, h('h3', null, `ცხოვრების ღირებულება — ${m.location_ka}`), marketTiles(market.md, beds(), { loading: market.loading, familyCount: st.family.length }));
     };
     refreshMarket = fill;
     const picker = missionPicker({ data, label: 'საელჩო / საკონსულო / მისია', value: st.missionId, testid: 'mission',
@@ -167,7 +165,7 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
       onPick: (id) => { st.missionId = id; st.dailyCur = null; if (!st.rentTouched) { st.rentRaw = ''; st.rentFromMarket = false; } body.querySelector('[data-need]')?.setAttribute('hidden', ''); fill(); loadMarket(); } });
     setTimeout(fill, 0);
     if (st.missionId) loadMarket();
-    return [...title('სად მიდიხართ?', 'აირჩიეთ დაწესებულება — ჩაწერეთ ქალაქი ან ქვეყანა.'), picker, info, need('ჯერ აირჩიეთ დაწესებულება.'), card];
+    return [...title('სად მიდიხართ?', 'აირჩიეთ დაწესებულება — ჩაწერეთ ქალაქი ან ქვეყანა.'), picker, info, need('ჯერ აირჩიეთ დაწესებულება.')];
   }
 
   // ---------- 2. თანამდებობა და ოჯახი ----------
@@ -340,5 +338,5 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
   }
 
   render();
-  return { get state() { return st; } };
+  return { get state() { return st; }, scenario, calc, positions: () => profiles().find((p) => p.id === 'annex2')?.entries || [], SHORT_POS };
 }

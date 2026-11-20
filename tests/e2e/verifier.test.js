@@ -126,50 +126,52 @@ test('offline file://: golden Vienna S, rent breakdown, chain, living remainder;
 });
 
 // ---------------------------------------------------------------- market states (served over http)
+// step 1 no longer shows market data (round 9): states are checked on the result page's market block
+const MRES = '[data-testid="market-result"]';
 for (const mode of ['fresh', 'cached', 'stale', 'partial']) {
-  test(`served: market ${mode} shows values, missing items as "—" (never 0), S unaffected`, async () => {
+  test(`served: market ${mode} shows values on the result page, missing items as "—" (never 0), S unaffected`, async () => {
     Object.assign(api, { mode, delayMs: 0, opts: mode === 'partial' ? { missing: ['rent.centre_1br', 'utilities.internet', 'restaurants.midRangeForTwo'] } : {} });
     const s = await openServed(browser, server.origin);
     try {
-      await s.page.getByTestId('mission').fill('Vienna');
-      await s.page.getByTestId('mission').press('Enter');
-      await s.page.locator('.mcard .irow[data-tile="rent"]').first().waitFor({ timeout: 5000 });
-      const mtext = await s.page.locator('.mcard').innerText();
-      if (mode === 'partial') {
-        assert.equal(await dv(s.page, '[data-testid="market-rent"]'), '', 'missing rent has no value');
-        assert.match(mtext, /—/);
-      } else assert.equal(await dv(s.page, '[data-testid="market-rent"]'), '1700');
-      const zeros = await s.page.$$eval('.mcard [data-value]', (els) => els.map((e) => e.getAttribute('data-value')).filter((v) => /^0+(\.0+)?$/.test(v)));
-      assert.deepEqual(zeros, [], 'missing market values must never be 0');
-      assert.doesNotMatch(mtext, /(^|\s)0(\.00)?\s(EUR|USD)/, 'no "0 EUR" shown for missing values');
-      await s.page.getByTestId('next').click();
+      await stepMission(s.page);
+      assert.equal(await s.page.locator('.mcard').count(), 0, 'no market card on step 1');
       await stepPosition(s.page, { family: [] });
       await stepCosts(s.page, { rent: '1500', edu: null });
-      assert.equal(await dv(s.page, '[data-testid="S"]'), '5263.28');
+      assert.equal(await dv(s.page, '[data-testid="S"]'), '5263.28', 'S from typed rent (hand-derived)');
+      await s.page.locator(`${MRES} [data-tile="rent"]`).waitFor({ timeout: 5000 });
+      const mtext = await s.page.locator(MRES).innerText();
+      if (mode === 'partial') {
+        assert.equal(await dv(s.page, `${MRES} [data-testid="market-rent"]`), '', 'missing rent has no value');
+        assert.match(mtext, /—/);
+      } else assert.equal(await dv(s.page, `${MRES} [data-testid="market-rent"]`), '1700');
+      const zeros = await s.page.$$eval(`${MRES} [data-value]`, (els) => els.map((e) => e.getAttribute('data-value')).filter((v) => /^0+(\.0+)?$/.test(v)));
+      assert.deepEqual(zeros, [], 'missing market values must never be 0');
+      assert.doesNotMatch(mtext, /(^|\s)0(\.00)?\s(EUR|USD)/, 'no "0 EUR" shown for missing values');
+      assert.equal(await dv(s.page, '[data-testid="S"]'), '5263.28', 'market arrival did not change S');
       assert.deepEqual(s.blockedRequests, []);
     } finally { await s.close(); }
   });
 }
 
 for (const mode of ['not_found', 'network_error', 'disabled', 'rate_limited', 'invalid_json', 'timeout']) {
-  test(`served: market ${mode} -> one grey "${UNAVAILABLE}" line, calculator works`, { timeout: 40000 }, async () => {
+  test(`served: market ${mode} -> one grey "${UNAVAILABLE}" line on the result page, calculator works`, { timeout: 40000 }, async () => {
     Object.assign(api, { mode, delayMs: 0, opts: {} });
     const s = await openServed(browser, server.origin, { fakeClock: mode === 'timeout' });
     try {
-      await s.page.getByTestId('mission').fill('Vienna');
-      await s.page.getByTestId('mission').press('Enter');
+      await stepMission(s.page);
+      await stepPosition(s.page, { family: [] });
+      assert.equal(await s.page.getByTestId('rent').inputValue(), '', 'no prefill without market data');
+      assert.equal(await s.page.getByTestId('rent-prefill-note').count(), 0);
+      await stepCosts(s.page, { rent: '1500', edu: null });
+      assert.equal(await dv(s.page, '[data-testid="S"]'), '5263.28');
       if (mode === 'timeout') await s.page.clock.runFor(130000); // past the client's 100 s / service 120 s limits
-      const line = s.page.getByTestId('market-unavailable');
+      const line = s.page.locator(`${MRES} [data-testid="market-unavailable"]`);
       await line.waitFor({ timeout: 10000 });
       assert.equal(await line.count(), 1);
       assert.equal((await line.innerText()).trim(), UNAVAILABLE);
       assert.match(await line.getAttribute('class'), /muted/);
-      assert.equal(await s.page.locator('.mcard .irow').count(), 0, 'no partial price tiles');
-      await s.page.getByTestId('next').click();
-      await stepPosition(s.page, { family: [] });
-      await stepCosts(s.page, { rent: '1500', edu: null });
+      assert.equal(await s.page.locator(`${MRES} [data-tile]`).count(), 0, 'no partial price tiles');
       assert.equal(await dv(s.page, '[data-testid="S"]'), '5263.28');
-      assert.equal(await s.page.getByTestId('use-market-rent').count(), 0, 'no market button without data');
     } finally { await s.close(); }
   });
 }
@@ -327,37 +329,84 @@ test('comparison: 8 cities accepted, EUR/USD never summed, cards = calculate(); 
 });
 
 // ---------------------------------------------------------------- cities tab
-test('cities tab: 80 rows, alphabetical default, sort by index, only-selected filter, PDF header on every page', { timeout: 60000 }, async () => {
+test('cities tab (round 9): left in hand per mission, default order by data-eur desc, profile recomputes, PDF', { timeout: 90000 }, async () => {
   const h = await openOffline();
   try {
     const p = h.page;
     await p.getByTestId('cities-tab').click();
     const table = p.getByTestId('cities-table');
     await table.waitFor();
-    const names = () => table.locator('tbody th').allInnerTexts();
-    const all = await names();
-    assert.equal(all.length, 80, `rows: ${all.length}`);
-    assert.deepEqual(all, all.slice().sort((a, b) => a.localeCompare(b, 'ka')), 'alphabetical (Georgian) by default');
-    const idxVals = () => table.locator('tbody td.num.strong').evaluateAll((els) => els.map((e) => e.getAttribute('data-value')));
-    for (const dir of ['asc', 'desc']) {
-      await p.getByTestId('cities-sort').selectOption(dir);
-      const v = (await idxVals()).filter((x) => x !== '').map(Number);
-      const sorted = v.slice().sort((a, b) => (dir === 'asc' ? a - b : b - a));
-      assert.deepEqual(v, sorted, `index ${dir}`);
-      const raw = await idxVals(); const firstEmpty = raw.indexOf('');
-      if (firstEmpty >= 0) assert.ok(raw.slice(firstEmpty).every((x) => x === ''), 'unknown index last');
-    }
+    assert.equal(await p.getByTestId('cities-profile-position').inputValue(), 'A2-R6');
+    assert.equal(await p.getByTestId('cities-profile-family').inputValue(), '0');
+    assert.equal(await p.getByTestId('cities-sort').inputValue(), 'left-desc');
+    const locations = new Set(DATA.missions.map((m) => m.locationId));
+    assert.equal(await table.locator('tbody tr').count(), locations.size, 'one row per mission city');
+    const num = (t) => (t ?? '').replace(/[\s  ≈]|EUR|USD/g, '').trim();
+    const row = async (loc) => {
+      const tr = table.locator(`tbody tr[data-location="${loc}"]`);
+      const td = (i) => tr.locator('td').nth(i).innerText();
+      return { S: num(await td(2)), G: num(await td(3)), living: num(await td(4)), left: await tr.getByTestId('cities-col-left').getAttribute('data-value'), after: num(await td(6)) };
+    };
+    // Vienna, A2-R6 60%, alone (hand-derived): D = 5000 x 0.6 x 1.543 = 4629, T 925.8, G 1182.88 -> F = 925.8 + 0.5 x 257.08 = 1054.34
+    // S = 4629 - 925.8 + 1054.34 = 4757.54; after rent 3574.66; minus single budget 1026.11 -> 2548.55
+    assert.deepEqual(await row('AT-VIENNA'), { S: '4757.54', G: '1182.88', living: '1026.11', left: '2548.55', after: '3574.66' });
+    // default order: rows with a full living-cost estimate by data-eur desc, then utilities-only rows (e.g. Ashgabat), then rows without values
+    const UTIL_ONLY = 'გამოკლებულია მხოლოდ კომუნალური + ინტერნეტი (სრული ხარჯი Numbeo-ზე არ არის)';
+    const tiers = () => table.locator('tbody tr').evaluateAll((trs, note) => trs.map((tr) => {
+      const c = tr.querySelector('[data-testid="cities-col-left"]');
+      const eur = c.getAttribute('data-eur');
+      return { loc: tr.getAttribute('data-location'), eur: eur === '' ? null : Number(eur), util: (tr.querySelector('.row-note')?.textContent ?? '').includes(note) };
+    }), UTIL_ONLY);
+    const checkTiers = (rows, dir) => {
+      const tier = (r) => (r.eur == null ? 2 : r.util ? 1 : 0);
+      const t = rows.map(tier);
+      assert.deepEqual(t, t.slice().sort((a, b) => a - b), `${dir}: full estimates, then utilities-only, then no data`);
+      for (const k of [0, 1]) {
+        const v = rows.filter((r) => tier(r) === k).map((r) => r.eur);
+        assert.deepEqual(v, v.slice().sort((a, b) => (dir === 'desc' ? b - a : a - b)), `${dir}: tier ${k} sorted by data-eur`);
+      }
+    };
+    const def = await tiers();
+    checkTiers(def, 'desc');
+    const ash = def.find((r) => r.loc === 'TM-ASHGABAT');
+    assert.ok(ash, 'Ashgabat row present');
+    assert.equal(ash.util, true, 'Ashgabat row shows the utilities-only note');
+    assert.notEqual(def[0].loc, 'TM-ASHGABAT', 'Ashgabat not first by default');
+    assert.ok(def.findIndex((r) => r.loc === 'TM-ASHGABAT') > def.findLastIndex((r) => r.eur != null && !r.util), 'Ashgabat after all full-estimate rows');
+    const vat = await row('VA-VATICAN-CITY');
+    assert.equal(vat.left, '', 'Holy See: no K -> no amount');
+    // USD rows: data-eur = left / usdPerEur (reference rate) for ordering
+    const usd = await table.locator('tbody tr[data-location="US-WASHINGTON"]').getByTestId('cities-col-left');
+    const [lv, le] = [Number(await usd.getAttribute('data-value')), Number(await usd.getAttribute('data-eur'))];
+    if (!Number.isNaN(lv) && lv !== 0) assert.ok(Math.abs(le - lv / 1.119954) < 0.01, `USD->EUR ${lv} -> ${le}`);
+    // ascending and alphabetical
+    await p.getByTestId('cities-sort').selectOption('left-asc');
+    checkTiers(await tiers(), 'asc');
     await p.getByTestId('cities-sort').selectOption('alpha');
+    const names = (await table.locator('tbody th').evaluateAll((els) => els.map((e) => e.firstChild.textContent.trim())));
+    assert.deepEqual(names, names.slice().sort((a, b) => a.localeCompare(b, 'ka')));
+    // profile recomputes. Spouse + child (3 bedrooms): C 2, D = 4629 x 1.14 = 5277.06, T 1055.412, G 2294.74,
+    // F = T + 0.5 x 1239.328 = 1675.076, S = 5896.724; after rent 3601.984; minus family-4 budget 3602.92 -> -0.936
+    await p.getByTestId('cities-profile-family').selectOption('2');
+    assert.deepEqual(await row('AT-VIENNA'), { S: '5896.72', G: '2294.74', living: '3602.92', left: '-0.94', after: '3601.98' });
+    // A2-R5 65%, alone: D 5014.75, T 1002.95, F = 1002.95 + 0.5 x 179.93 = 1092.915, S 5104.715; after 3921.835; left 2895.725
+    await p.getByTestId('cities-profile-family').selectOption('0');
+    await p.getByTestId('cities-profile-position').selectOption('A2-R5');
+    assert.deepEqual(await row('AT-VIENNA'), { S: '5104.72', G: '1182.88', living: '1026.11', left: '2895.73', after: '3921.84' });
+    // only-selected filter
     for (const i of [0, 5, 9]) await table.locator('tbody tr').nth(i).locator('input[type=checkbox]').check();
     await p.getByTestId('cities-only-selected').check();
     assert.equal(await table.locator('tbody tr').count(), 3, 'only selected rows');
     await p.getByTestId('cities-only-selected').uncheck();
-    assert.equal(await table.locator('tbody tr').count(), 80);
+    // PDF: landscape, header repeated on every page
     const [dl] = await Promise.all([p.waitForEvent('download'), p.getByTestId('cities-pdf').click()]);
     const file = path.join(TMP, `verifier-cities-${process.pid}.pdf`);
     await dl.saveAs(file);
+    const info = execFileSync('pdfinfo', [file], { encoding: 'utf8' });
+    const size = /Page size:\s+([\d.]+) x ([\d.]+)/.exec(info);
+    assert.ok(Number(size[1]) > Number(size[2]), 'landscape');
     const pages = pdfPages(file);
-    assert.ok(pages >= 2, `80 rows span pages (${pages})`);
+    assert.ok(pages >= 2, `rows span pages (${pages})`);
     for (let i = 1; i <= pages; i++) {
       const t = execFileSync('pdftotext', ['-f', String(i), '-l', String(i), '-layout', file, '-'], { encoding: 'utf8' });
       assert.match(t, /ქალაქი/, `page ${i} repeats the table header`);
@@ -365,7 +414,7 @@ test('cities tab: 80 rows, alphabetical default, sort by index, only-selected fi
     }
     fs.rmSync(file, { force: true });
     await p.setViewportSize({ width: 375, height: 800 });
-    assert.equal(await hasHorizontalScroll(p), false, 'cities tab 375px (table scrolls inside its own region)');
+    assert.equal(await hasHorizontalScroll(p), false, 'cities tab 375px');
     assert.deepEqual(h.blockedRequests, []);
   } finally { await h.close(); }
 });
@@ -538,7 +587,7 @@ test('rent prefill: Numbeo centre rent prefilled while untouched, refreshes on c
     const p = s.page;
     const toCosts = async (city) => {
       await p.getByTestId('mission').fill(city); await p.getByTestId('mission').press('Enter');
-      await p.locator('.mcard').first().waitFor(); await p.waitForTimeout(200);
+      await p.waitForTimeout(300); // market loads in the background (no card on step 1)
       await p.getByTestId('next').click();
       if (!(await p.getByTestId('pos-A2-R5').isChecked())) await p.getByTestId('pos-A2-R5').check({ force: true });
       await p.getByTestId('next').click();

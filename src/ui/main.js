@@ -26,11 +26,15 @@ const offline = (loc, cur) => {
 function boot() {
   for (const el of document.querySelectorAll('[data-meta]')) el.textContent = meta[el.getAttribute('data-meta')] ?? '';
   window.__rotationApp = startApp({ data, meta, online, client, offline: online ? null : offline, usdPerEur: marketSnapshot.usdPerEur?.exact ?? null });
+  const app = window.__rotationApp;
   const cities = mountCities(document.getElementById('cities-body'), {
-    data,
-    async loadSummary() {
-      const live = online && client?.summary ? await client.summary() : null;
-      return live ?? P.marketSummaryFromSnapshots(marketSnapshot, apifySnapshot, data);
+    data, marketFor: offline, usdPerEur: marketSnapshot.usdPerEur?.exact ?? null,
+    positions: app.positions, shortPos: app.SHORT_POS,
+    getProfile() {
+      const st = app.state;
+      const kids = st.family.filter((f) => f.role === 'child').length;
+      const spouse = st.family.some((f) => f.role === 'spouse');
+      return { entryId: st.entryId, family: spouse || kids ? 1 + Math.min(kids, 3) : 0 };
     },
   });
   setupTabs(() => cities.load());
