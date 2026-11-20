@@ -157,3 +157,30 @@ export function baseAmountInfo(data, currency) {
     citation: b.citation ?? null, note: b.note ?? null,
     previous: b.previous ? { amount: b.previous.amount, until: b.previous.until, sourceRef: b.previous.sourceRef ?? null, citation: b.previous.citation ?? null } : null };
 }
+
+const prevById = new WeakMap();
+/**
+ * ბრძანების წინა რედაქციის მონაცემები (2026-12-31-მდე: H 3100 EUR / 3495 USD, №01-82-ის დანართები №2–4)
+ * — იგივე `calculate()`-ისთვის. აბრუნებს null-ს, თუ წინა რედაქცია შენახული არ არის.
+ */
+export function previousEditionData(data) {
+  const h = data?.history;
+  if (!h?.positionProfiles || !h?.costCoefficients || !h?.missionCostCoefficientIds) return null;
+  let prev = prevById.get(data);
+  if (!prev) {
+    prev = {
+      ...data,
+      rulesVersion: `${data.rulesVersion}#previous`,
+      edition: { ...data.edition, previous: true, until: data.baseAmounts.find((b) => b.previous)?.previous?.until ?? null },
+      baseAmounts: data.baseAmounts.map((b) => (b.previous
+        ? { ...b, amount: b.previous.amount, effectiveFrom: undefined, until: b.previous.until, sourceRef: b.previous.sourceRef ?? b.sourceRef, citation: b.previous.citation ?? b.citation, note: null, previous: undefined }
+        : b)),
+      positionProfiles: h.positionProfiles,
+      costCoefficients: h.costCoefficients,
+      missions: data.missions.map((m) => ({ ...m, costCoefficientId: h.missionCostCoefficientIds[m.id] ?? null })),
+      history: null,
+    };
+    prevById.set(data, prev);
+  }
+  return prev;
+}

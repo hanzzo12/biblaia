@@ -244,6 +244,18 @@
    "sha256": "7eb2073e7d318f9c2102e6d1627b5ba849e43bb5bb83a85b3fd82d4563a9d91d",
    "latestAmendmentNoted": "Annex 1: №470 of 2022-09-28 (also №91 of 2020-02-10)",
    "verification": "user-supplied matsne consolidated preview (doc 3649787, '28'); effective date not stated"
+  },
+  {
+   "id": "SRC-FIN-PRACTICE",
+   "title": "ფინანსური სამსახურის გაანგარიშების ცხრილი (xlsx, მომხმარებლის მიერ მოწოდებული 2026-11-20) — მზრუნველობის ქვეშ მყოფზე თვიური დანამატი",
+   "annex": null,
+   "pages": [
+    1,
+    1
+   ],
+   "file": "(not stored: contains personal data)",
+   "sha256": "54e7a69db25d3caca9c078f9e53c24d4a9608018078aea307bafdd9d142afe59",
+   "verification": "spreadsheet logic only (G = count × 210 × 12); normative basis not verified — user instruction 2026-11-20"
   }
  ],
  "baseAmounts": [
@@ -469,6 +481,15 @@
    "point": "note after pt 43",
    "citation": "სრულწლოვანი შვილი/გერი ზოგადსაგანმანათლებლო დაწესებულებაში სწავლის დასრულებამდე, სრულწლოვანების მიღწევიდან არაუმეტეს 1 წლის განმავლობაში",
    "notes": null
+  },
+  {
+   "id": "GUARDIANSHIP-MONTHLY-AMOUNT",
+   "value": "210",
+   "unit": "per-person-per-month (funding currency)",
+   "sourceRef": "SRC-FIN-PRACTICE",
+   "point": "block „მზრუნველობა“",
+   "citation": "„დანამატი ერთი თვის“ 210 × „მზრუნველობის ქვეშ მყოფთა რ-ბა“; წლიური = × 12 (ფინანსური სამსახურის ცხრილის ლოგიკა)",
+   "notes": "ნორმატიული საფუძველი გადაუმოწმებელია; გამოიყენება მომხმარებლის მითითებით. ვალუტა — დაწესებულების დაფინანსების ვალუტა (ცხრილში ევროს მისია)."
   }
  ],
  "positionProfiles": [

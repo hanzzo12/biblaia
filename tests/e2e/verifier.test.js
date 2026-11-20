@@ -643,3 +643,88 @@ test('result PDF: 1 page, no overlapping label/value text (pdftotext -layout)', 
     fs.rmSync(file, { force: true });
   } finally { await h.close(); }
 });
+
+// ---------------------------------------------------------------- round 10: old vs new rules, guardianship 210
+const edVal = async (p, kind, key) => p.getByTestId(`edition-${kind}-${key}`).getAttribute('data-value');
+const numEq = (a, b) => a !== null && a !== '' && Math.abs(Number(a) - Number(b)) < 1e-9;
+
+test('editions + guardianship (Vienna A2-R6, spouse + guardianship, rent 1182.88): old/new/diff = hand-derived T-ED-01', async () => {
+  const h = await openOffline();
+  try {
+    const p = h.page;
+    await stepMission(p);
+    await stepPosition(p, { entry: 'A2-R6', family: [['spouse', '40'], ['guardianship', '70']] });
+    await stepCosts(p, { rent: '1182.88', edu: null });
+    const sec = p.getByTestId('editions');
+    const head = await sec.innerText();
+    for (const part of ['მოქმედი წესი', '2026 წლის 31 დეკემბრამდე', '№01-82', 'ახალი წესი', '2027 წლის 1 იანვრიდან', '№01-407']) {
+      assert.ok(head.includes(part), `editions header contains "${part}"`);
+    }
+    assert.ok(head.indexOf('ახალი წესი', head.indexOf('მოქმედი წესი')) > head.indexOf('მოქმედი წესი'), 'old column first, then new');
+    assert.deepEqual(await sec.locator('[data-edition-row]').evaluateAll((els) => els.map((e) => e.getAttribute('data-edition-row'))), ['H', 'K', 'E', 'S', 'rem', 'Sy']);
+    const want = {
+      H: ['3100', '5000'], K: ['2.06', '1.543'], E: ['21', '20'],
+      S: ['4500.82', '5340.79', '839.97'], rem: ['3527.94', '4367.91', '839.97'],
+      Sy: [(4500.82148 * 12).toFixed(2), (5340.794 * 12).toFixed(2), '10079.67'], // 54009.86, 64089.53; diff = exact dS x 12
+    };
+    // H/K/E cells carry no data-value (text only) -> read the shown text; S/rem/Sy use data-value
+    const cell = async (kind, k) => (['H', 'K', 'E'].includes(k)
+      ? (await p.getByTestId(`edition-${kind}-${k}`).innerText()).replace(/[\s\u00a0\u202f%]|EUR|USD/g, '')
+      : edVal(p, kind, k));
+    for (const [k, [o, n, d]] of Object.entries(want)) {
+      assert.ok(numEq(await cell('old', k), o), `old ${k}: ${await cell('old', k)} vs ${o}`);
+      assert.ok(numEq(await cell('new', k), n), `new ${k}: ${await cell('new', k)} vs ${n}`);
+      if (d) assert.equal(await edVal(p, 'diff', k), d, `diff ${k}`);
+    }
+    assert.equal(await dv(p, '[data-testid="S"]'), '5340.79');
+    assert.equal(await remainder(p), '4367.91', 'hero remainder includes +210 guardianship');
+    assert.equal(await dv(p, '[data-testid="chain-guardianship"]'), '210.00');
+    // PDF and print: still one page, editions included
+    const [dl] = await Promise.all([p.waitForEvent('download'), p.getByTestId('pdf-download').click()]);
+    const file = path.join(TMP, `verifier-ed-${process.pid}.pdf`);
+    await dl.saveAs(file);
+    assert.equal(pdfPages(file), 1, 'result PDF one page');
+    const flat = pdfText(file).replace(/\s/g, '');
+    for (const v of ['4500.82', '5340.79', '839.97', '10079.67', '4367.91']) assert.ok(flat.includes(v), `PDF contains ${v}`);
+    await p.emulateMedia({ media: 'print' });
+    const printed = path.join(TMP, `verifier-ed-print-${process.pid}.pdf`);
+    await p.pdf({ path: printed, format: 'A4', preferCSSPageSize: true });
+    assert.equal(pdfPages(printed), 1, 'print one page');
+    for (const f of [file, printed]) fs.rmSync(f, { force: true });
+    await p.emulateMedia({ media: 'screen' });
+    await p.setViewportSize({ width: 375, height: 800 });
+    await p.waitForTimeout(100);
+    assert.equal(await hasHorizontalScroll(p), false, 'result with editions at 375px');
+    assert.deepEqual(h.blockedRequests, []);
+  } finally { await h.close(); }
+});
+
+test('editions on the golden page scenario: old S 4985.16 / rem 3423.16, ΔS +909.97, Δyear +10919.64 (T-ED-02); no guardianship row', async () => {
+  const h = await openOffline();
+  try {
+    const p = h.page;
+    await viennaGolden(p);
+    assert.equal(await edVal(p, 'old', 'S'), '4985.16');
+    assert.equal(await edVal(p, 'new', 'S'), '5895.13');
+    assert.equal(await edVal(p, 'old', 'rem'), '3423.16');
+    assert.equal(await edVal(p, 'new', 'rem'), '4333.13');
+    assert.equal(await edVal(p, 'diff', 'S'), '909.97');
+    assert.equal(await edVal(p, 'diff', 'Sy'), '10919.64', 'Δyear = exact ΔS × 12, not rounded ΔS × 12 (909.97 × 12 = 10919.64 here too)');
+    assert.equal(await p.getByTestId('chain-guardianship').count(), 0);
+  } finally { await h.close(); }
+});
+
+test('editions for the Holy See (no K in either edition): old and new S "—", no difference (T-ED-05)', async () => {
+  const h = await openOffline();
+  try {
+    const p = h.page;
+    await stepMission(p, 'ვატიკან');
+    await stepPosition(p, { entry: 'A2-R6', family: [] });
+    await stepCosts(p, { rent: '1500', edu: null }).catch(() => {});
+    const sec = p.getByTestId('editions');
+    if (await sec.count()) {
+      for (const k of ['old', 'new', 'diff']) assert.ok(['', null].includes(await sec.getByTestId(`edition-${k}-S`).getAttribute('data-value').catch(() => null)), `${k} S empty`);
+    }
+    assert.equal(await dv(p, '[data-testid="S"]').catch(() => ''), '', 'S undetermined');
+  } finally { await h.close(); }
+});

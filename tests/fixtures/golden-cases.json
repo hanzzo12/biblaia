@@ -1272,6 +1272,88 @@
       },
       "derivation": "D = 5600 x 0.65 x 1.572 x 1.14 = 3640 x 1.572 = 5722.08 x 1.14 = 6523.1712; T = x 0.29 = 1891.719648; G - T = 3157.450352, 0.5 x = 1578.725176 <= T (not capped, unlike the old edition); F = 3470.444824; S = 6523.1712 - 1891.719648 + 3470.444824 = 8101.896376; edu = 750 + 0.8 x 369.95 = 1045.96; remainder = 8101.896376 + 1045.96 - 5049.17 - 1119.95 = 2978.736376",
       "status": "direct-rule"
+    },
+    {
+      "id": "T-ED-01",
+      "kind": "edition-compare",
+      "ruleRefs": ["Order №01-82 pt 3 (old H 3100) + old Annex 4 row 2 (Austria 2.06/21)", "Order №01-407 (H 5000, new Annex 4 row 1: 1.543/20)", "Annex 1 art. 3", "finance practice: guardianship 210/month (R-GUARD-PRACTICE, OQ-36)"],
+      "description": "Vienna, A2-R6 60%, spouse + one person under guardianship (present all month, so C = 2), non-head, rent 1182.88 EUR: old vs new rule side by side; guardianship 210 added to both remainders.",
+      "inputs": {"missionId": "M-A5-R1", "positionEntryId": "A2-R6", "currency": "EUR", "A_percent": "60", "C": 2, "isHead": false, "G": "1182.88", "guardianship": 1, "educationExpenses": [],
+        "old": {"H": "3100", "K": "2.06", "E_percent": "21"}, "new": {"H": "5000", "K": "1.543", "E_percent": "20"}},
+      "expected": {
+        "old": {"D": "4368.024", "T": "917.28504", "F": "1050.08252", "S": {"exact": "4500.82148", "display": "4500.82"}, "remainder": {"exact": "3527.94148", "display": "3527.94"}},
+        "new": {"D": "5277.06", "T": "1055.412", "F": "1119.146", "S": {"exact": "5340.794", "display": "5340.79"}, "remainder": {"exact": "4367.914", "display": "4367.91"}},
+        "diffS": {"exact": "839.97252", "display": "839.97"}, "diffYear": {"exact": "10079.67024", "display": "10079.67"},
+        "guardianship": {"monthly": "210", "annual": "2520"}
+      },
+      "derivation": "old: D = 3100 x 0.6 x 2.06 x 1.14 = 4368.024; T = x 0.21 = 917.28504; F = T + 0.5 x 265.59496 = 1050.08252; S = 4500.82148; rem = S + 210 - 1182.88 = 3527.94148. new: D = 5000 x 0.6 x 1.543 x 1.14 = 5277.06; T = 1055.412; F = T + 0.5 x 127.468 = 1119.146; S = 5340.794; rem = 4367.914. dS = 839.97252; x12 = 10079.67024",
+      "status": "interpretation"
+    },
+    {
+      "id": "T-ED-02",
+      "kind": "edition-compare",
+      "ruleRefs": ["T-MON-VIE-01/02 (old)", "T-0407-VIE (new)"],
+      "description": "Golden page scenario (Vienna, A2-R5 65%, spouse + child, rent 1500, school 1000): old vs new.",
+      "inputs": {"missionId": "M-A5-R1", "positionEntryId": "A2-R5", "currency": "EUR", "A_percent": "65", "C": 2, "isHead": false, "G": "1500", "guardianship": 0, "educationExpenses": ["1000"],
+        "old": {"H": "3100", "K": "2.06", "E_percent": "21"}, "new": {"H": "5000", "K": "1.543", "E_percent": "20"}},
+      "expected": {
+        "old": {"S": {"exact": "4985.16327", "display": "4985.16"}, "remainder": {"exact": "3423.16327", "display": "3423.16"}},
+        "new": {"S": {"exact": "5895.1335", "display": "5895.13"}, "remainder": {"exact": "4333.1335", "display": "4333.13"}},
+        "diffS": {"exact": "909.97023", "display": "909.97"}, "diffYear": {"exact": "10919.64276", "display": "10919.64"}
+      },
+      "derivation": "old S 4985.16327 (T-MON-VIE-01), new S 5895.1335 (T-0407-VIE); dS = 909.97023; x12 = 10919.64276",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-ED-03",
+      "kind": "edition-compare",
+      "ruleRefs": ["old: H 3495, Annex 4 row 5 Washington 2.185/28", "new: H 5600, new Annex 4 row 40 Washington 1.572/29", "Annex 1 art. 3 (d.g.a) head 80%, cap 2T"],
+      "description": "Washington ambassador (A2-R1 100%, head), C = 3, rent 9000 USD: old vs new (USD).",
+      "inputs": {"missionId": "M-A6-R4", "positionEntryId": "A2-R1", "currency": "USD", "A_percent": "100", "C": 3, "isHead": true, "G": "9000", "guardianship": 0, "educationExpenses": [],
+        "old": {"H": "3495", "K": "2.185", "E_percent": "28"}, "new": {"H": "5600", "K": "1.572", "E_percent": "29"}},
+      "expected": {
+        "old": {"D": "9240.25575", "T": "2587.27161", "F": "7717.454322", "S": {"exact": "14370.438462", "display": "14370.44"}},
+        "new": {"D": "10651.872", "T": "3089.04288", "F": "7817.808576", "S": {"exact": "15380.637696", "display": "15380.64"}},
+        "diffS": {"exact": "1010.199234", "display": "1010.20"}, "diffYear": {"exact": "12122.390808", "display": "12122.39"}
+      },
+      "derivation": "new: D = 5600 x 1.572 x 1.21 = 10651.872; T = x 0.29 = 3089.04288; 0.8 x (9000 - T) = 4728.765696 <= 2T = 6178.08576; F = 7817.808576; S = 15380.637696. old = T-MON-WAS-01. dS = 1010.199234; x12 = 12122.390808",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-ED-04",
+      "kind": "edition-compare",
+      "ruleRefs": ["old: H 3495, Annex 4 row 51 Ukraine 1.890/28", "new: H 5600, new Annex 4 row 66 Ukraine 1.272/17", "Annex 1 art. 3 (d.g.b) cap T"],
+      "description": "Kyiv, A2-R6 60%, C = 1, non-head, rent 2500 USD: new edition hits the 'other staff' cap (F = 2T), old does not.",
+      "inputs": {"missionId": "M-A6-R26", "positionEntryId": "A2-R6", "currency": "USD", "A_percent": "60", "C": 1, "isHead": false, "G": "2500", "guardianship": 0, "educationExpenses": [],
+        "old": {"H": "3495", "K": "1.890", "E_percent": "28"}, "new": {"H": "5600", "K": "1.272", "E_percent": "17"}},
+      "expected": {
+        "old": {"S": {"exact": "4897.056266", "display": "4897.06"}},
+        "new": {"D": "4573.0944", "T": "777.426048", "F": "1554.852096", "S": {"exact": "5350.520448", "display": "5350.52"}},
+        "diffS": {"exact": "453.464182", "display": "453.46"}, "diffYear": {"exact": "5441.570184", "display": "5441.57"}
+      },
+      "derivation": "new: D = 5600 x 0.6 x 1.272 x 1.07 = 4573.0944; T = x 0.17 = 777.426048; 0.5 x (2500 - T) = 861.286976 > T -> F = 2T = 1554.852096; S = D + T = 5350.520448. old = T-MON-KYV-01 4897.056266. dS = 453.464182; x12 = 5441.570184",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-ED-05",
+      "kind": "edition-compare",
+      "ruleRefs": ["old Annex 4 and new Annex 4: no Holy See row"],
+      "description": "Embassy to the Holy See: K missing in BOTH editions -> old and new columns '—' (undetermined), no difference shown. (No supplied mission has a new K but a missing old K.)",
+      "inputs": {"missionId": "M-A5-R37", "positionEntryId": "A2-R6", "currency": "EUR", "A_percent": "60", "C": 0, "isHead": false, "G": "1500", "guardianship": 0, "educationExpenses": [],
+        "old": {"H": "3100", "K": null, "E_percent": null}, "new": {"H": "5000", "K": null, "E_percent": null}},
+      "expected": {"old": {"S": "undetermined"}, "new": {"S": "undetermined"}, "diffS": "undetermined", "diffYear": "undetermined"},
+      "derivation": "K null -> D undetermined -> S undetermined in both editions",
+      "status": "direct-rule"
+    },
+    {
+      "id": "T-GU-01",
+      "kind": "guardianship",
+      "ruleRefs": ["finance practice: 210 x n per month, x 12 per year (R-GUARD-PRACTICE, OQ-36 — no legal check, user instruction)"],
+      "description": "Guardianship supplement 0 / 1 / 2 members on the new Vienna golden scenario: remainder = S + eduReimb + n x 210 - G - eduFee.",
+      "inputs": {"S": "5895.1335", "educationReimbursement": "938", "G": "1500", "educationExpense": "1000", "counts": [0, 1, 2]},
+      "expected": {"monthly": ["0", "210", "420"], "annual": ["0", "2520", "5040"], "remainder": ["4333.1335", "4543.1335", "4753.1335"]},
+      "derivation": "4333.1335 + n x 210",
+      "status": "interpretation"
     }
   ]
 }

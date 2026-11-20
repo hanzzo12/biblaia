@@ -4,6 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import * as CORE from '../../src/core/index.js';
 import { calculate, emptyScenario, emptyFamilyMember, insuranceBand } from '../../src/core/index.js';
 
 const ROOT = new URL('../../', import.meta.url);
@@ -444,4 +445,51 @@ test('new edition: removed Annex 2 rows (referent A2-R8, driver A2-R9) are not s
   assert.ok(ids(DATA, 'annex2').includes('A2-R9') && ids(DATA, 'annex3').includes('A3-R8'), 'previous edition intact');
   const r = run(scen({ entry: 'A2-R8', rent: '1500' }), CURRENT);
   assert.equal(r.monthly.D.exact, null, 'removed position gives no D');
+});
+
+// ---------------------------------------------------------------- round 10: old vs new edition, guardianship 210 (finance practice)
+test('T-ED-01..05: old (core.previousEditionData) vs new edition through the core; guardianship in the remainder', () => {
+  assert.equal(typeof CORE.previousEditionData, 'function');
+  const PREV = CORE.previousEditionData(CURRENT);
+  for (const id of ['T-ED-01', 'T-ED-02', 'T-ED-03', 'T-ED-04', 'T-ED-05']) {
+    const c = G(id), i = c.inputs;
+    const fam = [];
+    if (i.C >= 1 || i.guardianship) fam.push(member('F1', { role: 'spouse', age: 40 }));
+    for (let n = 0; n < (i.guardianship || 0); n++) fam.push(member(`FG${n}`, { role: 'other', status: 'guardianship', age: 70, presence: [{ from: '2027-01-01', to: '2027-01-31' }] }));
+    while (fam.length < i.C) fam.push(member(`F${fam.length + 1}`, { age: 8 }));
+    const s = scen({ mission: i.missionId, entry: i.positionEntryId, head: i.isHead, rent: i.G, family: fam });
+    s.period = { mode: 'full-month', month: '2027-01' };
+    if (i.educationExpenses.length) s.education = [{ memberId: fam.find((m) => m.role === 'child').id, tuition: i.educationExpenses[0] }];
+    const rNew = run(s, CURRENT), rOld = run(structuredClone(s), PREV);
+    for (const [ed, r] of [['old', rOld], ['new', rNew]]) {
+      const e = c.expected[ed];
+      if (e.S === 'undetermined') { assert.equal(r.monthly.S.exact, null, `${id} ${ed} S undetermined`); continue; }
+      expectComp(r.monthly.C, String(i.C), `${id} ${ed} C`);
+      for (const k of ['D', 'T', 'F', 'S']) if (e[k]) expectComp(r.monthly[k], e[k], `${id} ${ed} ${k}`);
+      if (e.remainder) expectComp(r.remainder.value, e.remainder, `${id} ${ed} remainder`);
+    }
+    if (c.expected.guardianship) {
+      expectComp(rNew.guardianship.monthly, c.expected.guardianship.monthly, `${id} guardianship monthly`);
+      expectComp(rNew.guardianship.annual, c.expected.guardianship.annual, `${id} guardianship annual`);
+      assert.equal(rNew.guardianship.monthly.status, 'scenario', 'finance-practice amount is a scenario, not a norm');
+    }
+  }
+});
+
+test('T-GU-01: guardianship 0 / 1 / 2 members adds n x 210 to the remainder (new Vienna golden)', () => {
+  const c = G('T-GU-01');
+  c.inputs.counts.forEach((n, k) => {
+    const fam = [member('F1', { role: 'spouse', age: 40 }), member('F2', { age: 8 })];
+    for (let j = 0; j < n; j++) fam.push(member(`FG${j}`, { role: 'other', status: 'guardianship', age: 70, presence: [{ from: '2027-01-01', to: '2027-01-31' }] }));
+    const s = scen({ entry: 'A2-R5', rent: '1500', family: fam });
+    s.period = { mode: 'full-month', month: '2027-01' };
+    s.education = [{ memberId: 'F2', tuition: '1000' }];
+    const r = run(s, CURRENT);
+    expectComp(r.guardianship.monthly, c.expected.monthly[k], `n=${n} monthly`);
+    expectComp(r.guardianship.annual, c.expected.annual[k], `n=${n} annual`);
+    // guardianship members (present all month) also count in C, so S changes with n: check remainder = S + 938 + n*210 - 2500
+    const expRem = (Number(r.monthly.S.exact.includes('/') ? NaN : r.monthly.S.exact) + 938 + 210 * n - 2500);
+    if (n === 0) expectComp(r.remainder.value, c.expected.remainder[0], 'n=0 remainder');
+    else assert.ok(Math.abs(Number(r.remainder.value.exact) - expRem) < 1e-9, `n=${n} remainder = S + 938 + ${210 * n} - 2500`);
+  });
 });

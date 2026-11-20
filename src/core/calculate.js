@@ -442,13 +442,30 @@ export function calculate(scenarioIn, data) {
       : null,
   };
 
+  // ---------------------------------------------------------------- guardianship supplement (finance practice, R-GUARD-PRACTICE)
+  // ფინანსური სამსახურის ცხრილის ლოგიკა: რაოდენობა × 210 თვეში (წლიური × 12). ნორმატიული საფუძველი გადაუმოწმებელია → სტატუსი „სცენარი“.
+  const guardPer = param('GUARDIANSHIP-MONTHLY-AMOUNT');
+  const guardCount = family.filter((m) => m.status === 'guardianship' || m.status === 'care').length;
+  const guardMonthlyR = guardCount && guardPer && cur ? mul(R(guardPer), R(String(guardCount))) : ZERO;
+  const guardSt = guardCount ? (cur ? 'scenario' : 'undetermined') : 'not_applicable';
+  const guardReason = guardCount ? `${guardCount} × ${guardPer} ${cur ?? ''} თვეში — ფინანსური სამსახურის გაანგარიშების ლოგიკით; ნორმატიული საფუძველი გადაუმოწმებელია.` : 'მეურვეობის/მზრუნველობის ქვეშ მყოფი არ არის.';
+  const guardianship = {
+    count: guardCount,
+    perPerson: guardPer,
+    monthly: comp('guardianship.monthly', 'monthly', 'მზრუნველობის დანამატი (თვეში)', guardMonthlyR, cur, guardSt, guardReason, ['R-GUARD-PRACTICE']),
+    annual: comp('guardianship.annual', 'monthly', 'მზრუნველობის დანამატი (წელიწადში)', guardMonthlyR == null ? null : mul(guardMonthlyR, R('12')), cur, guardSt, 'თვიური × 12', ['R-GUARD-PRACTICE']),
+  };
+  if (guardCount) ctx.assume('GUARDIANSHIP_PRACTICE', `მზრუნველობის ქვეშ მყოფზე ${guardPer} თვეში — ფინანსური სამსახურის ცხრილის ლოგიკა (მომხმარებლის მითითებით); ბრძანებაში ეს თანხა ნაპოვნი არ არის.`, ['R-GUARD-PRACTICE'], 'OQ-36');
+
   // ---------------------------------------------------------------- remainder
   const sForRemainder = rat(fm.S);
-  const remR = sForRemainder != null && G0 != null && eduTotalR != null && eduExpenseR != null ? sub(add(sForRemainder, eduTotalR), add(G0, eduExpenseR)) : null;
+  const remR = sForRemainder != null && G0 != null && eduTotalR != null && eduExpenseR != null && guardMonthlyR != null
+    ? sub(add(add(sForRemainder, eduTotalR), guardMonthlyR), add(G0, eduExpenseR)) : null;
   const remainder = {
-    value: comp('remainder', 'remainder', 'ნაშთი ქირისა და განათლების ხარჯის შემდეგ (თვეში)', remR, cur, worst(fm.S.status, g0Comp.status, education.total.status, education.expense.status),
-      'S + განათლების ანაზღაურება − ქირა G − განათლების ხარჯი. სხვა ხარჯები (დაზღვევა, მგზავრობა, ცხოვრება) არ აკლდება; უარყოფითი ნაჩვენებია როგორც არის.', ['R-S-001', 'R-RENT-UNCOVERED', 'R-EDU-EXCESS']),
-    terms: { S: fm.S, educationReimbursement: education.total, G: g0Comp, educationExpense: education.expense },
+    value: comp('remainder', 'remainder', 'ნაშთი ქირისა და განათლების ხარჯის შემდეგ (თვეში)', remR, cur,
+      worst(fm.S.status, g0Comp.status, education.total.status, education.expense.status, guardCount ? guardSt : 'calculated'),
+      'S + განათლების ანაზღაურება + მზრუნველობის დანამატი − ქირა G − განათლების ხარჯი. სხვა ხარჯები (დაზღვევა, მგზავრობა, ცხოვრება) არ აკლდება; უარყოფითი ნაჩვენებია როგორც არის.', ['R-S-001', 'R-RENT-UNCOVERED', 'R-EDU-EXCESS', ...(guardCount ? ['R-GUARD-PRACTICE'] : [])]),
+    terms: { S: fm.S, educationReimbursement: education.total, guardianship: guardianship.monthly, G: g0Comp, educationExpense: education.expense },
   };
 
   // ---------------------------------------------------------------- insurance
@@ -837,7 +854,7 @@ export function calculate(scenarioIn, data) {
 
   return {
     schemaVersion: 1, rulesVersion: data.rulesVersion, currency: cur, completeness, missingInputs: ctx.missingInputs, inputsUsed,
-    monthly, family: familyOut, periodSegments, periodTotal, education, remainder,
+    monthly, family: familyOut, periodSegments, periodTotal, education, guardianship, remainder,
     insurance: { perPerson },
     oneTimeAllowances: { settlement, vacationMonth, retention19 },
     oneTimeReimbursements: { broker, baggage, travel, extras },

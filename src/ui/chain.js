@@ -22,13 +22,15 @@ export function computeChain(r, md, familyCount, { hasEdu = false } = {}) {
   const eduE = hasEdu ? ex(ed.expense) : ZERO;
   const eduR = hasEdu ? ex(ed.total) : ZERO;
   const eduPersonal = eduE != null && eduR != null ? sub(eduE, eduR) : null;
+  const hasGuard = (r?.guardianship?.count ?? 0) > 0;
+  const guard = hasGuard ? ex(r.guardianship.monthly) : ZERO;
   const remainder = ex(r?.remainder?.value);
-  const check = S != null && G != null && eduE != null && eduR != null ? add(sub(sub(S, G), eduE), eduR) : null;
+  const check = S != null && G != null && eduE != null && eduR != null && guard != null ? add(add(sub(sub(S, G), eduE), eduR), guard) : null;
   const matches = remainder != null && check != null && eq(remainder, check);
   if (remainder != null && check != null && !matches) console.warn('chain mismatch', toFixed2(check), toFixed2(remainder));
   const living = livingRemainder(remainder, md, familyCount);
   return {
-    S: fx(S), G: fx(G), eduPersonal: fx(eduPersonal), eduExpense: fx(eduE), eduReimb: fx(eduR), hasEdu, remainder: fx(remainder), matches, living,
+    S: fx(S), G: fx(G), eduPersonal: fx(eduPersonal), eduExpense: fx(eduE), eduReimb: fx(eduR), hasEdu, hasGuard, guard: fx(guard), guardAnnual: hasGuard ? fx(ex(r.guardianship.annual)) : null, guardCount: r?.guardianship?.count ?? 0, remainder: fx(remainder), matches, living,
     rent: { G: fx(G), T: fx(T), FminusT: F != null && T != null ? fx(sub(F, T)) : null, F: fx(F), extra: fx(ex(m.uncoveredRent)), surplus: fx(ex(m.rentSurplus)) },
   };
 }
@@ -40,8 +42,9 @@ const neg = (x) => (x != null && String(x).startsWith('-') ? ' neg' : '');
 export function chainRows(c) {
   const rows = [
     { sign: '', label: 'ყოველთვიური სამივლინებო თანხა', short: 'სამივლინებო თანხა', value: c.S },
-    { sign: '−', label: 'ბინის ქირა (სრული)', short: 'ქირა', value: c.G },
   ];
+  if (c.hasGuard) rows.push({ sign: '+', label: `მზრუნველობის დანამატი (${c.guardCount} × 210 თვეში${c.guardAnnual ? `, წელიწადში ${core.formatAmount(c.guardAnnual)}` : ''}; ფინანსური სამსახურის პრაქტიკა)`, short: 'მზრუნველობის დანამატი', value: c.guard, testid: 'chain-guardianship' });
+  rows.push({ sign: '−', label: 'ბინის ქირა (სრული)', short: 'ქირა', value: c.G });
   if (c.hasEdu) {
     rows.push({ sign: '−', label: 'სწავლის გადასახადი (სრული)', short: 'სწავლის გადასახადი', value: c.eduExpense });
     rows.push({ sign: '+', label: 'სწავლის ანაზღაურება', short: 'სწავლის ანაზღაურება', value: c.eduReimb });

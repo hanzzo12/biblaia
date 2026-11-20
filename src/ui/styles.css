@@ -392,3 +392,35 @@ body.tab-cities [data-open-compare] { visibility: hidden; }
 .ctable thead th { white-space: normal; overflow-wrap: normal; vertical-align: bottom; line-height: 1.25; }
 .ctable thead th.num { max-width: 110px; }
 .ctable .row-note { white-space: normal; max-width: 150px; }
+
+/* ძველი / ახალი წესის შედარება */
+.editions { margin: 18px 0 8px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+.editions h3 { margin: 0 0 10px; }
+.etable { border-collapse: collapse; width: 100%; font-size: .9rem; }
+.etable th, .etable td { padding: 8px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: bottom; }
+.etable .num { text-align: right; white-space: nowrap; }
+.etable thead th { font-weight: 600; }
+.etable thead .ed-old, .etable thead .ed-new { vertical-align: top; }
+.etable .ed-t, .etable .ed-w, .etable .ed-a { display: block; }
+.etable .ed-t { font-size: .95rem; }
+.etable .ed-w { font-size: .8rem; font-weight: 700; color: var(--accent); }
+.etable .ed-old .ed-w { color: var(--muted); }
+.etable .ed-a { font-size: .72rem; font-weight: 400; color: var(--muted); white-space: normal; }
+.etable td:nth-child(3), .etable thead .ed-new { background: var(--accent-soft); }
+.etable tr.strong th, .etable tr.strong td { font-weight: 700; }
+.etable .diff.pos { color: var(--ok); }
+.etable .diff.neg { color: var(--err); }
+@media (max-width: 600px) {
+  .editions { padding: 12px 10px; }
+  .editions .table-scroll { overflow: visible; border: 0; }
+  .etable, .etable thead, .etable tbody { display: block; }
+  .etable { font-size: .82rem; }
+  .etable tr { display: grid; grid-template-columns: 1fr 1fr .8fr; }
+  .etable thead th:first-child { display: none; }
+  .etable th, .etable td { padding: 6px 4px; }
+  .etable tbody th { grid-column: 1 / -1; border-bottom: 0; padding: 8px 4px 0; }
+  .etable thead th.num, .etable thead th { white-space: normal; min-width: 0; }
+  .etable .ed-w { font-size: .7rem; }
+  .etable td.num { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+  .etable .ed-a { display: none; }
+}

@@ -3,13 +3,14 @@ import { h, uid } from './dom.js';
 import * as core from '../core/index.js';
 import { marketTiles, marketRows, marketNotes } from './market.js';
 import { computeChain, renderChain, rentBreakdownRows, chainRows, CHAIN_NOTE } from './chain.js';
+import { R, sub, mul, toFixed2, fromExactString } from '../core/rational.js';
 
 export const v = (c) => (c && typeof c === 'object' ? c.value ?? null : c ?? null);
 export const fmt = (c, cur) => { const x = v(c); return x == null ? '—' : `${core.formatAmount(x)} ${cur ?? ''}`.trim(); };
 export const ROLE_KA = { spouse: 'მეუღლე', child: 'შვილი', guardianship: 'მეურვეობის ქვეშ მყოფი' };
 
 /** ეკრანისა და PDF-ის საერთო მოდელი (ერთი წყარო — ციფრები არ აცდება ერთმანეთს). */
-export function resultModel({ r, st, sc, mission, data, personName, md = null, mdLoading = false, beds = 1 }) {
+export function resultModel({ r, rOld = null, st, sc, mission, data, personName, md = null, mdLoading = false, beds = 1 }) {
   const cur = r?.currency ?? mission?.fundingCurrency ?? '';
   const m = r?.monthly || {};
   const ed = r?.education || {};
@@ -44,6 +45,7 @@ export function resultModel({ r, st, sc, mission, data, personName, md = null, m
     cur, noRent, hasEdu, undetermined, why, m, ed, ot, ins, md, mdLoading, beds, familyCount: st.family.length, living, chain,
     chainRows: chainRows(chain), chainNote: CHAIN_NOTE, rentRows: rentBreakdownRows(chain), baseNote: baseNoteText(data),
     city: mission?.location_ka ?? '',
+    editions: editionsModel(r, rOld, cur, noRent),
     marketRows: marketRows(md, beds, { familyCount: st.family.length }), marketNotes: marketNotes(md),
     insCapTotal: sum(ins.map((p) => p.cap).filter((x) => x != null).length ? ins.map((p) => p.cap).filter((x) => x != null) : [null]), insReimbTotal: ins.some((p) => p.entered) ? sum(ins.filter((p) => p.entered).map((p) => p.reimb)) : null,
     hero: heroVal,
@@ -62,6 +64,62 @@ export function resultModel({ r, st, sc, mission, data, personName, md = null, m
       ['სკოლა/ბაღი თვეში', hasEdu ? sc.education.map((e) => fmt(e.tuition, cur)).join(', ') : '—'],
     ],
   };
+}
+
+const exact = (c) => {
+  if (c == null || typeof c !== 'object') return c == null ? null : R(c);
+  if (c.exact) return /^-?\d+(\/\d+)?$/.test(c.exact) ? fromExactString(c.exact) : R(c.exact);
+  return c.value != null ? R(c.value) : null;
+};
+const signedText = (x) => (x == null ? '' : /^-/.test(x) ? core.formatAmount(x) : /^0(\.0+)?$/.test(x) ? core.formatAmount(x) : `+${core.formatAmount(x)}`);
+/**
+ * ძველი (2026-12-31-მდე, №01-82) და ახალი (2027-01-01-დან, №01-407) წესის შედარება — ორივე core.calculate()-ით,
+ * იგივე სცენარით. სხვაობა — ზუსტი მნიშვნელობებიდან.
+ */
+export function editionsModel(r, rOld, cur, noRent) {
+  if (!r || !rOld) return null;
+  const pick = (res) => {
+    const m = res.monthly || {};
+    const S = noRent ? m.DminusT : m.S;
+    return { H: v(m.H), K: v(m.K), E: v(m.E), S: v(S), Sx: exact(S), rem: noRent ? null : v(res.remainder?.value), remx: noRent ? null : exact(res.remainder?.value) };
+  };
+  const o = pick(rOld), n = pick(r);
+  const d = (a, b) => (a != null && b != null ? toFixed2(sub(b, a)) : null);
+  const y = (x) => (x != null ? toFixed2(mul(x, R('12'))) : null);
+  const m = (x) => (x == null ? '—' : `${core.formatAmount(x)} ${cur}`);
+  const rows = [
+    { key: 'H', label: 'საბაზისო თანხა (H)', old: o.H == null ? '—' : m(o.H), new: n.H == null ? '—' : m(n.H), oldRaw: o.H, newRaw: n.H, diff: null },
+    { key: 'K', label: 'ქვეყნის კოეფიციენტი (K)', old: o.K ?? '—', new: n.K ?? '—', oldRaw: o.K, newRaw: n.K, diff: null },
+    { key: 'E', label: 'ბინის წილი (E)', old: o.E == null ? '—' : `${o.E}%`, new: n.E == null ? '—' : `${n.E}%`, oldRaw: o.E, newRaw: n.E, diff: null },
+    { key: 'S', label: noRent ? 'ყოველთვიური თანხა (ქირის გარეშე)' : 'ყოველთვიური სამივლინებო თანხა', old: m(o.S), new: m(n.S), oldRaw: o.S, newRaw: n.S, diff: d(o.Sx, n.Sx), strong: true },
+  ];
+  if (!noRent) rows.push({ key: 'rem', label: 'დარჩენილი ქირისა და სწავლის შემდეგ', old: m(o.rem), new: m(n.rem), oldRaw: o.rem, newRaw: n.rem, diff: d(o.remx, n.remx) });
+  const oy = y(o.Sx), ny = y(n.Sx);
+  rows.push({ key: 'Sy', label: 'სამივლინებო თანხა წელიწადში (× 12)', old: m(oy), new: m(ny), oldRaw: oy, newRaw: ny, diff: o.Sx != null && n.Sx != null ? toFixed2(mul(sub(n.Sx, o.Sx), R('12'))) : null });
+  return {
+    oldTitle: 'მოქმედი წესი', oldWhen: '2026 წლის 31 დეკემბრამდე', oldAct: 'ბრძანება №01-82 (ძველი დანართები №2–4)',
+    newTitle: 'ახალი წესი', newWhen: '2027 წლის 1 იანვრიდან', newAct: 'ბრძანება №01-407 (ახალი დანართები №2–4)',
+    rows, oldAvailable: o.S != null,
+    note: 'ზემოთ ნაჩვენები თანხები დათვლილია ახალი წესით (2027 წლის 1 იანვრიდან). ქირა, ოჯახი და სწავლა ორივე სვეტში ერთნაირია.',
+  };
+}
+
+function renderEditions(E) {
+  if (!E) return null;
+  const val = (t, raw, testid) => h('td', { class: 'num', 'data-value': raw ?? '', 'data-testid': testid ?? null }, t);
+  return h('section', { class: 'editions', 'data-testid': 'editions', 'aria-label': 'ძველი და ახალი წესის შედარება' },
+    h('h3', null, 'ძველი და ახალი წესის შედარება'),
+    h('div', { class: 'table-scroll' }, h('table', { class: 'etable' },
+      h('thead', null, h('tr', null,
+        h('th', { scope: 'col' }, ''),
+        h('th', { scope: 'col', class: 'num ed-old' }, h('span', { class: 'ed-t' }, E.oldTitle), h('span', { class: 'ed-w' }, E.oldWhen), h('span', { class: 'ed-a' }, E.oldAct)),
+        h('th', { scope: 'col', class: 'num ed-new' }, h('span', { class: 'ed-t' }, E.newTitle), h('span', { class: 'ed-w' }, E.newWhen), h('span', { class: 'ed-a' }, E.newAct)),
+        h('th', { scope: 'col', class: 'num' }, 'სხვაობა'))),
+      h('tbody', null, E.rows.map((x) => h('tr', { class: x.strong ? 'strong' : null, 'data-edition-row': x.key },
+        h('th', { scope: 'row' }, x.label),
+        val(x.old, x.oldRaw, `edition-old-${x.key}`), val(x.new, x.newRaw, `edition-new-${x.key}`),
+        h('td', { class: 'num diff' + (x.diff && x.diff.startsWith('-') ? ' neg' : x.diff ? ' pos' : ''), 'data-value': x.diff ?? '', 'data-testid': `edition-diff-${x.key}` }, signedText(x.diff))))))),
+    h('p', { class: 'tiny muted' }, E.oldAvailable ? E.note : 'ძველი წესით ამ დაწესებულებისთვის თანხა ვერ დადგინდა.'));
 }
 
 function card(label, value, raw, sub, testid, big = false) {
@@ -111,6 +169,7 @@ export function renderResult(M, { onPdf, onPrint, onCompare }) {
             h('span', null, x.label), h('span', { 'data-value': x.value ?? '', 'data-testid': x.label.startsWith('სულ') ? 'F-value' : null }, fmt(x.value, cur)))))),
       card('სწავლის ანაზღაურება', M.hasEdu ? fmt(ed.total, cur) : '—', M.hasEdu ? v(ed.total) : null, M.hasEdu ? `თქვენი წილი: ${fmt(ed.personal, cur)}` : 'სწავლის ხარჯი არ არის მითითებული', 'edu')),
     h('span', { hidden: true, 'data-testid': 'S', 'data-value': M.S ?? '' }),
+    renderEditions(M.editions),
     M.ot.length || M.ins.length ? h('section', { class: 'onetime' },
       M.ot.length ? [h('h3', null, 'ერთჯერადი'), h('ul', { class: 'olist' }, M.ot.map((x) => h('li', null,
         h('span', null, x.label, x.sub ? h('span', { class: 'small muted block' }, x.sub) : null), h('strong', { 'data-value': x.raw ?? '' }, x.value))))] : null,

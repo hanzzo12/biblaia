@@ -86,7 +86,8 @@
   periodTotal: Component | null,
   education: { perChild: [{ memberId, eligible, components: {...}, P, L, reimbursement, personalCost, ruleIds, notes_ka }],
                total, personal, alternativePooled: Component | null },
-  remainder: { value: Component, terms: { S, educationReimbursement, G, educationExpense } }, // S + eduReimb − G − eduExpense
+  guardianship: { count, perPerson, monthly: Component, annual: Component }, // n × GUARDIANSHIP-MONTHLY-AMOUNT (210), status scenario (R-GUARD-PRACTICE, round 10)
+  remainder: { value: Component, terms: { S, educationReimbursement, guardianship, G, educationExpense } }, // S + eduReimb + guardianship − G − eduExpense
   insurance: { perPerson: [{ personId, band, annualCap, policyCost, alreadyReimbursed, reimbursable, personalCost, status, ruleIds }] },
   oneTimeAllowances: { settlement: Component },
   oneTimeReimbursements: { broker: Component, baggage: { cap, previouslyUsed, claimed, reimbursable, remainingCap }, travel: [Component], extras: [Component] },
@@ -194,3 +195,9 @@ Worker: `GET /api/market?location=<შიდა ID>&currency=EUR|USD` → Market
 **ნაშთები შედეგის გვერდზე და შედარებაში (UI):**
 1. `remainder` — ქირისა და სწავლის შემდეგ (ბირთვი; ოფიციალური ნაწილი).
 2. `remainderAfterLiving` — ზემოთხსენებულს გამოკლებული საორიენტაციო საცხოვრებელი ხარჯები: თუ `budget` არსებობს → `single` (მოსამსახურე მარტო) ან `family4` (ოჯახით; მონიშნული „ოთხსულიანი ოჯახის შეფასება“), **კომუნალური არ აკლდება ცალკე** (ბიუჯეტი მას მოიცავს); თუ ბიუჯეტი არ არის → აკლდება მხოლოდ კომუნალური (85 მ²) + ინტერნეტი, წარწერით რა გამოაკლდა. ფასები/ბიუჯეტი არასოდეს არ ცვლის ოფიციალურ S-ს.
+
+
+## §10. ძველი / ახალი რედაქციის შედარება (round 10)
+
+- `core.previousEditionData(data)` → `data`-ს ასლი `history`-დან: H = `baseAmounts[].previous.amount` (3100 EUR / 3495 USD), `positionProfiles`, `costCoefficients` და მისიების `costCoefficientId` წინა რედაქციით (№01-82 დანართები №2–4, მოქმედებს 2026-12-31-მდე). `null`, თუ `history` არ არის.
+- UI იმავე სცენარს ითვლის ორჯერ (`calculate(sc, data)`, `calculate(sc, previousEditionData(data))`) და აჩვენებს `S`, ნაშთს და `S × 12`-ს; სხვაობა — ზუსტი მნიშვნელობებიდან. მთავარი შედეგი ყოველთვის ახალი რედაქციითაა.

@@ -278,6 +278,40 @@ def run_case(c: dict):
             for key, e in exp[who].items():
                 check_money(cid, f"{who}.{key}", res[key], e)
 
+    elif k == "edition-compare":
+        guard = Fr(210) * inp.get("guardianship", 0)
+        fees = [fr(x) for x in inp.get("educationExpenses", [])]
+        edu = sum((education(x, inp["currency"]) for x in fees), Fr(0))
+        fee = sum(fees, Fr(0))
+        res = {}
+        for ed in ("old", "new"):
+            e = inp[ed]
+            if e["K"] is None:
+                res[ed] = None
+                check(cid, f"{ed}.S", "undetermined", exp[ed]["S"])
+                continue
+            m = monthly({"H": e["H"], "A_percent": inp["A_percent"], "K": e["K"], "E_percent": e["E_percent"],
+                         "C": inp["C"], "G": inp["G"], "isHead": inp["isHead"]})
+            m["remainder"] = m["S"] + edu + guard - fr(inp["G"]) - fee
+            res[ed] = m
+            for key, want in exp[ed].items():
+                check_money(cid, f"{ed}.{key}", m[key], want)
+        if res["old"] and res["new"]:
+            d = res["new"]["S"] - res["old"]["S"]
+            check_money(cid, "diffS", d, exp["diffS"])
+            check_money(cid, "diffYear", 12 * d, exp["diffYear"])
+        else:
+            check(cid, "diffS", "undetermined", exp["diffS"])
+        if "guardianship" in exp:
+            check(cid, "guardianship.monthly", guard, fr(exp["guardianship"]["monthly"]))
+            check(cid, "guardianship.annual", 12 * guard, fr(exp["guardianship"]["annual"]))
+
+    elif k == "guardianship":
+        base = fr(inp["S"]) + fr(inp["educationReimbursement"]) - fr(inp["G"]) - fr(inp["educationExpense"])
+        check(cid, "monthly", [Fr(210) * n for n in inp["counts"]], [fr(x) for x in exp["monthly"]])
+        check(cid, "annual", [Fr(2520) * n for n in inp["counts"]], [fr(x) for x in exp["annual"]])
+        check(cid, "remainder", [base + Fr(210) * n for n in inp["counts"]], [fr(x) for x in exp["remainder"]])
+
     elif k == "position-table":
         a2 = {l for l in page_lines(13)}
         a3 = {l for l in page_lines(14)}

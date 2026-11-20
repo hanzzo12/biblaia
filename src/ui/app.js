@@ -316,7 +316,9 @@ export function startApp({ data, meta, online, client, offline = null, usdPerEur
     const m = mission();
     loadMarket();
     refreshMarket = () => { if (st.step === 4) replace(body, step4()); };
-    const M = resultModel({ r, st, sc, mission: m ? { ...m, shortName: shortName(m) } : null, data, personName, md: market.md, mdLoading: market.loading, beds: beds() });
+    const prevData = core.previousEditionData ? core.previousEditionData(data) : null;
+    const rOld = prevData ? (() => { try { return core.calculate(sc, prevData); } catch (e) { console.error(e); return null; } })() : null;
+    const M = resultModel({ r, rOld, st, sc, mission: m ? { ...m, shortName: shortName(m) } : null, data, personName, md: market.md, mdLoading: market.loading, beds: beds() });
     return renderResult(M, {
       onPrint: () => window.print(),
       onCompare: () => compare.open(),

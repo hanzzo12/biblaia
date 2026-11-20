@@ -75,6 +75,32 @@ function drawResult(fonts, M, k) {
     lay[i].s.forEach((ln) => { p.text(ln, cx + pad, yy, { size: fs(6.6), color: MUTED }); yy += fs(8.2); });
   });
   y += ch + fs(16);
+  if (M.editions) {
+    const E = M.editions;
+    heading('ძველი და ახალი წესის შედარება');
+    const c1 = X + CW * 0.55, c2 = X + CW * 0.8, c3 = W - X;
+    const sz = fs(7.6);
+    p.text(E.oldTitle, c1, y, { size: fs(7.2), bold: true, color: INK, align: 'right' });
+    p.text(E.newTitle, c2, y, { size: fs(7.2), bold: true, color: ACCENT, align: 'right' });
+    p.text('სხვაობა', c3, y, { size: fs(7.2), bold: true, color: MUTED, align: 'right' });
+    y += fs(9);
+    p.text(E.oldWhen, c1, y, { size: fs(6.4), color: MUTED, align: 'right' });
+    p.text(E.newWhen, c2, y, { size: fs(6.4), bold: true, color: ACCENT, align: 'right' });
+    const par = E.rows.filter((r) => ['H', 'K', 'E'].includes(r.key));
+    y += fs(8.5);
+    p.text(par.map((r) => r.key).join(' · '), X, y, { size: fs(6.4), color: MUTED });
+    p.text(par.map((r) => r.old).join(' · '), c1, y, { size: fs(6.4), color: MUTED, align: 'right' });
+    p.text(par.map((r) => r.new).join(' · '), c2, y, { size: fs(6.4), color: MUTED, align: 'right' });
+    y += fs(4); p.line(X, y, W - X, y); y += fs(10);
+    for (const r of E.rows.filter((x) => !['H', 'K', 'E'].includes(x.key))) {
+      p.text(r.label, X, y, { size: sz, bold: !!r.strong });
+      p.text(String(r.old), c1, y, { size: sz, bold: !!r.strong, align: 'right' });
+      p.text(String(r.new), c2, y, { size: sz, bold: true, align: 'right', color: ACCENT });
+      if (r.diff != null) p.text(/^-/.test(r.diff) ? formatAmount(r.diff) : `+${formatAmount(r.diff)}`, c3, y, { size: sz, bold: true, align: 'right', color: /^-/.test(r.diff) ? [220, 38, 38] : [5, 150, 105] });
+      y += sz * 0.45; p.line(X, y, W - X, y); y += sz * 1.3;
+    }
+    note(`${E.oldAct} · ${E.newAct}. ${E.oldAvailable ? E.note : 'ძველი წესით თანხა ვერ დადგინდა.'}`);
+  }
   if (M.ot.length) { heading('ერთჯერადი'); for (const x of M.ot) row(x.label, x.value, { sub: x.sub }); }
   if (M.ins.length) {
     heading('დაზღვევა — წლიური ლიმიტი (მაქსიმუმი, არა გასაცემი თანხა)');

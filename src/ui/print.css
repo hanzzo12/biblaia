@@ -24,6 +24,27 @@
   a { color: #000; text-decoration: none; }
   body { font-size: 8.5pt; }
   .inputs th, .inputs td, .calc th, .calc td { padding: 1pt 4pt; font-size: 8pt; }
+  .editions { margin: 4pt 0; padding: 3pt 8pt; border: 1px solid #999; border-radius: 0; break-inside: avoid; }
+  .editions h3 { margin: 0 0 2pt; }
+  .editions .table-scroll { border: 0; overflow: visible; }
+  .etable { font-size: 7.8pt; }
+  .etable th, .etable td { padding: .4pt 4pt; }
+  .details p.small, .details p.tiny:last-child { display: none; } /* სწავლის/დამრგვალების შენიშვნები — PDF-ში და ეკრანზე რჩება */
+  .etable { table-layout: fixed; width: 100%; }
+  .etable thead th:first-child { width: 40%; }
+  .etable thead th:last-child { width: 14%; }
+  .etable thead th.num { white-space: normal; }
+  .etable tbody th { font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .etable .ed-t, .etable .ed-w { display: inline; font-size: 7.8pt; }
+  .etable .ed-w::before { content: ' · '; }
+  .etable .ed-a { display: none; }
+  .etable td:nth-child(3), .etable thead .ed-new { background: none; }
+  .editions .tiny { margin: 1pt 0 0; font-size: 7pt; }
+  .details .calc, .details .calc tbody { display: block; width: 100%; }
+  .details .calc tbody { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14pt; }
+  .details .calc tr { display: flex; justify-content: space-between; gap: 6pt; border-bottom: 1px solid #ddd; }
+  .details .calc th, .details .calc td { border: 0; }
+  .base-note { display: none !important; } /* იგივე ტექსტი „როგორ დაითვალა“-შია (H: …) */
   .hero { padding: 4pt 8pt; margin: 4pt 0; }
   .hero-v { font-size: 16pt; margin: 2pt 0 0; }
   .hero-l, .hero-n { font-size: 8pt; margin: 0; }
