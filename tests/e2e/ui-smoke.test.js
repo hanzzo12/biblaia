@@ -435,3 +435,54 @@ test('src/ui-ში innerHTML/outerHTML/insertAdjacentHTML/document.write არ
     assert.ok(!/\.(innerHTML|outerHTML)\s*=|insertAdjacentHTML|document\.write|\beval\(|new Function\(/.test(src), f);
   }
 });
+
+/** სტატიკური ჰოსტი (მაგ. Google Sites): /api არ არსებობს — ყველა სხვა მისამართი 404. */
+async function openStaticHost(file) {
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  const html = readFileSync(path.join(root, file));
+  const api = []; const pageErrors = [];
+  page.on('pageerror', (e) => pageErrors.push(e.message));
+  await page.route('**/*', (r) => {
+    const u = new URL(r.request().url());
+    if (u.origin !== 'https://static.test') return r.abort();
+    if (u.pathname === '/') return r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: html });
+    if (u.pathname.startsWith('/api/')) api.push(u.pathname + u.search);
+    return r.fulfill({ status: 404, contentType: 'text/html', body: '<!doctype html>Not found' });
+  });
+  await page.goto('https://static.test/');
+  return { page, api, pageErrors };
+}
+async function viennaAlone(page) {
+  await pickMission(page, 'Vienna');
+  await next(page);
+  await page.getByTestId('pos-A2-R6').check();
+  await next(page);
+  const rent = await page.getByTestId('rent').inputValue();
+  await next(page);
+  await page.getByTestId('hero-remainder').waitFor();
+  await page.waitForFunction(() => document.querySelector('[data-testid="remainder-living"]')?.getAttribute('data-value'));
+  return rent;
+}
+
+test('გადმოსაწერი ფაილი (data-standalone) სტატიკურ ჰოსტზე: /api-ს არ მიმართავს, Numbeo-ს ჩაშენებული ასლით სრულად მუშაობს', async () => {
+  assert.match(readFileSync(path.join(root, 'dist/rotation-calculator.html'), 'utf8').slice(0, 200), /<html lang="ka" data-standalone="1">/);
+  assert.doesNotMatch(readFileSync(path.join(root, 'dist/web/index.html'), 'utf8').slice(0, 200), /data-standalone/);
+  const { page, api, pageErrors } = await openStaticHost('dist/rotation-calculator.html');
+  assert.equal(await viennaAlone(page), '1182.88', 'ქირა ივსება ჩაშენებული Numbeo-თი');
+  assert.equal(await page.getByTestId('remainder-living').getAttribute('data-value'), '2548.55');
+  assert.equal(await page.getByTestId('S').getAttribute('data-value'), '4757.54');
+  await page.getByTestId('cities-tab').click();
+  assert.equal(await page.locator('[data-testid="cities-col-left"]').count(), 80);
+  assert.deepEqual(api, [], 'ქსელის მოთხოვნა /api-ზე არ უნდა გაიგზავნოს');
+  assert.deepEqual(pageErrors, []);
+  await page.close();
+});
+
+test('ონლაინ ვერსია სტატიკურ ჰოსტზე (/api → 404): ჩაშენებულ ასლზე გადადის', async () => {
+  const { page, api, pageErrors } = await openStaticHost('dist/web/index.html');
+  assert.equal(await viennaAlone(page), '1182.88');
+  assert.equal(await page.getByTestId('remainder-living').getAttribute('data-value'), '2548.55');
+  assert.ok(api.some((u) => u.startsWith('/api/market')), 'ონლაინ ვერსია ჯერ სერვერს მიმართავს');
+  assert.deepEqual(pageErrors, []);
+  await page.close();
+});

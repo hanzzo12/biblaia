@@ -64,9 +64,13 @@ export async function buildAll({ quiet = false } = {}) {
 
   await rm(r('dist'), { recursive: true, force: true });
   await mkdir(r('dist/web'), { recursive: true });
-  await writeFile(r('dist/rotation-calculator.html'), html, 'utf8');
-  await copyFile(r('dist/rotation-calculator.html'), r('dist/web/index.html'));
-  const size = Buffer.byteLength(html);
+  // ცალკე ფაილი (გადმოსაწერი): data-standalone="1" — ქსელს არასოდეს მიმართავს, ყველგან ჩაშენებულ მონაცემებს იყენებს
+  // (file://, Google Sites ან ნებისმიერი სხვა ჰოსტი). dist/web/index.html — Cloudflare-ის ონლაინ ვერსია (/api/market).
+  const standalone = html.replace('<html lang="ka">', '<html lang="ka" data-standalone="1">');
+  if (standalone === html) throw new Error('src/ui/index.html: <html lang="ka"> ვერ მოიძებნა (standalone ნიშანი)');
+  await writeFile(r('dist/rotation-calculator.html'), standalone, 'utf8');
+  await writeFile(r('dist/web/index.html'), html, 'utf8');
+  const size = Buffer.byteLength(standalone);
   if (!quiet) console.log(`✓ dist/rotation-calculator.html (${(size / 1024).toFixed(1)} KB), dist/web/index.html; rulesVersion=${data.rulesVersion}`);
   return { size };
 }

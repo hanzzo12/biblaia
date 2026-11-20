@@ -28,8 +28,8 @@ export function parseMoney(raw) {
 }
 const parseAge = (raw) => { const s = String(raw ?? '').trim(); return /^\d{1,3}$/.test(s) && Number(s) <= 120 ? Number(s) : null; };
 
-export function startApp({ data, meta, online, client, offline = null, usdPerEur = null }) {
-  const service = createMarketService({ online, client, offline });
+export function startApp({ data, meta, online, client, offline = null, fallback = null, usdPerEur = null }) {
+  const service = createMarketService({ online, client, offline, fallback });
   const now = new Date();
   const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   const monthEnd = `${month}-${String(new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()).padStart(2, '0')}`;

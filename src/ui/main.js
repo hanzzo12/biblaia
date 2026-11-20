@@ -14,8 +14,10 @@ const meta = {
   dataSha: typeof __DATA_SHA256__ !== 'undefined' ? __DATA_SHA256__ : 'unknown',
   buildDate: typeof __BUILD_DATE__ !== 'undefined' ? __BUILD_DATE__ : 'dev',
 };
-// ბაზრის ფასები მხოლოდ http/https-დან (Cloudflare Worker, same-origin /api/market). file:// — ქსელის მოთხოვნა არ იგზავნება.
-const online = location.protocol === 'http:' || location.protocol === 'https:';
+// ბაზრის ფასები: Cloudflare-ის ვერსია — same-origin /api/market; გადმოსაწერი ფაილი (data-standalone="1") და file:// —
+// ქსელის მოთხოვნა არ იგზავნება, გამოიყენება ჩაშენებული Numbeo-ს ასლი.
+const standalone = document.documentElement.getAttribute('data-standalone') === '1';
+const online = !standalone && (location.protocol === 'http:' || location.protocol === 'https:');
 const client = online ? P.createMarketClient({ endpoint: '/api/market', timeoutMs: 100000 }) : null;
 // ოფლაინ (file://): პროვაიდერის ჩაშენებული ასლი, თუ ხელმისაწვდომია (contracts §9)
 const offline = (loc, cur) => {
@@ -25,7 +27,7 @@ const offline = (loc, cur) => {
 
 function boot() {
   for (const el of document.querySelectorAll('[data-meta]')) el.textContent = meta[el.getAttribute('data-meta')] ?? '';
-  window.__rotationApp = startApp({ data, meta, online, client, offline: online ? null : offline, usdPerEur: marketSnapshot.usdPerEur?.exact ?? null });
+  window.__rotationApp = startApp({ data, meta, online, client, offline: online ? null : offline, fallback: offline, usdPerEur: marketSnapshot.usdPerEur?.exact ?? null });
   const app = window.__rotationApp;
   const cities = mountCities(document.getElementById('cities-body'), {
     data, marketFor: offline, usdPerEur: marketSnapshot.usdPerEur?.exact ?? null,

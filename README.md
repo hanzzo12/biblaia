@@ -9,13 +9,13 @@
 | ვარიანტი | რა ხდება | ბაზრის ფასები |
 | --- | --- | --- |
 | **ონლაინ (ძირითადი)** — https://rotation-calculator.gizo1212.workers.dev (Cloudflare Worker, GitHub-იდან ავტომატური განთავსება) | სრული კალკულატორი, ქირა/კომუნალური/სურსათი/რესტორნები, შედარება (ლიმიტის გარეშე), „ქალაქების სიძვირე“ | ✅ ქეში (KV) → Apify-ის ასლი 04.11.2026 → მომხმარებლის ასლი 31.10.2026 → დედაქალაქი |
-| **ოფლაინ ფაილი** — `release/rotation-calculator.html` ორმაგი დაწკაპუნებით | ყველა ოფიციალური გამოთვლა ინტერნეტის გარეშე | ✅ ჩაშენებული ასლებიდან (განახლების გარეშე) |
+| **ცალკე ფაილი** — `release/rotation-calculator.html`: ორმაგი დაწკაპუნებით ან ნებისმიერ საიტზე ატვირთული (მაგ. Google Sites) | ყველა ფუნქცია (კალკულატორი, ძველი/ახალი წესი, შედარება, „ქალაქების სიძვირე“, PDF/ბეჭდვა); ქსელს არ მიმართავს (`data-standalone`) | ✅ ჩაშენებული ასლებიდან: Apify 04.11.2026 + მომხმარებლის 31.10.2026 (ავტომატური განახლების გარეშე) |
 
 ### როგორ ავტვირთო / განვაახლო
 
 - **მიმდინარე გზა:** Cloudflare → Workers & Pages → Import a repository (GitHub) → `hanzzo12/biblaia`; Build command `npm run build`, Deploy command `npx wrangler deploy` (კონფიგურაცია `wrangler.jsonc`; KV ავტომატურად იქმნება). Secret `APIFY_TOKEN` — Settings → Variables and Secrets. ყოველი push ფილიალში `ccr-733af0f1-rqqflu` საიტს ავტომატურად განაახლებს. დეტალურად — [docs/deploy-pages.md](docs/deploy-pages.md) (პირველი სექცია).
 - **ბაზრის მონაცემების განახლება:** cron (ყოველ 15 წთ ამოწმებს) თვეში ერთხელ უშვებს Apify-ს (≈ $3.16), პირველად **2026-12-01**-დან (`MARKET_FIRST_REFRESH_AFTER`). მდგომარეობა: `/api/market/health`.
-- სხვა გზები: Pages (ძველი მენიუ) — იგივე დოკუმენტის მეორე ნაწილი; CLI — [docs/deploy.md](docs/deploy.md); ფასების გარეშე ZIP-ის ჩაგდება — `release/pages-upload.zip`.
+- სხვა გზები: Pages (ძველი მენიუ) — იგივე დოკუმენტის მეორე ნაწილი; CLI — [docs/deploy.md](docs/deploy.md); ZIP-ის ჩაგდება სერვერის გარეშე (ფასები ჩაშენებული ასლიდან) — `release/pages-upload.zip`.
 
 ლოკალურად: `.dev.vars.example` → `.dev.vars` (ჩაწერეთ `APIFY_TOKEN`), შემდეგ `npm run dev` (http://localhost:8787).
 

@@ -18,7 +18,10 @@ export function emptyMarket(locationId, status, currency = null) {
   };
 }
 
-export function createMarketService({ online, client, offline = null, timeoutMs = 120000 }) {
+/** სერვერი არ არის (სტატიკური ჰოსტი, 404) → ჩაშენებული ასლი. დანარჩენ შეცდომებს Worker თავად ფარავს ასლით. */
+export const FALLBACK_STATUSES = new Set(['not_configured']);
+
+export function createMarketService({ online, client, offline = null, fallback = null, timeoutMs = 120000 }) {
   const cache = new Map();
   return {
     online: online || !!offline,
@@ -38,6 +41,11 @@ export function createMarketService({ online, client, offline = null, timeoutMs 
         .then((md) => {
           if (!md || typeof md !== 'object' || md.schemaVersion !== 2) return emptyMarket(locationId, 'invalid_response', currency);
           if (md.requestedLocationId !== locationId || (md.currency && md.currency !== currency)) return emptyMarket(locationId, 'wrong_city', currency);
+          if (fallback && FALLBACK_STATUSES.has(md.status)) {
+            let fb = null;
+            try { fb = fallback(locationId, currency); } catch { fb = null; }
+            if (fb && fb.schemaVersion === 2) return fb;
+          }
           return md;
         });
       cache.set(key, p);

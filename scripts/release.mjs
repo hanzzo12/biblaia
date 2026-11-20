@@ -1,6 +1,6 @@
 // გამოშვება: release/rotation-calculator-cloudflare.zip (git-ში დაკომიტებული წყაროები + აწყობილი dist/web)
-// release/rotation-calculator.html (ოფლაინ გამოთვლები, ბაზრის მონაცემების გარეშე)
-// და release/pages-upload.zip (Pages drag-and-drop: ფესვში index.html; Functions/ფასები არ მუშაობს).
+// release/rotation-calculator.html (ცალკე ფაილი: ყველა ფუნქცია + ჩაშენებული Numbeo-ს ასლი, ქსელის გარეშე — data-standalone)
+// და release/pages-upload.zip (Pages drag-and-drop: ფესვში index.html; Functions არ მუშაობს — ფასები ჩაშენებული ასლიდან).
 // არქივი იქმნება `git archive HEAD`-იდან, ამიტომ დაუკომიტებელი ფაილები (მათ შორის .dev.vars) მასში ვერ მოხვდება.
 import { execFileSync } from 'node:child_process';
 import { mkdir, copyFile, readFile, rm, stat } from 'node:fs/promises';
@@ -51,4 +51,4 @@ if (new RegExp(['apify', '_api_'].join('') + '[A-Za-z0-9]{20,}').test(html)) thr
 const kb = async (p) => ((await stat(p)).size / 1024).toFixed(0);
 console.log(`✓ release/rotation-calculator-cloudflare.zip (${await kb(zipPath)} KB, commit ${head})`);
 console.log(`✓ release/rotation-calculator.html (${await kb(r('release/rotation-calculator.html'))} KB)`);
-console.log(`✓ release/pages-upload.zip (${await kb(pagesZip)} KB) — Pages drag-and-drop, მხოლოდ სტატიკური (ბაზრის ფასების გარეშე)`);
+console.log(`✓ release/pages-upload.zip (${await kb(pagesZip)} KB) — Pages drag-and-drop, სტატიკური (ფასები ჩაშენებული ასლიდან, ავტომატური განახლების გარეშე)`);
